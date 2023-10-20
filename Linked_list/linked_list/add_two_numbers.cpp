@@ -49,3 +49,5 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
 
 	return head->next;
 }
+Time Complexity: O(max(m,n)). Assume that m and n represent the length of l1 and l2 respectively, the algorithm above iterates at most max(m,n) times.
+Space Complexity: O(max(m,n)). The length of the new list is at most max(m,n)+1.
