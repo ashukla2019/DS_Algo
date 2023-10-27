@@ -5,8 +5,7 @@ Input:
 Output:
  120
 Explanation:
- In the given array, we can see 1×2×3×4×5 gives maximum product value.
-
+In the given array, we can see 1×2×3×4×5 gives maximum product value.
 
 Example 2:
 Input:
@@ -57,20 +56,14 @@ Space Complexity: O(1)
 ---------------------------------------------------------------------------------------------------------------------
   Approach:
 The following approach is motivated by Kandane’s algorithm. To know Kadane’s Algorithm follow Kadane’s Algorithm
-
 The pick point for this problem is that we can get the maximum product from the product of two negative numbers too.
-
 Following are the steps for the approach:
-
 Initially store 0th index value in prod1, prod2 and result.
 Traverse the array from 1st index. 
 For each element, update prod1 and prod2.
 Prod1 is maximum of current element, product of current element and prod1, product of current element and prod2
 Prod2 is minimum of current element, product of current element and prod1, product of current element and prod2
 Return maximum of result and prod1
-
-
-
 
 #include<bits/stdc++.h>
 using namespace std;
