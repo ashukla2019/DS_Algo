@@ -19,20 +19,18 @@ Perform STEP 2 until current_p reaches the end of the list.
 STEP 3:
 Set head as prev_p. This makes the head point at the last node.	
 
-ListNode* reverseList(ListNode* &head)
+ListNode* reverse_list(ListNode** head)
 {
-	ListNode *prev = NULL;
-	ListNode *temp = NULL;
-	ListNode *current = *head;
-	while(current != NULL)
-	{
-		temp = current->next;
-		current->next = prev;
-		prev = current;
-		current = temp;
-	}
-	*head = prev;
-}
+        ListNode *prev = NULL, *cur=*head, *tmp;
+        while(cur){
+            tmp = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = tmp;
+        }
+        *head = prev;
+        return *head;
+   }
 Time Complexity:
 Since we are iterating only once through the list and achieving reversed list. Thus, the time complexity is O(N) where N is the number of nodes present in the list.
 Space Complexity:
