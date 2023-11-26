@@ -47,7 +47,7 @@ public class RabinKarpSearch {
         return hash;
     }
     
-    private boolean checkEqual(char str1[],int start1,int end1, char str2[],int start2,int end2){
+    boolean checkEqual(char str1[],int start1,int end1, char str2[],int start2,int end2){
         if(end1 - start1 != end2 - start2) {
             return false;
         }
