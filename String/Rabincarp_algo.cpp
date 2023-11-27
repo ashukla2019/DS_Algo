@@ -1,20 +1,4 @@
-package com.interview.string;
-
-/**
- * Date 09/25/2014
- * @author Tushar Roy
- *
- * Rabin Karp algorith for substring matching.
- *
- * Time complexity in worst case O(n^2)(depends on hash function)
- * Space complexity O(1)
- *
- * References
- * https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm
- */
-public class RabinKarpSearch {
-
-    private int prime = 101;
+  private int prime = 101;
     
     public int patternSearch(char[] text, char[] pattern){
         int m = pattern.length;
@@ -47,7 +31,7 @@ public class RabinKarpSearch {
         return hash;
     }
     
-    boolean checkEqual(char str1[],int start1,int end1, char str2[],int start2,int end2){
+    bool checkEqual(char str1[],int start1,int end1, char str2[],int start2,int end2){
         if(end1 - start1 != end2 - start2) {
             return false;
         }
@@ -60,8 +44,9 @@ public class RabinKarpSearch {
         }
         return true;
     }
-    
-    public static void main(String args[]){
+
+int main()
+{
         RabinKarpSearch rks = new RabinKarpSearch();
         System.out.println(rks.patternSearch("TusharRoy".toCharArray(), "sharRoy".toCharArray()));
         System.out.println(rks.patternSearch("TusharRoy".toCharArray(), "Roy".toCharArray()));
