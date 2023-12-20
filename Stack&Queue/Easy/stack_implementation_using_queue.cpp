@@ -1,7 +1,16 @@
 /* Program to implement a stack using
 two queue */
-#include <bits/stdc++.h>
+/*
+//Logic:
+push(x)
+1) x->Q2
+2) Q1 -> Q2
+3) swap(Q1, Q2)
+Pop():
+remove Q1.top()
+*/
 
+#include <bits/stdc++.h>
 using namespace std;
 
 class Stack {
@@ -68,6 +77,15 @@ Space complexity:O(2n)
 --------------------------------------------------------------------------------------
 /* Program to implement a stack using
 single queue */
+/*
+Logic:
+push(x)
+1) x -> Q1
+2) Pop Q1 and push to Q1
+Pop()
+Q1.pop()
+*/	
+	
 #include <bits/stdc++.h>
 using namespace std;
 
