@@ -1,4 +1,24 @@
- vector<int> preorderTraversal(TreeNode* root) 
+Recursive traversal:
+vector<int> Preorder(TreeNode* root)
+{
+    vector<int>ans;
+    if (root == NULL)
+        return ans;
+
+    // Deal with the node
+    ans.push_back(root->val);
+
+    // Recur on left subtree
+    Preorder(root->left);
+
+    // Recur on right subtree
+    Preorder(root->right);
+}
+-----------------------------------------------------------------------------------
+//Iterative way of traversal
+//Time complexity:O(n)
+//Space complexity:O(n)
+vector<int> preorderTraversal(TreeNode* root) 
     {
         vector<int>ans;
         // Base Case
@@ -17,15 +37,15 @@
     while (!nodeStack.empty()) 
     {
         // Pop the top item from stack and print it
-        TreeNode* node = nodeStack.top();
-        ans.push_back(node->val);
+        root = nodeStack.top();
+        ans.push_back(root->val);
         nodeStack.pop();
  
         // Push right and left children of the popped node to stack
-        if (node->right)
-            nodeStack.push(node->right);
-        if (node->left)
-            nodeStack.push(node->left);
+        if (root->right)
+            nodeStack.push(root->right);
+        if (root->left)
+            nodeStack.push(root->left);
     }
     return ans;
   }
