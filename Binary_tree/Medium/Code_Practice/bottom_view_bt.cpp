@@ -19,6 +19,8 @@ vector <int> bottomView(Node *root)
             q.pop(); 
             Node* node = it.first; 
             int line = it.second; 
+
+            //Add data into map, no need to check if exist in map or not, anyway it's bottom view and will be overwritten for bottom view nodes    
             mpp[line] = node->data; 
             
             if(node->left != NULL) {
