@@ -1,3 +1,12 @@
+/*
+Time Complexity: O(N)
+Space Complexity: O(N)
+
+Approach:
+we will store Node and line(level number) to queue.
+we will travere in level order traversal
+we will store node->data into map[line]
+*/        
 vector<int> topView(Node *root)
     {
          vector<int> ans; 
