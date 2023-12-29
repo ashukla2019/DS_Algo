@@ -1,4 +1,14 @@
-vector <int> bottomView(Node *root) {
+/*
+Time Complexity: O(N)
+Space Complexity: O(N)
+
+Approach:
+we will store Node and line(level number) to queue.
+we will travere in level order traversal
+we will store node->data into map[line]
+*/        
+vector <int> bottomView(Node *root) 
+{
         vector<int> ans; 
         if(root == NULL) return ans; 
         map<int,int> mpp; 
