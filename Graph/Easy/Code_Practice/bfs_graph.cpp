@@ -1,6 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*Steps:
+1) Create visit array and initialize all elements with 0;
+2) Create queue of int to add vertex value.
+3) Insert first node to queue and iterate queue until it becomes empty
+4) pop the front node from queue and push to vector
+5) Now check the neighbours of node and mark them visited if not visited earlier
+6) Push the neighbours to queue now
+*/       
+
 // Function to return Breadth First Traversal of given graph.
 vector<int> bfsOfGraph(int V, vector<int> adj[]) 
 {
