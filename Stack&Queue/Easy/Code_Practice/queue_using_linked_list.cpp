@@ -1,3 +1,17 @@
+/*
+1) Create two classes: 
+	class Node: definition of linked list node
+        class queue: Implementation of queue, Add Node* front and Node* rear as private data member. 
+2) Push/Enque(): Insert node at end in linked list logic:
+	1) Create temp node and assign value.
+        2) Check if first node: if((rear==NULL)&&(front==NULL)) if yes then rear = front = temp
+	   else set rear->next to temp and set rear to last
+3) Pop/Dequeue():  Remove node from starting in linked list logic
+	1) Check if queue is empty: if((front==NULL)&&(rear==NULL))
+        2) check if only one node is there: else if(front == rear)
+	3) else increment front pointer
+*/
+
 #include<iostream>
 using namespace std;
 
@@ -7,7 +21,6 @@ public:
 	int data;
 	Node* next;
 };
-
 
 class queue
 {
