@@ -1,3 +1,20 @@
+/*
+1) Initialize front and rear to -1
+2) Enqueue:
+   1) Check if queue is full:if ((rear + 1) % MAX == front) then print queue is full.
+   2) Check if it's first node to insert: else if (front == -1 && rear == -1), set front and rear to 0
+      and store value in arr[rear] =val
+   3) else Normal case: increment rear and store value
+      rear = (rear + 1) % MAX;
+      arr[rear] = val;
+ 3) Dequeue:
+    1) Check if queue is empty: if (front == -1 && rear == -1) 
+    2) Check if there is only one node: else if (rear == front) then set them back to -1
+    3) Else normal case: Increment front: front = (front + 1) % MAX;
+
+	
+*/
+
 #include<iostream>
 #define MAX 5
 using namespace std;
