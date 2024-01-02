@@ -8,7 +8,7 @@
 	   else set rear->next to temp and set rear to last
 3) Pop/Dequeue():  Remove node from starting in linked list logic
 	1) Check if queue is empty: if((front==NULL)&&(rear==NULL))
-        2) check if only one node is there: else if(front == rear)
+        2) check if only one node is there: else if(front == rear), then set them back to NULL
 	3) else increment front pointer
 */
 
