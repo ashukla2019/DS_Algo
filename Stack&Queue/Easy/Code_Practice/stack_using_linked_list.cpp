@@ -1,3 +1,10 @@
+/*
+1) Create two classes: 
+	class Node: definition of linked list node
+        class mystack: Implementation of stack, Add Node* top as private data member. here top is like head node of linked list
+2) Push: Insert node at starting in linked list logic
+3) Pop:  Remove node from starting in linked list logic
+*/
 #include<iostream>
 using namespace std;
 
