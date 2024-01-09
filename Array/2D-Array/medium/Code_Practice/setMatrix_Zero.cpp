@@ -2,39 +2,31 @@
 Time complexity: O(n2)
 Space complexity: O(n)
 */  
-void setZeroes(vector<vector<int>>& matrix) 
-    {
-        int n=matrix.size();
-        int m=matrix[0].size();
-        vector<int>row;
-        vector<int>col;
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<m; j++)
-            {
-                if(matrix[i][j]==0)
-                {
-                    // mark ith index of row wih 1:
-                    row.push_back(i);
-                    // mark jth index of col wih 1:
-                    col.push_back(j);
+void setZeroes(vector<vector<int>>& mat) {
+        int n=mat.size();//row
+        int m=mat[0].size();//col
+        vector<int> row(n);
+        vector<int> col(m);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]==0){
+                    row[i]=1;
+                    col[j]=1;
                 }
             }
         }
-       for(auto it: row)
-       {
-           for(int i=0; i<m; i++)
-           {
-               matrix[it][i]=0;
-           }
-       }
-
-       for(auto it: col)
-       {
-           for(int i=0; i<n; i++)
-           {
-               matrix[i][it]=0;
-           }
-       }
-        
+        for(int i=0;i<n;i++){ //marking the whole row as 0
+            if(row[i]==1){
+                for(int j=0;j<m;j++){
+                    mat[i][j]=0;
+                }
+            }
+        }
+        for(int j=0;j<m;j++){ //marking the whole column as 0
+            if(col[j]==1){
+                for(int i=0;i<n;i++){
+                    mat[i][j]=0;
+                }
+            }
+        }
     }
