@@ -19,13 +19,32 @@ Thus, the result should be [1,2,4].
 
 Medium:
 1) Find duplicate element in array:  arr = {1,3,4,2,2}; o/p: 2
-2) 
+2) Sort array which contains number: 0, 1 & 2
+3) Find repeating and missing number from given array
+4) Maximum subarray sum/Kadane algorithm
+5) Longest consecutive sequence {Input: [100, 200, 1, 3, 2, 4] , Output: 4
+Explanation: The longest consecutive subsequence is 1, 2, 3, and 4.
+6) Majority element (n/3): Example: Input: nums = [3,2,3], Output: [3]
+7) longest_subarray_zero_sum: Input: A[] = {15,-2,2,-8,1,7,10,23}, Output: 5, Explanation: The largest subarray with
+sum 0 will be -2 2 -8 1 7.
+8) count_inversions_array: Input Format: N = 5, array[] = {5,4,3,2,1}
+Result: 10
+Explanation: we have a reverse sorted array and we will get the maximum inversions as for i < j we will always find a pair such that A[j] < A[i]. Example: 5 has index 0 and 3 has index 2 now (5,3) pair is inversion as 0 < 2 and 5 > 3 which will satisfy out conditions and for reverse sorted array we will get maximum inversions and that is (n)*(n-1) / 2.For above given array there is 4 + 3 + 2 + 1 = 10 inversions.
+9) 3 sum: 
 
+Hard:
+1) Trapping rain water problem
+2) Count reverse pairs
 
-
-
-
-
+-------------------------2D Array -----------------------------------------------------------
+1) Set Matrix Zeroes: Wherever 0 is found in matrix, corresponding row and column must be set to 0
+2) Rotate image/matrix clockwise
+3) Merge overlapping intervals: Ex: Input: intervals=[[1,3],[2,6],[8,10],[15,18]] and Output: [[1,6],[8,10],[15,18]]
+4) Search in 2D matrix
+5) Print pascal triangle
+6) Merge two sorted array
+7) Grid_unique_path
+------------------------------------------------------------------------------------------
 
 
 
