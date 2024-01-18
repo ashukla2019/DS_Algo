@@ -88,11 +88,20 @@ Hard:
 ---------------------------String-----------------------------------------------------------------
 Easy:
 1) Strings anagram
-2) Longest common prefix
-3) Check if string is palindrome
-4) Convert roman to integer
-5) Remove All Duplicates from a String: 
+2) Reverse string
+3) Longest common prefix
+4) Check if string is palindrome
+5) Convert roman to integer
+6) Remove All Duplicates from a String: Input: bcabc, output: bca
+7) Permutations of a given string: Input: ABC, Output: ABC ACB BAC BCA CAB CBA
+8) Recursively remove all adjacent duplicates: Input: s = "abbaca" , Output: "ca"	
+9) str_str() implementation
 
+Medium:
+1) Atoi implementation
+2) count and say problem
+3) Minimum characters to be added at front to make string palindrome
+4) 
 
 
 
