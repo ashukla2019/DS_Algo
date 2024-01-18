@@ -101,7 +101,18 @@ Medium:
 1) Atoi implementation
 2) count and say problem
 3) Minimum characters to be added at front to make string palindrome
-4) 
+4) Reverse words in string
+5) Longest substring without repeat: Input: “ABCDEFGABEF”
+Output: 7, Explanation: The longest substring without repeating characters are “ABCDEFG”, “BCDEFGA”, and “CDEFGAB” with lengths of 7
+6) Z-Algorithm
+7) Rabin karp algorithm
+
+Hard:
+1) KMP Algorithm
+
+-------------------------------Binary Tree-------------------------------------------
+Easy:
+1) 
 
 
 
@@ -113,9 +124,6 @@ Medium:
 
 
 
-
-
--------------------------Stack&Queue--------------------------------------------
 
 
 
