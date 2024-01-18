@@ -44,14 +44,55 @@ Hard:
 5) Print pascal triangle
 6) Merge two sorted array
 7) Grid_unique_path
-------------------------------------------------------------------------------------------
-
-
-
-
-
-
 ---------------------------Linked list--------------------------------------
+Easy:
+1) Check if linkedlist is palindrome
+2) Get middle node of linked list
+3) Detect cycle in lined list
+4) Merge two sorted linked list
+5) Reverse the linked list
+6) Find intersection of two linked list
+
+Medium:
+1) Remove nth node from the end of linked list
+2) Given the head of a sorted linked list, delete all duplicates such that each 
+  element appears only once. Return the linked list sorted as well. Input: head = [1,1,2], Output: [1,2]
+3) Given the head of a sorted linked list, delete all nodes that have duplicate numbers, 
+   leaving only distinct numbers from the original list. Return the linked list sorted as well.
+   Input: head = [1,2,3,3,4,4,5] , Output: [1,2,5]
+4) Detect cycle started position in linked list
+5) Add two numbers from given two linked list
+6) Flatten the linked list
+7) Delete given node in linked list
+8) Rotate linked list: Input: head = [1,2,3,4,5], k = 2 , Output: [4,5,1,2,3]
+9) Clone linked list with random and next pointer
+
+-------------------------------Stack&Queue-------------------------------------------------------
+Easy:
+1) Stack Implementation Using Array
+2) Implement queue using Array
+3) Implement Stack using Queues
+4) Implement Queue using Stacks
+5) Implement Stack using linked list
+6) Implement Queue using linked list
+7) Valid Parentheses
+8) Next Greater Element I
+
+Medium:
+1) Min stack implementation
+2) LRU cache 
+3) Rotten oranges problem
+
+Hard:
+1) Area_of_largest_rectangle_in_histogram
+---------------------------String-----------------------------------------------------------------
+Easy:
+1) Strings anagram
+2) Longest common prefix
+3) Check if string is palindrome
+4) Convert roman to integer
+5) Remove All Duplicates from a String: 
+
 
 
 
