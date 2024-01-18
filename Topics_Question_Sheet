@@ -112,7 +112,21 @@ Hard:
 
 -------------------------------Binary Tree-------------------------------------------
 Easy:
-1) 
+1) Binary Tree Inorder Traversal(Recursive and Iterative)
+2) Binary Tree Preorder Traversal(Recursive and Iterative)
+3) Binary Tree Postorder Traversal(Recursive and Iterative)
+4) Morris traversal: Inorder traversal
+5) Check for symmetrical Binary tree
+6) Check for identical Binary tree
+7) Max depth/Max height of Binary tree
+8) Find the Diameter of Binary tree
+9) Check for balanced Binary tree
+
+Medium:
+1) Top view of Binary tree
+2) Bottom view of Binary tree
+3) Left view of Binary tree
+4) Right view of binary tree
 
 
 
@@ -136,33 +150,6 @@ Easy:
 
 
 
-
-----------------------String------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
----------------------Binary Tree-------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
----------------------Binary Search Tree-------------------------------------------
 
 
 
