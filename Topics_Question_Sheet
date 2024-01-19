@@ -127,6 +127,18 @@ Medium:
 2) Bottom view of Binary tree
 3) Left view of Binary tree
 4) Right view of binary tree
+5) Level order traversal of Binary tree
+6) Zigzag traversal of Binary tree
+7) Lowest common Ancestor 
+8) Print root to node path in Binary tree
+9) Construct Binary tree from Inorder and preorder traversal
+10) Flatten binary tree
+
+Hard:
+1) Vertical traversal of Binary tree
+2) Maximum path sum of Binary tree
+
+------------------------------------
 
 
 
