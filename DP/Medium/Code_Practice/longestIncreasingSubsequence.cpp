@@ -2,8 +2,8 @@ Input: nums = [10,9,2,5]
 Output: 2		
 		f(index=0, prev_index=-1)
 			     /\
-           Pick /  \ Don't pick
-               /    \
+                       Pick /  \ Don't pick
+                           /    \    
 			f(1,0)   f(1,-1)  
 			    /\
           pick /  \ Don't pick
