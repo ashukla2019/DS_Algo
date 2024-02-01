@@ -2,23 +2,24 @@
 to check all possible way and then minimum energy consumption from it, so recursion would be applied to
 solve the problem.
 
-int solve(int ind, vector<int>&heights, vector<int>&dp)
+int totalEnergyLost(int index, vector<int> &heights, vector<int>&dp)
 {
-    if(ind==0) 
+    if(dp[index] != -1)
+        return dp[index];
+    //Base case:
+    if(index==0)
         return 0;
-    if(dp[ind]!=-1) 
-        return dp[ind];
-    int jumpTwo = INT_MAX;
-    int jumpOne= solve(ind-1, heights, dp)+ abs(heights[ind]-heights[ind-1]);
-    if(ind>1)
-        jumpTwo = solve(ind-2, heights, dp)+ abs(heights[ind]-heights[ind-2]);
-    
-    return dp[ind]=min(jumpOne, jumpTwo);
+    int oneStepJump= totalEnergyLost(index-1, heights, dp) + abs(heights[index-1] - heights[index]);
+    int twoStepJump=INT_MAX;
+    if(index>1)
+        twoStepJump= totalEnergyLost(index-2, heights, dp) + abs(heights[index-2] - heights[index]);
+    return dp[index] =min(oneStepJump, twoStepJump);    
 }
+
 
 int frogJump(int n, vector<int> &heights)
 {
-    vector<int>dp(n+1, -1);
-	int min_cost = solve(n, heights, dp);
-    return min_cost;
+    vector<int>dp(n, -1);
+    int cost =totalEnergyLost(n-1, heights, dp);
+    return cost;
 }
