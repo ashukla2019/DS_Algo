@@ -5,7 +5,24 @@ Return the fewest number of coins that you need to make up that amount.
 If that amount of money cannot be made up by any combination of the coins, return -1.
 You may assume that you have an infinite number of each kind of coin.
 
-
+ Recurrence_relation:
+ f(ind, T)
+ {
+   //Base case:
+   if(ind==0)
+   {
+    return (T%arr[0] ==0);
+   }
+   //Not take:
+   notTake = f(ind-1, T)
+   //Take:
+    take=0
+    if(arr[ind]<=T) //we can take it as current index value is less than or equal to Target sum
+    take= f(ind, T-arr[ind])
+    return take+notTake; 
+    
+ }
+-----------------------------------------------------------------------------------
 Example 1:
 
 Input: coins = [1,2,5], amount = 11
