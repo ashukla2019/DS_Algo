@@ -7,25 +7,38 @@ Example 2:
 Input: nums = [0,1,0,3,2,3]
 Output: 4
 
+Recurrence_relation:
+ f(ind, prev_ind) //f(0, -1) //first call to this method would be
+ {
+   //Base case: Reached at last index and no other index is left to pick
+   if(ind==n)
+   {
+    return 0;
+   }
+   //Not take:
+   notTake = 0+  f(ind+1, prev_ind)
+   //Take:
+    take=0
+    take= 1+ f(ind+1, ind)
+    return max(notTake, take)
+ }   
+ 
 -------------------------------------------------------------------------------------
-// Function to find the length of the longest increasing subsequence
-int getAns(vector<int>nums, int n, int ind, int prev_index, vector<vector<int>>& dp) {
+ // Function to find the length of the longest increasing subsequence
+int getAns(int ind, int prev_index, vector<int>nums, int n, vector<vector<int>>& dp) {
     // Base condition
     if (ind == n)
         return 0;
         
     if (dp[ind][prev_index + 1] != -1)
         return dp[ind][prev_index + 1];
-    //Not Take case: length would be 0, as did not take current index. prev_index would remain same.
-    int notTake = 0 + getAns(nums, n, ind + 1, prev_index, dp);
-
-    //Take case: 1) if it's first index(prev_index=-1), it must be included
-    // 2) if current element > prev element(means it's increasing)
-    // prev_index will be ind and current ind would become now ind+1 to make new call
+    
+    int notTake = 0 + getAns(ind + 1, prev_index, nums, n, dp);
     
     int take = 0;
+    
     if (prev_index == -1 || nums[ind] > nums[prev_index]) {
-        take = 1 + getAns(nums, n, ind + 1, ind, dp);
+        take = 1 + getAns(ind + 1, ind, nums, n, dp);
     }
     
     return dp[ind][prev_index + 1] = max(notTake, take);
@@ -35,6 +48,6 @@ int getAns(vector<int>nums, int n, int ind, int prev_index, vector<vector<int>>&
     {
         int n=nums.size();
          // Create a 2D DP array initialized to -1
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1)); //2D DP: 1D for current index and 1D for prev index{-1 ...n}
-        return getAns(nums, n, 0, -1, dp);
+        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        return getAns(0, -1, nums, n, dp); //getAns(ind, prev_ind, num_array, n, dp)
     }
