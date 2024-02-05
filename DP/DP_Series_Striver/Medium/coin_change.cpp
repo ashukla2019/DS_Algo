@@ -6,20 +6,26 @@ If that amount of money cannot be made up by any combination of the coins, retur
 You may assume that you have an infinite number of each kind of coin.
 
  Recurrence_relation:
- f(ind, T)
+ f(ind, T)  //f(n-1, T)
  {
-   //Base case:
-   if(ind==0)
-   {
-    return (T%arr[0] ==0);
-   }
-   //Not take:
-   notTake = f(ind-1, T)
-   //Take:
-    take=0
-    if(arr[ind]<=T) //we can take it as current index value is less than or equal to Target sum
-    take= f(ind, T-arr[ind])
-    return take+notTake; 
+   //Base case: reached to last index and should return return T/coins[0](divisible) or INT_MAX(not divisible)
+         if(index==0)
+        {
+            if(T%coins[index]==0)
+            {
+                return T/coins[index];
+            }
+            else
+            {
+                return INT_MAX;
+            }
+           //Not take:
+          notTake = f(ind-1, T)
+         //Take:
+         take=0
+         if(arr[ind]<=T) //we can take it as current index value is less than or equal to Target sum
+         take= f(ind, T-arr[ind]) //Don't jump to ind-1 index as coins have many denominations of it.
+         return min(take, notTake);
     
  }
 -----------------------------------------------------------------------------------
@@ -37,36 +43,40 @@ Example 3:
 Input: coins = [1], amount = 0
 Output: 0
  
-
-
-long countWaysToMakeChangeUtil(vector<int>& arr, int ind, int T, vector<vector<long>>& dp) {
-    // Base case: if we're at the first element
-    if (ind == 0) {
-        // Check if the target sum is divisible by the first element
-        return (T % arr[0] == 0);
+int coinChangeUtil(int index, int T, vector<vector<int>>& dp, vector<int>& coins)
+   {
+        if(index==0)
+        {
+            if(T%coins[index]==0)
+            {
+                return T/coins[index];
+            }
+            else
+            {
+                return INT_MAX;
+            }
+        }
+        if(dp[index][T]!=-1)
+        {
+            return dp[index][T];
+        }
+        int notTake=coinChangeUtil(index-1, T, dp, coins);
+        int take=INT_MAX;
+        if(T>=coins[index])
+        {
+            take=1+coinChangeUtil(index, T-coins[index], dp, coins);
+        }
+        return dp[index][T]=min(take, notTake);
     }
-    
-    // If the result for this index and target sum is already calculated, return it
-    if (dp[ind][T] != -1)
-        return dp[ind][T];
-        
-    // Calculate the number of ways without taking the current element
-    long notTaken = countWaysToMakeChangeUtil(arr, ind - 1, T, dp);
-    
-    // Calculate the number of ways by taking the current element
-    long taken = 0;
-    if (arr[ind] <= T)
-        taken = countWaysToMakeChangeUtil(arr, ind, T - arr[ind], dp);
-        
-    // Store the sum of ways in the DP table and return it
-    return dp[ind][T] = notTaken + taken;
-}
-
     int coinChange(vector<int>& coins, int amount) 
     {
         int n=coins.size();
-        vector<vector<long>> dp(n, vector<long>(amount+1 , -1)); // Create a DP table
-    
-    // Call the utility function to calculate the answer
-    return countWaysToMakeChangeUtil(coins, n - 1, amount, dp);
+        vector<vector<int>>dp(n, vector<int>(amount+1, -1));
+        int ans=coinChangeUtil(n-1, amount, dp, coins);
+        
+        if(ans>=INT_MAX)
+        {
+            return -1;
+        }
+        return ans;
     }
