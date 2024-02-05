@@ -12,32 +12,47 @@ Output: 2
 
 Incase of pick, will increase length by 1 and incase of don't pick, will consider 0.
 ---------------------------------------------------------------------------------------------------------			
- int findLongestSubsequence(vector<int>nums, int n, int index, int prev_index, vector<vector<int>>& dp)
-    {
-        //Base condition: if traversed all the indexes, return 0
-        if(index==n)
-            return 0;
-
-		//Check if dp array has value of current index updated: not -1(initialized one)
-        if (dp[index][prev_index + 1] != -1)
-			return dp[index][prev_index + 1];
+Recurrence_relation:
+ f(ind, prev_ind) //f(0, -1) //first call to this method would be
+ {
+   //Base case: Reached at last index and no other index is left to pick
+   if(ind==n)
+   {
+    return 0;
+   }
+   //Not take:
+   notTake = 0+  f(ind+1, prev_ind)
+   //Take:
+    take=0
+    take= 1+ f(ind+1, ind)
+    return max(notTake, take)
+ }   
+ 
+-------------------------------------------------------------------------------------
+ // Function to find the length of the longest increasing subsequence
+int getAns(int ind, int prev_index, vector<int>nums, int n, vector<vector<int>>& dp) {
+    // Base condition
+    if (ind == n)
+        return 0;
+        
+    if (dp[ind][prev_index + 1] != -1)
+        return dp[ind][prev_index + 1];
     
-	//Not take/Not pick: current idex would be index+1 and prev_index will remain unchanged
-    int notTake = 0 + findLongestSubsequence(nums, n, index + 1, prev_index, dp);
+    int notTake = 0 + getAns(ind + 1, prev_index, nums, n, dp);
     
     int take = 0;
-    //take/pick: current idex would be index+1 and prev_index will be index now.
-    if (prev_index == -1 || nums[index] > nums[prev_index]) 
-    {
-        take = 1 + findLongestSubsequence(nums, n, index + 1, index, dp);
+    
+    if (prev_index == -1 || nums[ind] > nums[prev_index]) {
+        take = 1 + getAns(ind + 1, ind, nums, n, dp);
     }
     
-    return dp[index][prev_index + 1] = max(notTake, take);    
-    }
-    int lengthOfLIS(vector<int>& nums) 
+    return dp[ind][prev_index + 1] = max(notTake, take);
+}
+
+    int lengthOfLIS(vector<int>& nums)
     {
-        int n = nums.size();
-        vector<vector<int>>dp(n, vector<int>(n+1, -1));
-        int length= findLongestSubsequence(nums, n, 0, -1, dp);
-        return length;
+        int n=nums.size();
+         // Create a 2D DP array initialized to -1
+        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        return getAns(0, -1, nums, n, dp); //getAns(ind, prev_ind, num_array, n, dp)
     }
