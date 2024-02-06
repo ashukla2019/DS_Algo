@@ -15,18 +15,20 @@ int fib(int n)
 Time complexity: o(2^n)
 
 Memorization:
-int fib(int n) 
-{
-	vector<int>dp(n+1,-1);
-	
-	//Base case:
-	if(n<2) //while n=0 and n=1
-		return n;
-	if(dp[n] !=-1)
-		return dp[n];
-		
-	return dp[n] = fib(n-1)+fib(n-2);
-}
+ int fibUtil(int n,  vector<int>&dp)
+    {
+        if(dp[n] !=-1)
+            return dp[n];
+         //Base case:
+        if(n<2)
+            return n;
+        return dp[n] = fib(n-1)+fib(n-2);
+    }
+    int fib(int n) 
+    { 
+       vector<int>dp(n+1, -1); //n={0...n} =>total n+1
+       return fibUtil(n, dp);
+    }
 Time Complexity: O(N)
 Reason: The overlapping subproblems will return the answer in constant time O(1). 
 Therefore the total number of new subproblems we solve is ‘n’. Hence total time complexity is O(N).
@@ -36,18 +38,24 @@ Reason: We are using a recursion stack space(O(N)) and an array (again O(N)).
 Therefore total space complexity will be O(N) + O(N) ≈ O(N)
 
 Tabulation:
- int fib(int n) 
-{
-	 vector<int> dp(n+1,-1);
-  
-  dp[0]= 0;
-  dp[1]= 1;
-  
-  for(int i=2; i<=n; i++){
-      dp[i] = dp[i-1]+ dp[i-2];
-  }
-  return dp[n];
-}
+ int fibUtil(int n,  vector<int>&dp)
+    {
+        if(dp[n] !=-1)
+            return dp[n];
+         //Base case:
+        dp[0]=0;
+        dp[1]=1;
+        for(int i=2; i<=n; i++)
+        {
+            dp[i] = dp[i-1]+dp[i-2];
+        }
+        return dp[n];
+    }
+    int fib(int n) 
+    { 
+       vector<int>dp(n+1, -1); //n={0...n} =>total n+1
+       return fibUtil(n, dp);
+    }
 
 Time Complexity: O(N)
 Reason: We are running a simple iterative loop
