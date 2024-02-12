@@ -83,3 +83,107 @@ int main()
 	printList(head);
 	return 0;
 }
+
+
+---------------------------------------------------------------------------------------- 
+Method 2: Using list class:
+#include <iostream>
+#include <string>
+using namespace std;
+
+class node
+{
+public:
+    int data;
+    node* next;
+};
+ 
+class list
+{
+    node* head;
+public:
+    list():head(nullptr) {}
+    void addDataAtEnd(int data)
+    {
+        node* temp = new node();
+        temp->data = data;
+        if (head == nullptr)
+        {
+            head = temp;
+        }
+        else
+        {
+            node* t = head;
+            while (t->next != nullptr)
+            {
+                t = t->next;
+            }
+            t->next = temp;
+        }
+
+    }
+    void addAtBeg(int data)
+    {
+        node* temp = new node();
+        temp->data = data;
+        temp->next = head;
+        head = temp;
+    }
+
+    void deleteAtBeg()
+    {
+        node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+    void deleteAtEnd()
+    {
+        node* temp = head;
+        while (temp->next->next != nullptr)
+        {
+            temp = temp->next;
+        }
+        free(temp->next);
+        temp->next = nullptr;
+    }
+    void reverseList()
+    {
+        node* temp = nullptr;
+        node* prev = nullptr;
+        node* curr = head;
+        while (curr != nullptr)
+        {
+            temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        head = prev;
+    }
+    void display()
+    {
+        node* temp = head;
+        while (temp != nullptr)
+        {
+            cout << "Node val=" << temp->data << endl;
+            temp = temp->next;
+        }
+    }
+};
+
+int main()
+{
+    list l;
+    l.addDataAtEnd(10);
+    l.addDataAtEnd(20);
+    l.addAtBeg(5);
+    l.display();
+    cout << "After reversing list\n";
+    l.reverseList();
+    l.display();
+    l.deleteAtBeg();
+    l.display();
+    l.deleteAtEnd();
+    l.display();
+    return 0;
+}
