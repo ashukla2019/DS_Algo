@@ -1,3 +1,14 @@
+Problem Statement: Given the heads of two singly linked-lists headA and headB, return the node at which
+the two lists intersect. If the two linked lists have no intersection at all, return null.
+Example 1:
+Input:
+List 1 = [1,3,1,2,4], List 2 = [3,2,4]
+1-->3-->1-->2-->4
+           /
+          3
+Output:
+2
+Explanation: Here, both lists intersecting nodes start from node 2.
 /*
 1) Set d1 to headA and d2 to headB
 2) Travese until d1 !=d2(d1 will meeto to d2 at intersection point or null)
