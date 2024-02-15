@@ -1,3 +1,6 @@
+list: 1-->2-->3-->4
+reverse: 1<--2<--3<--4  
+
 /*
 We will take 3 pointers:
   1)current will point to head
