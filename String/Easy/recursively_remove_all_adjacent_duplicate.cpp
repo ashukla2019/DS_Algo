@@ -15,6 +15,9 @@ ab(cc)b(cc)ba->abbba->a(bbb)a->aa->(aa)->""(empty string)
 
 Expected Time Complexity: O(|S|)
 Expected Auxiliary Space: O(|S|)   
+
+Approach: if we find string size is >0 and str.back()==s[i]
+   then pop_back element, else push_back chars.
 ----------------------------------------------------------------------------------------------------------
 //Recursively remove all adjacent duplicates 
 Input: s = "abbaca"
