@@ -1,3 +1,7 @@
+String num="-12345"
+Approach:
+1) Check first digit/char is minus(-) or not, if yes then increment i++
+2) Iterate through all characters: 12345= 0*10+1 1*10+2 12*10+3 .... convert char to num: str[i]-'0'	
 -----------------------------------------------------------------------------------------------------
 // A C++ program for
 // implementation of atoi
