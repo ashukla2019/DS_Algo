@@ -1,3 +1,21 @@
+Problem: Given a string s, remove all its adjacent duplicate characters recursively.
+Example 1:
+Input:
+S = "geeksforgeek"
+Output: "gksforgk"
+Explanation: 
+g(ee)ksforg(ee)k -> gksforgk
+
+Example 2:
+Input: 
+S = "abccbccba"
+Output: ""
+Explanation: 
+ab(cc)b(cc)ba->abbba->a(bbb)a->aa->(aa)->""(empty string)
+
+Expected Time Complexity: O(|S|)
+Expected Auxiliary Space: O(|S|)   
+----------------------------------------------------------------------------------------------------------
 //Recursively remove all adjacent duplicates 
 Input: s = "abbaca"
 Output: "ca"	
