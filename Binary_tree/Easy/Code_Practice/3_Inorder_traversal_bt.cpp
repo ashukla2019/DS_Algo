@@ -15,36 +15,35 @@ void inOrderTrav(node * curr, vector < int > & inOrder) {
 //Recursive Approach:
 Time complexity: O(n)
 Space complexity: O(n)
-vector < int > inorderTraversal(TreeNode * curr) 
+vector < int > inorderTraversal(TreeNode * root) 
   {
-    vector<int>ans; 
-    //Base case: 
-    if(curr==NULL)
-        return ans;
-    stack<TreeNode*>s;
-    //This is required to make recursive environemnt
-    while(true)
-    {
-        //We iterate through leftsubtree and push node to stack      until we get null
-        //If curr is null, then print/push val to vector and pop it
-        //Now iterate through right sub tree until we get null
-        if(curr != NULL)
-        {
-            s.push(curr);
-            curr = curr->left;
-        }
-        else
-        {
-            if(s.empty())
-                break;
-            curr = s.top();
-            ans.push_back(curr->val);
-            s.pop();
-            curr = curr->right;    
-        }
+    
+    vector<int>ans;
+	
+    //Base case:
+	if(root==NULL)
+		return ans;
+	stack<TreeNode*> s;
+    TreeNode* current=root;
+	while(!s.empty() || current !=nullptr)
+	{
+		if(current !=nullptr)
+		{
+			s.push(current);
+			current=current->left;
+		}
+		else
+		{
+			current=s.top();
+			s.pop();
+			ans.push_back(current->val);
+			current=current->right;
+		}
+		
     }
-    return ans;
+	return ans;
   }
+ 
 --------------------------------------------------------------------------------------------
 Time complexity: O(n)
 Space complexity: O(1)
