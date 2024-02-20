@@ -1,5 +1,5 @@
 /*
-Binary tree would be balanced, when abs(ltree>rtree))<=1
+Binary tree would be balanced, when abs(ltree-rtree))<=1
 Approach: 
 1) Call different function to calculate height of binary tree 
 2) Check abs(ltree - rtree) > 1 then return -1 => not balanced
