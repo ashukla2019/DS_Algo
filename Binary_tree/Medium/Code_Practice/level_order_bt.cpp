@@ -1,9 +1,12 @@
 vector<vector<int>> levelOrder(TreeNode* root) 
-{
+ {
         vector<vector<int>>ans;
-        if(root==NULL)return ans;
+        //Base case
+        if(root==NULL)
+        	return ans;
         queue<TreeNode*>q;
         q.push(root);
+        
         while(!q.empty()){
             int s=q.size();
             vector<int>v;
@@ -18,3 +21,5 @@ vector<vector<int>> levelOrder(TreeNode* root)
         }
         return ans;
     }
+Time complexity: o(n)
+Space complexity: O(n)
