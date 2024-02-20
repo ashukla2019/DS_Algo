@@ -1,4 +1,10 @@
-  int maxDepth(TreeNode* root) 
+      5
+    /   \
+   2     1 
+   \     / \
+     10  3 4
+
+int maxDepth(TreeNode* root) 
     {
         //Base case:
         if(root==NULL)
