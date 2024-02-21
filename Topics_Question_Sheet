@@ -6,24 +6,22 @@ Basic:
 4) reverse array
 5) left rotate array by one: Input: N = 5, array[] = {1,2,3,4,5}, Output: 2,3,4,5,1
 6) remove duplicates from unsorted array: Input: arr[]={2,3,1,9,3,1,3,9}, Output:  {2,3,1,9}
+7) find second largest/smallest element in array: Input: [1,2,4,7,7,5], Output: Second Smallest : 2
 
 Easy:
-1) Find maximum in given array.
-2) Print the leaders from given array.
-3) Reverse array elements.
-4) Remove duplicates from sorted array in place such that each unique element appears ->[1,1,2,2,2,3,3], o/p:arr[1,2,3,_,_,_,_] 
-5) Remove duplicates from unsorted array.
-6) Reverse interger 
-7) Find maximum consecutive one's. Input: prices = {1, 1, 0, 1, 1, 1} and Output: 3
-8) Majority element: Return an element that occurs more than N/2 times in the given array.
-9) Majority element: Return an element that occurs more than N/3 times in the given array.
-10) 2_Sum problem: Input Format: N = 5, arr[] = {2,6,5,8,11}, target = 14 and O/p: [1, 3] (for 2nd variant).
-11) Stock_Buy_Shell: Given array prices, return max profit w/ 1 buy & 1 sell
-    Ex. prices = [7,1,5,3,6,4] -> 5 (buy at $1, sell at $6)
-    For each, get diff b/w that & min value before, store max
-12) Plus one problem: Explanation: The array represents the integer 123.
-Incrementing by one gives 123 + 1 = 124.
-Thus, the result should be [1,2,4].
+1) find missing num in array: Input Format: N = 5, array[] = {1,2,4,5},Result: 3
+2) Find the max number of consecutive one: Input: prices = {1, 1, 0, 1, 1, 1}, Output: 3
+3) move all zeros to end: Input: 1 ,0 ,2 ,3 ,0 ,4 ,0 ,1, Output: 1 ,2 ,3 ,4 ,1 ,0 ,0 ,0
+4) find number which appers once: Input Format: arr[] = {2,2,1}, Result: 1 
+5) Remove duplicates from sorted array: Input: arr[1,1,2,2,2,3,3], Output: arr[1,2,3,_,_,_,_]
+6) Reverse interger: Input: x = 123, Output: 321
+7) 2_Sum problem: Input Format: N = 5, arr[] = {2,6,5,8,11}, target = 14 and O/p: [1, 3].
+8) Plus one problem: Explanation: The array represents the integer 123.
+    Incrementing by one gives 123 + 1 = 124.
+    Thus, the result should be [1,2,4].
+9)  union of two sorted array: n = 5,m = 5, arr1[] = {1,2,3,4,5},arr2[] = {2,3,4,4,5}, Output:  {1,2,3,4,5}
+10) rotate array by k elements: Input: N = 7, array[] = {1,2,3,4,5,6,7} , k=2 , right
+    Output: 6 7 1 2 3 4 5
 
 Medium:
 1) Find duplicate element in array:  arr = {1,3,4,2,2}; o/p: 2
