@@ -1,3 +1,6 @@
+Input: arr[]={2,3,1,9,3,1,3,9}
+Output:  {2,3,1,9}
+
 // Function to remove duplicate elements from unsorted array
 vector<int> removeDuplicate(int A[], int N) 
 {
