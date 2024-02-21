@@ -30,8 +30,20 @@ Medium:
 3) find_duplicate_in_array: Input: arr=[1,3,4,2,2], Output: 2
 4) Maximum subarray sum/Kadane algorithm: Input: arr = [-2,1,-3,4,-1,2,1,-5,4] ,Output: 6 
     Explanation: [4,-1,2,1] has the largest sum = 6.
+5) stock buy & sell: Input: prices = [7,1,5,3,6,4], Output: 5
+    Explanation: Buy on day 2 (price = 1) and 
+    sell on day 5 (price = 6), profit = 6-1 = 5.
+6)  search in 2D matrix: Input Format: N = 3, M = 4, target = 8,
+    mat[] = 1 2 3 4
+            5 6 7 8 
+            9 10 11 12
+    Result: true
+7) Rotate matrix 90 degree: Input: [[1,2,3],[4,5,6],[7,8,9]], Output: [[7,4,1],[8,5,2],[9,6,3]]
+    Explanation: Rotate the matrix simply by 90 degree clockwise and return the matrix.
+8) pascal triangle: Given the row number n. Print the n-th row of Pascal’s triangle.
 
-----start from medium
+Hard:
+1) 
 -------------------------2D Array -----------------------------------------------------------
 1) Set Matrix Zeroes: Wherever 0 is found in matrix, corresponding row and column must be set to 0
 2) Rotate image/matrix clockwise
