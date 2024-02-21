@@ -43,15 +43,42 @@ Medium:
 8) pascal triangle: Given the row number n. Print the n-th row of Pascal’s triangle.
 
 Hard:
-1) 
--------------------------2D Array -----------------------------------------------------------
-1) Set Matrix Zeroes: Wherever 0 is found in matrix, corresponding row and column must be set to 0
-2) Rotate image/matrix clockwise
-3) Merge overlapping intervals: Ex: Input: intervals=[[1,3],[2,6],[8,10],[15,18]] and Output: [[1,6],[8,10],[15,18]]
-4) Search in 2D matrix
-5) Print pascal triangle
-6) Merge two sorted array
-7) Grid_unique_path
+1) Given an array of numbers, you need to return the count of reverse pairs. 
+   Reverse Pairs are those pairs where i<j and arr[i]>2*arr[j].
+   Input: N = 5, array[] = {1,3,2,3,1), Output: 2 
+   Explanation: The pairs are (3, 1) and (3, 1) as from both the pairs the condition arr[i] > 2*arr[j] is satisfied.
+2) Count subarray with k sum: Input Format: N = 4, array[] = {3, 1, 2, 4}, k = 6, Result: 2
+   Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
+3) Longest consecutive sequence: Input: [100, 200, 1, 3, 2, 4], Output: 4
+   Explanation: The longest consecutive subsequence is 1, 2, 3, and 4.
+4) longest sum with k sum: Input Format: N = 3, k = 5, array[] = {2,3,5}, Result: 2
+   Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
+5) Majority element(n/2): Input Format: N = 3, nums[] = {3,2,3}, Result: 3
+   Explanation: When we just count the occurrences of each number and compare with half of the size of the array, you will get 3 for the above solution. 
+6) Majority element(n/3):Input Format: N = 5, array[] = {1,2,2,3,2}, Result: 2
+   Explanation: Here we can see that the Count(1) = 1, Count(2) = 3 and Count(3) = 1.Therefore, the count of 2 is greater than N/3 times. Hence, 2 is the answer.
+7) Merge overlapping subproblems: Input: intervals=[[1,3],[2,6],[8,10],[15,18]]
+   Output: [[1,6],[8,10],[15,18]]
+   Explanation: Since intervals [1,3] and [2,6] are overlapping we can merge them to form [1,6] intervals.
+8) Merge two sorted array: n = 4, arr1[] = [1 4 8 10] , m = 5, arr2[] = [2 3 9]
+   Output: 
+   arr1[] = [1 2 3 4]
+   arr2[] = [8 9 10]
+   Explanation: After merging the two non-decreasing arrays, we get, 1,2,3,4,8,9,10.
+9) set matrix zero: Input: matrix=[[1,1,1],[1,0,1],[1,1,1]]
+   Output: [[1,0,1],[0,0,0],[1,0,1]]
+   Explanation: Since matrix[2][2]=0.Therfore the 2nd column and 2nd row wil be set to 0.
+10) Trapped rain water: Input: height= [0,1,0,2,1,0,1,3,2,1,2,1]
+    Output: 6
+    Explanation: As seen from the diagram 1+1+2+1+1=6 unit of water can be trapped
+
+Expert:
+1) 3_sum: Input: nums = [-1,0,1,2,-1,-4], Output: [[-1,-1,2],[-1,0,1]]
+  Explanation: Out of all possible unique triplets possible, [-1,-1,2] and [-1,0,1] satisfy the condition of summing up to zero with i!=j!=k
+2) 4_sum: Input Format: arr[] = [1,0,-1,0,-2,2], target = 0
+   Result: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+   Explanation: We have to find unique quadruplets from the array such that the sum of those elements is equal to the target sum given that is 0. The result obtained is such that the sum of the quadruplets yields 0.
+
 ---------------------------Linked list--------------------------------------
 Easy:
 1) Check if linkedlist is palindrome
