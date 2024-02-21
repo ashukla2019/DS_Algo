@@ -1,4 +1,12 @@
------------------------------1D-Array-----------------------------------------
+---------------------------Array-----------------------------------------
+Basic:
+1) isArraySorted: Input: N = 5, array[] = {1,2,3,4,5}, Output: True
+2) largest element in array: Input: arr[] = {2,5,1,3,0}; Output: 5
+3) linear search: Input: arr[]= 1 2 3 4 5, num = 3, Output: 2
+4) reverse array
+5) left rotate array by one: Input: N = 5, array[] = {1,2,3,4,5}, Output: 2,3,4,5,1
+6) remove duplicates from unsorted array: Input: arr[]={2,3,1,9,3,1,3,9}, Output:  {2,3,1,9}
+
 Easy:
 1) Find maximum in given array.
 2) Print the leaders from given array.
