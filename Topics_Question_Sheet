@@ -147,33 +147,33 @@ Hard:
 
 -------------------------------Binary Tree-------------------------------------------
 Easy:
-1) Binary Tree Inorder Traversal(Recursive and Iterative)
-2) Binary Tree Preorder Traversal(Recursive and Iterative)
+1) Binary Tree Preorder Traversal(Recursive and Iterative)
+2) Binary Tree Inorder Traversal(Recursive and Iterative)
 3) Binary Tree Postorder Traversal(Recursive and Iterative)
-4) Morris traversal: Inorder traversal
-5) Check for symmetrical Binary tree
-6) Check for identical Binary tree
-7) Max depth/Max height of Binary tree
-8) Find the Diameter of Binary tree
-9) Check for balanced Binary tree
+4) Check for symmetrical Binary tree
+5) Check for identical Binary tree
+6) Max depth/Max height of Binary tree
+7) Find the Diameter of Binary tree
+8) Check for balanced Binary tree
 
 Medium:
-1) Top view of Binary tree
-2) Bottom view of Binary tree
-3) Left view of Binary tree
-4) Right view of binary tree
-5) Level order traversal of Binary tree
-6) Zigzag traversal of Binary tree
+1) Level order traversal of Binary tree
+2) Zigzag traversal of Binary tree
+3) Top view of Binary tree
+4) Bottom view of Binary tree
+5) Left view of Binary tree
+6) Right view of binary tree
 7) Lowest common Ancestor 
-8) Print root to node path in Binary tree
-9) Construct Binary tree from Inorder and preorder traversal
-10) Flatten binary tree
+8) Morris traversal: Inorder traversal
+9) Print root to node path in Binary tree
+10) Construct Binary tree from Inorder and preorder traversal
+11) Flatten binary tree
 
 Hard:
 1) Vertical traversal of Binary tree
 2) Maximum path sum of Binary tree
 
-------------------------------------
+---------------------------Graph--------------------------------------
 
 
 
