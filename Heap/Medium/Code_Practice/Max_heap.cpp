@@ -112,9 +112,9 @@ void MaxHeap::insertKey(int x)
     }
 
     // The new key is initially inserted at the end.
+    arr[heapSize] = x;
+    int i = heapSize;
     heapSize++;
-    int i = heapSize - 1;
-    arr[i] = x;
 
     // The max heap property is checked and if violation occurs, it is restored.
     while (i != 0 && arr[parent(i)] < arr[i])
