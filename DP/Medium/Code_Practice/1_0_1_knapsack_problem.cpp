@@ -9,6 +9,29 @@ Note: The thief is not allowed to break the items.
 For example, N = 4, W = 10 and the weights and values of items are weights = [6, 1, 5, 3]
 and values = [3, 6, 1, 4]. Then the best way to fill the knapsack is to choose items with 
 weight 6, 1 and 3. The total value of knapsack = 3 + 6 + 4 = 13.
+
+Observation:
+we have indexes-> 0,1,2,3, will start from n-1th would be 3
+f(index, W)
+{
+    //Base case:
+    if(index==0) //this is first item, so we will see if weight[index]<=W, then take it else return 0
+    {
+        if(wt[0]<W)
+        {
+            return val[0];
+        }
+        else
+        {
+            return 0;
+        }
+    int notpick= 0 + f(index-1, W) (if not picking current weight of n-1th index, adding 0 value and weight  will be w, as not picked
+    //We can pick only if weight of current index <=W
+    int take = INT_MIN
+    if(wt[index]<W)
+        pick= val[index] + f(index-1, W-values[index])
+    return max(pick, notpick);
+}
 ------------------------------------------------------------------------------
 int knapsackUtil(int W, int wt[], int val[], int index, vector<vector<int>>&dp)
     {
