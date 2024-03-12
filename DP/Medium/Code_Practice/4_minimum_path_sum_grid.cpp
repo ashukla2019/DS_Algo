@@ -12,6 +12,19 @@ Example 2:
 Input: grid = [[1,2,3],[4,5,6]]
 Output: 12
 
+Recurrence relation:
+f(i, j)
+{
+        //Base case:
+        if(i==0 && j==0)
+                return arr[0][0];
+        if(i<0 || j<0)
+                return INT_MAX;
+        up = arr[i][j] + f(i, j-1)
+        left = arr[i][j] + f(i-1, j)
+        return min(up, left)        
+
+}
 ----------------------------------------------------------------
 #include <bits/stdc++.h>
 using namespace std;
