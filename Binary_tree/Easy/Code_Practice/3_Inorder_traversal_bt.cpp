@@ -2,14 +2,17 @@ Recursive Approach:
 Time complexity: O(n)
 Space complexity: O(n)
 
-void inOrderTrav(node * curr, vector < int > & inOrder) {
-  if (curr == NULL)
-    return;
+vector<int> inOrder(TreeNode* root)
+{
+    vector<int>ans;
+    if (root == NULL)
+        return ans;
 
-  inOrderTrav(curr -> left, inOrder);
+  inOrderTrav(curr -> left);
   inOrder.push_back(curr -> data);
-  inOrderTrav(curr -> right, inOrder);
+  inOrderTrav(curr -> right);
 }
+
 
   -------------------------------------------------------------------------
 //Recursive Approach:
