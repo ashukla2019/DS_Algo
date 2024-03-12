@@ -18,7 +18,7 @@ int totalEnergyLost(int index, vector<int> &heights, vector<int>&dp)
         return dp[index];
     //Base case:
     if(index==0)
-        return 0;
+        return 0; //energy lost would be 0
     int oneStepJump= totalEnergyLost(index-1, heights, dp) + abs(heights[index-1] - heights[index]);
     int twoStepJump=INT_MAX;
     if(index>1)
