@@ -4,10 +4,24 @@ We have an infinite supply of each coin denomination.
 We need to find the number of ways we sum up the coin values to give us the target.
 Each coin can be used any number of times.
 
+ Example 1:
+
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+Example 2:
+
+Input: coins = [2], amount = 3
+Output: -1
+Example 3:
+
+Input: coins = [1], amount = 0
+Output: 0
+
  Recurrence_relation:
  f(ind, T)  //f(n-1, T)
  {
-   //Base case: reached to last index and should return return T/coins[0](divisible) or INT_MAX(not divisible)
+   //Base case: reached to last index and should return T/coins[0](divisible) or INT_MAX(not divisible)
          if(index==0)
         {
             if(T%coins[index]==0)
