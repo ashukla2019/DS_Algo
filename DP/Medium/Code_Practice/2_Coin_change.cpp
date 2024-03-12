@@ -1,9 +1,8 @@
 Problem:
-You are given an integer array coins representing coins of different denominations and an integer
-amount representing a total amount of money.
-Return the fewest number of coins that you need to make up that amount. 
-If that amount of money cannot be made up by any combination of the coins, return -1.
-You may assume that you have an infinite number of each kind of coin.
+We are given an array Arr with N distinct coins and a target. 
+We have an infinite supply of each coin denomination. 
+We need to find the number of ways we sum up the coin values to give us the target.
+Each coin can be used any number of times.
 
  Recurrence_relation:
  f(ind, T)  //f(n-1, T)
