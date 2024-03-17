@@ -8,6 +8,14 @@ Explanation: The longest consecutive subsequence is 1, 2, 3, and 4.
 Input: [3, 8, 5, 7, 6]
 Output: 4
 Explanation: The longest consecutive subsequence is 5, 6, 7, and 8.
+
+Approach: 
+1) store values in unordered_set.
+2) Iterate through all elements of set.
+3) check if element-1 is present in set, if not present then current element would be first
+    element of subsequence.
+4) Store it in x and check if x+1 is found in set, increment count and continue in while loop
+5) update longest variable with latest longest value.    
 -----------------------------------------------------------------------  
 
 
