@@ -13,7 +13,18 @@ Output: 13
 Explanation: The subsequence is {3, 10}. This gives sum = 13.    
 
 Note:
-A subsequence of an array/list is obtained by deleting some number of elements (can be zero) from the array/list, leaving the remaining elements in their original order.
+A subsequence of an array/list is obtained by deleting some number of elements (can be zero) 
+from the array/list, leaving the remaining elements in their original order.
+
+Recurrence relation:
+f(ind,arr[])
+{
+    //Base case:
+    if(ind==0) return 0
+    pick=arr[ind]+f(ind-1,arr)
+    notpick=0+f(ind-1, arr)
+    return max(pick,notpick)
+}
 ---------------------------------------------------------------------------------
 // Function to solve the problem using dynamic programming
 int solveUtil(int ind, vector<int>& arr, vector<int>& dp) {
