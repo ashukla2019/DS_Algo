@@ -34,6 +34,10 @@ class queue
 		{
 			cout<<"Queue is Empty!!"<<endl;
 		}
+		else if (front==rear) //if there is only one node, then set front and rear to -1
+		{
+			front=rear=-1;
+		}
 		else 
 		{
 			front++;
