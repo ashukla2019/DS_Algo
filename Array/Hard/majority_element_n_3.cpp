@@ -11,7 +11,11 @@ Result: 11 33
 Explanation: Here we can see that the Count(11) = 3 and Count(33) = 3. Therefore, the count of both 11 and 33 is greater than N/3 times. Hence, 11 and 33 is the answer.  
 -----------------------------------------------------------------------    
 
-
+Approach:  N = 6, array[] = {11,33,33,11,33,11}
+majority element would be n/3+1 => 6/3+1 = 3
+max 2 elements would be majority elements: 3 + 3    
+we will store key,pair in map and also will check if count is 3 or not. if count 3 add it in answer.
+if size of vector becomes 2 means we got our result. break the for loop.    
 
 #include <bits/stdc++.h>
 using namespace std;
