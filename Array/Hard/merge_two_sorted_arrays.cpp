@@ -19,6 +19,12 @@ arr1[] = [0 1 2 3]
 arr2[] = [5 6 7 8 9]
 Explanation:
 After merging the two non-decreasing arrays, we get, 0 1 2 3 5 6 7 8 9.
+
+Approach: 
+1) Take two pointers left and right.
+2) Put left at n-1th index of arr1 and right to 0th index of arr2
+3) compare if(arr1[left] >arr2[right]) then swap elements and do left-- & right++
+4) At last sort both arrays.    
 ------------------------------------------------------------------------------------  
 
 
