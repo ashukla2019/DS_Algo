@@ -26,18 +26,12 @@ void setZeroes(vector<vector<int>>& mat) {
                 }
             }
         }
-        for(int i=0;i<n;i++){ //marking the whole row as 0
-            if(row[i]==1){
-                for(int j=0;j<m;j++){
-                    mat[i][j]=0;
-                }
+        //set 0 to all rows and columns if row[i] ==1 or col[j]==1
+        for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (row[i] || col[j]) {
+                matrix[i][j] = 0;
             }
         }
-        for(int j=0;j<m;j++){ //marking the whole column as 0
-            if(col[j]==1){
-                for(int i=0;i<n;i++){
-                    mat[i][j]=0;
-                }
-            }
-        }
+    }
     }
