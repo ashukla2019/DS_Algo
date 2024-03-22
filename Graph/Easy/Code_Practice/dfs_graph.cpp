@@ -1,58 +1,57 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <queue>
+#include <iostream>
+
 using namespace std;
 
-void dfs(int node, vector<int> adj[], int vis[], vector<int> &ls) 
-{
-        vis[node] = 1; 
-        ls.push_back(node); 
-        // traverse all its neighbours
-        for(auto it : adj[node]) 
-		{
-            // if the neighbour is not visited
-            if(!vis[it]) 
-			{
-                dfs(it, adj, vis, ls); 
+class Graph {
+public:
+    // Function to return Breadth First Traversal of given graph.
+    void dfs(int node, vector<int> adj[], int* visited, vector<int>&ls)
+    {
+        visited[node] = 1;
+        ls.push_back(node);
+        for (auto it : adj[node])
+        {
+            if (!visited[it])
+            {
+                dfs(it, adj, visited, ls);
             }
         }
-}
-  
-// Function to return a list containing the DFS traversal of the graph.
-vector<int> dfsOfGraph(int V, vector<int> adj[]) 
-{
-        int vis[V] = {0}; 
+
+    }
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) 
+    {
+        int* visited = new int[V] {0};
         int start = 0;
-        // create a list to store dfs
-        vector<int> ls; 
-        // call dfs for starting node
-        dfs(start, adj, vis, ls); 
-        return ls; 
-}
+        vector<int>ls;
+        dfs(start, adj, visited, ls);
+        return ls;
+    }
+};
 
-
-void addEdge(vector <int> adj[], int u, int v) 
-{
+void addEdge(vector <int> adj[], int u, int v) {
     adj[u].push_back(v);
     adj[v].push_back(u);
 }
 
-void printAns(vector <int> &ans) 
-{
-    for (int i = 0; i < ans.size(); i++) 
-	{
+void printAns(vector <int>& ans) {
+    for (int i = 0; i < ans.size(); i++) {
         cout << ans[i] << " ";
     }
 }
 
-int main() 
+int main()
 {
     vector <int> adj[5];
-    
+
     addEdge(adj, 0, 2);
     addEdge(adj, 2, 4);
     addEdge(adj, 0, 1);
     addEdge(adj, 0, 3);
 
-    vector <int> ans = dfsOfGraph(5, adj);
+    Graph g;
+    vector <int> ans = g.dfsOfGraph(5, adj);
     printAns(ans);
 
     return 0;
