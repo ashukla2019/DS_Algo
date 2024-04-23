@@ -1,4 +1,6 @@
 /*
+Heap is complete binary tree.
+
 1. maxHeapify():
 MaxHeapify is the function responsible for restoring the property of the Max Heap. It arranges the node i, and its subtrees accordingly so that the heap property is maintained.
 
