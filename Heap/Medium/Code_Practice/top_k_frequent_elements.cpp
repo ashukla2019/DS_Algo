@@ -8,6 +8,12 @@ Input: nums = [1], k = 1
 Output: [1]
  
 Follow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
+
+Approach:
+1) Create unordered_map to store => {num , frequency}
+2) Create min heap and push element {frequency , num} //sorting will be done on the basis of frequency value
+3) Check if q.size() >k then pop elements
+4) Now min heap is ready with k frequent elements.			     
 ----------------------------------------------------------------------------------------------------------------------  
  vector<int> topKFrequent(vector<int>& nums, int k) {
 		unordered_map<int, int>m;
