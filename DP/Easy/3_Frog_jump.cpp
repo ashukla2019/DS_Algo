@@ -12,6 +12,19 @@ stair to 2nd stair (|20-10| = 10 energy lost) and then a jump from 2nd stair to 
 to check all possible way and then minimum energy consumption from it, so recursion would be applied to
 solve the problem.
 
+Recurrence relation:
+f(index, height[])
+{
+    //Base case:
+    if(index==0)
+        return 0; //energy loss would be 0.
+    jumpone = f(index-1, height) + abs(height[index-1] - height[index])
+    if(index>1)
+    jumptwo = f(index-2, height) + abs(height[index-2] - height[index])  
+
+        return min(jumpone, jumptwo)
+}
+------------------------------------------------------------------------------------------------------------
 int totalEnergyLost(int index, vector<int> &heights, vector<int>&dp)
 {
     if(dp[index] != -1)
