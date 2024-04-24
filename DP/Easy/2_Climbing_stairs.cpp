@@ -19,16 +19,16 @@ int climbStairs(int n)
 
 //Memorization
 int climbStairs(int n) 
-{
-	vector<int>dp(n+1, -1); //steps 0->n(n+1)
-	//Base case: 
-	//if n=1, there is only one way(1 step move) and n=0 then there is only one way.
-	if(n<=1)
-		return 1;
-    if(dp[n] != -1)    
-        return dp[n];
-	return dp[n]=climbStairs(n-1)+climbStairs(n-2);
-}
+    {
+        vector<int>dp(n+1, -1); //steps 0->n(n+1)
+	    //Base case: 
+	    //if n=1, there is only one way(1 step move) and n=0 then there is only one way.
+	    if(n<=2)
+		    return n;
+        if(dp[n] != -1)    
+            return dp[n];
+	    return dp[n]=climbStairs(n-1)+climbStairs(n-2);
+    }
 
 //Tabulation:
 int climbStairs(int n) 
