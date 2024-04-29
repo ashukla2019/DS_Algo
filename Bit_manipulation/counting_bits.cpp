@@ -1,10 +1,27 @@
 /*
-    Given int, return array: for each i, ans[i] is # of 1's
-    Ex. n = 2 -> [0,1,1], 0 = 0 has 0, 1 = 1 has 1, 2 = 10 has 1
+   Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
 
-    x = 1001011101 = 605
-    x'= 0100101110 = 302
-    Differ by 1 bit, by removing LSB: f(x) = f(x / 2) + (x mod 2)
+ 
+
+Example 1:
+
+Input: n = 2
+Output: [0,1,1]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+Example 2:
+
+Input: n = 5
+Output: [0,1,1,2,1,2]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+3 --> 11
+4 --> 100
+5 --> 101
 
     Time: O(n)
     Space: O(n)
