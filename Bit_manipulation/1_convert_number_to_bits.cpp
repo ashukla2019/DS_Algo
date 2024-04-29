@@ -12,7 +12,6 @@ void convertBin(int num)
 }
 int main(int argc, char* argv[])
 {
-	
 	convertBin(3);
 	return 0;
 }
