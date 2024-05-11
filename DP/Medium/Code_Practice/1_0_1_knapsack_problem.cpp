@@ -29,7 +29,7 @@ f(index, W)
     //We can pick only if weight of current index <=W
     int take = INT_MIN
     if(wt[index]<W)
-        pick= val[index] + f(index-1, W-values[index])
+        pick= val[index] + f(index-1, W-wt[index])
     return max(pick, notpick);
 }
 ------------------------------------------------------------------------------
