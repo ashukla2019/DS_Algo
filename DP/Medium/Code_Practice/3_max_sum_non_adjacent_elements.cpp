@@ -32,7 +32,7 @@ int solveUtil(int ind, vector<int>& arr, vector<int>& dp) {
     if (dp[ind] != -1)
         return dp[ind];
 
-    // Base cases
+    // Base cases: if you reaching index 0, means you have not picked 1st index, you must pick 0th index array value.
     if (ind == 0) 
         return arr[ind];
     if (ind < 0)  
