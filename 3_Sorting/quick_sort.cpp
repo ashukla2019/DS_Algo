@@ -19,6 +19,7 @@ int split(int a[], int lower, int upper)
 		{
 			q--;
 		}
+		//Swap element at p and q index
 		if(q>p)
 		{
 			temp = a[p];
@@ -26,6 +27,7 @@ int split(int a[], int lower, int upper)
 			a[q] = temp;
 		}
 	}
+	//swap pivot element and a[q]
 	temp = a[lower];
 	a[lower] = a[q];
 	a[q] = temp;
