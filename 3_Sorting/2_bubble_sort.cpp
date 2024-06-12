@@ -1,28 +1,32 @@
-int* bubble_sort(int*p, int len)
+#include<bits/stdc++.h>
+using namespace std;
+ 
+int* bubble_sort(int arr[], int len)
 {
-	for(int i =0; i<len-1; i++)
-	{
-		for(int j = 0; j<=len-i-1; j++)
-		{
-			if(p[j]>p[j+1])
-			{
-				int temp = p[j];
-				p[j] = p[j+1];
-				p[j+1] = temp;
-			}
-		}
-	}
-	return p;
+    for(int i=0; i<len; i++)
+    {
+        for(int j=0; j<len-i; j++)
+        {
+            if(arr[j]>arr[j+1])
+            {
+                int temp=arr[j];
+                arr[j]=arr[j+1];
+                arr[j+1]=temp;
+            }
+        }
+    }
+    return arr;
 }
-
+ 
+ 
 int main()
 {
-	int arr[] = {15, 10, 20, 5, 9, 25};
-	int len = sizeof(arr)/ sizeof(int);
-	int* b_sort = bubble_sort(arr, len);
-	for(int i =0; i<len; i++)
-	{
-		cout<<"sorted array values:"<<b_sort[i]<<endl;
-	}	
+    int arr[] ={10,2,31,24}; 
+    int len = sizeof(arr)/sizeof(arr[0]);
+    int* res=bubble_sort(arr, len);
+    for(int i=0; i<len; i++)
+    {
+        std::cout<<res[i]<<endl;
+    }
 	return 0;
 }
