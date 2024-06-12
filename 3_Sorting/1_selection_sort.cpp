@@ -1,32 +1,30 @@
-#include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
-
-int* selection_sort(int*p, int len)
+ 
+int* selection_sort(int arr[], int len)
 {
-	for(int i =0; i<len-1; i++)
-	{
-		for(int j = i+1; j<len-1; j++)
-		{
-			if(p[i]>p[j])
-			{
-				int temp = p[i];
-				p[i] = p[j];
-				p[j] = temp;
-			}
-		}
-	}
-	return p;
+    for(int i=0; i<len; i++)
+    {
+        for(int j=i+1; j<len; j++)
+        {
+            if(arr[i]>arr[j])
+            {
+                int temp=arr[i];
+                arr[i]=arr[j];
+                arr[j]=temp;
+            }
+        }
+    }
+    return arr;
 }
-
+ 
+ 
 int main()
 {
 	int arr[] = {15, 10, 20, 5, 9, 25};
 	int len = sizeof(arr)/ sizeof(int);
-
-	int* s_sort = selection_sort(arr, len);
-	for(int i =0; i<len; i++)
-	{
-		cout<<"sorted array values:"<<s_sort[i]<<endl;
-	}
+    int* res= buble_sort(arr, len);
+    for(int it=0; it<len; it++)
+        std::cout<<arr[it]<<endl;
 	return 0;
 }
