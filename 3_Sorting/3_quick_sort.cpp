@@ -12,7 +12,9 @@ excluding pivot
 5. While value at left is less than pivot move right
 6. While value at right is greater than pivot move left
 7. If both step 5 and step 6 are done then swap both left and right element.
-8. If left ≥ right, the point where they met is new pivot
+	Repeat above steps until, left<=right
+8. If left ≥ right, the point where they met is new pivot(At last we put pivot to correct place by putting it into high's place)
+
 -----------------------------------------------------------------------------------------
 int split(int a[], int lower, int upper)
 {
