@@ -1,0 +1,21 @@
+void counting_sort(char ch[], int size)
+{
+    int arr[26]={0}; //frequency array 
+    for(int i; i<size; i++)
+    {
+        arr[ch[i] - 'a']++;
+    }
+    
+    for(int j=0; j<26; j++)
+    {
+        cout<<arr[j]<<endl;
+    }
+}
+
+int main()
+{
+    char ch[] = "congrats";
+    counting_sort(ch, 8);
+
+    return 0;
+}
