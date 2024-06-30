@@ -1,107 +1,108 @@
 #include <iostream>
 using namespace std;
 
-struct node
+class treeNode
 {
-    int data; //node will store an integer
-    struct node *right_child; // right child
-    struct node *left_child; // left child
+public:
+	int data;
+	treeNode* left;
+	treeNode* right;
 };
 
-struct node* search(struct node *root, int x)
+treeNode* insert(int val)
 {
-    if(root==NULL || root->data==x) //if root->data is x then the element is found
-        return root;
-    else if(x>root->data) // x is greater, so we will search the right subtree
-        return search(root->right_child, x);
-    else //x is smaller than the data, so we will search the left subtree
-        return search(root->left_child,x);
+	treeNode* temp = new treeNode();
+	temp->data=val;
+	temp->left=nullptr;
+	temp->right=nullptr;
+	return temp;	
 }
 
-//function to create a node
-struct node* new_node(int x)
+void preorder(treeNode* root)
 {
-    struct node *p;
-    p = (struct node*)malloc(sizeof(struct node));
-    p->data = x;
-    p->left_child = NULL;
-    p->right_child = NULL;
-
-    return p;
+	if(root ==nullptr)
+		return;
+	cout<<root->data<<endl;
+	preorder(root->left);
+	preorder(root->right);
 }
 
-struct node* insert(struct node *root, int x)
+void inorder(treeNode* root)
 {
-    //searching for the place to insert
-    if(root==NULL)
-        return new_node(x);
-    else if(x>root->data) // x is greater. Should be inserted to right
-        root->right_child = insert(root->right_child, x);
-    else // x is smaller should be inserted to left
-        root->left_child = insert(root->left_child,x);
-    return root;
+	if(root ==nullptr)
+		return;
+	inorder(root->left);
+	cout<<root->data<<endl;
+	inorder(root->right);
 }
 
-void pre_order_traversal(struct node* root) {
-   if(root != NULL) {
-      cout<<root->data<<endl;
-      pre_order_traversal(root->left_child);
-      pre_order_traversal(root->right_child);
-   }
-}
-
-void inorder_traversal(struct node* root) {
-   if(root != NULL) {
-      inorder_traversal(root->left_child);
-      cout<<root->data<<endl;         
-      inorder_traversal(root->right_child);
-   }
-}
-
-void post_order_traversal(struct node* root) {
-   if(root != NULL) {
-      post_order_traversal(root->left_child);
-      post_order_traversal(root->right_child);
-      cout<<root->data<<endl;
-   }
-}
-
-int main() 
+void postorder(treeNode* root)
 {
-   struct node *root;
-   root = new_node(20);
-    insert(root,5);
-    insert(root,1);
-    insert(root,15);
-    insert(root,9);
-    insert(root,7);
-    insert(root,12);
-    insert(root,30);
-    insert(root,25);
-    insert(root,40);
-    insert(root, 45);
-    insert(root, 42);
-   int i = 40;
-   struct node * temp = search(root, i);
+	if(root ==nullptr)
+		return;
+	
+	postorder(root->left);
+	postorder(root->right);
+	cout<<root->data<<endl;
+}
 
-   if(temp != NULL) 
-   {
-      cout<<"Element found"<<temp->data<<endl;
-     
-   }
-   else 
-   {
-      cout<<"Element not found"<<i<<endl;
-   }
+bool searchNode(treeNode* root, int key)
+{
+	if(root==nullptr)
+		return false;
+	if(root->data == key)
+		return true;
+		
+	 /* then recur on left subtree */
+    bool res1 = searchNode(root->left, key);
+    // node found, no need to look further
+    if(res1) 
+    	return true; 
+ 
+    /* node is not found in left, 
+    so recur on right subtree */
+    bool res2 = searchNode(root->right, key);
+    if (res2) 
+        return true;	
+}
 
-   cout<<"Preorder traversal"<<endl;
-   pre_order_traversal(root);
+void printLeafNodes(treeNode* root)
+{
+    // if node is null, return
+    if (root == nullptr)
+        return;
 
-   cout<<"Inorder traversal"<<endl;
-   inorder_traversal(root);
+    // if node is leaf node, print its data    
+    if (root->left == nullptr && root->right == nullptr)
+    {
+        cout<<"leafnodes"<<root->data<<endl;
+        return;
+    }
 
-   cout<<"Post order traversal"<<endl;
-   post_order_traversal(root);       
+    // if left child exists, check for leaf 
+    // recursively
+    printLeafNodes(root->left);
 
-   return 0;
+    // if right child exists, check for leaf 
+    // recursively
+    printLeafNodes(root->right);
+}
+
+
+int main()
+{
+	treeNode* root =insert(1);
+	root->left = insert(2);
+	root->right = insert(3);
+	root->left->left = insert(4);
+	root->right->left = insert(5);
+	cout<<"-------------------preorder\n";
+	preorder(root);
+	cout<<"-------------------inorder\n";
+	inorder(root);
+	cout<<"-------------------postorder\n";
+	postorder(root);
+	cout<<"value is" <<searchNode(root, 12)<<endl;
+	printLeafNodes(root);
+	return 0;
 }
