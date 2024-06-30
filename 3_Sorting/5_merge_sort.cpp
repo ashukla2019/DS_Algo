@@ -46,12 +46,14 @@ void merge(vector<int> &arr, int low, int mid, int high) {
     }
 }
 
-void mergeSort(vector<int> &arr, int low, int high) {
-    if (low >= high) return;
-    int mid = (low + high) / 2 ;
-    mergeSort(arr, low, mid);  // left half
-    mergeSort(arr, mid + 1, high); // right half
-    merge(arr, low, mid, high);  // merging sorted halves
+void mergeSort(vector<int> &arr, int lower, int upper) {
+    if(upper>lower)
+    {
+        int mid = (lower + upper) / 2 ;
+        mergeSort(arr, lower, mid);  // left half
+        mergeSort(arr, mid + 1, upper); // right half
+        merge(arr, lower, mid, upper);  // merging sorted halves
+    }
 }
 
 int main() 
@@ -73,6 +75,7 @@ int main()
     cout << endl;
     return 0 ;
 }
+
 Time complexity: O(nlogn) 
 Reason: At each step, we divide the whole array, for that logn and we assume n steps are taken to get sorted array, so overall time complexity will be nlogn
 Space complexity: O(n)  
