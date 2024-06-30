@@ -88,6 +88,15 @@ void printLeafNodes(treeNode* root)
     printLeafNodes(root->right);
 }
 
+int height(treeNode* root)
+{
+	if(root==nullptr)
+		return 0;
+	int ltree = height(root->left);	
+	int rtree = height(root->right);
+	return 1+ max(ltree, rtree);
+}
+
 
 int main()
 {
@@ -104,5 +113,6 @@ int main()
 	postorder(root);
 	cout<<"value is" <<searchNode(root, 12)<<endl;
 	printLeafNodes(root);
+	int h = height(root);
 	return 0;
 }
