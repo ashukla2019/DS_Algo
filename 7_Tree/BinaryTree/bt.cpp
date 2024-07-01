@@ -195,11 +195,14 @@ int diameter(treeNode* root)
 
 void printLeftView(treeNode* root, int level)
 {
-	int count = 0;
+	static int count = 0;
 	if (root == NULL)
 		return;
-	if(count==level)
-		cout<<"Node "
+	if (count == level)
+		cout << "Node=" << root->data << endl;
+		count++;
+	printLeftView(root->left, level+1);
+	printLeftView(root->right, level + 1);
 
 }
 
