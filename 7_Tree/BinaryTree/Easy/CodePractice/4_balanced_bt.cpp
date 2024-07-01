@@ -8,9 +8,12 @@
            3   5
 Binary tree would be balanced, when abs(ltree-rtree))<=1
 Approach: 
-1) Call different function to calculate height of binary tree 
-2) Check abs(ltree - rtree) > 1 then return -1 => not balanced
-3) Check ltree and rtee value as well for -1, if it's -1 then return -1 for both cases and height will not be calculated further.
+1) Base case: if the current node is NULL, return 0 (height of an empty tree)
+2) Recursively calculate the height of the left subtree, If the left subtree is unbalanced, propagate the unbalance status(-1)
+3) Recursively calculate the height of the right subtree, If the right subtree is unbalanced, propagate the unbalance status(-1)
+4) Check if the difference in height between left and right subtrees is greater than 1, If it's greater, the tree is unbalanced,
+   return -1 to propagate the unbalance status
+5) Return the maximum height of left and right subtrees, adding 1 for the current node
 
 Time Complexity: O(N) 
 Space Complexity: O(1) Extra Space + O(H) Recursion Stack space (Where “H”  is the height of binary tree)
