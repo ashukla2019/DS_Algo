@@ -18,34 +18,39 @@ vector<int> inOrder(TreeNode* root)
 //Recursive Approach:
 Time complexity: O(n)
 Space complexity: O(n)
-vector < int > inorderTraversal(TreeNode * root) 
-  {
-    
-    vector<int>ans;
-	
-    //Base case:
-	if(root==NULL)
-		return ans;
-	stack<TreeNode*> s;
-    TreeNode* current=root;
-	while(!s.empty() || current !=nullptr)
-	{
-		if(current !=nullptr)
-		{
-			s.push(current);
-			current=current->left;
-		}
-		else
-		{
-			current=s.top();
-			s.pop();
-			ans.push_back(current->val);
-			current=current->right;
-		}
-		
+
+//Iterative function for inorder tree traversal
+void inOrder(struct Node* root)
+{
+    stack<Node*> s;
+    Node* curr = root;
+ 
+    while (curr != NULL || s.empty() == false) {
+         
+        // Reach the left most Node of the
+        // curr Node
+        while (curr != NULL) {
+             
+            // Place pointer to a tree node on
+            // the stack before traversing
+            // the node's left subtree
+            s.push(curr);
+            curr = curr->left;
+        }
+ 
+        // Current must be NULL at this point
+        curr = s.top();
+        s.pop();
+ 
+        cout << curr->data << " ";
+ 
+        // we have visited the node and its
+        // left subtree.  Now, it's right
+        // subtree's turn
+        curr = curr->right;
+ 
     }
-	return ans;
-  }
+}
  
 --------------------------------------------------------------------------------------------
 Time complexity: O(n)
