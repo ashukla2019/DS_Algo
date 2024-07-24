@@ -557,3 +557,57 @@ Input Format: N = 3, k = 5, array[] = {2,3,5}, Result: 2, Explanation: The longe
 	Space Complexity: O(1) as we are not using any extra space.
  
 	
+	
+----------------------------------------------------------------------------------
+14) 2SUM problem:
+arr[]={2,6,5,8,11}, target=14
+	Brute Force Approach:
+	for(i=0; i<n; i++)
+	{
+		for(j=i+1; j<n; j++)
+		{
+			if(arr[i]+arr[j] == target)
+			{
+				return i,j;
+			}
+		}
+	}
+	Time Complexity: O(N2) approx., where N = size of the array.
+	Space Complexity: O(1) as we are not using any extra space.
+	
+	Better Approach: hashing technique
+	We will select the element of the array one by one using a loop(say i).
+	Then we will check if the other required element(i.e. target-arr[i]) exists in the hashMap.
+	If that element exists, then we will return “YES” for the first variant or we will return the current index i.e. i, and the index of the element found using map i.e. mp[target-arr[i]].
+	If that element does not exist, then we will just store the current element in the hashMap along with its index. Because in the future, the current element might be a part of our answer.
+	Finally, if we are out of the loop, that means there is no such pair whose sum is equal to the target. In this case, we will return either “NO” or {-1, -1} as per the variant of the question.
+	unordered_map<int, int> mpp;
+    for (int i = 0; i < n; i++) {
+        int num = arr[i];
+        int moreNeeded = target - num;
+        if (mpp.find(moreNeeded) != mpp.end()) {
+            return {mpp[moreNeeded], i};
+        }
+        mpp[num] = i;
+    }
+    return { -1, -1};
+	Time Complexity: O(N), where N = size of the array.
+	Space Complexity: O(N) as we use the map data structure
+	
+	Optimal Approach: using two pointers 
+	sort(arr.begin(), arr.end());
+    int left = 0, right = n - 1;
+    while (left < right) {
+        int sum = arr[left] + arr[right];
+        if (sum == target) {
+            return "YES";
+        }
+        else if (sum < target) left++;
+        else right--;
+    }
+    return "NO";
+	Time Complexity: O(N) + O(N*logN), where N = size of the array
+	Space Complexity: O(1) as we use the map data structure
+--------------------------------------------------------------------------------
+15) Sort an array of 0,1 &2:
+	
