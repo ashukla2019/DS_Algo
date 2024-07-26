@@ -555,8 +555,69 @@ Input Format: N = 3, k = 5, array[] = {2,3,5}, Result: 2, Explanation: The longe
 	Time Complexity: O(N3) approx., where N = size of the array.
 	Reason: We are using three nested loops, each running approximately N times.
 	Space Complexity: O(1) as we are not using any extra space.
- 
 	
+	Better Appraoch: Will remove extra loop to iterate through subarray and add it,instead will add elements
+	to existing sum while getting elements using 2 loops.
+	int findAllSubarraysWithGivenSum(vector < int > & arr, int k) {
+    int n = arr.size(); // size of the given array.
+    int cnt = 0; // Number of subarrays:
+
+    for (int i = 0 ; i < n; i++) { // starting index i
+        int sum = 0;
+        for (int j = i; j < n; j++) { // ending index j
+            // calculate the sum of subarray [i...j]
+            // sum of [i..j-1] + arr[j]
+            sum += arr[j];
+
+            // Increase the count if sum == k:
+            if (sum == k)
+                cnt++;
+        }
+    }
+    return cnt;
+	}
+	Time Complexity: O(N2), where N = size of the array.
+	Reason: We are using two nested loops here. As each of them is running for exactly N times, the time complexity will be approximately O(N2).
+	Space Complexity: O(1) as we are not using any extra space.
+	
+	Optimal Solution:Two pointers approach
+	1)Check if sum>k, if yes then we ca not go ahead using this subarray and we should remove left element
+	so that new subarray would be considered from left+1 th element now
+	Ex: {2, 3, 5, 1, 9}; suppose left at 0th index and right reached to 3rd index and sum is= 2+3+5+1=11
+	we can not consider this subarray now, so to select new subarray, move left to 1st index and 
+	new subarray list would be now: 3,....
+	2) Check if sum==k means we found solution then update maxLen
+	3) Else, increment right and calculate new sum(sum += a[right])
+	
+	int getLongestSubarray(vector<int>& a, long long k) {
+    int n = a.size(); // size of the array.
+
+    int left = 0, right = 0; // 2 pointers
+    long long sum = a[0]; //sum is pointing to first element
+    int maxLen = 0;
+    while (right < n) {
+        // if sum > k, reduce the subarray from left
+        // until sum becomes less or equal to k:
+        while (left <= right && sum > k) {
+            sum -= a[left];
+            left++;
+        }
+
+        // if sum = k, update the maxLen i.e. answer:
+        if (sum == k) {
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        // Move forward thw right pointer:
+        right++;
+        if (right < n) sum += a[right];
+    }
+
+    return maxLen;
+	}
+	Time Complexity: O(2*N), where N = size of the given array.
+	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
+	Space Complexity: O(1) as we are not using any extra space.
 	
 ----------------------------------------------------------------------------------
 14) 2SUM problem:
@@ -610,4 +671,640 @@ arr[]={2,6,5,8,11}, target=14
 	Space Complexity: O(1) as we use the map data structure
 --------------------------------------------------------------------------------
 15) Sort an array of 0,1 &2:
+nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
+
+	Brute Force Approach:
+	Sorting ( even if it is not the expected solution here but it can be considered as one of 
+	the approaches). Since the array contains only 3 integers, 0, 1, and 2. Simply sorting the 
+	array would arrange the elements in increasing order.
+	Time Complexity: O(N*logN)
+	Space Complexity: O(1)
 	
+	Better Approach:
+	Take 3 variables to maintain the count of 0, 1 and 2.
+	Travel the array once and increment the corresponding counting variables
+	( let's consider count_0 = a, count_1 = b, count_2 = c )
+	In 2nd traversal of array, we will now over write the first ‘a’ indices / positions in array with ’0’, 
+	the next ‘b’ with ‘1’ and the remaining ‘c’ with ‘2’.
+	
+	int cnt0 = 0, cnt1 = 0, cnt2 = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == 0) cnt0++;
+        else if (arr[i] == 1) cnt1++;
+        else cnt2++;
+    }
+
+    //Replace the places in the original array:
+    for (int i = 0; i < cnt0; i++) arr[i] = 0; // replacing 0's
+    for (int i = cnt0; i < cnt0 + cnt1; i++) arr[i] = 1; // replacing 1's
+    for (int i = cnt0 + cnt1; i < n; i++) arr[i] = 2; // replacing 2's
+	
+	Time Complexity: O(N) + O(N), where N = size of the array. First O(N) for counting the number of 0’s, 1’s, 2’s, and second O(N) for placing them correctly in the original array.
+	Space Complexity: O(1) as we are not using any extra space.
+	
+	Optimal Approach:
+	First, we will run a loop that will continue until mid <= high.
+	There can be three different values of mid pointer i.e. arr[mid]
+	If arr[mid] == 0, we will swap arr[low] and arr[mid] and will increment both low and mid. Now the subarray from index 0 to (low-1) only contains 0.
+	If arr[mid] == 1, we will just increment the mid pointer and then the index (mid-1) will point to 1 as it should according to the rules.
+	If arr[mid] == 2, we will swap arr[mid] and arr[high] and will decrement high. Now the subarray from index high+1 to (n-1) only contains 2.
+	In this step, we will do nothing to the mid-pointer as even after swapping, the subarray from mid to high(after decrementing high) might be unsorted. So, we will check the value of mid again in the next iteration.
+	Finally, our array should be sorted.
+	[0 ... low-1] --> 0 extreme left
+	[low ... mid-1] --> 1 
+	[mid ... high-1] --> 2 extreme right
+	
+	 int low = 0, mid = 0, high = n - 1; // 3 pointers
+
+    while (mid <= high) {
+        if (arr[mid] == 0) {
+            swap(arr[low], arr[mid]);
+            low++;
+            mid++;
+        }
+        else if (arr[mid] == 1) {
+            mid++;
+        }
+        else {
+            swap(arr[mid], arr[high]);
+            high--;
+        }
+    }
+	Time Complexity: O(N), where N = size of the given array.
+	Space Complexity: O(1) as we are not using any extra space.
+----------------------------------------------------------------------------------------
+16) Majority Element(N/2)
+N = 3, nums[] = {3,2,3}, Result: 3
+	Brute Force Approach:
+	We will run a loop that will select the elements of the array one by one.
+	Now, for each element, we will run another loop and count its occurrence in the given array.
+	If any element occurs more than the floor of (N/2), we will simply return it.
+	
+	int n = v.size();
+    for (int i = 0; i < n; i++) {
+        //selected element is v[i]
+        int cnt = 0;
+        for (int j = 0; j < n; j++) {
+            // counting the frequency of v[i]
+            if (v[j] == v[i]) {
+                cnt++;
+            }
+        }
+
+        // check if frquency is greater than n/2:
+        if (cnt > (n / 2))
+            return v[i];
+    }
+
+    return -1;
+	Time Complexity: O(N2), where N = size of the given array. 
+	Space Complexity: O(1) as we use no extra space.
+	
+	Better Approach:
+	Use a hashmap and store as (key, value) pairs. (Can also use frequency array based on the size of nums) 
+	Here the key will be the element of the array and the value will be the number of times it occurs. 
+	Traverse the array and update the value of the key. Simultaneously check if the value is greater than the floor of N/2. 
+	If yes, return the key 
+	Else iterate forward.
+	
+	int majorityElement(vector<int> v) {
+	//size of the given array: 
+    int n = v.size();
+
+    //declaring a map:
+    map<int, int> mpp;
+
+    //storing the elements with its occurnce:
+    for (int i = 0; i < n; i++) {
+        mpp[v[i]]++;
+    }
+
+    //searching for the majority element:
+    for (auto it : mpp) {
+        if (it.second > (n / 2)) {
+            return it.first;
+        }
+    }
+
+    return -1;
+	Time Complexity: O(N*logN) + O(N), where N = size of the given array.
+	Reason: We are using a map data structure. Insertion in the map takes logN time. And we are doing it for N elements. So, it results in the first term O(N*logN). The second O(N) is for checking which element occurs more than floor(N/2) times. If we use unordered_map instead, the first term will be O(N) for the best and average case and for the worst case, it will be O(N2).
+	Space Complexity: O(N) as we are using a map data structure.
+	
+	Optimal Approach:Moore's voting Algo
+	Initialize 2 variables:
+	Count –  for tracking the count of element
+	Element – for which element we are counting
+	Traverse through the given array.
+	If Count is 0 then store the current element of the array as Element.
+	If the current element and Element are the same increase the Count by 1.
+	If they are different decrease the Count by 1.
+	The integer present in Element should be the result we are expecting 
+	
+	int majorityElement(vector<int> v) {
+
+    //size of the given array: nums[] = {2,2,1,1,1,2,2}, Result: 2
+    int n = v.size();
+    int cnt = 0; // count
+    int el; // Element
+
+    //applying the algorithm:
+    for (int i = 0; i < n; i++) {
+        if (cnt == 0) {
+            cnt = 1;
+            el = v[i];
+        }
+        else if (el == v[i]) cnt++;
+        else cnt--;
+    }
+
+    //checking if the stored element
+    // is the majority element:
+    int cnt1 = 0;
+    for (int i = 0; i < n; i++) {
+        if (v[i] == el) cnt1++;
+    }
+
+    if (cnt1 > (n / 2)) return el;
+    return -1;
+	}
+	Time Complexity: O(N) + O(N), where N = size of the given array.
+	Reason: The first O(N) is to calculate the count and find the expected majority element. The second one is to check if the expected element is the majority one or not.
+	Note: If the question states that the array must contain a majority element, in that case, we do not need the second check. Then the time complexity will boil down to O(N).
+	Space Complexity: O(1) as we are not using any extra space.
+-----------------------------------------------------------------------------------------
+17) Maximum subarray sum(kadane's algo)
+arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6 
+	Brute Force Approach:
+	First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = size of the array).
+	Inside the loop, we will run another loop(say j) that will signify the ending index of the subarray. For every subarray starting from the index i, the possible ending index can vary from index i to n-1(n = size of the array).
+	After that for each subarray starting from index i and ending at index j (i.e. arr[i….j]), we will run another loop to calculate the sum of all the elements(of that particular subarray).
+	
+	int maxSubarraySum(int arr[], int n) {
+    int maximum = INT_MIN; // maximum sum
+
+    for (int i = 0; i < n; i++) {
+        for (int j = i; j < n; j++) {
+            // subarray = arr[i.....j]
+            int sum = 0;
+
+            //add all the elements of subarray:
+            for (int k = i; k <= j; k++) {
+                sum += arr[k];
+            }
+
+            maximum = max(maximum, sum);
+        }
+    }
+
+    return maximum;
+	}
+	Time Complexity: O(N3), where N = size of the array.
+	Reason: We are using three nested loops, each running approximately N times.
+	Space Complexity: O(1) as we are not using any extra space.
+	
+	Better Approach:
+	First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = array size).
+	Inside the loop, we will run another loop(say j) that will signify the ending index as well as the current element of the subarray. For every subarray starting from index i, the possible ending index can vary from index i to n-1(n = size of the array).
+	Inside loop j, we will add the current element to the sum of the previous subarray i.e. sum = sum + arr[j]. Among all the sums the maximum one will be the answer.
+	
+	int maxSubarraySum(int arr[], int n) {
+    int maximum = INT_MIN; // maximum sum
+
+    for (int i = 0; i < n; i++) {
+        int sum = 0;
+        for (int j = i; j < n; j++) {
+            // current subarray = arr[i.....j]
+
+            //add the current element arr[j]
+            // to the sum i.e. sum of arr[i...j-1]
+            sum += arr[j];
+
+            maximum = max(maximum, sum); // getting the maximum
+        }
+    }
+
+    return maximum;
+	}
+	Time Complexity: O(N2), where N = size of the array.
+	Reason: We are using two nested loops, each running approximately N times.
+	Space Complexity: O(1) as we are not using any extra space.
+	
+	Optimal Approach:
+	We will run a loop(say i) to iterate the given array.
+	Now, while iterating we will add the elements to the sum variable and consider the maximum one.
+	If at any point the sum becomes negative we will set the sum to 0 as we are not going to consider it as a part of our answer.
+	Note: In some cases, the question might say to consider the sum of the empty subarray while solving this problem. So, in these cases, before returning the answer we will compare the maximum subarray sum calculated with 0(i.e. The sum of an empty subarray is 0). And after that, we will return the maximum one.
+	For e.g. if the given array is {-1, -4, -5}, the answer will be 0 instead of -1 in this case.
+		
+	long long maxSubarraySum(int arr[], int n) {
+    long long maximum = LONG_MIN; // maximum sum
+    long long sum = 0;
+
+    for (int i = 0; i < n; i++) {
+
+        sum += arr[i];
+
+        if (sum > maximum) {
+            maximum = sum;
+        }
+
+        // If sum < 0: discard the sum calculated
+        if (sum < 0) {
+            sum = 0;
+        }
+    }
+
+    // To consider the sum of the empty subarray
+    // uncomment the following check:
+
+    //if (maxi < 0) maxi = 0;
+
+    return maximum;
+	}
+	Time Complexity: O(N), where N = size of the array.
+	Reason: We are using a single loop running N times.
+	Space Complexity: O(1) as we are not using any extra space.
+---------------------------------------------------------------------------------------
+18) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
+and negative elements. Without altering the relative order of positive and negative elements, 
+you must return an array of alternately positive and negative values.
+arr[] = {1,2,-4,-5}, N = 4, Output:1 -4 2 -5
+
+Explanation: 
+Positive elements = 1,2
+Negative elements = -4,-5
+To maintain relative ordering, 1 must occur before 2, and -4 must occur before -5.
+
+	Brute Force Approach:
+	vector<int> RearrangebySign(vector<int>A, int n){
+    
+	  // Define 2 vectors, one for storing positive 
+	  // and other for negative elements of the array.
+	  vector<int> pos;
+	  vector<int> neg;
+	  
+	  // Segregate the array into positives and negatives.
+	  for(int i=0;i<n;i++){
+		  
+		  if(A[i]>0) pos.push_back(A[i]);
+		  else neg.push_back(A[i]);
+	  }
+	  
+	  // Positives on even indices, negatives on odd.
+	  for(int i=0;i<n/2;i++){
+		  
+		  A[2*i] = pos[i];
+		  A[2*i+1] = neg[i];
+	  }
+	  
+	  
+	  return A;
+		
+	}
+	Time Complexity: O(N+N/2) { O(N) for traversing the array once for segregating positives and negatives and another O(N/2) for adding those elements alternatively to the array, where N = size of the array A}.
+	Space Complexity:  O(N/2 + N/2) = O(N) { N/2 space required for each of the positive and negative element arrays, where N = size of the array A}.
+	
+	Better Approach:
+	vector<int> RearrangebySign(vector<int>A){
+    
+  int n = A.size();
+  
+  // Define array for storing the ans separately.
+  vector<int> ans(n,0);
+  
+  // positive elements start from 0 and negative from 1.
+  int posIndex = 0, negIndex = 1;
+  for(int i = 0;i<n;i++){
+      
+      // Fill negative elements in odd indices and inc by 2.
+      if(A[i]<0){
+          ans[negIndex] = A[i];
+          negIndex+=2;
+      }
+      
+      // Fill positive elements in even indices and inc by 2.
+      else{
+          ans[posIndex] = A[i];
+          posIndex+=2;
+      }
+    }
+  
+    return ans;
+    
+    }
+	Time Complexity: O(N) { O(N) for traversing the array once and substituting positives and negatives simultaneously using pointers, where N = size of the array A}.
+	Space Complexity:  O(N) { Extra Space used to store the rearranged elements separately in an array, where N = size of array A}.
+---------------------------------------------------------------------------------------------------
+19) Best Time to Buy and Sell Stock:
+arr[] = {7,1,5,3,6,4};
+	Ex: If we buy stock on 2nd day means in 1 rs, then sell it on 5th day(6rs), profit would be(6-1=5)
+	For max profit, buy when it is min and sell when it is max.
+	
+	minimum=arr[0], maxprofit=0
+	for(i=0; i<n; i++)
+	{
+		profit = max(maxprofit, arr[i]-min);
+		minimum = min(minimum, arr[i]);
+	}
+	return maxprofit;
+-----------------------------------------------------------------------------------------------------
+20) Leaders in an Array: Given an array, print all the elements which are leaders. 
+A Leader is an element that is greater than all of the elements on its right side in the array.	
+arr = [4, 7, 1, 0] => 7 1 0
+	Brute Force Approach:
+	vector<int> printLeadersBruteForce(int arr[], int n) {
+
+  vector<int> ans;
+  
+  for (int i = 0; i < n; i++) {
+    bool leader = true;
+
+    //Checking whether arr[i] is greater than all 
+    //the elements in its right side
+    for (int j = i + 1; j < n; j++)
+      if (arr[j] > arr[i]) {
+          
+        // If any element found is greater than current leader
+        // curr element is not the leader.
+        leader = false;
+        break;
+      }
+
+    // Push all the leaders in ans array.
+    if (leader)
+    ans.push_back(arr[i]);
+
+   }
+  
+   return ans;
+   }
+   Time Complexity: O(N^2) { Since there are nested loops being used, at the worst case n^2 time would be consumed }.
+   Space Complexity: O(N) { There is no extra space being used in this approach. But, a O(N) of space for ans array will be used in the worst case }.
+	
+ 	Optimal Approach:
+	int currentleader =  arr[size-1]; 
+  
+    /* Rightmost element is always leader */
+    cout << currentleader << " "; 
+      
+    for (int i = size-2; i >= 0; i--) 
+    { 
+        if (arr[i]>= currentleader)  
+        {            
+            currentleader = arr[i]; 
+            cout << currentleader << " "; 
+        } 
+    }     
+	Time Complexity: O(n)
+	Space Compleixty: O(1)
+---------------------------------------------------------------------------------
+21) Longest Consecutive Sequence 
+arr[]= [100, 200, 1, 3, 2, 4], Output:  4, Explanation:  The longest consecutive subsequence is 1, 2, 3, and 4.	
+	Brute Force Approach:
+	int longestSuccessiveElements(vector<int>&a) {
+    int n = a.size(); //size of array
+    int longest = 1;
+    //pick a element and search for its
+    //consecutive numbers:
+    for (int i = 0; i < n; i++) {
+        int x = a[i];
+        int cnt = 1;
+        //search for consecutive numbers
+        //using linear search:
+        while (linearSearch(a, x + 1) == true) {
+            x += 1;
+            cnt += 1;
+        }
+
+        longest = max(longest, cnt);
+    }
+    return longest;
+   }
+	Time Complexity: O(N2), N = size of the given array.
+	Reason: We are using nested loops each running for approximately N times.
+	Space Complexity: O(1), as we are not using any extra space to solve this problem.
+	
+	Optimal Approach(Using Set data structure):
+	We will declare 2 variables, 
+
+	‘cnt’ → (to store the length of the current sequence), 
+	‘longest’ → (to store the maximum length).
+	First, we will put all the array elements into the set data structure.
+	For every element, x, that can be a starting number(i.e. x-1 does not exist in the set) we will do the following:
+	We will set the length of the current sequence(cnt) to 1.
+	Then, again using the set, we will search for the consecutive elements such as x+1, x+2, and so on, and find the maximum possible length of the current sequence. This length will be stored in the variable ‘cnt’.
+	After that, we will compare ‘cnt’ and ‘longest’ and update the variable ‘longest’ with the maximum value (i.e. longest = max(longest, cnt)).
+	Finally, we will have the answer i.e. ‘longest’.
+	
+	int longestSuccessiveElements(vector<int>&a) {
+    int n = a.size();
+    if (n == 0) return 0;
+
+    int longest = 1;
+    unordered_set<int> st;
+    //put all the array elements into set:
+    for (int i = 0; i < n; i++) {
+        st.insert(a[i]);
+    }
+
+    //Find the longest sequence:
+    for (auto it : st) {
+        //if 'it' is a starting number:
+        if (st.find(it - 1) == st.end()) {
+            //find consecutive numbers:
+            int cnt = 1;
+            int x = it;
+            while (st.find(x + 1) != st.end()) {
+                x = x + 1;
+                cnt = cnt + 1;
+            }
+            longest = max(longest, cnt);
+        }
+    }
+    return longest;
+
+	}
+	Time Complexity: O(N) + O(2*N) ~ O(3*N), where N = size of the array.
+	Reason: O(N) for putting all the elements into the set data structure. After that for every starting element, we are finding the consecutive elements. Though we are using nested loops, the set will be traversed at most twice in the worst case. So, the time complexity is O(2*N) instead of O(N2).
+	Space Complexity: O(N), as we are using the set data structure to solve this problem.
+----------------------------------------------------------------------------------------
+22) Set Matrix Zero:
+matrix= [1,1,1]               [1,0,1]
+		[1,0,1]     =>        [0,0,0] 
+		[1,1,1]               [1,0,1]
+	Brute Force Appraoch:
+	First, we will use two loops(nested loops) to traverse all the cells of the matrix.
+	If any cell (i,j) contains the value 0, we will mark all cells in row i and column j with -1 except those which contain 0.
+	We will perform step 2 for every cell containing 0.
+	Finally, we will mark all the cells containing -1 with 0.
+	Thus the given matrix will be modified according to the question.
+	
+	void markRow(vector<vector<int>> &matrix, int n, int m, int i) {
+    // set all non-zero elements as -1 in the row i:
+    for (int j = 0; j < m; j++) {
+        if (matrix[i][j] != 0) {
+            matrix[i][j] = -1;
+        }
+    }
+	}
+
+
+	void markCol(vector<vector<int>> &matrix, int n, int m, int j) {
+    // set all non-zero elements as -1 in the col j:
+    for (int i = 0; i < n; i++) {
+        if (matrix[i][j] != 0) {
+            matrix[i][j] = -1;
+        }
+    }
+	}
+
+    vector<vector<int>> zeroMatrix(vector<vector<int>> &matrix, int n, int m) {
+
+    // Set -1 for rows and cols
+    // that contains 0. Don't mark any 0 as -1:
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 0) {
+                markRow(matrix, n, m, i);
+                markCol(matrix, n, m, j);
+            }
+        }
+    }
+
+    // Finally, mark all -1 as 0:
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == -1) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    return matrix;
+	}
+	Time Complexity: O((N*M)*(N + M)) + O(N*M), where N = no. of rows in the matrix and M = no. of columns in the matrix.
+	Reason: Firstly, we are traversing the matrix to find the cells with the value 0. It takes O(N*M). Now, whenever we find any such cell we mark that row and column with -1. This process takes O(N+M). So, combining this the whole process, finding and marking, takes O((N*M)*(N + M)).
+	Another O(N*M) is taken to mark all the cells with -1 as 0 finally.
+	Space Complexity: O(1) as we are not using any extra space.
+	
+	Better Approach:
+	vector<vector<int>> zeroMatrix(vector<vector<int>> &matrix, int n, int m) {
+
+    int row[n] = {0}; // row array
+    int col[m] = {0}; // col array
+
+    // Traverse the matrix:
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 0) {
+                // mark ith index of row wih 1:
+                row[i] = 1;
+
+                // mark jth index of col wih 1:
+                col[j] = 1;
+            }
+        }
+    }
+
+    // Finally, mark all (i, j) as 0
+    // if row[i] or col[j] is marked with 1.
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (row[i] || col[j]) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    return matrix;
+    }
+	Time Complexity: O(2*(N*M)), where N = no. of rows in the matrix and M = no. of columns in the matrix.
+	Reason: We are traversing the entire matrix 2 times and each traversal is taking O(N*M) time complexity.
+	Space Complexity: O(N) + O(M), where N = no. of rows in the matrix and M = no. of columns in the matrix.
+	Reason: O(N) is for using the row array and O(M) is for using the col array.
+	
+-----------------------------------------------------------------------------------------
+23) Rotate Matrix/Image by 90 Degrees:
+[1,2,3]     [7,4,1]
+[4,5,6] =>  [8,5,2]
+[7,8,9]     [9,6,3]
+	Brute Force Approach:
+	vector < vector < int >> rotate(vector < vector < int >> & matrix) {
+    int n = matrix.size();
+    vector < vector < int >> rotated(n, vector < int > (n, 0));
+    for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+        rotated[j][n - i - 1] = matrix[i][j];
+    }
+    }
+    return rotated;
+	Time Complexity: O(N*N) to linearly iterate and put it into some other matrix.
+	Space Complexity: O(N*N) to copy it into some other matrix.
+	
+	Optimal Approach:
+	void rotate(vector < vector < int >> & matrix) {
+    int n = matrix.size();
+    //transposing the matrix: row will become column
+    for (int i = 0; i < n; i++) {
+    for (int j = 0; j < i; j++) {
+        swap(matrix[i][j], matrix[j][i]);
+    }
+    }
+    //reversing each row of the matrix
+    for (int i = 0; i < n; i++) {
+    reverse(matrix[i].begin(), matrix[i].end());
+    }
+	}
+	Time Complexity: O(N*N) + O(N*N).One O(N*N) is for transposing the matrix and the other is for reversing the matrix.
+	Space Complexity: O(1).
+-------------------------------------------------------------------------------
+24) Spiral Traversal of a Matrix:
+Input: Matrix[][] = 
+1, 2,  3,  4 
+5, 6,  7,  8   =>  1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10
+9, 10, 11, 12
+13,14, 15, 16 
+
+
+
+
+-------------------------------------------------------------------------------
+25) Count Subarray sum Equals K
+N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
+Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
+	Optimal Approach:
+	int subarrayCountSumEqualsK(vector<int>& a, long long k) {
+    int n = a.size(); // size of the array.
+
+    int left = 0, right = 0; // 2 pointers
+    long long sum = a[0];
+    int maxLen = 0;
+    int subArrayCount=0;
+    while (right < n) {
+        // if sum > k, reduce the subarray from left
+        // until sum becomes less or equal to k:
+        while (left <= right && sum > k) {
+            sum -= a[left];
+            left++;
+        }
+
+        // if sum = k, update the maxLen i.e. answer:
+        if (sum == k) {
+            subArrayCount++;
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        // Move forward thw right pointer:
+        right++;
+        if (right < n) sum += a[right];
+    }
+
+    return subArrayCount;
+	}
+	Time Complexity: O(2*N), where N = size of the given array.
+	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
+	Space Complexity: O(1) as we are not using any extra space.
+-----------------------------------------------------------------------------------------
+Hard problems pending	
