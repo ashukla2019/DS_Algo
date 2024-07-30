@@ -1,14 +1,13 @@
-                                                  DSA Topics 
-                                                      |         
-               Data Structures                      Algorithms                 Problem Solving techniques
-   Linear                       Non Linear          Sorting                    Two pointers 
-   Array                         Trees              Binary Search              Sliding Window
-   LinkedList                    BST                Bit manipulation           Prefix sum
-   Stack                         Heaps              Inorder                    Fast & slow pointers 
-   Queues                        Graphs             Preorder                   Divide & Conquer
-   Hash tables                   Trie               Postorder                  Greedy
-                                                    Level order                Recursion
-                                                    DFS/BFS                    Backtracking 
-                                                    Topoligical sort           Dynamic programming
-                                                    Dijkstra                   Top K elements
-                                                    Bellman ford
+DSA Topics 
+    Data Structures:  
+        Linear: Array, LinkedList, Stack, Queue, Hash tables
+        Non Linear: Tree, BST, HEAPS, Graphs, Trie
+
+    Algorithms: Sorting, Binary Search, Bit manipulation, Inorder, Preorder, Postorder, Level order, DFS, BFS
+                Topological sort, Dijkstra, Bellman ford
+
+    Problem Solving techniques: Two pointers, Sliding window, Prefix sum, Fast & slow pointers, Divide & Conquer, Greedy, Recursion
+                                Backtracking, Dynamic Programming, Top K elements
+      
+    
+   
