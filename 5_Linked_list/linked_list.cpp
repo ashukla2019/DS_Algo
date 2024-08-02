@@ -802,3 +802,255 @@ Node* findLoopStartingPoint(Node *head)
 	return NULL;
 }
 -----------------------------------------------------------------------------
+17) Delete all occurances of key: A doubly-linked list is a data structure that consists of sequentially 
+linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence
+of nodes. You’re given a doubly-linked list and a key 'k'.
+Delete all the nodes having data equal to ‘k’.
+
+Example:
+Input: Linked List: 10 <-> 4 <-> 10 <-> 3 <-> 5 <-> 20 <-> 10 and ‘k’ = 10
+Output: Modified Linked List: 4 <-> 3 <-> 5 <-> 20
+Explanation: All the nodes having ‘data’ = 10 are removed from the linked list.
+
+Node * deleteAllOccurrences(Node* head, int k) {
+	Node *temp=head;
+
+    while(temp != NULL) 
+    {
+		if (temp->data == k)
+        {
+			//If this is head of DLL, head will be updated post deletion
+			if (temp == head) 
+			{
+				head=temp->next;
+			}
+			//Two pointers nextNode and prevNode are required to set linking(prev and next)
+			Node* nextNode = temp->next;
+			Node* prevNode = temp->prev;
+			
+			//Since, we are going to delete temp, will set nextNode->prev and prevNode->next correctly
+			if(nextNode != NULL)
+			{
+				nextNode->prev=prevNode;
+			}
+			if(prevNode != NULL)
+			{
+				prevNode->next=nextNode;
+			}
+			free(temp);
+			temp = nextNode;
+		}
+		else
+		{
+			temp = temp->next;
+		}
+	}
+        
+    return head;
+}
+--------------------------------------------------------------------------------
+18) Merge two sorted linked list:
+You are given two sorted linked lists. You have to merge them to produce a combined sorted linked list.
+You need to return the head of the final linked list.
+Note: The given linked lists may or may not be null.
+For example:
+If the first list is: 1 -> 4 -> 5 -> NULL and the second list is: 2 -> 3 -> 5 -> NULL
+The final list would be: 1 -> 2 -> 3 -> 4 -> 5 -> 5 -> NULL
+
+Node* sortTwoLinkedLists(Node* list1, Node* list2) {
+    // Create a dummy node to serve
+    // as the head of the merged list
+    Node* dummyNode = new Node(-1);
+    Node* temp = dummyNode;
+
+    // Traverse both lists simultaneously
+    while (list1 != nullptr && list2 != nullptr) {
+        // Compare elements of both lists and
+        // link the smaller node to the merged list
+        if (list1->data <= list2->data) {
+            temp->next = list1; //temp->next is pointing to list1{dummy node(-1)->1)
+			temp = list1; //Move temp to list1{temp is moved to node 1 of list1
+            list1 = list1->next;
+        } else {
+            temp->next = list2;
+			temp = list2;
+            list2 = list2->next;
+        }
+        
+    }
+
+    // If any list still has remaining
+    // elements, append them to the merged list
+    if (list1 != nullptr) {
+        temp->next = list1;
+    } else {
+        temp->next = list2;
+    }
+    // Return the merged list starting 
+    // from the next of the dummy node
+    return dummyNode->next;
+}
+
+//Understanding:
+1 -> 4 -> 5 -> NULL
+2 -> 3 -> 5 -> NULL
+Merged-> dummy->1->2->3->4->5->5->NULL
+
+Time Complexity: O(N1+N2) where N1 is the number of nodes in the first linked list and N1 in the second linked list as we traverse both linked lists in a single pass for merging without any additional loops or nested iterations.
+Space Complexity : O(1) as no additional data structures or space is allocated for storing data, only a constant space for pointers to maintain for traversing the linked list.
+-----------------------------------------------------------------------------------
+19) Flattening a LinkedList:
+3-->2->1-->4-->5             1
+   10  7   9   6     =>      2
+       11      8             3
+	   12                    4 
+	                         5
+                             6
+                             7
+                             8
+                             9
+                             10
+							 11
+							 12
+// Merges two linked lists in a particular
+// order based on the data value
+Node* merge(Node* list1, Node* list2){
+    // Create a dummy node as a
+    // placeholder for the result
+    Node* dummyNode = new Node(-1);
+    Node* temp = dummyNode;
+
+    // Merge the lists based on data values
+    while(list1 != NULL && list2 != NULL){
+        if(list1->data < list2->data){
+            temp->child = list1; 
+			temp = list1;
+            list1 = list1->child;
+        }
+        else{
+            temp->child = list2;
+			temp = list2;
+            list2 = list2->child;
+        }
+        temp->next=NULL; //For every added temp, next would be null
+    }
+
+    // Connect the remaining
+    // elements if any
+    if(list1){
+        temp->child = list1;
+    } else {
+        temp->child = list2;
+    }
+
+    return dummyNode->child;
+}
+
+// Flattens a linked list with child pointers
+Node* flattenLinkedList(Node* head) //flattenLinkedList(3)->flattenLinkedList(2/10)->flattenLinkedList(1/7/11/12)->flattenLinkedList(5/6/8)
+{
+    // If head is null or there 
+    // is no next node, return head
+    if(head == NULL || head->next == NULL){ //when list with head 5 is passed, 5->next would be null 
+        return head; //Address of node with head 5 would be returned to call with head 4
+    }
+
+    // Recursively flatten the
+    // rest of the linked list
+    Node* nextHead = flattenLinkedList(head->next);
+    head = merge(head, nextHead); //merge(4/9, 5/6/8) will be passed to merge function, new head after merge would be returned of merged list(4/5/6/8/9)
+    return head;
+}
+--------------------------------------------------------------------------
+20) Sort linkedlist using merged sort:
+// Function to merge two sorted linked lists
+Node* mergeTwoSortedLinkedLists(Node* list1, Node* list2) {
+    // Create a dummy node to serve
+    // as the head of the merged list
+    Node* dummyNode = new Node(-1);
+    Node* temp = dummyNode;
+
+    // Traverse both lists simultaneously
+    while (list1 != nullptr && list2 != nullptr) {
+        // Compare elements of both lists and
+        // link the smaller node to the merged list
+        if (list1->data <= list2->data) {
+            temp->next = list1;
+            list1 = list1->next;
+        } else {
+            temp->next = list2;
+            list2 = list2->next;
+        }
+        // Move the temporary pointer
+        // to the next node
+        temp = temp->next; 
+    }
+
+    // If any list still has remaining
+    // elements, append them to the merged list
+    if (list1 != nullptr) {
+        temp->next = list1;
+    } else {
+        temp->next = list2;
+    }
+    // Return the merged list starting 
+    // from the next of the dummy node
+    return dummyNode->next;
+}
+
+// Function to find the middle of a linked list
+Node* findMiddle(Node* head){
+    // If the list is empty or has only one node
+    // the middle is the head itself
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    }
+
+    // Initializing slow and fast pointers
+    Node* slow = head;
+    Node* fast = head->next;
+
+    // Move the fast pointer twice as fast as the slow pointer
+    // When the fast pointer reaches the end, the slow pointer
+    // will be at the middle
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    return slow;
+}
+
+// Function to perform merge sort on a linked list
+Node* sortLL(Node* head){
+    // Base case: if the list is empty or has only one node
+    // it is already sorted, so return the head
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    }
+    
+    // Find the middle of the list using the findMiddle function
+    Node* middle = findMiddle(head);
+    
+    // Divide the list into two halves
+    Node* right = middle->next;
+    middle->next = nullptr;
+    Node* left = head;
+    
+    // Recursively sort the left and right halves
+    left = sortLL(left);
+    right = sortLL(right);
+    
+    // Merge the sorted halves using the mergeTwoSortedLinkedLists function
+    return mergeTwoSortedLinkedLists(left, right);
+}
+3-->4-->2-->1-->5-->NULL								
+	        / \	
+3->4->2->NULL  1->5->NULL 
+    /         \
+   3->4->NULL  2->NULL	
+  /     \       
+3->NULL 4->NULL
+-------------------------------------------------------------------------------
+21) Remove duplicates from sorted DLL: 
+
