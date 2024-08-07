@@ -687,20 +687,17 @@ A// A user defined stack that supports getMin() in
 struct MyStack {
     stack<int> s;
     int minEle;
- 
     // Prints minimum element of MyStack
     void getMin()
     {
         if (s.empty())
             cout << "Stack is empty\n";
- 
         // variable minEle stores the minimum element
         // in the stack.
         else
             cout << "Minimum Element in the stack is: "
                  << minEle << "\n";
     }
- 
     // Prints top element of MyStack
     void peek()
     {
@@ -708,16 +705,12 @@ struct MyStack {
             cout << "Stack is empty ";
             return;
         }
- 
         int t = s.top(); // Top element.
- 
         cout << "Top Most Element is: ";
- 
         // If t < minEle means minEle stores
         // value of t.
         (t < minEle) ? cout << minEle : cout << t;
     }
- 
     // Remove the top element from MyStack
     void pop()
     {
@@ -725,22 +718,18 @@ struct MyStack {
             cout << "Stack is empty\n";
             return;
         }
- 
         cout << "Top Most Element Removed: ";
         int t = s.top();
         s.pop();
- 
         // Minimum will change as the minimum element
         // of the stack is being removed.
         if (t < minEle) {
             cout << minEle << "\n";
             minEle = 2 * minEle - t;
         }
- 
         else
             cout << t << "\n";
     }
- 
     // Removes top element from MyStack
     void push(int x)
     {
@@ -751,16 +740,13 @@ struct MyStack {
             cout << "Number Inserted: " << x << "\n";
             return;
         }
- 
         // If new number is less than minEle
         else if (x < minEle) {
             s.push(2 * x - minEle);
             minEle = x;
         }
- 
         else
             s.push(x);
- 
         cout << "Number Inserted: " << x << "\n";
     }
 };
@@ -769,8 +755,7 @@ struct MyStack {
 int main()
 {
     MyStack s;
-   
-      // Function calls
+    // Function calls
     s.push(3);
     s.push(5);
     s.getMin();
@@ -787,3 +772,128 @@ int main()
 Time Complexity: O(1)
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------------
+11) Next Greater Element Using Stack:
+Example 1: 
+Input: N = 5, A[] = {6,0,8,1,3}
+Output: 8,8,-1,3,-1
+
+Approach: 
+1) Start iterating array from last(n-1)th index and check if stack is not empty and stack.top() does not 
+have greater element than current element, then pop out all elements until you get greater element.
+2) If stack is not empty means defenitly, stack has greater element than current element, update answer with stack.top()
+3) 
+
+vector<int> nextGreaterElement(vector<int>& nums, int n)
+{
+    //Vector to store nextGreaterElement array
+	vector<int> ans(n,-1);
+	stack<int> st;
+	for (int i = n - 1; i >= 0; i--) 
+	{
+		//if stack is not empty and stack.top() is less than current index data then 
+		//do stack.pop() utnitl we get greater element in stack or stack becomes empty
+		while (!st.empty() && st.top() <= nums[i])
+		{
+			st.pop(); //can remove n elements at max => O(n)
+		}
+		//Now update ans array with stack.top(), as it's next greater element
+		if (!st.empty())
+		{
+			ans[i] = st.top();
+		}
+		//push array element to stack...
+		st.push(nums[i]); //can push n elements at max => O(n)
+	}
+	return ans;
+}  
+TC-> O(2n)
+SC-> O(n)+ O(n) //n for stack + n for vector
+--------------------------------------------------------------------------
+12) Next Greater Element Using Stack-II:
+Input: N = 5, A[] = {2,10,12,1,11}
+Output: 10,12,-1,11,12
+
+Approach: {2,10,12,1,11} => Take double of array so that it can have view till whole array elements and 
+that will be ok for circular view.
+2,10,12,1,11 | 2,10,12,1,11
+Start checking elements from (2N-1)th index but don't add next greater element in answer vector.
+only update the stack for putting only greater element in stack to than current element.
+
+vector<int> nextGreaterElements(vector<int>& a) {
+	int n = a.size();
+    vector<int>ans(n,-1);
+    stack<int>st;
+    for(int i = 2*n - 1; i >= 0; i--)
+    {
+		//we pop out all elements smaller than current element
+        while(!st.empty() && (a[i%n] >= st.top()))
+        {
+			st.pop();   //can remove 2n elements at max => O(2n)
+        }
+        // if stack is empty means no greater element is there
+        // if not empty we make answer at that index equal to top element
+        if(!st.empty() && (i < n))
+        {
+			ans[i] = st.top();
+        }
+		//from 2*n-1 to n(9 to 4) will store only 
+        st.push(a[i%n]); //can push 2n elements at max => O(2n)
+    }
+    return ans;
+}
+TC-> O(4n)
+SC-> O(2n)+ O(n) //2n for stack + n for vector
+--------------------------------------------------------------------------------
+13) Previous smaller element:
+arr[]={4,5,2,10,8};
+
+vector<int> nextSmallerElement(vector<int>& nums, int n)
+{
+    //Vector to store nextGreaterElement array
+	vector<int> ans(n,-1);
+	stack<int> st;
+	for (int i = 0; i<0; i++) 
+	{
+		//if stack is not empty and stack.top() is greater than current index data then 
+		//do stack.pop() utnitl we get smaller element in stack or stack becomes empty
+		while (!st.empty() && st.top() >= nums[i])
+		{
+			st.pop(); //can remove n elements at max => O(n)
+		}
+		//Now update ans array with stack.top(), as it's next smaller element
+		if (!st.empty())
+		{
+			ans[i] = st.top();
+		}
+		//push array element to stack...
+		st.push(nums[i]); //can push n elements at max => O(n)
+	}
+	return ans;
+}  
+TC-> O(2n)
+SC-> O(n)+ O(n) //n for stack + n for vector
+--------------------------------------------------------------------------
+14) Trapping Rainwater:(Hard)
+Given n non-negative integers representing an elevation map where the width of each bar is 1, 
+compute how much water it can trap after raining.
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+                     3
+         2          |--|2     2
+   1    |--|1     1 |  |--|1 |--|1
+0 |--|  |  |--|  |--|  |  |--|  |--|
+--|--|--|--|--|--|--|--|--|--|--|--|
+
+Approach:
+min(leftMax, rightmax) - arr[i]
+
+----pending
+
+
+
+
+
+
+-------------------------------------------------------------------------------------
+15) 
