@@ -873,7 +873,181 @@ vector<int> nextSmallerElement(vector<int>& nums, int n)
 TC-> O(2n)
 SC-> O(n)+ O(n) //n for stack + n for vector
 --------------------------------------------------------------------------
-14) Trapping Rainwater:(Hard)
+15) Sum of Subarray Minimum: Given an array of integers arr, find the sum of min(b), where b ranges 
+over every (contiguous) subarray of arr. Since the answer may be large, return the answer 
+modulo 109 + 7.
+
+arr[]={3,1,2,4}
+subarray starts with 3: {3} => min = 3, {3,1}=> min = 1, {3,1,2}=> min = 1, {3,1,2,4}=> min = 1
+subarray starts with 1: {1}=> min = 1, {1,2}=> min = 1, {1,2,4}=> min = 1
+subarray starts with 2: {2}=> min = 2, {2,4}=> min = 2
+subarray starts with 4: {4}=> min = 4
+sum(3,1,1,1,1,1,1,2,2,4)=17
+
+Approach:  2 9 7 8 3 4 6 1 => If we consider element 3 then we need to find  subarrays having 3 and 3
+should be minimum:
+{9,7,8,3}, {9,7,8,3,4}, {9,7,8,3,4,6}, {7,8,3}, {7,8,3,4},{7,8,3,4,6}, {8,3}, {8,3,4}, {8,3,4,6},
+	{3}, {3,4}, {3,4,6} => total 12 subarray having 3 as minimum 
+	we need to find previous smaller element of 3 and next smaller element of 3, because until we get smaller
+	than 3 at left or right side, we can consider all those 3s in result.
+	
+	int sumSubarrayMins(vector<int>& arr) {
+        int M = 1e9+7;
+        long long int ans = 0;
+        stack<int> s;
+        vector<int> left(arr.size()), right(arr.size());
+
+        // Calculate left
+        for(int i = 0; i < arr.size(); i++){
+            while(!s.empty() && arr[s.top()] > arr[i]) {
+                s.pop();
+            }
+            left[i] = (s.empty()) ? -1 : s.top();
+            s.push(i);
+        }
+
+        // Clear stack
+        while(!s.empty()) {
+            s.pop();
+        }
+
+        // Calculate right
+        for(int i = arr.size()-1; i >= 0; i--){
+            while(!s.empty() && arr[s.top()] >= arr[i]) {
+                s.pop();
+            }
+            right[i] = (s.empty()) ? arr.size() : s.top();
+            s.push(i);
+        }
+
+        // Calculate answer
+        for(int i = 0; i < arr.size(); i++){
+            ans = (ans + (long long)arr[i]*(i-left[i])*(right[i]-i)) % M;
+        }
+
+        return (int)ans;
+    }
+Time complexity:O(n)
+Space complexity:O(n)
+--------------------------------------------------------------------------------
+16) Sum of subarray ranges: You are given an integer array nums. The range of a subarray of nums
+is the difference between the largest and smallest element in the subarray.
+Return the sum of all subarray ranges of nums.
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+Example 1:
+Input: nums = [1,2,3]
+Output: 4
+Explanation: The 6 subarrays of nums are the following:
+[1], range = largest - smallest = 1 - 1 = 0 
+[2], range = 2 - 2 = 0
+[3], range = 3 - 3 = 0
+[1,2], range = 2 - 1 = 1
+[2,3], range = 3 - 2 = 1
+[1,2,3], range = 3 - 1 = 2
+So the sum of all ranges is 0 + 0 + 0 + 1 + 1 + 2 = 4.
+
+long long subArrayRanges(vector<int>& nums) {
+        stack<int> increaseStk;
+        stack<int> decreaseStk;
+        int n = nums.size();
+        vector<int> leftLess(n);
+        vector<int> rightLess(n);
+        vector<int> leftLarger(n);
+        vector<int> rightLarger(n);
+        // 1. Initialize
+        for(int i=0; i<n; i++){
+            leftLess[i] = leftLarger[i] = i+1;
+            rightLess[i] = rightLarger[i] = n-i;            
+        }
+        // 2. Find leftLess and rightLess
+        for(int i=0; i<n; i++){
+            while(!increaseStk.empty() && nums[increaseStk.top()] > nums[i]){
+                rightLess[increaseStk.top()] = i - increaseStk.top();
+                increaseStk.pop();
+            }
+            leftLess[i] = increaseStk.empty() ? i + 1 : i - increaseStk.top();
+            increaseStk.push(i);
+        }
+        // 3. Find leftLarger and rightLarger
+        for(int i=0; i<n; i++){
+            while(!decreaseStk.empty() && nums[decreaseStk.top()] < nums[i]){
+                rightLarger[decreaseStk.top()] = i - decreaseStk.top();
+                decreaseStk.pop();
+            }
+            leftLarger[i] = decreaseStk.empty() ? i + 1 : i - decreaseStk.top();
+            decreaseStk.push(i);
+        }
+        // 4. accumulate sum of (larger - less) of nums[i]
+        long long sum = 0;
+        for(int i=0; i<n; i++){
+            long long curDiff = leftLarger[i]*rightLarger[i] - leftLess[i]*rightLess[i];
+            sum += nums[i] * curDiff;
+        }
+        return sum;
+      
+    }
+------------------------------------------------------------------------------
+17) Aestroid Collisions: We are given an array asteroids of integers representing asteroids in a row.
+For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
+Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+
+Example 1:
+Input: asteroids = [5,10,-5]
+Output: [5,10]
+Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
+
+Approach: Iterate through all elements of array:
+case 1: if positive element is found then push it to stack
+case 2: if not positive: 
+		while stack is not empty and stack.top is positive 
+		and current stack's abs value greater than stack.top(means current element is negative and greater than 
+		stack.top()=> it will destroy positive value on stack.top()), then pop the elements from stack.
+case 3: If stack is not empty and current element is same as stack.top() then pop stack.top()
+case 4: If stack is empty or stack.top() is negative, push element in stack.		
+
+vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> ans;
+        // Loop through all asteroids
+        for (int asteroid : asteroids) {
+            // If asteroid is moving to the right (positive), add it to the stack.
+            if (asteroid > 0) {
+                ans.push_back(asteroid);
+            } else {
+                // While there are asteroids in the stack moving to the right (positive) 
+                // and the current asteroid is larger (negative magnitude comparison)
+                while (!ans.empty() && ans.back() > 0 && ans.back() < -asteroid) {
+                    ans.pop_back(); // Pop the smaller asteroids as they are destroyed
+                }
+                // If the top asteroid on the stack is the same size (opposite direction),
+                // Both asteroids destroy each other, pop the top asteroid from the stack.
+                if (!ans.empty() && ans.back() == -asteroid) {
+                    ans.pop_back();
+                } else if (ans.empty() || ans.back() < 0) {
+                    // If the stack is empty or the top asteroid is moving to the left (negative),
+                    // Add the current asteroid to the stack, since no collision will happen.
+                    ans.push_back(asteroid);
+                } // If none of the above cases, the current asteroid is destroyed
+            }
+        }
+        return ans; // Return the state of the stack after all collisions
+    }
+
+-----------------------------------------------------------------------------
+Online Stock Span
+
+
+--------------------------------------------------------------------------
+LRU Cache
+
+--------------------------------------------------------------------------
+Celebrity problem
+
+
+-------------------------------Hard------------------------------------------------------
+----------------------------------------------------------------------------------
+
+Trapping Rainwater:(Hard)
 Given n non-negative integers representing an elevation map where the width of each bar is 1, 
 compute how much water it can trap after raining.
 Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
@@ -890,10 +1064,16 @@ min(leftMax, rightmax) - arr[i]
 
 ----pending
 
+----------------------------------------------------------------
+Largest Histogram:
+
+
+-------------------------------------------------------------------
+Maximal Rectangle
+
+----------------------------------------------------------------------
+Sliding Window Maximum
 
 
 
-
-
--------------------------------------------------------------------------------------
-15) 
+-------------------------------------------------------------------
