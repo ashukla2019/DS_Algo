@@ -153,6 +153,158 @@ arr[1,1,2,2,2,3,3] => arr[1,2,3,_,_,_,_]
   	return i + 1;
   	Time Complexity: O(N)
 	Space Complexity: O(1)
+------------------------------------------------------------------------
+5) Find the Duplicate Number:
+Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+There is only one repeated number in nums, return this repeated number.
+You must solve the problem without modifying the array nums and uses only constant extra space.
+
+Example 1:
+Input: nums = [1,3,4,2,2]
+Output: 2
+
+Example 2:
+Input: nums = [3,1,3,4,2]
+Output: 3
+
+Example 3:
+Input: nums = [3,3,3,3,3]
+Output: 3
+	Approach 1: Using hashmap:
+	vector<int> duplicates(long long arr[], int n) {
+	  
+		// Step 1: Create an empty unordered map to store
+		// element frequencies
+		unordered_map<long long, int> freqMap;
+		vector<int> result;
+
+		// Step 2: Iterate through the array and count element frequencies
+		for (int i = 0; i < n; i++) {
+			freqMap[arr[i]]++;
+		}
+
+		// Step 3: Iterate through the hashmap to find duplicates
+		for (auto& entry : freqMap) {
+			if (entry.second > 1) {
+				result.push_back(entry.first);
+			}
+		}
+
+		// Step 4: If no duplicates found, add -1 to the result
+		if (result.empty()) {
+			result.push_back(-1);
+		}
+	  
+		// step 5: sort the result
+		sort(result.begin(),result.end());
+	  
+		// Step 6: Return the result vector containing
+		// duplicate elements or -1
+		return result;
+	}
+
+	int main() {
+		long long a[] = {1, 6, 5, 2, 3, 3, 2};
+		int n = sizeof(a) / sizeof(a[0]);
+		
+		vector<int> duplicates_found = duplicates(a, n);
+		
+		cout << "Duplicate elements: ";
+		for (int element : duplicates_found) {
+			cout << element << " ";
+		}
+		cout << endl;
+		
+		return 0;
+	}
+	Time Complexity: O(n Log n), Two traversals are needed. And then sorting. We can avoid sorting and have the time complexity as O(n) if order is not required.
+	Auxiliary Space: O(n), The extra space is used for the hash and array to be returned.
+
+	Approach 2: Linked List cycle method
+	int findDuplicate(vector < int > & nums) {
+  int slow = nums[0];
+  int fast = nums[0];
+  do {
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+  } while (slow != fast);
+  fast = nums[0];
+  while (slow != fast) {
+    slow = nums[slow];
+    fast = nums[fast];
+  }
+  return slow;
+}
+int main() {
+  vector < int > arr;
+  arr = {1,3,4,2,3};
+  cout << "The duplicate element is " << findDuplicate(arr) << endl;
+}
+Time complexity: O(N). Since we traversed through the array only once.
+Space complexity: O(1).	
+
+-----------------------------------------------------------------------
+Find All Duplicates in an Array	
+Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.
+You must write an algorithm that runs in O(n) time and uses only constant auxiliary space, excluding the space needed to store the output
+Example 1:
+
+Input: nums = [4,3,2,7,8,2,3,1]
+Output: [2,3]
+Example 2:
+
+Input: nums = [1,1,2]
+Output: [1]
+Example 3:
+
+Input: nums = [1]
+Output: []
+
+	Approach 1: Using map
+	vector<int> findDuplicates(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<int> duplicates;
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i] == nums[i - 1]) {
+                duplicates.push_back(nums[i]);
+        }
+    }
+        return duplicates;
+    }
+	TC = O(n) 
+	SC = O(n)
+	
+	Approach 2: Using sorting
+	vector<int> findDuplicates(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<int> duplicates;
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i] == nums[i - 1]) {
+                duplicates.push_back(nums[i]);
+        }
+    }
+        return duplicates;
+    }
+    TC = O(n log n) 
+	SC = 0(1)
+	
+	Appraoch 3: Using pointers:
+	vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> ans; // The space required by the result vector is proportional to the number of duplicates found, which can be at most n/2.
+        //However, since we are not counting the space used by the input array itself, the space complexity is considered to be constant, O(1).
+        for (int i = 0 ;i<nums.size();i++ ){
+            int k = abs(nums[i])-1;  //doing -1 because length = n => index from 0 to n-1  and range of numbers = [1,n] 
+            if(nums[k]<0){ //if value at the index is negative => already visited
+                ans.push_back(abs(nums[i]));
+            } 
+            else{
+                nums[k]*= -1; //marking as visited
+            }
+        }
+        return ans;
+    }
+	TC = O(n)
+	SC = O(1)
 -------------------------------------------------------------------------------------------
 5) Left rotate an array by one index:
  N = 5, array[] = {1,2,3,4,5} => {2,3,4,5,1};
@@ -528,6 +680,55 @@ arr[] = {2,2,1}, Result: 1
 	Reason: We are iterating the array only once.
 	Space Complexity: O(1) as we are not using any extra space.
 ---------------------------------------------------------------------------------------------------
+Two Sum:
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+You can return the answer in any order.
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+	Approach 1: Brute Force:
+	vector<int> twoSum(vector<int>& nums, int target) {
+    for (int i = 0; i < nums.size(); i++) {
+        for (int j = i + 1; j < nums.size(); j++) {
+            if (nums[i] + nums[j] == target) {
+                return {i, j};
+            }
+        }
+    }
+    return {};
+  }
+  Time Complexity: O(n²), In the worst case, for each element in the array, we iterate through the rest of the array to find the complement. With n as the number of elements, we perform roughly n * (n-1) / 2 comparisons, resulting in a time complexity of O(n²).
+  Space Complexity: O(1), No additional data structures (like arrays or hash maps) are used, and the extra space required does not depend on the size of the input array, hence the space complexity is constant, O(1).
+
+	Approach 2: Hashing
+	vector<int> twoSum(vector<int>& nums,   int target) {
+    unordered_map<int, int> numMap;
+    for (int i = 0; i < nums.size(); i++) {
+        numMap[nums[i]] = i;
+    }
+    for (int i = 0; i < nums.size(); i++) {
+        int complement = target - nums[i];
+        if (numMap.count(complement) && numMap[complement] != i) {
+            return {i, numMap[complement]};
+        }
+    }
+    return {};
+  }
+  Time Complexity: O(n), We perform two separate iterations through the array. In the first iteration, we add each element and its index to a hash map, which takes O(n) time. In the second iteration, we check for each element’s complement in the hash map, which again takes O(n) time. So, the total time complexity is O(n) + O(n), which is O(n).
+  Space Complexity: O(n), We use a hash map to store the elements and their indices. In the worst case, the hash map stores all the n elements of the array, leading to a space complexity of O(n).
+----------------------------------------------------------------------------
 13) Longest subarray with K sum:
 Input Format: N = 3, k = 5, array[] = {2,3,5}, Result: 2, Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
 	Subarray: Contiguous part of array Ex:{2,3}, {3,5}, {2,3,5}
@@ -670,7 +871,7 @@ arr[]={2,6,5,8,11}, target=14
 	Time Complexity: O(N) + O(N*logN), where N = size of the array
 	Space Complexity: O(1) as we use the map data structure
 --------------------------------------------------------------------------------
-15) Sort an array of 0,1 &2:
+15) Sort an array of 0,1 &2/sort colors:
 nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 
 	Brute Force Approach:
@@ -1008,6 +1209,51 @@ arr[] = {7,1,5,3,6,4};
 		minimum = min(minimum, arr[i]);
 	}
 	return maxprofit;
+	
+----------------------------------------------------------------------
+Best Time to Buy and Sell Stock II
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+Find and return the maximum profit you can achieve.
+Example 1:
+Input: prices = [7,1,5,3,6,4]
+Output: 7
+Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+Total profit is 4 + 3 = 7.
+
+Example 2:
+Input: prices = [1,2,3,4,5]
+Output: 4
+Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+Total profit is 4.
+
+Example 3:
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
+
+int maxProfit(vector<int>& nums) {
+        int n = nums.size();
+        int ans=0;
+        int mx=nums[0];
+        int mn=nums[0];
+
+        for(int i=1;i<n;){
+            while(i<n && nums[i]>=nums[i-1]){
+                mx=nums[i];
+                i++;
+            }
+            ans+=mx-mn;
+            while(i<n && nums[i]<=nums[i-1]){
+                mn=nums[i];
+                i++;
+            }
+        }
+        return ans;
+    }
+	Time complexity: O(n)
+	Space complexity: O(1) 	
 -----------------------------------------------------------------------------------------------------
 20) Leaders in an Array: Given an array, print all the elements which are leaders. 
 A Leader is an element that is greater than all of the elements on its right side in the array.	
@@ -1128,6 +1374,84 @@ arr[]= [100, 200, 1, 3, 2, 4], Output:  4, Explanation:  The longest consecutive
 	Time Complexity: O(N) + O(2*N) ~ O(3*N), where N = size of the array.
 	Reason: O(N) for putting all the elements into the set data structure. After that for every starting element, we are finding the consecutive elements. Though we are using nested loops, the set will be traversed at most twice in the worst case. So, the time complexity is O(2*N) instead of O(N2).
 	Space Complexity: O(N), as we are using the set data structure to solve this problem.
+-----------------------------------------------------------------------
+Two Sum:
+
+
+------------------------------------------------------------------------
+Chocolate Distribution Problem:
+Given an array of N integers where each value represents the number of chocolates
+in a packet. Each packet can have a variable number of chocolates. 
+There are m students, the task is to distribute chocolate packets such that: 
+
+Each student gets one packet.
+The difference between the number of chocolates in the packet with maximum chocolates and the packet with minimum chocolates given to the students is minimum.
+Examples:
+
+Input : arr[] = {7, 3, 2, 4, 9, 12, 56} , m = 3 
+Output: Minimum Difference is 2 
+Explanation:
+We have seven packets of chocolates and we need to pick three packets for 3 students 
+If we pick 2, 3 and 4, we get the minimum difference between maximum and minimum packet sizes.
+
+Input : arr[] = {3, 4, 1, 9, 56, 7, 9, 12} , m = 5 
+Output: Minimum Difference is 6 
+
+Input : arr[] = {12, 4, 7, 9, 2, 23, 25, 41, 30, 40, 28, 42, 30, 44, 48, 43, 50} , m = 7 
+Output: Minimum Difference is 10 
+
+// C++ program to solve chocolate distribution
+// problem
+#include <bits/stdc++.h>
+using namespace std;
+
+// arr[0..n-1] represents sizes of packets
+// m is number of students.
+// Returns minimum difference between maximum
+// and minimum values of distribution.
+int findMinDiff(int arr[], int n, int m)
+{
+	// if there are no chocolates or number
+	// of students is 0
+	if (m == 0 || n == 0)
+		return 0;
+
+	// Sort the given packets
+	sort(arr, arr + n);
+
+	// Number of students cannot be more than
+	// number of packets
+	if (n < m)
+		return -1;
+
+	// Largest number of chocolates
+	int min_diff = INT_MAX;
+
+	// Find the subarray of size m such that
+	// difference between last (maximum in case
+	// of sorted) and first (minimum in case of
+	// sorted) elements of subarray is minimum.
+
+	for (int i = 0; i + m - 1 < n; i++) {
+		int diff = arr[i + m - 1] - arr[i];
+		if (diff < min_diff)
+			min_diff = diff;
+	}
+	return min_diff;
+}
+
+int main()
+{
+	int arr[] = { 12, 4, 7, 9, 2, 23, 25, 41, 30,
+				40, 28, 42, 30, 44, 48, 43, 50 };
+	int m = 7; // Number of students
+	int n = sizeof(arr) / sizeof(arr[0]);
+	cout << "Minimum difference is "
+		<< findMinDiff(arr, n, m);
+	return 0;
+}
+Time Complexity: O(N*log(N))
+Auxiliary Space: O(1)
 ----------------------------------------------------------------------------------------
 22) Set Matrix Zero:
 matrix= [1,1,1]               [1,0,1]
@@ -1148,8 +1472,6 @@ matrix= [1,1,1]               [1,0,1]
         }
     }
 	}
-
-
 	void markCol(vector<vector<int>> &matrix, int n, int m, int j) {
     // set all non-zero elements as -1 in the col j:
     for (int i = 0; i < n; i++) {
@@ -1306,5 +1628,130 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Time Complexity: O(2*N), where N = size of the given array.
 	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
 	Space Complexity: O(1) as we are not using any extra space.
+------------------------------------------------------------------------
+Subarray Sums Divisible by K
+Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
+A subarray is a contiguous part of an array.
+Example 1:
+
+Input: nums = [4,5,0,-2,-3,1], k = 5
+Output: 7
+Explanation: There are 7 subarrays with a sum divisible by k = 5:
+[4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
+Example 2:
+
+Input: nums = [5], k = 9
+Output: 0
+	
+	int subarraysDivByK(vector<int>& nums, int k) {
+        // Array to store the frequency of remainders
+        vector<int> remainderList(k, 0);
+        // Variable to store the cumulative sum
+        int sum = 0;
+        // Variable to count the number of subarrays divisible by k
+        int count = 0;
+        // Initialize remainderList[0] to 1 to handle subarrays directly divisible by k
+        remainderList[0] = 1;
+
+        // Traverse through the array
+        for (int i = 0; i < nums.size(); ++i) {
+            // Update the cumulative sum
+            sum += nums[i];
+
+            // Calculate the remainder of the cumulative sum divided by k
+            int rem = sum % k;
+
+            // If the remainder is negative, adjust it to be positive
+            if (rem < 0) {
+                rem += k;
+            }
+
+            // Add the frequency of the current remainder to the count
+            count += remainderList[rem];
+
+            // Increment the frequency of the current remainder in the remainderList
+            remainderList[rem]++;
+        }
+
+        // Return the count of subarrays divisible by k
+        return count;
+    }
+	Time complexity: O(n), We traverse the array once, and each operation (updating and accessing the array) takes constant time.
+	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
+-----------------------------------------------------------------------
+Merge Sorted Array:
+You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+Example 1:
+
+Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+Output: [1,2,2,3,5,6]
+Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
+The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+Example 2:
+
+Input: nums1 = [1], m = 1, nums2 = [], n = 0
+Output: [1]
+Explanation: The arrays we are merging are [1] and [].
+The result of the merge is [1].
+Example 3:
+
+Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+Output: [1]
+Explanation: The arrays we are merging are [] and [1].
+The result of the merge is [1].
+Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
+
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+
+        while (j >= 0) {
+            if (i >= 0 && nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
+        }
+    } 
+	Time complexity: O(m), where m and n are the sizes of nums1 and nums2 respectively.
+	Space complexity: O(1), as no extra space is used other than a few variables for pointers.
+------------------------------------------------------------------------
+Game of Life:
+
+
 -----------------------------------------------------------------------------------------
 Hard problems pending	
+
+Reverse Pairs:
+Given an integer array nums, return the number of reverse pairs in the array.
+Example 1:
+
+Input: nums = [1,3,2,3,1]
+Output: 2
+Explanation: The reverse pairs are:
+(1, 4) --> nums[1] = 3, nums[4] = 1, 3 > 2 * 1
+(3, 4) --> nums[3] = 3, nums[4] = 1, 3 > 2 * 1
+Example 2:
+
+Input: nums = [2,4,3,5,1]
+Output: 3
+Explanation: The reverse pairs are:
+(1, 4) --> nums[1] = 4, nums[4] = 1, 4 > 2 * 1
+(2, 4) --> nums[2] = 3, nums[4] = 1, 3 > 2 * 1
+(3, 4) --> nums[3] = 5, nums[4] = 1, 5 > 2 * 1
+
+
+
+
+------------------------------------------------------------
+Max Value of Equation:
+
+
+
+
+
+------------------------------------------------------------- 
+Insert Delete GetRandom O(1) - Duplicates allowed
