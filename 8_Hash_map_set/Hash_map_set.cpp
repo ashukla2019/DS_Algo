@@ -200,7 +200,7 @@ Output: No
 	Time Complexity: O(m + n), where m and n are the size of arr1 and arr2 respectively.
 	Auxiliary Space: O(m)
 ---------------------------------------------------------------------------
-2) Frequency of each character in a String using unordered_map in C++
+3) Frequency of each character in a String using unordered_map in C++
 Input: str = “geeksforgeeks” 
 Output: 
 r 1 
@@ -254,7 +254,7 @@ o 1
 		return 0;
 	}
 ------------------------------------------------------------------------------
-3) Find first non-repeating character of given String:
+4) Find first non-repeating character of given String:
 Given a string S of lowercase English letters, the task is to find the index of the first non-repeating character. If there is no such character, return -1.
 
 Examples: 
@@ -337,7 +337,7 @@ Explanation: ‘f’ is the first character in the string which does not repeat.
 	Time Complexity: O(n), where n is the length of given string
 	Auxiliary Space: O(1)
 ----------------------------------------------------------------------
-4) Find missing elements of a range:
+5) Find missing elements of a range:
 Given an array, arr[0..n-1] of distinct elements and a range [low, high], find all numbers
 that are in a range, but not the array. The missing elements should be printed in sorted order.
 
@@ -416,7 +416,7 @@ Output: 50, 52, 53, 54 55
 	Time Complexity: O(n + (high-low+1))
 	Auxiliary Space: O(n)
 -----------------------------------------------------------------------------
-5) Pair with given Sum (Two Sum)
+6) Pair with given Sum (Two Sum)
 Given an array A[] of n numbers and another number x, the task is to check whether or not there 
 exist two elements in A[] whose sum is exactly x. 
 
@@ -598,7 +598,7 @@ Output: No
 	Time Complexity: O(NlogN)
 	Auxiliary Space: O(1)
 ---------------------------------------------------------------------------------------
-6) Count Distinct ( Unique ) elements in an array
+7) Count Distinct ( Unique ) elements in an array
 Given an array arr[] of length N, The task is to count all distinct elements in arr[].
 
 Examples: 
@@ -708,7 +708,7 @@ Output: 2
 	Time complexity: O(n)
 	Auxiliary Space: O(n)
 -----------------------------------------------------------------------------
-7) Count number of Distinct Substring in a String:
+8) Count number of Distinct Substring in a String:
 Input : abcd
 Output : abcd abc ab a bcd bc b cd c d
 All Elements are Distinct
@@ -785,7 +785,7 @@ All elements are not Distinct
 	Time Complexity: O(n2)
 	Auxiliary Space: O(n)
 ------------------------------------------------------------------
-8) Write a function that takes a String as an argument and prints all unique words in it.
+9) Write a function that takes a String as an argument and prints all unique words in it.
 
 Examples:
 Input: Java is great. Grails is also great
@@ -827,7 +827,7 @@ also
 	Time Complexity: O(n)
 	Auxiliary Space: O(n)
 --------------------------------------------------------------------------
-9) Remove duplicates from Sorted Array:
+10) Remove duplicates from Sorted Array:
 Given a sorted array arr[] of size N, the task is to remove the duplicate elements from the array.
 
 Examples: 
@@ -900,7 +900,7 @@ Output: arr[] = {1, 2, 3, 4, 5}
 	Time Complexity: O(n) 
 	Auxiliary Space: O(1)
 -------------------------------------------------------------------
-10) Find the only repetitive element between 1 to N-1
+11) Find the only repetitive element between 1 to N-1
 Given an array of size N filled with numbers from 1 to N-1 in random order. The array has only one repetitive element. The task is to find the repetitive element.
 
 Examples:
@@ -993,7 +993,7 @@ Output: 1
 	Time Complexity: O(N)
 	Auxiliary Space: O(N)
 ------------------------------------------------------------------------------
-11) Minimum insertions to form a palindrome with permutations allowed
+12) Minimum insertions to form a palindrome with permutations allowed
 Given a string of lowercase letters. Find minimum characters to be inserted in the string so that it can become palindrome. We can change the positions of characters in the string.
 
 Examples: 
@@ -1052,7 +1052,7 @@ bacab
 	Time Complexity: O(n) 
 	Auxiliary Space: O(1)
 ----------------------------------------------------------------------
-12) Count all distinct pairs with difference equal to k:
+13) Count all distinct pairs with difference equal to k:
 Given an integer array and a positive integer k, count all distinct pairs with differences equal to k. 
 
 Examples: 
@@ -3305,7 +3305,6 @@ Explanation : The subarrays having XOR of
 	Time Complexity: O(n)
 	Auxiliary Space: O(n)
 ---------------------------------------------------------------------------
-----------------------------hard
 
 
 
