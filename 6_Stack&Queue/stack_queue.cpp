@@ -657,7 +657,458 @@ int main()
 Time Complexity: O(N)
 Space Complexity: O(N)
 ---------------------------------------------------------------
-10) Min Stack implementation:
+10) Backspace String Compare:
+Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
+Note that after backspacing an empty text, the text will continue empty.
+Example 1:
+
+Input: s = "ab#c", t = "ad#c"
+Output: true
+Explanation: Both s and t become "ac".
+Example 2:
+
+Input: s = "ab##", t = "c#d#"
+Output: true
+Explanation: Both s and t become "".
+Example 3:
+
+Input: s = "a#c", t = "b"
+Output: false
+Explanation: s becomes "c" while t becomes "b".
+
+	string convert(string s)
+    {
+        stack<char>st;//stack of characters
+        for(int i = 0;i<s.length();i++)
+        {
+            if(s[i]=='#')
+            {
+                if(st.empty()) continue;// if there is nothing to remove
+                else st.pop();
+            }
+            else
+                st.push(s[i]);
+        }
+        string a = "";
+        while(st.empty()==false)
+        {
+            a+=st.top();
+            st.pop();
+        }
+        return a;
+    }
+    bool backspaceCompare(string s, string t) {
+        string s1 = convert(s);
+        string s2 = convert(t);
+        return s1==s2;
+    }
+	Time complexity:O(N), N being the length of longer string
+	Space complexity:O(N)
+----------------------------------------------------------------
+11) Implement Stack and Queue using Deque:
+// C++ Program to implement stack and queue using Deque
+#include <bits/stdc++.h>
+using namespace std;
+
+// structure for a node of deque
+struct DQueNode {
+    int value;
+    DQueNode* next;
+    DQueNode* prev;
+};
+
+// Implementation of deque class
+class Deque {
+private:
+
+    // pointers to head and tail of deque
+    DQueNode* head;
+    DQueNode* tail;
+
+public:
+    // constructor
+    Deque()
+    {
+        head = tail = NULL;
+    }
+
+    // if list is empty
+    bool isEmpty()
+    {
+        if (head == NULL)
+            return true;
+        return false;
+    }
+
+    // count the number of nodes in list
+    int size()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = head;
+            int len = 0;
+            while (temp != NULL) {
+                len++;
+                temp = temp->next;
+            }
+            return len;
+        }
+        return 0;
+    }
+
+    // insert at the first position
+    void insert_first(int element)
+    {
+        // allocating node of DQueNode type
+        DQueNode* temp = new DQueNode[sizeof(DQueNode)];
+        temp->value = element;
+
+        // if the element is first element
+        if (head == NULL) {
+            head = tail = temp;
+            temp->next = temp->prev = NULL;
+        }
+        else {
+            head->prev = temp;
+            temp->next = head;
+            temp->prev = NULL;
+            head = temp;
+        }
+    }
+
+    // insert at last position of deque
+    void insert_last(int element)
+    {
+        // allocating node of DQueNode type
+        DQueNode* temp = new DQueNode[sizeof(DQueNode)];
+        temp->value = element;
+
+        // if element is the first element
+        if (head == NULL) {
+            head = tail = temp;
+            temp->next = temp->prev = NULL;
+        }
+        else {
+            tail->next = temp;
+            temp->next = NULL;
+            temp->prev = tail;
+            tail = temp;
+        }
+    }
+
+    // remove element at the first position
+    void remove_first()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = head;
+            head = head->next;
+            if(head) head->prev = NULL;
+            delete temp;
+            if(head == NULL) tail = NULL;
+            return;
+        }
+        cout << "List is Empty" << endl;
+    }
+
+    // remove element at the last position
+    void remove_last()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = tail;
+            tail = tail->prev;
+            if(tail) tail->next = NULL;
+            delete temp;
+            if(tail == NULL) head = NULL;
+            return;
+        }
+        cout << "List is Empty" << endl;
+    }
+
+    // displays the elements in deque
+    void display()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = head;
+            while (temp != NULL) {
+                cout << temp->value << " ";
+                temp = temp->next;
+            }
+            cout << endl;
+            return;
+        }
+        cout << "List is Empty" << endl;
+    }
+};
+
+// Class to implement stack using Deque
+class Stack : public Deque {
+public:
+    // push to push element at top of stack
+    // using insert at last function of deque
+    void push(int element)
+    {
+        insert_last(element);
+    }
+
+    // pop to remove element at top of stack
+    // using remove at last function of deque
+    void pop()
+    {
+        remove_last();
+    }
+};
+
+// class to implement queue using deque
+class Queue : public Deque {
+public:
+    // enqueue to insert element at last
+    // using insert at last function of deque
+    void enqueue(int element)
+    {
+        insert_last(element);
+    }
+
+    // dequeue to remove element from first
+    // using remove at first function of deque
+    void dequeue()
+    {
+        remove_first();
+    }
+};
+
+// Driver Code
+int main()
+{
+    // object of Stack
+    Stack stk;
+
+    // push 7 and 8 at top of stack
+    stk.push(7);
+    stk.push(8);
+    cout << "Stack: ";
+    stk.display();
+
+    // pop an element
+    stk.pop();
+    cout << "Stack: ";
+    stk.display();
+
+    // object of Queue
+    Queue que;
+
+    // insert 12 and 13 in queue
+    que.enqueue(12);
+    que.enqueue(13);
+    cout << "Queue: ";
+    que.display();
+
+    // delete an element from queue
+    que.dequeue();
+    cout << "Queue: ";
+    que.display();
+
+    cout << "Size of Stack is " << stk.size() << endl;
+    cout << "Size of Queue is " << que.size() << endl;
+    return 0;
+}
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+---------------------------------------------------------------
+12) Evaluation of Postfix Expression:
+Given a postfix expression, the task is to evaluate the postfix expression.
+Postfix expression: The expression of the form “a b operator” (ab+) i.e., when a pair of operands is followed by an operator.
+
+Examples:
+Input: str = “2 3 1 * + 9 -“
+Output: -4
+Explanation: If the expression is converted into an infix expression, it will be 2 + (3 * 1) – 9 = 5 – 9 = -4.
+
+Input: str = “100 200 + 2 / 5 * 7 +”
+Output: 757
+
+Evaluation of Postfix Expression using Stack:
+To evaluate a postfix expression we can use a stack.
+
+Iterate the expression from left to right and keep on storing the operands into 
+a stack. Once an operator is received, pop the two topmost elements and evaluate 
+them and push the result in the stack again.
+
+// C++ program to evaluate value of a postfix expression
+#include <bits/stdc++.h>
+using namespace std;
+
+// The main function that returns value 
+// of a given postfix expression
+int evaluatePostfix(string exp)
+{
+	// Create a stack of capacity equal to expression size
+	stack<int> st;
+
+	// Scan all characters one by one
+	for (int i = 0; i < exp.size(); ++i) {
+		
+		// If the scanned character is an operand 
+		// (number here), push it to the stack.
+		if (isdigit(exp[i]))
+			st.push(exp[i] - '0');
+
+		// If the scanned character is an operator, 
+		// pop two elements from stack apply the operator
+		else {
+			int val1 = st.top();
+			st.pop();
+			int val2 = st.top();
+			st.pop();
+			switch (exp[i]) {
+			case '+':
+				st.push(val2 + val1);
+				break;
+			case '-':
+				st.push(val2 - val1);
+				break;
+			case '*':
+				st.push(val2 * val1);
+				break;
+			case '/':
+				st.push(val2 / val1);
+				break;
+			}
+		}
+	}
+	return st.top();
+}
+
+// Driver code
+int main()
+{
+	string exp = "231*+9-";
+
+	// Function call
+	cout << "postfix evaluation: " << evaluatePostfix(exp);
+	return 0;
+}
+Time Complexity: O(N) 
+Auxiliary Space: O(N)
+-----------------------------------------------------------------
+13) Implement two Stacks in an Array
+Create a data structure twoStacks that represent two stacks. Implementation of twoStacks should use only one array, i.e., both stacks should use the same array for storing elements. 
+
+Following functions must be supported by twoStacks.
+
+push1(int x) –> pushes x to first stack 
+push2(int x) –> pushes x to second stack
+pop1() –> pops an element from first stack and return the popped element 
+pop2() –> pops an element from second stack and return the popped element
+
+	#include <bits/stdc++.h> 
+using namespace std; 
+
+class twoStacks { 
+	int* arr; 
+	int size; 
+	int top1, top2; 
+
+public: 
+	// Constructor 
+	twoStacks(int n) 
+	{ 
+		size = n; 
+		arr = new int[n]; 
+		top1 = n / 2 + 1; 
+		top2 = n / 2; 
+	} 
+
+	// Method to push an element x to stack1 
+	void push1(int x) 
+	{ 
+		// There is at least one empty 
+		// space for new element 
+		if (top1 > 0) { 
+			top1--; 
+			arr[top1] = x; 
+		} 
+		else { 
+			cout << "Stack Overflow"
+				<< " By element : " << x << endl; 
+			return; 
+		} 
+	} 
+
+	// Method to push an element 
+	// x to stack2 
+	void push2(int x) 
+	{ 
+
+		// There is at least one empty 
+		// space for new element 
+		if (top2 < size - 1) { 
+			top2++; 
+			arr[top2] = x; 
+		} 
+		else { 
+			cout << "Stack Overflow"
+				<< " By element : " << x << endl; 
+			return; 
+		} 
+	} 
+
+	// Method to pop an element from first stack 
+	int pop1() 
+	{ 
+		if (top1 <= size / 2) { 
+			int x = arr[top1]; 
+			top1++; 
+			return x; 
+		} 
+		else { 
+			cout << "Stack UnderFlow"; 
+			exit(1); 
+		} 
+	} 
+
+	// Method to pop an element 
+	// from second stack 
+	int pop2() 
+	{ 
+		if (top2 >= size / 2 + 1) { 
+			int x = arr[top2]; 
+			top2--; 
+			return x; 
+		} 
+		else { 
+			cout << "Stack UnderFlow" << endl; 
+			exit(1); 
+		} 
+	} 
+}; 
+
+/* Driver program to test twoStacks class */
+int main() 
+{ 
+	twoStacks ts(5); 
+	ts.push1(5); 
+	ts.push2(10); 
+	ts.push2(15); 
+	ts.push1(11); 
+	ts.push2(7); 
+	cout << "Popped element from stack1 is "
+		<< ": " << ts.pop1() << endl; 
+	ts.push2(40); 
+	cout << "Popped element from stack2 is "
+		<< ": " << ts.pop2() << endl; 
+	return 0; 
+}
+Time Complexity: 
+Both Push operation: O(1)
+Both Pop operation: O(1)
+Auxiliary Space: O(N), Use of array to implement stack.
+
+-------------------------------------------------------------------
+
+14) Min Stack implementation:
 Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
 Implement the MinStack class:
 MinStack() initializes the stack object.
@@ -772,7 +1223,7 @@ int main()
 Time Complexity: O(1)
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------------
-11) Next Greater Element Using Stack:
+15) Next Greater Element Using Stack:
 Example 1: 
 Input: N = 5, A[] = {6,0,8,1,3}
 Output: 8,8,-1,3,-1
@@ -809,7 +1260,7 @@ vector<int> nextGreaterElement(vector<int>& nums, int n)
 TC-> O(2n)
 SC-> O(n)+ O(n) //n for stack + n for vector
 --------------------------------------------------------------------------
-12) Next Greater Element Using Stack-II:
+16) Next Greater Element Using Stack-II:
 Input: N = 5, A[] = {2,10,12,1,11}
 Output: 10,12,-1,11,12
 
@@ -844,7 +1295,7 @@ vector<int> nextGreaterElements(vector<int>& a) {
 TC-> O(4n)
 SC-> O(2n)+ O(n) //2n for stack + n for vector
 --------------------------------------------------------------------------------
-13) Previous smaller element:
+17) Previous smaller element:
 arr[]={4,5,2,10,8};
 
 vector<int> nextSmallerElement(vector<int>& nums, int n)
@@ -873,7 +1324,215 @@ vector<int> nextSmallerElement(vector<int>& nums, int n)
 TC-> O(2n)
 SC-> O(n)+ O(n) //n for stack + n for vector
 --------------------------------------------------------------------------
-15) Sum of Subarray Minimum: Given an array of integers arr, find the sum of min(b), where b ranges 
+18) Minimum Cost Tree From Leaf Values
+Given an array arr of positive integers, consider all binary trees such that:
+
+Each node has either 0 or 2 children;
+The values of arr correspond to the values of each leaf in an in-order traversal of the tree.
+The value of each non-leaf node is equal to the product of the largest leaf value in its left and right subtree, respectively.
+Among all possible binary trees considered, return the smallest possible sum of the values of each non-leaf node. It is guaranteed this sum fits into a 32-bit integer.
+
+A node is a leaf if and only if it has zero children.
+
+Input: arr = [6,2,4]
+Output: 32
+Explanation: There are two possible trees shown.
+The first has a non-leaf node sum 36, and the second has non-leaf node sum 32.
+
+int mctFromLeafValues(vector<int>& A) {
+        int res = 0;
+        vector<int> stack = {INT_MAX};
+        for (int a : A) {
+            while (stack.back() <= a) {
+                int mid = stack.back();
+                stack.pop_back();
+                res += mid * min(stack.back(), a);
+            }
+            stack.push_back(a);
+        }
+        for (int i = 2; i < stack.size(); ++i) {
+            res += stack[i] * stack[i - 1];
+        }
+        return res;
+    }
+	Time O(N) for one pass
+	Space O(N) for stack in the worst cases
+
+-----------------------------------------------------------
+19) Daily Temperatures:
+vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> result(n, 0);
+        stack<int> stk;
+
+        for(int i = 0; i < n; i++) {
+            while(!stk.empty() && temperatures[stk.top()] < temperatures[i]) {
+                result[stk.top()] = i - stk.top();
+                stk.pop();
+            }
+            stk.push(i);
+        }
+
+        return result;
+    }
+	Time complexity: O(n), n is the total number of days and each index is pushed or popped from the stack at most onces.
+	Space complexity: O(n), for stack O(n)
+-----------------------------------------------------------------------------
+20) Evaluate Reverse Polish Notation
+You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
+Evaluate the expression. Return an integer that represents the value of the expression.
+
+Note that:
+The valid operators are '+', '-', '*', and '/'.
+Each operand may be an integer or another expression.
+The division between two integers always truncates toward zero.
+There will not be any division by zero.
+The input represents a valid arithmetic expression in a reverse polish notation.
+The answer and all the intermediate calculations can be represented in a 32-bit integer.
+
+Example 1:
+
+Input: tokens = ["2","1","+","3","*"]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+Example 2:
+
+Input: tokens = ["4","13","5","/","+"]
+Output: 6
+Explanation: (4 + (13 / 5)) = 6
+Example 3:
+
+Input: tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
+Output: 22
+Explanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+= ((10 * (6 / (12 * -11))) + 17) + 5
+= ((10 * (6 / -132)) + 17) + 5
+= ((10 * 0) + 17) + 5
+= (0 + 17) + 5
+= 17 + 5
+= 22
+
+	 int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+
+        for (string c : tokens) {
+            if (c == "+") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first + second);
+            } else if (c == "-") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first - second);
+            } else if (c == "*") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first * second);
+            } else if (c == "/") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first / second);
+            } else {
+                st.push(stoi(c));
+            }
+        }
+
+        return st.top();        
+    }
+	Time complexity: O(n)
+	Space complexity: O(n)
+-----------------------------------------------------------------------
+21) Rotten Oranges:
+Given a grid of dimension nxm where each cell in the grid can have values 0, 1 or 2 which has the following meaning:
+0 : Empty cell
+1 : Cells have fresh oranges
+2 : Cells have rotten oranges
+
+We have to determine what is the earliest time after which all the oranges are rotten. A rotten orange at index [i,j] can rot other fresh orange at indexes [i-1,j], [i+1,j], [i,j-1], [i,j+1] (up, down, left and right) in unit time. 
+ 
+
+Example 1:
+
+Input: grid = {{0,1,2},{0,1,2},{2,1,1}}
+Output: 1
+Explanation: The grid is-
+0 1 2
+0 1 2
+2 1 1
+Oranges at positions (0,2), (1,2), (2,0)
+will rot oranges at (0,1), (1,1), (2,2) and 
+(2,1) in unit time.
+Example 2:
+
+Input: grid = {{2,2,0,1}}
+Output: -1
+Explanation: The grid is-
+2 2 0 1
+Oranges at (0,0) and (0,1) can't rot orange at
+(0,3).
+
+Your Task:
+You don't need to read or print anything, Your task is to complete the function orangesRotting() which takes grid as input parameter and returns the minimum time to rot all the fresh oranges. If not possible returns -1.
+ 
+Expected Time Complexity: O(n*m)
+Expected Auxiliary Space: O(n*m)
+  int orangesRotting(vector<vector<int>>& grid) {
+          queue<pair<int, int>>q;
+          int r = grid.size();
+          int c = grid[0].size();
+          
+          for(int i=0; i<r; i++){
+              for(int j=0; j<c; j++){
+                  if(grid[i][j] == 2)
+                    q.push({i, j});
+              }   
+          }
+          int count = 0;
+          q.push({-1, -1});
+          while(!q.empty()){
+              int x = q.front().first;
+              int y = q.front().second;
+              if((x == -1 and y == -1) and q.size() == 1){
+                  q.pop();
+                  break;
+              }
+              else if((x == -1 and y == -1) and q.size() > 1){
+                  count++;
+                  q.pop();
+                  q.push({-1, -1});
+              }
+              else{
+                  
+                  if(x-1 >= 0 and grid[x-1][y] == 1 ){
+                      q.push({x-1, y});
+                       grid[x-1][y] = 2;
+                  }
+                  if(y-1 >= 0 and grid[x][y-1] == 1){
+                      q.push({x, y-1});
+                       grid[x][y-1] = 2;
+                  }
+                    if(x+1 < r and grid[x+1][y] == 1 ){
+                      q.push({x+1, y});
+                       grid[x+1][y] = 2;
+                  }
+                  if(y+1 < c and grid[x][y+1] == 1){
+                      q.push({x, y+1});
+                      grid[x][y+1] = 2;
+                  }
+                  q.pop();
+              }
+          }
+           for(int i=0; i<r; i++){
+              for(int j=0; j<c; j++){
+                  if(grid[i][j] == 1)
+                   return -1;
+              }   
+          }
+          return count;
+    }
+
+------------------------------------------------------------------------------
+22) Sum of Subarray Minimum: Given an array of integers arr, find the sum of min(b), where b ranges 
 over every (contiguous) subarray of arr. Since the answer may be large, return the answer 
 modulo 109 + 7.
 
@@ -930,7 +1589,7 @@ should be minimum:
 Time complexity:O(n)
 Space complexity:O(n)
 --------------------------------------------------------------------------------
-16) Sum of subarray ranges: You are given an integer array nums. The range of a subarray of nums
+23) Sum of subarray ranges: You are given an integer array nums. The range of a subarray of nums
 is the difference between the largest and smallest element in the subarray.
 Return the sum of all subarray ranges of nums.
 A subarray is a contiguous non-empty sequence of elements within an array.
@@ -988,7 +1647,7 @@ long long subArrayRanges(vector<int>& nums) {
       
     }
 ------------------------------------------------------------------------------
-17) Aestroid Collisions: We are given an array asteroids of integers representing asteroids in a row.
+24) Aestroid Collisions: We are given an array asteroids of integers representing asteroids in a row.
 For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
 Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
 
@@ -1034,14 +1693,55 @@ vector<int> asteroidCollision(vector<int>& asteroids) {
     }
 
 -----------------------------------------------------------------------------
-Online Stock Span
+25) Online Stock Span
+Design an algorithm that collects daily price quotes for some stock and returns the span of that stock's price for the current day.
 
+The span of the stock's price in one day is the maximum number of consecutive days (starting from that day and going backward) for which the stock price was less than or equal to the price of that day.
 
---------------------------------------------------------------------------
-LRU Cache
+For example, if the prices of the stock in the last four days is [7,2,1,2] and the price of the stock today is 2, then the span of today is 4 because starting from today, the price of the stock was less than or equal 2 for 4 consecutive days.
+Also, if the prices of the stock in the last four days is [7,34,1,2] and the price of the stock today is 8, then the span of today is 3 because starting from today, the price of the stock was less than or equal 8 for 3 consecutive days.
+Implement the StockSpanner class:
 
---------------------------------------------------------------------------
-Celebrity problem
+StockSpanner() Initializes the object of the class.
+int next(int price) Returns the span of the stock's price given that today's price is price.
+
+Example 1:
+
+Input
+["StockSpanner", "next", "next", "next", "next", "next", "next", "next"]
+[[], [100], [80], [60], [70], [60], [75], [85]]
+Output
+[null, 1, 1, 1, 2, 1, 4, 6]
+
+Explanation
+StockSpanner stockSpanner = new StockSpanner();
+stockSpanner.next(100); // return 1
+stockSpanner.next(80);  // return 1
+stockSpanner.next(60);  // return 1
+stockSpanner.next(70);  // return 2
+stockSpanner.next(60);  // return 1
+stockSpanner.next(75);  // return 4, because the last 4 prices (including today's price of 75) were less than or equal to today's price.
+stockSpanner.next(85);  // return 6 
+
+class StockSpanner {
+    vector<int> v;
+public:
+    StockSpanner(){
+        
+    }
+    
+    int next(int price){
+        int cnt=1;
+        for(int i=v.size()-1; i>=0; i--){
+            if(v[i]<=price) cnt++;
+            else break;
+        }
+        v.push_back(price);
+        return cnt;
+    }
+};
+Time complexity: O(1)
+Space complexity: O(n)
 
 
 -------------------------------Hard------------------------------------------------------
@@ -1076,4 +1776,9 @@ Sliding Window Maximum
 
 
 
--------------------------------------------------------------------
+--------------------------------------------------------------------------
+LRU Cache
+
+--------------------------------------------------------------------------
+Celebrity problem
+
