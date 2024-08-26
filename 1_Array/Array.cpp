@@ -8,7 +8,7 @@ arr[] = {2,5,1,3,0}; => largest=5
 	largest=arr[0]
 	
 	Time Complexity: O(N*log(N))
-	Space Complexity: O(n)
+	Space Complexity: O(1)
 	
 	Optimal Approach: We can maintain a max variable that will update whenever the current value is greater 	  than the value in the max variable. 
 	Create a max variable and initialize it with arr[0].
