@@ -244,7 +244,7 @@ Time complexity: O(N). Since we traversed through the array only once.
 Space complexity: O(1).	
 
 -----------------------------------------------------------------------
-Find All Duplicates in an Array	
+6) Find All Duplicates in an Array	
 Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.
 You must write an algorithm that runs in O(n) time and uses only constant auxiliary space, excluding the space needed to store the output
 Example 1:
@@ -306,7 +306,7 @@ Output: []
 	TC = O(n)
 	SC = O(1)
 -------------------------------------------------------------------------------------------
-5) Left rotate an array by one index:
+7) Left rotate an array by one index:
  N = 5, array[] = {1,2,3,4,5} => {2,3,4,5,1};
  	Optimal Approach:
  	At first, we have to shift the array towards the left so, we store the value of the first index in a    	variable (temp).
@@ -324,7 +324,7 @@ Output: []
  	Time Complexity: O(n), as we iterate through the array only once.
 	Space Complexity: O(1) as no extra space is used
 ------------------------------------------------------------------------------------
-6) Left rotate an array by d places:
+8) Left rotate an array by d places:
 Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3	
 
 	Brute Force Approach:
@@ -372,7 +372,7 @@ Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3
 	Space Complexity: O(1) since no extra space is required.
 	
 ---------------------------------------------------------------------------------------
-7) Move zeros to end of the array:
+9) Move zeros to end of the array:
  arr[]=1 ,0 ,2 ,3 ,0 ,4 ,0 ,1, Output: 1 ,2 ,3 ,4 ,1 ,0 ,0 ,0	
 
 	Brute Force Approach:
@@ -431,7 +431,7 @@ Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3
 	Space Complexity: O(1) as we are not using any extra space to solve this problem. 
 	
 ------------------------------------------------------------------------------------------------
-8) Linear search:
+10) Linear search:
 Input: arr[]= 1 2 3 4 5, num = 3, Output: 2, Explanation: 3 is present in the 2nd index	
 	for i=0;i<n;i++){
         
@@ -448,7 +448,7 @@ Input: arr[]= 1 2 3 4 5, num = 3, Output: 2, Explanation: 3 is present in the 2n
 	Time Complexity: O(N) { At the worst case, the whole array would be traversed i.e N elements }.
 	Space Complexity: O(1) { There is no extra space being used in this approach }.
 -------------------------------------------------------------------------------------------
-9) Union of Two Sorted Arrays:
+11) Union of Two Sorted Arrays:
 n = 5,m = 5. arr1[] = {1,2,3,4,5} , arr2[] = {2,3,4,4,5} , Output: {1,2,3,4,5}	
 	Brute Force Approach:
 	set<int>st;
@@ -518,7 +518,7 @@ n = 5,m = 5. arr1[] = {1,2,3,4,5} , arr2[] = {2,3,4,4,5} , Output: {1,2,3,4,5}
   Space Complexity : O(m+n) {If Space of Union ArrayList is considered}
   
  ------------------------------------------------------------------------------------
- 10) Missing Numbers:
+ 12) Missing Numbers:
  Input Format: N = 5, array[] = {1,2,4,5}, Result: 3
  	Brute Force Approach:
  	We will run a loop(say i) from 1 to N.
@@ -599,7 +599,7 @@ n = 5,m = 5. arr1[] = {1,2,3,4,5} , arr2[] = {2,3,4,4,5} , Output: {1,2,3,4,5}
 
 	Space Complexity: O(1) as we are not using any extra space.
 --------------------------------------------------------------------------------------------
-11) Max. Consecutive 1's:
+13) Max. Consecutive 1's:
 Input: prices = {1, 1, 0, 1, 1, 1}, Output: 3	
 
 	Approach:
@@ -630,7 +630,7 @@ Input: prices = {1, 1, 0, 1, 1, 1}, Output: 3
     Time Complexity: O(N) since the solution involves only a single pass.
 	Space Complexity: O(1) because no extra space is used.
 ------------------------------------------------------------------------------------------
-12) Find the number appeared once:
+14) Find the number appeared once:
 arr[] = {2,2,1}, Result: 1
 	Better Approach:Using Hashing
 	First, we will find the maximum element(say maxElement) to know the size of the hash array.
@@ -680,56 +680,7 @@ arr[] = {2,2,1}, Result: 1
 	Reason: We are iterating the array only once.
 	Space Complexity: O(1) as we are not using any extra space.
 ---------------------------------------------------------------------------------------------------
-Two Sum:
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
-You can return the answer in any order.
-Example 1:
-
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-Example 2:
-
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
-Example 3:
-
-Input: nums = [3,3], target = 6
-Output: [0,1]
-
-	Approach 1: Brute Force:
-	vector<int> twoSum(vector<int>& nums, int target) {
-    for (int i = 0; i < nums.size(); i++) {
-        for (int j = i + 1; j < nums.size(); j++) {
-            if (nums[i] + nums[j] == target) {
-                return {i, j};
-            }
-        }
-    }
-    return {};
-  }
-  Time Complexity: O(n²), In the worst case, for each element in the array, we iterate through the rest of the array to find the complement. With n as the number of elements, we perform roughly n * (n-1) / 2 comparisons, resulting in a time complexity of O(n²).
-  Space Complexity: O(1), No additional data structures (like arrays or hash maps) are used, and the extra space required does not depend on the size of the input array, hence the space complexity is constant, O(1).
-
-	Approach 2: Hashing
-	vector<int> twoSum(vector<int>& nums,   int target) {
-    unordered_map<int, int> numMap;
-    for (int i = 0; i < nums.size(); i++) {
-        numMap[nums[i]] = i;
-    }
-    for (int i = 0; i < nums.size(); i++) {
-        int complement = target - nums[i];
-        if (numMap.count(complement) && numMap[complement] != i) {
-            return {i, numMap[complement]};
-        }
-    }
-    return {};
-  }
-  Time Complexity: O(n), We perform two separate iterations through the array. In the first iteration, we add each element and its index to a hash map, which takes O(n) time. In the second iteration, we check for each element’s complement in the hash map, which again takes O(n) time. So, the total time complexity is O(n) + O(n), which is O(n).
-  Space Complexity: O(n), We use a hash map to store the elements and their indices. In the worst case, the hash map stores all the n elements of the array, leading to a space complexity of O(n).
-----------------------------------------------------------------------------
-13) Longest subarray with K sum:
+15) Longest subarray with K sum:
 Input Format: N = 3, k = 5, array[] = {2,3,5}, Result: 2, Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
 	Subarray: Contiguous part of array Ex:{2,3}, {3,5}, {2,3,5}
 	Subsequence: {2,5}
@@ -821,7 +772,7 @@ Input Format: N = 3, k = 5, array[] = {2,3,5}, Result: 2, Explanation: The longe
 	Space Complexity: O(1) as we are not using any extra space.
 	
 ----------------------------------------------------------------------------------
-14) 2SUM problem:
+16) 2SUM problem:
 arr[]={2,6,5,8,11}, target=14
 	Brute Force Approach:
 	for(i=0; i<n; i++)
@@ -871,7 +822,7 @@ arr[]={2,6,5,8,11}, target=14
 	Time Complexity: O(N) + O(N*logN), where N = size of the array
 	Space Complexity: O(1) as we use the map data structure
 --------------------------------------------------------------------------------
-15) Sort an array of 0,1 &2/sort colors:
+17) Sort an array of 0,1 &2/sort colors:
 nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 
 	Brute Force Approach:
@@ -934,7 +885,7 @@ nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 	Time Complexity: O(N), where N = size of the given array.
 	Space Complexity: O(1) as we are not using any extra space.
 ----------------------------------------------------------------------------------------
-16) Majority Element(N/2)
+18) Majority Element(N/2)
 N = 3, nums[] = {3,2,3}, Result: 3
 	Brute Force Approach:
 	We will run a loop that will select the elements of the array one by one.
@@ -1034,7 +985,7 @@ N = 3, nums[] = {3,2,3}, Result: 3
 	Note: If the question states that the array must contain a majority element, in that case, we do not need the second check. Then the time complexity will boil down to O(N).
 	Space Complexity: O(1) as we are not using any extra space.
 -----------------------------------------------------------------------------------------
-17) Maximum subarray sum(kadane's algo)
+19) Maximum subarray sum(kadane's algo)
 arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6 
 	Brute Force Approach:
 	First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = size of the array).
@@ -1127,7 +1078,7 @@ arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6
 	Reason: We are using a single loop running N times.
 	Space Complexity: O(1) as we are not using any extra space.
 ---------------------------------------------------------------------------------------
-18) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
+20) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
 and negative elements. Without altering the relative order of positive and negative elements, 
 you must return an array of alternately positive and negative values.
 arr[] = {1,2,-4,-5}, N = 4, Output:1 -4 2 -5
@@ -1197,7 +1148,7 @@ To maintain relative ordering, 1 must occur before 2, and -4 must occur before -
 	Time Complexity: O(N) { O(N) for traversing the array once and substituting positives and negatives simultaneously using pointers, where N = size of the array A}.
 	Space Complexity:  O(N) { Extra Space used to store the rearranged elements separately in an array, where N = size of array A}.
 ---------------------------------------------------------------------------------------------------
-19) Best Time to Buy and Sell Stock:
+21) Best Time to Buy and Sell Stock:
 arr[] = {7,1,5,3,6,4};
 	Ex: If we buy stock on 2nd day means in 1 rs, then sell it on 5th day(6rs), profit would be(6-1=5)
 	For max profit, buy when it is min and sell when it is max.
@@ -1211,7 +1162,7 @@ arr[] = {7,1,5,3,6,4};
 	return maxprofit;
 	
 ----------------------------------------------------------------------
-Best Time to Buy and Sell Stock II
+22) Best Time to Buy and Sell Stock II
 You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
 On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
 Find and return the maximum profit you can achieve.
@@ -1255,7 +1206,7 @@ int maxProfit(vector<int>& nums) {
 	Time complexity: O(n)
 	Space complexity: O(1) 	
 -----------------------------------------------------------------------------------------------------
-20) Leaders in an Array: Given an array, print all the elements which are leaders. 
+23) Leaders in an Array: Given an array, print all the elements which are leaders. 
 A Leader is an element that is greater than all of the elements on its right side in the array.	
 arr = [4, 7, 1, 0] => 7 1 0
 	Brute Force Approach:
@@ -1305,7 +1256,7 @@ arr = [4, 7, 1, 0] => 7 1 0
 	Time Complexity: O(n)
 	Space Compleixty: O(1)
 ---------------------------------------------------------------------------------
-21) Longest Consecutive Sequence 
+24) Longest Consecutive Sequence 
 arr[]= [100, 200, 1, 3, 2, 4], Output:  4, Explanation:  The longest consecutive subsequence is 1, 2, 3, and 4.	
 	Brute Force Approach:
 	int longestSuccessiveElements(vector<int>&a) {
@@ -1375,11 +1326,7 @@ arr[]= [100, 200, 1, 3, 2, 4], Output:  4, Explanation:  The longest consecutive
 	Reason: O(N) for putting all the elements into the set data structure. After that for every starting element, we are finding the consecutive elements. Though we are using nested loops, the set will be traversed at most twice in the worst case. So, the time complexity is O(2*N) instead of O(N2).
 	Space Complexity: O(N), as we are using the set data structure to solve this problem.
 -----------------------------------------------------------------------
-Two Sum:
-
-
-------------------------------------------------------------------------
-Chocolate Distribution Problem:
+25) Chocolate Distribution Problem:
 Given an array of N integers where each value represents the number of chocolates
 in a packet. Each packet can have a variable number of chocolates. 
 There are m students, the task is to distribute chocolate packets such that: 
@@ -1453,7 +1400,7 @@ int main()
 Time Complexity: O(N*log(N))
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------------------------
-22) Set Matrix Zero:
+26) Set Matrix Zero:
 matrix= [1,1,1]               [1,0,1]
 		[1,0,1]     =>        [0,0,0] 
 		[1,1,1]               [1,0,1]
@@ -1548,7 +1495,7 @@ matrix= [1,1,1]               [1,0,1]
 	Reason: O(N) is for using the row array and O(M) is for using the col array.
 	
 -----------------------------------------------------------------------------------------
-23) Rotate Matrix/Image by 90 Degrees:
+27) Rotate Matrix/Image by 90 Degrees:
 [1,2,3]     [7,4,1]
 [4,5,6] =>  [8,5,2]
 [7,8,9]     [9,6,3]
@@ -1582,7 +1529,7 @@ matrix= [1,1,1]               [1,0,1]
 	Time Complexity: O(N*N) + O(N*N).One O(N*N) is for transposing the matrix and the other is for reversing the matrix.
 	Space Complexity: O(1).
 -------------------------------------------------------------------------------
-24) Spiral Traversal of a Matrix:
+28) Spiral Traversal of a Matrix:
 Input: Matrix[][] = 
 1, 2,  3,  4 
 5, 6,  7,  8   =>  1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10
@@ -1593,7 +1540,7 @@ Input: Matrix[][] =
 
 
 -------------------------------------------------------------------------------
-25) Count Subarray sum Equals K
+29) Count Subarray sum Equals K
 N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
 Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Optimal Approach:
@@ -1629,7 +1576,7 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
 	Space Complexity: O(1) as we are not using any extra space.
 ------------------------------------------------------------------------
-Subarray Sums Divisible by K
+30) Subarray Sums Divisible by K
 Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
 A subarray is a contiguous part of an array.
 Example 1:
@@ -1679,7 +1626,7 @@ Output: 0
 	Time complexity: O(n), We traverse the array once, and each operation (updating and accessing the array) takes constant time.
 	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
 -----------------------------------------------------------------------
-Merge Sorted Array:
+31) Merge Sorted Array:
 You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
 Merge nums1 and nums2 into a single array sorted in non-decreasing order.
 
@@ -1719,14 +1666,13 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
 	Time complexity: O(m), where m and n are the sizes of nums1 and nums2 respectively.
 	Space complexity: O(1), as no extra space is used other than a few variables for pointers.
 ------------------------------------------------------------------------
-Game of Life:
+32) Game of Life:
 
 
 -----------------------------------------------------------------------------------------
 Hard problems pending	
-
-Reverse Pairs:
-Given an integer array nums, return the number of reverse pairs in the array.
+-----------------------Reverse Pairs:
+33) Given an integer array nums, return the number of reverse pairs in the array.
 Example 1:
 
 Input: nums = [1,3,2,3,1]
@@ -1747,7 +1693,7 @@ Explanation: The reverse pairs are:
 
 
 ------------------------------------------------------------
-Max Value of Equation:
+34) Max Value of Equation:
 
 
 
