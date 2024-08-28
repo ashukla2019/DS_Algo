@@ -2089,7 +2089,66 @@ Output: 5
 	Time Complexity: O(N), where N is the length of the given array.
 	Auxiliary Space: O(N) We are using Hash Table for storing prefix sums
 --------------------------------------------------------------------------------
-22) Largest subarray with equal number of 0s and 1s:
+22)Largest subarray with 0 sum: Given an array containing both positive and negative integers,
+we have to find the length of the longest subarray with the sum of all elements equal to zero.
+Example 1:
+Input Format
+: N = 6, array[] = {9, -3, 3, -1, 6, -5}
+Result
+: 5
+Explanation
+: The following subarrays sum to zero:
+{-3, 3} , {-1, 6, -5}, {-3, 3, -1, 6, -5}
+Since we require the length of the longest subarray, our answer is 5!
+
+Example 2:
+Input Format:
+ N = 8, array[] = {6, -2, 2, -8, 1, 7, 4, -10}
+Result
+: 8
+Subarrays with sum 0 : {-2, 2}, {-8, 1, 7}, {-2, 2, -8, 1, 7}, {6, -2, 2, -8, 1, 7, 4, -10}
+Length of longest subarray = 8
+
+Example 3:
+Input Format:
+ N = 3, array[] = {1, 0, -5}
+Result
+: 1
+Subarray : {0}
+Length of longest subarray = 1
+
+Example 4:
+Input Format:
+ N = 5, array[] = {1, 3, -5, 6, -2}
+Result
+: 0
+Subarray: There is no subarray that sums to zero
+int maxLen(int A[], int n)
+{
+    // Your code here
+    unordered_map<int,int> mpp; 
+    int maxi = 0;
+    int sum = 0; 
+    for(int i = 0;i<n;i++) {
+        sum += A[i]; 
+        if(sum == 0) {
+            maxi = i + 1; 
+        }
+        else {
+            if(mpp.find(sum) != mpp.end()) {
+                maxi = max(maxi, i - mpp[sum]); 
+            }
+            else {
+                mpp[sum] = i;
+            }
+        }   
+    }
+
+    return maxi; 
+	Time Complexity: O(N), as we are traversing the array only once
+	Space Complexity: O(N), in the worst case we would insert all array elements prefix sum into our hashmap
+-------------------------------------------------------------------------------------
+23) Largest subarray with equal number of 0s and 1s:
 Given an array containing only 0s and 1s, find the largest subarray which contains equal no of 0s and 1s. The expected time complexity is O(n). 
 
 Examples: 
@@ -2220,7 +2279,7 @@ Output: 0 to 3 Or 1 to 4
 	Time Complexity: O(n). 
 	Auxiliary Space: O(n). 
 -----------------------------------------------------------------------
-23) Print all subarrays with 0 sum
+24) Print all subarrays with 0 sum
 Given an array arr[] of size n, the task is to print all subarrays in the array which has sum 0.
 
 Examples: 
@@ -2365,7 +2424,7 @@ Subarray found from Index 3 to 5
 	Time Complexity: O(n), where n is the number of elements in the array.
 	Auxiliary Space: O(n)
 ----------------------------------------------------------------------------
-24) Sort an array according to the order defined by another array
+25) Sort an array according to the order defined by another array
 Given two arrays arr1[] and arr2[] of size m and n, the task is to sort arr1[] such that the relative order among the elements matches the order in arr2[]. For elements not present in arr2[], append them at the end in sorted order.
 
 Example: 
@@ -2438,7 +2497,7 @@ Output: arr1[] = {3, 1, 1, 2, 4, 5}
 	Time complexity: O(m log m + n), where m is the size of arr1 and n is the size of arr2.
 	Auxiliary Space: O(m)
 ----------------------------------------------------------------------
-25) Range Queries for Frequencies of array elements
+26) Range Queries for Frequencies of array elements
 Given an array of n non-negative integers. The task is to find frequency of a particular element in the arbitrary range of array[]. The range is given as positions (not 0 based indexes) in array. There can be multiple queries of given type.
 
 Examples: 
@@ -2531,7 +2590,7 @@ The element 6 appears 1 time in arr[left-1..right-1]
 	Time complexity: O(log N) for single query.
 	Auxiliary Space: O(N)
 ---------------------------------------------------------------------------
-26) Count subarrays having total distinct elements same as original array
+27) Count subarrays having total distinct elements same as original array
 Given an array of n integers. Count the total number of sub-arrays having total distinct elements, the same as that of the total distinct elements of the original array. 
 
 Examples:  
@@ -2643,7 +2702,7 @@ Output : 9
 	Time complexity: O(n) 
 	Auxiliary space: O(n)
 -------------------------------------------------------------------------
-27) All unique triplets that sum up to a given value
+28) All unique triplets that sum up to a given value
 Given an array and a sum value, find all possible unique triplets in that array whose sum is equal to the given sum value. If no such triplets can be formed from the array, then print “No triplets can be formed”, else print all the unique triplets. For example, if the given array is {12, 3, 6, 1, 6, 9} and the given sum is 24, then the unique triplets are (3, 9, 12) and (6, 6, 12) whose sum is 24.
 
 Examples: 
@@ -2764,7 +2823,7 @@ Output : No triplets can be formed
 	Auxiliary Space: O(1).
 	Since we need no extra space for solving this.
 -------------------------------------------------------------------
-28) Smallest subarray with k distinct numbers	
+29) Smallest subarray with k distinct numbers	
 We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
 Examples: 
 Input : arr[] = { 1, 1, 2, 2, 3, 3, 4, 5} 
@@ -2934,7 +2993,7 @@ Output : Invalid k
 	Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once and removed once from the map.
 	Space Complexity :  O(K)
 -------------------------------------------------------------------------------
-29) Maximum possible difference of two subsets of an array
+30) Maximum possible difference of two subsets of an array
 Input : arr[] = {5, 8, -1, 4}
 Output : Maximum Difference = 18
 Explanation : 
@@ -3024,7 +3083,7 @@ Difference of Sum of Both subsets = 17 - 5 = 12
 	Time Complexity: O(n log n)
 	Auxiliary Space: O(1)
 ---------------------------------------------------------------------------
-30) Find the length of largest subarray with 0 sum
+31) Find the length of largest subarray with 0 sum
 Input: arr[] = {15, -2, 2, -8, 1, 7, 10, 23}
 Output: 5
 Explanation: The longest sub-array with elements summing up-to 0 is {-2, 2, -8, 1, 7}
@@ -3134,7 +3193,7 @@ Explanation: The longest sub-array with elements summing up-to 0 is {0}
 	Time Complexity: O(N), where N is the number of elements in the array.
 	Auxiliary Space: O(N)
 --------------------------------------------------------------------------
-31)Find Itinerary from a given list of tickets
+32)Find Itinerary from a given list of tickets
 Given a list of tickets, find itinerary in order using the given list.
 
 Example: 
@@ -3202,7 +3261,7 @@ Bombay->Delhi, Delhi->Goa, Goa->Chennai, Chennai->Banglore,
 	Time Complexity: O(n).
 	Auxiliary Space: O(n)
 -------------------------------------------------------------------------
-32) Find all pairs (a, b) in an array such that a % b = k	
+33) Find all pairs (a, b) in an array such that a % b = k	
 Given an array with distinct elements, the task is to find the pairs in the array such that a % b = k, where k is a given integer.
 
 Examples : 
@@ -3255,7 +3314,7 @@ Output :  (7, 4), (3, 4), (3, 5), (3, 7)
 	
 	
 -----------------------------------------------------------------------------
-33) Count the number of subarrays having a given XOR
+34) Count the number of subarrays having a given XOR
 Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
 Examples: 
 
