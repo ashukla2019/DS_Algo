@@ -431,7 +431,7 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
 	TC-> O(max(l1, l2)
 	SC-> O(max(l1,l2)
 --------------------------------------------------------------------------
-8)  Add Two Numbers II
+8) Add Two Numbers II
 You are given two non-empty linked lists representing two non-negative integers.
 The most significant digit comes first and each of their nodes contains a single 
 digit. Add the two numbers and return the sum as a linked list.
@@ -691,7 +691,159 @@ ListNode* reverseBetween(ListNode* head, int left, int right) {
 	Time Complexity :- O(N)
 	Space Complexity :- O(1)
 ------------------------------------------------------------------------------------
-14) Check if a LinkedList is Palindrome or Not:
+14) Intersection of Two Linked Lists
+4->1
+	\
+	 8
+5->6/
+Approach: l1 points to firsthead and l2 points to secondHead. Either of l1 or l2 is null return null
+now check until l1!=l2(l1 and l2 will meet on intersection point or null)
+if they meet then return l1 or l2. If any one becomes null then assign it to other list's head.
+
+Node* findIntersection(Node *firstHead, Node *secondHead)
+{
+	Node* l1 = firstHead;
+    Node* l2 = secondHead;
+	
+	//Base case
+    if(l1 == NULL || l2 == NULL)
+		return nullptr;
+
+    while(l1 != l2){
+        l1 = l1 -> next;
+        l2 = l2 -> next;
+        if(l1 == l2)
+			return l2;
+        if(l1 == NULL)
+			l1 = secondHead;
+        if(l2 == NULL)
+			l2 = firstHead;
+	}
+    return l2;
+}
+TC->O(n1+n2)
+SC->O(1)
+------------------------------------------------------------------------------
+15) Find the middle element of the LinkedList:
+Given a singly linked list of 'N' nodes. The objective is to determine the middle node of a singly
+linked list. However, if the list has an even number of nodes, we return the second middle node.
+1 2 3 4 5 => 3 4 5(We can clearly see that there are 5 elements in the linked list therefore the middle node is the node with value '3'.)
+Approach: Tortoise and hare algorithm
+Node *findMiddle(Node *head) {
+    Node* fast=head;
+    Node* slow=head;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    return slow;
+}
+TC->O(n/2)
+SC->O(1)
+--------------------------------------------------------------------------
+16) Detect a loop or cycle in LinkedList:
+You are given a Singly Linked List of integers. Return true if it has a cycle, else return false.
+1->2->3->4 
+^        |
+|        |  
+--------- 
+bool detectCycle(Node *head)
+{
+	Node* slow = head;
+	Node* fast = head;
+	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	{
+		fast=fast->next->next;
+		slow=slow->next;
+		if(slow==fast) return true;
+	}
+	return false;
+}
+TC->O(n)
+SC->O(1)
+----------------------------------------------------------------------------
+17) Find the length of loop in given linked list:
+Input: Linked List: 4 -> 10 -> 3 -> 5 -> 10(at position 2)
+Output: Length of cycle = 3
+Explanation: The cycle is 10, 3, 5.
+
+int findLength(Node* slow, Node* fast)
+{
+	int count=0;
+	fast=head;
+	while(slow != fast)
+	{
+		fast=fast->next;
+		count++;
+	}
+	return count;
+}
+
+int lengthOfLoop(Node *head)
+{
+	Node* slow = head;
+	Node* fast = head;
+	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	{
+		fast=fast->next->next;
+		slow=slow->next;
+		if(slow==fast) 
+			return findLength(slow, fast);
+	}
+	return 0;
+}
+---------------------------------------------------------------------------
+18) Delete the middle node of the LinkedList:
+Given a singly linked list of 'N' nodes. Your task is to delete the middle node of this list
+and return the head of the modified list.
+However, if the list has an even number of nodes, we delete the second middle node
+Example:
+If given linked list is 1->2->3->4 then it should be modified to 1->2->4.
+Node* deleteMiddle(Node* head)
+{
+	Node* fast=head;
+    Node* slow=head;
+	if(head==nullptr || head->next==nullptr)
+		return null;
+	fast = fast->next->next;  //this step is done so that slow moves one step less and once we complete, slow will be at mid-1.
+    while (fast != nullptr && fast->next != nullptr) {
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    slow->next=slow->next->next;
+	return head;
+}
+--------------------------------------------------------------------------------
+19) Find the starting point of the Loop/Cycle in LinkedList 
+You are given a singly linked list that may or may not contain a cycle. You are supposed to 
+return the node where the cycle begins, if a cycle exists, else return 'NULL'.
+A cycle occurs when a node's next pointer returns to a previous node in the list.
+1 2 3 4 -1
+
+Node* findLoopStartingPoint(Node *head)
+{
+	Node* slow = head;
+	Node* fast = head;
+	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	{
+		fast=fast->next->next;
+		slow=slow->next;
+		if(slow==fast) 
+		{
+			slow = head;
+			while(slow != fast)
+			{
+				slow=slow->next;
+				fast=fast->next;
+				
+			}
+			return slow;
+		}
+	}
+	return NULL;
+}	
+------------------------------------------------------------------------------------
+20) Check if a LinkedList is Palindrome or Not:
 You are given a Singly Linked List of integers. You have to return true if the linked list is 
 palindrome, else return false.
 A Linked List is a palindrome if it reads the same from left to right and from right to left.
@@ -816,7 +968,7 @@ bool isPalindrome(Node* head) {
 Time Complexity: O (2* N) The algorithm traverses the linked list twice, dividing it into halves
 Space Complexity: O(1) 
 -----------------------------------------------------------------------------------------
-15)Reorder List:
+21)Reorder List:
 You are given the head of a singly linked-list. The list can be represented as:
 L0 → L1 → … → Ln - 1 → Ln
 Reorder the list to be on the following form:
@@ -888,7 +1040,120 @@ Time Complexity : O(N) [Middle of List] + O(N/2) [Reversing Second Half] + O(N/2
 Space Complexity : O(1)
 
 ---------------------------------------------------------------------------
-16) Partition List:
+22) Merge two sorted linked list:
+You are given two sorted linked lists. You have to merge them to produce a combined sorted linked list.
+You need to return the head of the final linked list.
+Note: The given linked lists may or may not be null.
+For example:
+If the first list is: 1 -> 4 -> 5 -> NULL and the second list is: 2 -> 3 -> 5 -> NULL
+The final list would be: 1 -> 2 -> 3 -> 4 -> 5 -> 5 -> NULL
+
+Node* sortTwoLinkedLists(Node* list1, Node* list2) {
+    // Create a dummy node to serve
+    // as the head of the merged list
+    Node* dummyNode = new Node(-1);
+    Node* temp = dummyNode;
+
+    // Traverse both lists simultaneously
+    while (list1 != nullptr && list2 != nullptr) {
+        // Compare elements of both lists and
+        // link the smaller node to the merged list
+        if (list1->data <= list2->data) {
+            temp->next = list1; //temp->next is pointing to list1{dummy node(-1)->1)
+			temp = list1; //Move temp to list1{temp is moved to node 1 of list1
+            list1 = list1->next;
+        } else {
+            temp->next = list2;
+			temp = list2;
+            list2 = list2->next;
+        }
+        
+    }
+
+    // If any list still has remaining
+    // elements, append them to the merged list
+    if (list1 != nullptr) {
+        temp->next = list1;
+    } else {
+        temp->next = list2;
+    }
+    // Return the merged list starting 
+    // from the next of the dummy node
+    return dummyNode->next;
+}
+
+//Understanding:
+1 -> 4 -> 5 -> NULL
+2 -> 3 -> 5 -> NULL
+Merged-> dummy->1->2->3->4->5->5->NULL
+
+Time Complexity: O(N1+N2) where N1 is the number of nodes in the first linked list and N1 in the second linked list as we traverse both linked lists in a single pass for merging without any additional loops or nested iterations.
+Space Complexity : O(1) as no additional data structures or space is allocated for storing data, only a constant space for pointers to maintain for traversing the linked list.
+-----------------------------------------------------------------------------------
+23) Flattening a LinkedList:
+3-->2->1-->4-->5             1
+   10  7   9   6     =>      2
+       11      8             3
+	   12                    4 
+	                         5
+                             6
+                             7
+                             8
+                             9
+                             10
+							 11
+							 12
+// Merges two linked lists in a particular
+// order based on the data value
+Node* merge(Node* list1, Node* list2){
+    // Create a dummy node as a
+    // placeholder for the result
+    Node* dummyNode = new Node(-1);
+    Node* temp = dummyNode;
+
+    // Merge the lists based on data values
+    while(list1 != NULL && list2 != NULL){
+        if(list1->data < list2->data){
+            temp->child = list1; 
+			temp = list1;
+            list1 = list1->child;
+        }
+        else{
+            temp->child = list2;
+			temp = list2;
+            list2 = list2->child;
+        }
+        temp->next=NULL; //For every added temp, next would be null
+    }
+
+    // Connect the remaining
+    // elements if any
+    if(list1){
+        temp->child = list1;
+    } else {
+        temp->child = list2;
+    }
+
+    return dummyNode->child;
+}
+
+// Flattens a linked list with child pointers
+Node* flattenLinkedList(Node* head) //flattenLinkedList(3)->flattenLinkedList(2/10)->flattenLinkedList(1/7/11/12)->flattenLinkedList(5/6/8)
+{
+    // If head is null or there 
+    // is no next node, return head
+    if(head == NULL || head->next == NULL){ //when list with head 5 is passed, 5->next would be null 
+        return head; //Address of node with head 5 would be returned to call with head 4
+    }
+
+    // Recursively flatten the
+    // rest of the linked list
+    Node* nextHead = flattenLinkedList(head->next);
+    head = merge(head, nextHead); //merge(4/9, 5/6/8) will be passed to merge function, new head after merge would be returned of merged list(4/5/6/8/9)
+    return head;
+}
+-------------------------------------------------------------------
+24) Partition List:
 Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
 You should preserve the original relative order of the nodes in each of the two partitions.
 Input: head = [1,4,3,2,5,2], x = 3
@@ -942,7 +1207,7 @@ void insert(ListNode* &head,int val){
 	Time complexity: O(n) ------>n is number of nodes
 	Space complexity: O(n)
 --------------------------------------------------------------------------
-17) Rearrange a Linked List in Zig-Zag fashion
+25) Rearrange a Linked List in Zig-Zag fashion
 Given a linked list, rearrange it such that the converted list should be of the
 form a < b > c < d > e < f … where a, b, c… are consecutive data nodes of the
 linked list.
@@ -985,7 +1250,7 @@ void zigZagList(Node* head)
 } 
   
 ----------------------------------------------------------------------
-18) Remove Duplicates from Sorted List II
+26) Remove Duplicates from Sorted List II
 Given the head of a sorted linked list, delete all nodes that have duplicate 
 numbers, leaving only distinct numbers from the original list. Return the 
 linked list sorted as well.
@@ -1041,7 +1306,7 @@ ListNode* deleteDuplicates(ListNode* head) {
 	Time complexity: O(n)
 	Space complexity: O(1)
 ----------------------------------------------------------------------
-19) Sort List:
+27) Sort List:
 Given the head of a linked list, return the list after sorting it in ascending
 order.
 Input: head = [4,2,1,3]
@@ -1077,7 +1342,7 @@ ListNode* sortList(ListNode* head) {
         return head;
     }
 ----------------------------------------------------------------------
-20) Add 1 to a number represented by LinkedList
+28) Add 1 to a number represented by LinkedList
 You're given a positive integer represented in the form of a singly linked-list of digits. 
 The length of the number is 'n'.
 Add 1 to the number, i.e., increment the given number by one.
@@ -1213,163 +1478,8 @@ int main(void)
 	Time Complexity: O(n), Here n is the number of nodes in the linked list.
 	Auxiliary Space: O(1), As constant extra space is used.
 
-
-
-
--------------------------------------------------------------------------------------------
-21) Intersection of Two Linked Lists
-4->1
-	\
-	 8
-5->6/
-Approach: l1 points to firsthead and l2 points to secondHead. Either of l1 or l2 is null return null
-now check until l1!=l2(l1 and l2 will meet on intersection point or null)
-if they meet then return l1 or l2. If any one becomes null then assign it to other list's head.
-
-Node* findIntersection(Node *firstHead, Node *secondHead)
-{
-	Node* l1 = firstHead;
-    Node* l2 = secondHead;
-	
-	//Base case
-    if(l1 == NULL || l2 == NULL)
-		return nullptr;
-
-    while(l1 != l2){
-        l1 = l1 -> next;
-        l2 = l2 -> next;
-        if(l1 == l2)
-			return l2;
-        if(l1 == NULL)
-			l1 = secondHead;
-        if(l2 == NULL)
-			l2 = firstHead;
-	}
-    return l2;
-}
-TC->O(n1+n2)
-SC->O(1)
-------------------------------------------------------------------------------
-22) Find the middle element of the LinkedList:
-Given a singly linked list of 'N' nodes. The objective is to determine the middle node of a singly
-linked list. However, if the list has an even number of nodes, we return the second middle node.
-1 2 3 4 5 => 3 4 5(We can clearly see that there are 5 elements in the linked list therefore the middle node is the node with value '3'.)
-Approach: Tortoise and hare algorithm
-Node *findMiddle(Node *head) {
-    Node* fast=head;
-    Node* slow=head;
-    while (fast != nullptr && fast->next != nullptr) {
-        slow=slow->next;
-        fast=fast->next->next;
-    }
-    return slow;
-}
-TC->O(n/2)
-SC->O(1)
---------------------------------------------------------------------------
-23) Detect a loop or cycle in LinkedList:
-You are given a Singly Linked List of integers. Return true if it has a cycle, else return false.
-1->2->3->4 
-^        |
-|        |  
---------- 
-bool detectCycle(Node *head)
-{
-	Node* slow = head;
-	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
-	{
-		fast=fast->next->next;
-		slow=slow->next;
-		if(slow==fast) return true;
-	}
-	return false;
-}
-TC->O(n)
-SC->O(1)
-----------------------------------------------------------------------------
-24) Find the length of loop in given linked list:
-Input: Linked List: 4 -> 10 -> 3 -> 5 -> 10(at position 2)
-Output: Length of cycle = 3
-Explanation: The cycle is 10, 3, 5.
-
-int findLength(Node* slow, Node* fast)
-{
-	int count=0;
-	fast=head;
-	while(slow != fast)
-	{
-		fast=fast->next;
-		count++;
-	}
-	return count;
-}
-
-int lengthOfLoop(Node *head)
-{
-	Node* slow = head;
-	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
-	{
-		fast=fast->next->next;
-		slow=slow->next;
-		if(slow==fast) 
-			return findLength(slow, fast);
-	}
-	return 0;
-}
----------------------------------------------------------------------------
-25) Delete the middle node of the LinkedList:
-Given a singly linked list of 'N' nodes. Your task is to delete the middle node of this list
-and return the head of the modified list.
-However, if the list has an even number of nodes, we delete the second middle node
-Example:
-If given linked list is 1->2->3->4 then it should be modified to 1->2->4.
-Node* deleteMiddle(Node* head)
-{
-	Node* fast=head;
-    Node* slow=head;
-	if(head==nullptr || head->next==nullptr)
-		return null;
-	fast = fast->next->next;  //this step is done so that slow moves one step less and once we complete, slow will be at mid-1.
-    while (fast != nullptr && fast->next != nullptr) {
-        slow=slow->next;
-        fast=fast->next->next;
-    }
-    slow->next=slow->next->next;
-	return head;
-}
---------------------------------------------------------------------------------
-26) Find the starting point of the Loop/Cycle in LinkedList 
-You are given a singly linked list that may or may not contain a cycle. You are supposed to 
-return the node where the cycle begins, if a cycle exists, else return 'NULL'.
-A cycle occurs when a node's next pointer returns to a previous node in the list.
-1 2 3 4 -1
-
-Node* findLoopStartingPoint(Node *head)
-{
-	Node* slow = head;
-	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
-	{
-		fast=fast->next->next;
-		slow=slow->next;
-		if(slow==fast) 
-		{
-			slow = head;
-			while(slow != fast)
-			{
-				slow=slow->next;
-				fast=fast->next;
-				
-			}
-			return slow;
-		}
-	}
-	return NULL;
-}
 -----------------------------------------------------------------------------
-27) Delete all occurances of key: A doubly-linked list is a data structure that consists of sequentially 
+29) Delete all occurances of key: A doubly-linked list is a data structure that consists of sequentially 
 linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence
 of nodes. You’re given a doubly-linked list and a key 'k'.
 Delete all the nodes having data equal to ‘k’.
@@ -1413,119 +1523,6 @@ Node * deleteAllOccurrences(Node* head, int k) {
 		}
 	}
         
-    return head;
-}
---------------------------------------------------------------------------------
-28) Merge two sorted linked list:
-You are given two sorted linked lists. You have to merge them to produce a combined sorted linked list.
-You need to return the head of the final linked list.
-Note: The given linked lists may or may not be null.
-For example:
-If the first list is: 1 -> 4 -> 5 -> NULL and the second list is: 2 -> 3 -> 5 -> NULL
-The final list would be: 1 -> 2 -> 3 -> 4 -> 5 -> 5 -> NULL
-
-Node* sortTwoLinkedLists(Node* list1, Node* list2) {
-    // Create a dummy node to serve
-    // as the head of the merged list
-    Node* dummyNode = new Node(-1);
-    Node* temp = dummyNode;
-
-    // Traverse both lists simultaneously
-    while (list1 != nullptr && list2 != nullptr) {
-        // Compare elements of both lists and
-        // link the smaller node to the merged list
-        if (list1->data <= list2->data) {
-            temp->next = list1; //temp->next is pointing to list1{dummy node(-1)->1)
-			temp = list1; //Move temp to list1{temp is moved to node 1 of list1
-            list1 = list1->next;
-        } else {
-            temp->next = list2;
-			temp = list2;
-            list2 = list2->next;
-        }
-        
-    }
-
-    // If any list still has remaining
-    // elements, append them to the merged list
-    if (list1 != nullptr) {
-        temp->next = list1;
-    } else {
-        temp->next = list2;
-    }
-    // Return the merged list starting 
-    // from the next of the dummy node
-    return dummyNode->next;
-}
-
-//Understanding:
-1 -> 4 -> 5 -> NULL
-2 -> 3 -> 5 -> NULL
-Merged-> dummy->1->2->3->4->5->5->NULL
-
-Time Complexity: O(N1+N2) where N1 is the number of nodes in the first linked list and N1 in the second linked list as we traverse both linked lists in a single pass for merging without any additional loops or nested iterations.
-Space Complexity : O(1) as no additional data structures or space is allocated for storing data, only a constant space for pointers to maintain for traversing the linked list.
------------------------------------------------------------------------------------
-29) Flattening a LinkedList:
-3-->2->1-->4-->5             1
-   10  7   9   6     =>      2
-       11      8             3
-	   12                    4 
-	                         5
-                             6
-                             7
-                             8
-                             9
-                             10
-							 11
-							 12
-// Merges two linked lists in a particular
-// order based on the data value
-Node* merge(Node* list1, Node* list2){
-    // Create a dummy node as a
-    // placeholder for the result
-    Node* dummyNode = new Node(-1);
-    Node* temp = dummyNode;
-
-    // Merge the lists based on data values
-    while(list1 != NULL && list2 != NULL){
-        if(list1->data < list2->data){
-            temp->child = list1; 
-			temp = list1;
-            list1 = list1->child;
-        }
-        else{
-            temp->child = list2;
-			temp = list2;
-            list2 = list2->child;
-        }
-        temp->next=NULL; //For every added temp, next would be null
-    }
-
-    // Connect the remaining
-    // elements if any
-    if(list1){
-        temp->child = list1;
-    } else {
-        temp->child = list2;
-    }
-
-    return dummyNode->child;
-}
-
-// Flattens a linked list with child pointers
-Node* flattenLinkedList(Node* head) //flattenLinkedList(3)->flattenLinkedList(2/10)->flattenLinkedList(1/7/11/12)->flattenLinkedList(5/6/8)
-{
-    // If head is null or there 
-    // is no next node, return head
-    if(head == NULL || head->next == NULL){ //when list with head 5 is passed, 5->next would be null 
-        return head; //Address of node with head 5 would be returned to call with head 4
-    }
-
-    // Recursively flatten the
-    // rest of the linked list
-    Node* nextHead = flattenLinkedList(head->next);
-    head = merge(head, nextHead); //merge(4/9, 5/6/8) will be passed to merge function, new head after merge would be returned of merged list(4/5/6/8/9)
     return head;
 }
 --------------------------------------------------------------------------
