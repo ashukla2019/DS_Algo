@@ -632,30 +632,47 @@ TC->O(n)
 SC->O(1)
 
 Approach2: recursive approach
-1->3->2->5->null
-Node* reverseLinkedList(Node *head) 
-{
-   // Base case: If there is no node or only one node in list, return head...
-   if(head==NULL||head->next==NULL)
-	return head;
+1->2->3->4->null
+NodeList* reverseLinkedList(NodeList* head) {
+    // Base case:
+    // If the linked list is empty or has only one node,
+    // return the head as it is already reversed.
+    if (head == NULL || head->next == NULL) {
+        return head;
+    }
+    
+    // Recursive step:
+    // Reverse the linked list starting 
+    // from the second node (head->next).
+    NodeList* newHead = reverseLinkedList(head->next);
    
-   Node *newhead=reverseLinkedList(head->next);
-   Node *front=head->next;
-   front->next=head;
-   head->next=NULL;
-   return newhead;
+    // Save a reference to the node following
+    // the current 'head' node.
+    NodeList* front = head->next;
+    
+    // Make the 'front' node point to the current
+    // 'head' node in the reversed order.
+    front->next = head;
+    
+    // Break the link from the current 'head' node
+    // to the 'front' node to avoid cycles.
+    head->next = NULL;
+    
+    // Return the 'newHead,' which is the new
+    // head of the reversed linked list.
+    
+    return newHead;
+    
 }
 Dry Run:
-//1->3->2->5 will be passed to head(head is pointing to 1) ->1st call
-//3->2->5 will be passed to head(head is pointing to 3)-> 2nd call
-//2->5 will be passed to head(head is pointing to 2) -->3rd call
-//5 will be passed to head(head is pointing to 5) -->4th call
-//Now base case will hit and head will be returned to previous call(3rd call)
-newHead will start pointing to head returned from 4th call => newHead = 5(address of node having value 5) means newHead is 5 now
-front = head->next(actual head was at 2(2->3)) now front will point to 5
-front->next=head(5->next would be set to 2)==>links has been reversed
-head->next=NULL ==> set 2->next to NULL 
-Now list became:   NULL<-2<-5(newHead is at 5)
+reverseLinkedList(1) --> head(4) will be returned back to NewHead to 3rd call which has head 1
+	|
+reverseLinkedList(2) --> head(4) will be returned back to NewHead to 3rd call which has head 2
+	|
+reverseLinkedList(3) --> head(4) will be returned back to NewHead to 3rd call which has head 3
+	|
+reverseLinkedList(4) --> Now, head->next is null, it will return to 3rd call
+
 TC->O(n)
 SC->O(n){auxiliary space}
 --------------------------------------------------------------------
