@@ -510,7 +510,17 @@ Input: 'head' -> 1 -> 3 -> 5 -> 7
 Output: 'head' -> 1 -> 5 -> 3 -> 7
 Explanation:
 The nodes with odd indices (1, 5) are grouped together, followed by the nodes with even indices (3, 7).
-
+Approach:
+1) Check if there is no node or only single node, then return head itself/
+2) Take odd pointer to point odd indices, take even pointer to point even indices.
+3) Take evenHead which will point to head of even list
+4) set odd to head of list and even to head->next and evenhead to even.
+5) Iterate though list until even and even->next not equal to null(checkig for even because even indices list will be followed by odd indices)	
+6) odd->next=odd->next->next; //odd pointer was pointing to 1st pos and now it's next is set to 3rd pos
+7) even->next=even->next->next; //even pointer was pointing to 2nd pos and now it's next is set to 4th pos
+8) odd=odd->next; //moving odd pointer to next which is 3rd...5th..7th....pos
+9) even=even->next; //moving even pointer to next which is 2nd...4th..6th....pos
+10) set odd->next to evenHead.
 Node* oddEvenList(Node* head)
 {
 	//Check if there is no node or only single node, then return head itself
