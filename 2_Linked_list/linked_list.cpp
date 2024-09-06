@@ -331,6 +331,10 @@ Output: [1,2]
 
 Input: head = [1,1,2,3,3]
 Output: [1,2,3]
+Approach: 
+->Set curr pointer to head. Now compare curr & curr->next to check if both are equal or not.
+->If both equal then move curr->next pointer to curr->next->next. 
+->If not equal then move curr to curr->next	
 
 ListNode* deleteDuplicates(ListNode* head) 
 {
@@ -348,6 +352,7 @@ ListNode* deleteDuplicates(ListNode* head)
 	}
 	return head;
 }
+Time complexity: O(n)
 ---------------------------------------------------------
 6) Remove Linked List Elements:
 Given the head of a linked list and an integer val, remove all the nodes of
@@ -640,7 +645,6 @@ NodeList* reverseLinkedList(NodeList* head) {
     if (head == NULL || head->next == NULL) {
         return head;
     }
-    
     // Recursive step:
     // Reverse the linked list starting 
     // from the second node (head->next).
