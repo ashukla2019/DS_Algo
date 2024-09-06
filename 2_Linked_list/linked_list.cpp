@@ -550,7 +550,7 @@ The sorted list for the given linked list will be 0 -> 1 -> 1 -> 2 -> 2.
 Approach: To store every type of value{0,1,2}, we need 3 dummy pointers for 0,1,2 series and head for all 
 three would be required, we will take one more temp pointer to traverse complete list.
 if temp->data =0 then zero->next=temp, elsif temp->data =1 then one->next=temp else two->next=temp
-
+Then will set head of zero, one and two:
 Node* sortList(Node *head){
     Node *zeroHead=new Node(-1);
     Node *oneHead=new Node(-1);
@@ -596,30 +596,20 @@ Input : 1 -> 2 -> 3 -> 4 -> 'NULL'  and  'K' = 2
 Output: 1 -> 2 -> 4 -> 'NULL'
 
 Approach: We will take two pointers fast and slow. Fast will move till kth position. we will chck
-if fast==NULL then will return head->next
+if fast==NULL then will return head->next,
+else iterate through list until fast->next == NULL, move fast and slow by 1.	
 
-Node* removeKthNode(Node* head, int K)
-{
-    Node* fast =head;
-    Node* slow = head;
-    for(int i = 0; i<K; i++) 
-    {
-        fast = fast->next;
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *fast = head, *slow = head;
+        for (int i = 0; i < n; i++)
+            fast = fast->next;
+        if (fast == NULL) 
+            return head->next;
+        while (fast->next)
+            fast = fast->next, slow = slow->next;
+        slow->next = slow->next->next;
+        return head;
     }
-    if (fast == NULL) 
-    {
-        return head->next;
-    }
-    while (fast->next != NULL) 
-    {
-        slow = slow->next;
-        fast = fast->next;
-    }
-    Node* temp = slow->next;
-    slow->next = slow->next->next;
-    free(temp);
-    return head;
-}
 TC->O(length)
 SC->O(1)
 ---------------------------------------------------------------------------------
@@ -702,21 +692,24 @@ Input: head = [5], left = 1, right = 1
 Output: [5]
 
 ListNode* reverseBetween(ListNode* head, int left, int right) {
-        ListNode *dummy = new ListNode(0); // created dummy node
+        if (head == nullptr) return head;
+        
+        ListNode* dummy = new ListNode(0);
         dummy->next = head;
-        ListNode *prev = dummy; // intialising prev pointer on dummy node
         
-        for(int i = 0; i < left - 1; i++)
-            prev = prev->next; // adjusting the prev pointer on it's actual index
-        
-        ListNode *curr = prev->next; // curr pointer will be just after prev
-        // reversing
-        for(int i = 0; i < right - left; i++){
-            ListNode *forw = curr->next; // forw pointer will be after curr
-            curr->next = forw->next;
-            forw->next = prev->next;
-            prev->next = forw;
+        ListNode* prev = dummy;
+        for (int i = 0; i < left-1; i++) {
+            prev = prev->next;
         }
+        ListNode* curr = prev->next;
+        
+        for (int i = 0; i < right-left; i++) {
+            ListNode* next = curr->next;
+            curr->next = next->next;
+            next->next = prev->next;
+            prev->next = next;
+        }
+        
         return dummy->next;
     }
 	Time Complexity :- O(N)
