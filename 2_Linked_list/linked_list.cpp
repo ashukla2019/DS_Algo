@@ -332,7 +332,7 @@ Output: [1,2]
 Input: head = [1,1,2,3,3]
 Output: [1,2,3]
 Approach: 
-->Set curr pointer to head. Now compare curr & curr->next to check if both are equal or not.
+->Set curr pointer to head. Now compare curr & curr->next until curr && curr-> next is not null to check if both are equal or not.
 ->If both equal then move curr->next pointer to curr->next->next. 
 ->If not equal then move curr to curr->next	
 
