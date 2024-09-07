@@ -862,17 +862,17 @@ SC->O(1)
 Input: Linked List: 4 -> 10 -> 3 -> 5 -> 10(at position 2)
 Output: Length of cycle = 3
 Explanation: The cycle is 10, 3, 5.
-
+Approach:
+1) Run fast 2 steps and slow pointer 1 step, if they collide, it means there is cycle/loop.
+2) Now find the length: now move slow until slow->next becomes fast, increment cycle count.
 int findLength(Node* slow, Node* fast)
 {
-	int count=0;
-	fast=head;
-	while(slow != fast)
-	{
-		fast=fast->next;
-		count++;
-	}
-	return count;
+	int cycleLength = 1;
+        while (slow->next != fast)
+        {
+            cycleLength++;
+            slow = slow->next;
+        }
 }
 
 int lengthOfLoop(Node *head)
@@ -898,11 +898,12 @@ If given linked list is 1->2->3->4 then it should be modified to 1->2->4.
 Node* deleteMiddle(Node* head)
 {
 	Node* fast=head;
-    Node* slow=head;
+        Node* slow=head;
+	//Base case: if there is no node or one node: return null
 	if(head==nullptr || head->next==nullptr)
 		return null;
 	fast = fast->next->next;  //this step is done so that slow moves one step less and once we complete, slow will be at mid-1.
-    while (fast != nullptr && fast->next != nullptr) {
+    	while (fast != nullptr && fast->next != nullptr) {
         slow=slow->next;
         fast=fast->next->next;
     }
@@ -910,7 +911,7 @@ Node* deleteMiddle(Node* head)
 	return head;
 }
 --------------------------------------------------------------------------------
-20 Find the starting point of the Loop/Cycle in LinkedList 
+20) Find the starting point of the Loop/Cycle in LinkedList 
 You are given a singly linked list that may or may not contain a cycle. You are supposed to 
 return the node where the cycle begins, if a cycle exists, else return 'NULL'.
 A cycle occurs when a node's next pointer returns to a previous node in the list.
