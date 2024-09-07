@@ -373,7 +373,8 @@ ListNode* deleteDuplicates(ListNode* head) {
 
         // Create a dummy node that points to the head of the list
         // This helps in handling cases where the first few nodes are duplicates
-        ListNode* dummy = new ListNode(0, head);
+        ListNode* dummy = new ListNode(0);
+	dummy -> next = head;
         
         // Initialize 'prev' to point to the dummy node
         // 'prev' will be used to link nodes that are not part of any duplicate sequence
