@@ -387,7 +387,6 @@ ListNode* deleteDuplicates(ListNode* head) {
         // Traverse through the list until the end
         while (curr != NULL) {
             // Check if the current node has a duplicate
-            if (curr->next != NULL && curr->val == curr->next->val) {
                 // Skip all nodes that have the same value as 'curr'
                 // Move 'curr' forward until the last duplicate node
                 while (curr->next != NULL && curr->val == curr->next->val) {
