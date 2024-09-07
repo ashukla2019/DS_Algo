@@ -746,28 +746,44 @@ Output: [1,4,3,2,5]
 
 Input: head = [5], left = 1, right = 1
 Output: [5]
+Approach:
+1) will use same approach to reverse list.
+2) Create dummy and set dummy->next = head
+3) set leftPre = dummy and currNode = head, now move both pointers to next from 0 to left-1;
+4) Now reverse like previous problem and then join the rebersed piece of list to exisiting
 
 ListNode* reverseBetween(ListNode* head, int left, int right) {
-        if (head == nullptr) return head;
-        
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-        
-        ListNode* prev = dummy;
-        for (int i = 0; i < left-1; i++) {
-            prev = prev->next;
-        }
-        ListNode* curr = prev->next;
-        
-        for (int i = 0; i < right-left; i++) {
-            ListNode* next = curr->next;
-            curr->next = next->next;
-            next->next = prev->next;
-            prev->next = next;
-        }
-        
-        return dummy->next;
+
+    // create a dummy node to mark the head of this list
+    ListNode* dummy = new ListNode(0);
+    dummy->next = head;
+
+    // make markers for currentNode and for the node before reversing
+    ListNode* leftPre = dummy;
+    ListNode* currNode = head;
+
+    for (int i = 0; i < left - 1; i++) {
+      leftPre = leftPre->next;
+      currNode = currNode->next;
     }
+
+    // make a marker to node where we start reversing
+    ListNode* subListHead = currNode;
+
+    ListNode* preNode = NULL;
+    for (int i = 0; i <= right - left; i++) {
+      ListNode* temp = currNode->next;
+      currNode->next = preNode;
+      preNode = currNode;
+      currNode = temp;
+    }
+
+    // Join the pieces
+    leftPre->next = preNode;
+    subListHead->next = currNode;
+
+    return dummy->next;
+   }
 	Time Complexity :- O(N)
 	Space Complexity :- O(1)
 ------------------------------------------------------------------------------------
