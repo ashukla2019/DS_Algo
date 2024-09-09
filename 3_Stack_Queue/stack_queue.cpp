@@ -661,22 +661,27 @@ Space Complexity: O(N)
 Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
 Note that after backspacing an empty text, the text will continue empty.
 Example 1:
-
 Input: s = "ab#c", t = "ad#c"
 Output: true
 Explanation: Both s and t become "ac".
+	
 Example 2:
-
 Input: s = "ab##", t = "c#d#"
 Output: true
 Explanation: Both s and t become "".
+	
 Example 3:
-
 Input: s = "a#c", t = "b"
 Output: false
 Explanation: s becomes "c" while t becomes "b".
 
-	string convert(string s)
+Approach:
+1) will convert strings by putting all chars to stack.
+2) will check current stack element, if it is '#' and stack is not empty then pop the last stack element
+3) if it is other than '#' then push element to stack.
+4) Now iterate through stack and crate new string with stack elements.
+	
+    string convert(string s)
     {
         stack<char>st;//stack of characters
         for(int i = 0;i<s.length();i++)
@@ -690,7 +695,7 @@ Explanation: s becomes "c" while t becomes "b".
                 st.push(s[i]);
         }
         string a = "";
-        while(st.empty()==false)
+        while(!st.empty())
         {
             a+=st.top();
             st.pop();
@@ -702,299 +707,12 @@ Explanation: s becomes "c" while t becomes "b".
         string s2 = convert(t);
         return s1==s2;
     }
-	Time complexity:O(N), N being the length of longer string
-	Space complexity:O(N)
-----------------------------------------------------------------
-11) Implement Stack and Queue using Deque:
-// C++ Program to implement stack and queue using Deque
-#include <bits/stdc++.h>
-using namespace std;
-
-// structure for a node of deque
-struct DQueNode {
-    int value;
-    DQueNode* next;
-    DQueNode* prev;
-};
-
-// Implementation of deque class
-class Deque {
-private:
-
-    // pointers to head and tail of deque
-    DQueNode* head;
-    DQueNode* tail;
-
-public:
-    // constructor
-    Deque()
-    {
-        head = tail = NULL;
-    }
-
-    // if list is empty
-    bool isEmpty()
-    {
-        if (head == NULL)
-            return true;
-        return false;
-    }
-
-    // count the number of nodes in list
-    int size()
-    {
-        // if list is not empty
-        if (!isEmpty()) {
-            DQueNode* temp = head;
-            int len = 0;
-            while (temp != NULL) {
-                len++;
-                temp = temp->next;
-            }
-            return len;
-        }
-        return 0;
-    }
-
-    // insert at the first position
-    void insert_first(int element)
-    {
-        // allocating node of DQueNode type
-        DQueNode* temp = new DQueNode[sizeof(DQueNode)];
-        temp->value = element;
-
-        // if the element is first element
-        if (head == NULL) {
-            head = tail = temp;
-            temp->next = temp->prev = NULL;
-        }
-        else {
-            head->prev = temp;
-            temp->next = head;
-            temp->prev = NULL;
-            head = temp;
-        }
-    }
-
-    // insert at last position of deque
-    void insert_last(int element)
-    {
-        // allocating node of DQueNode type
-        DQueNode* temp = new DQueNode[sizeof(DQueNode)];
-        temp->value = element;
-
-        // if element is the first element
-        if (head == NULL) {
-            head = tail = temp;
-            temp->next = temp->prev = NULL;
-        }
-        else {
-            tail->next = temp;
-            temp->next = NULL;
-            temp->prev = tail;
-            tail = temp;
-        }
-    }
-
-    // remove element at the first position
-    void remove_first()
-    {
-        // if list is not empty
-        if (!isEmpty()) {
-            DQueNode* temp = head;
-            head = head->next;
-            if(head) head->prev = NULL;
-            delete temp;
-            if(head == NULL) tail = NULL;
-            return;
-        }
-        cout << "List is Empty" << endl;
-    }
-
-    // remove element at the last position
-    void remove_last()
-    {
-        // if list is not empty
-        if (!isEmpty()) {
-            DQueNode* temp = tail;
-            tail = tail->prev;
-            if(tail) tail->next = NULL;
-            delete temp;
-            if(tail == NULL) head = NULL;
-            return;
-        }
-        cout << "List is Empty" << endl;
-    }
-
-    // displays the elements in deque
-    void display()
-    {
-        // if list is not empty
-        if (!isEmpty()) {
-            DQueNode* temp = head;
-            while (temp != NULL) {
-                cout << temp->value << " ";
-                temp = temp->next;
-            }
-            cout << endl;
-            return;
-        }
-        cout << "List is Empty" << endl;
-    }
-};
-
-// Class to implement stack using Deque
-class Stack : public Deque {
-public:
-    // push to push element at top of stack
-    // using insert at last function of deque
-    void push(int element)
-    {
-        insert_last(element);
-    }
-
-    // pop to remove element at top of stack
-    // using remove at last function of deque
-    void pop()
-    {
-        remove_last();
-    }
-};
-
-// class to implement queue using deque
-class Queue : public Deque {
-public:
-    // enqueue to insert element at last
-    // using insert at last function of deque
-    void enqueue(int element)
-    {
-        insert_last(element);
-    }
-
-    // dequeue to remove element from first
-    // using remove at first function of deque
-    void dequeue()
-    {
-        remove_first();
-    }
-};
-
-// Driver Code
-int main()
-{
-    // object of Stack
-    Stack stk;
-
-    // push 7 and 8 at top of stack
-    stk.push(7);
-    stk.push(8);
-    cout << "Stack: ";
-    stk.display();
-
-    // pop an element
-    stk.pop();
-    cout << "Stack: ";
-    stk.display();
-
-    // object of Queue
-    Queue que;
-
-    // insert 12 and 13 in queue
-    que.enqueue(12);
-    que.enqueue(13);
-    cout << "Queue: ";
-    que.display();
-
-    // delete an element from queue
-    que.dequeue();
-    cout << "Queue: ";
-    que.display();
-
-    cout << "Size of Stack is " << stk.size() << endl;
-    cout << "Size of Queue is " << que.size() << endl;
-    return 0;
-}
-Time Complexity: O(n)
-Auxiliary Space: O(n)
----------------------------------------------------------------
-12) Evaluation of Postfix Expression:
-Given a postfix expression, the task is to evaluate the postfix expression.
-Postfix expression: The expression of the form “a b operator” (ab+) i.e., when a pair of operands is followed by an operator.
-
-Examples:
-Input: str = “2 3 1 * + 9 -“
-Output: -4
-Explanation: If the expression is converted into an infix expression, it will be 2 + (3 * 1) – 9 = 5 – 9 = -4.
-
-Input: str = “100 200 + 2 / 5 * 7 +”
-Output: 757
-
-Evaluation of Postfix Expression using Stack:
-To evaluate a postfix expression we can use a stack.
-
-Iterate the expression from left to right and keep on storing the operands into 
-a stack. Once an operator is received, pop the two topmost elements and evaluate 
-them and push the result in the stack again.
-
-// C++ program to evaluate value of a postfix expression
-#include <bits/stdc++.h>
-using namespace std;
-
-// The main function that returns value 
-// of a given postfix expression
-int evaluatePostfix(string exp)
-{
-	// Create a stack of capacity equal to expression size
-	stack<int> st;
-
-	// Scan all characters one by one
-	for (int i = 0; i < exp.size(); ++i) {
-		
-		// If the scanned character is an operand 
-		// (number here), push it to the stack.
-		if (isdigit(exp[i]))
-			st.push(exp[i] - '0');
-
-		// If the scanned character is an operator, 
-		// pop two elements from stack apply the operator
-		else {
-			int val1 = st.top();
-			st.pop();
-			int val2 = st.top();
-			st.pop();
-			switch (exp[i]) {
-			case '+':
-				st.push(val2 + val1);
-				break;
-			case '-':
-				st.push(val2 - val1);
-				break;
-			case '*':
-				st.push(val2 * val1);
-				break;
-			case '/':
-				st.push(val2 / val1);
-				break;
-			}
-		}
-	}
-	return st.top();
-}
-
-// Driver code
-int main()
-{
-	string exp = "231*+9-";
-
-	// Function call
-	cout << "postfix evaluation: " << evaluatePostfix(exp);
-	return 0;
-}
-Time Complexity: O(N) 
-Auxiliary Space: O(N)
------------------------------------------------------------------
-13) Implement two Stacks in an Array
-Create a data structure twoStacks that represent two stacks. Implementation of twoStacks should use only one array, i.e., both stacks should use the same array for storing elements. 
+Time complexity:O(N), N being the length of longer string
+Space complexity:O(N)
+-----------------------------------------------------------------------------
+11) Implement two Stacks in an Array
+Create a data structure twoStacks that represent two stacks. Implementation of twoStacks should use only 
+one array, i.e., both stacks should use the same array for storing elements. 
 
 Following functions must be supported by twoStacks.
 
@@ -1003,14 +721,17 @@ push2(int x) –> pushes x to second stack
 pop1() –> pops an element from first stack and return the popped element 
 pop2() –> pops an element from second stack and return the popped element
 
-	#include <bits/stdc++.h> 
+Approach: 
+will have single array with size n. Both top1 and top2 would be initialized with n/2+1 & n/2 respectively.
+Push:will move top1-- until it is >0 and top2++ until <size-1;
+Pop: will move top1++ to remove element until <size/2, will move top2-- until >=size/2
+	
+#include <bits/stdc++.h> 
 using namespace std; 
-
 class twoStacks { 
 	int* arr; 
 	int size; 
 	int top1, top2; 
-
 public: 
 	// Constructor 
 	twoStacks(int n) 
@@ -1105,10 +826,8 @@ Time Complexity:
 Both Push operation: O(1)
 Both Pop operation: O(1)
 Auxiliary Space: O(N), Use of array to implement stack.
-
--------------------------------------------------------------------
-
-14) Min Stack implementation:
+-------------------------------------------------------------------------------
+12) Min Stack implementation:
 Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
 Implement the MinStack class:
 MinStack() initializes the stack object.
@@ -1133,73 +852,21 @@ minStack.pop();
 minStack.top();    // return 0
 minStack.getMin(); // return -2
 
-A// A user defined stack that supports getMin() in
-// addition to push() and pop()
-struct MyStack {
-    stack<int> s;
-    int minEle;
-    // Prints minimum element of MyStack
-    void getMin()
+class MinStack {
+public:
+    vector< pair<int,int> > s;
+    MinStack() { }
+    void push(int val) 
     {
-        if (s.empty())
-            cout << "Stack is empty\n";
-        // variable minEle stores the minimum element
-        // in the stack.
+        if(s.empty())
+            s.push_back({val,val});
         else
-            cout << "Minimum Element in the stack is: "
-                 << minEle << "\n";
+            s.push_back({val,min(s.back().second,val)});    
     }
-    // Prints top element of MyStack
-    void peek()
-    {
-        if (s.empty()) {
-            cout << "Stack is empty ";
-            return;
-        }
-        int t = s.top(); // Top element.
-        cout << "Top Most Element is: ";
-        // If t < minEle means minEle stores
-        // value of t.
-        (t < minEle) ? cout << minEle : cout << t;
-    }
-    // Remove the top element from MyStack
-    void pop()
-    {
-        if (s.empty()) {
-            cout << "Stack is empty\n";
-            return;
-        }
-        cout << "Top Most Element Removed: ";
-        int t = s.top();
-        s.pop();
-        // Minimum will change as the minimum element
-        // of the stack is being removed.
-        if (t < minEle) {
-            cout << minEle << "\n";
-            minEle = 2 * minEle - t;
-        }
-        else
-            cout << t << "\n";
-    }
-    // Removes top element from MyStack
-    void push(int x)
-    {
-        // Insert new number into the stack
-        if (s.empty()) {
-            minEle = x;
-            s.push(x);
-            cout << "Number Inserted: " << x << "\n";
-            return;
-        }
-        // If new number is less than minEle
-        else if (x < minEle) {
-            s.push(2 * x - minEle);
-            minEle = x;
-        }
-        else
-            s.push(x);
-        cout << "Number Inserted: " << x << "\n";
-    }
+    void pop() { s.pop_back(); }
+    int top() { return s.back().first; }
+    
+    int getMin() { return s.back().second; }
 };
  
 // Driver Code
@@ -1742,8 +1409,294 @@ public:
 };
 Time complexity: O(1)
 Space complexity: O(n)
+----------------------------------------------------------------------------------- 
+11) Implement Stack and Queue using Deque:
+// C++ Program to implement stack and queue using Deque
+#include <bits/stdc++.h>
+using namespace std;
 
+// structure for a node of deque
+struct DQueNode {
+    int value;
+    DQueNode* next;
+    DQueNode* prev;
+};
 
+// Implementation of deque class
+class Deque {
+private:
+
+    // pointers to head and tail of deque
+    DQueNode* head;
+    DQueNode* tail;
+
+public:
+    // constructor
+    Deque()
+    {
+        head = tail = NULL;
+    }
+
+    // if list is empty
+    bool isEmpty()
+    {
+        if (head == NULL)
+            return true;
+        return false;
+    }
+
+    // count the number of nodes in list
+    int size()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = head;
+            int len = 0;
+            while (temp != NULL) {
+                len++;
+                temp = temp->next;
+            }
+            return len;
+        }
+        return 0;
+    }
+
+    // insert at the first position
+    void insert_first(int element)
+    {
+        // allocating node of DQueNode type
+        DQueNode* temp = new DQueNode[sizeof(DQueNode)];
+        temp->value = element;
+
+        // if the element is first element
+        if (head == NULL) {
+            head = tail = temp;
+            temp->next = temp->prev = NULL;
+        }
+        else {
+            head->prev = temp;
+            temp->next = head;
+            temp->prev = NULL;
+            head = temp;
+        }
+    }
+
+    // insert at last position of deque
+    void insert_last(int element)
+    {
+        // allocating node of DQueNode type
+        DQueNode* temp = new DQueNode[sizeof(DQueNode)];
+        temp->value = element;
+
+        // if element is the first element
+        if (head == NULL) {
+            head = tail = temp;
+            temp->next = temp->prev = NULL;
+        }
+        else {
+            tail->next = temp;
+            temp->next = NULL;
+            temp->prev = tail;
+            tail = temp;
+        }
+    }
+
+    // remove element at the first position
+    void remove_first()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = head;
+            head = head->next;
+            if(head) head->prev = NULL;
+            delete temp;
+            if(head == NULL) tail = NULL;
+            return;
+        }
+        cout << "List is Empty" << endl;
+    }
+
+    // remove element at the last position
+    void remove_last()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = tail;
+            tail = tail->prev;
+            if(tail) tail->next = NULL;
+            delete temp;
+            if(tail == NULL) head = NULL;
+            return;
+        }
+        cout << "List is Empty" << endl;
+    }
+
+    // displays the elements in deque
+    void display()
+    {
+        // if list is not empty
+        if (!isEmpty()) {
+            DQueNode* temp = head;
+            while (temp != NULL) {
+                cout << temp->value << " ";
+                temp = temp->next;
+            }
+            cout << endl;
+            return;
+        }
+        cout << "List is Empty" << endl;
+    }
+};
+
+// Class to implement stack using Deque
+class Stack : public Deque {
+public:
+    // push to push element at top of stack
+    // using insert at last function of deque
+    void push(int element)
+    {
+        insert_last(element);
+    }
+
+    // pop to remove element at top of stack
+    // using remove at last function of deque
+    void pop()
+    {
+        remove_last();
+    }
+};
+
+// class to implement queue using deque
+class Queue : public Deque {
+public:
+    // enqueue to insert element at last
+    // using insert at last function of deque
+    void enqueue(int element)
+    {
+        insert_last(element);
+    }
+
+    // dequeue to remove element from first
+    // using remove at first function of deque
+    void dequeue()
+    {
+        remove_first();
+    }
+};
+
+// Driver Code
+int main()
+{
+    // object of Stack
+    Stack stk;
+
+    // push 7 and 8 at top of stack
+    stk.push(7);
+    stk.push(8);
+    cout << "Stack: ";
+    stk.display();
+
+    // pop an element
+    stk.pop();
+    cout << "Stack: ";
+    stk.display();
+
+    // object of Queue
+    Queue que;
+
+    // insert 12 and 13 in queue
+    que.enqueue(12);
+    que.enqueue(13);
+    cout << "Queue: ";
+    que.display();
+
+    // delete an element from queue
+    que.dequeue();
+    cout << "Queue: ";
+    que.display();
+
+    cout << "Size of Stack is " << stk.size() << endl;
+    cout << "Size of Queue is " << que.size() << endl;
+    return 0;
+}
+Time Complexity: O(n)
+Auxiliary Space: O(n)	
+--------------------------------------------------------------------------------
+12) Evaluation of Postfix Expression:
+Given a postfix expression, the task is to evaluate the postfix expression.
+Postfix expression: The expression of the form “a b operator” (ab+) i.e., when a pair of operands is followed by an operator.
+
+Examples:
+Input: str = “2 3 1 * + 9 -“
+Output: -4
+Explanation: If the expression is converted into an infix expression, it will be 2 + (3 * 1) – 9 = 5 – 9 = -4.
+
+Input: str = “100 200 + 2 / 5 * 7 +”
+Output: 757
+
+Evaluation of Postfix Expression using Stack:
+To evaluate a postfix expression we can use a stack.
+
+Iterate the expression from left to right and keep on storing the operands into 
+a stack. Once an operator is received, pop the two topmost elements and evaluate 
+them and push the result in the stack again.
+
+// C++ program to evaluate value of a postfix expression
+#include <bits/stdc++.h>
+using namespace std;
+
+// The main function that returns value 
+// of a given postfix expression
+int evaluatePostfix(string exp)
+{
+	// Create a stack of capacity equal to expression size
+	stack<int> st;
+
+	// Scan all characters one by one
+	for (int i = 0; i < exp.size(); ++i) {
+		
+		// If the scanned character is an operand 
+		// (number here), push it to the stack.
+		if (isdigit(exp[i]))
+			st.push(exp[i] - '0');
+
+		// If the scanned character is an operator, 
+		// pop two elements from stack apply the operator
+		else {
+			int val1 = st.top();
+			st.pop();
+			int val2 = st.top();
+			st.pop();
+			switch (exp[i]) {
+			case '+':
+				st.push(val2 + val1);
+				break;
+			case '-':
+				st.push(val2 - val1);
+				break;
+			case '*':
+				st.push(val2 * val1);
+				break;
+			case '/':
+				st.push(val2 / val1);
+				break;
+			}
+		}
+	}
+	return st.top();
+}
+
+// Driver code
+int main()
+{
+	string exp = "231*+9-";
+
+	// Function call
+	cout << "postfix evaluation: " << evaluatePostfix(exp);
+	return 0;
+}
+Time Complexity: O(N) 
+Auxiliary Space: O(N)
 -------------------------------Hard------------------------------------------------------
 ----------------------------------------------------------------------------------
 
