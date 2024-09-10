@@ -378,7 +378,72 @@ Space Complexity:
 The space complexity of counting sort is O(n + k).  
 
 --------------------------------------------------------------------
-8) Permute two arrays such that sum of every pair is greater or equal to K:
+8) Two Sum using Binary Search
+	
+	bool binarySearch(int A[], int low, int high, int searchKey)
+	{
+
+		while (low <= high) {
+			int m = low + (high - low) / 2;
+
+			// Check if searchKey is present at mid
+			if (A[m] == searchKey)
+				return true;
+
+			// If searchKey greater, ignore left half
+			if (A[m] < searchKey)
+				low = m + 1;
+
+			// If searchKey is smaller, ignore right half
+			else
+				high = m - 1;
+		}
+
+		// if we reach here, then element was
+		// not present
+		return false;
+	}
+
+	bool checkTwoSum(int A[], int arr_size, int sum)
+	{
+		int l, r;
+
+		/* Sort the elements */
+		sort(A, A + arr_size);
+
+		// Traversing all element in an array search for
+		// searchKey
+		for (int i = 0; i < arr_size - 1; i++) {
+
+			int searchKey = sum - A[i];
+			// calling binarySearch function
+			if (binarySearch(A, i + 1, arr_size - 1, searchKey)
+				== true) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/* Driver program to test above function */
+	int main()
+	{
+		int A[] = { 1, 4, 45, 6, 10, -8 };
+		int n = 14;
+		int arr_size = sizeof(A) / sizeof(A[0]);
+
+		// Function calling
+		if (checkTwoSum(A, arr_size, n))
+			cout << "Yes";
+		else
+			cout << "No";
+
+		return 0;
+	}
+	Time Complexity: O(NlogN)
+	Auxiliary Space: O(1)
+---------------------------------------------------------------------------------		
+9) Permute two arrays such that sum of every pair is greater or equal to K:
 Given two arrays of equal size n and an integer k. The task is to permute both
 arrays such that sum of their corresponding element is greater than or equal to 
 k i.e a[i] + b[i] >= k. The task is to print “Yes” if any such permutation exists, 
@@ -440,7 +505,7 @@ int main()
 Time Complexity: O(n log n).
 Auxiliary Space: O(1)
 --------------------------------------------------------------------
-9) Find a pair with the given difference:
+10) Find a pair with the given difference:
 Given an unsorted array and a number n, find if there exists a pair of elements in the array whose difference is n. 
 Examples: 
 
@@ -498,7 +563,7 @@ Time Complexity: O(n*log(n)) [Sorting is still required as first step],
 Where n is number of element in given array
 Auxiliary Space: O(1)
 -----------------------------------------------------
-10) Check if reversing a sub array make the array sorted
+11) Check if reversing a sub array make the array sorted
 Given an array of n distinct integers. The task is to check whether reversing any one sub-array can make the array sorted or not. If the array is already sorted or can be made sorted by reversing any one subarray, print “Yes“, else print “No“.
 
 Examples: 
@@ -574,7 +639,7 @@ int main()
 Time Complexity: O(n)
 Auxiliary Space: O(1)
 ---------------------------------------------------------------
-11)Product of Array except itself
+12)Product of Array except itself
 Given an array arr[] of n integers, construct a Product Array prod[] (of the same size) such that prod[i] is equal to the product of all the elements of arr[] except arr[i]. 
 
 Note: Solve it without the division operator in O(n) time.
@@ -669,7 +734,7 @@ The original array needs to be traversed only once, so the time complexity is co
 Auxiliary Space: O(n). 
 Even though the extra arrays are removed, the space complexity remains O(n), as the product array is still needed.
 ------------------------------------------------------------------
-12)Make all array elements equal with minimum cost
+13)Make all array elements equal with minimum cost
 Given an array which contains integer values, we need to make all values of this array equal to some integer value with minimum cost where the cost of changing an array value x to y is abs(x-y). 
 Examples : 
 Input  : arr[] = [1, 100, 101]
@@ -764,7 +829,7 @@ int main()
 Time Complexity: O(NlogN)
 Auxiliary Space: O(1)
 -------------------------------------------------------------------
-13) Find Peak Element:
+14) Find Peak Element:
 A peak element is an element that is strictly greater than its neighbors.
 Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
 You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
@@ -800,7 +865,7 @@ element.
 Space Complexity : O(1), since we stored only some constant number of elements, the space complexity is
 constant.
 ----------------------------------------------------------
-14) Allocate minimum pages:
+15) Allocate minimum pages:
 Problem Statement: Given an array ‘arr of integer numbers, ‘ar[i]’ represents the number of pages in the ‘i-th’ book. There are a ‘m’ number of students, and the task is to allocate all the books to the students.
 Allocate books in such a way that:
 
@@ -894,7 +959,7 @@ Reason: We are applying binary search on [max(arr[]), sum(arr[])]. Inside the lo
 Space Complexity:  O(1) as we are not using any extra space to solve this problem
 
 -------------------------------------------------------------
-15) Minimum number of swaps required to sort an array
+16) Minimum number of swaps required to sort an array
 You are given an unordered array consisting of consecutive integers [1, 2, 3, ..., n] without any duplicates. You are allowed to swap any two elements. Find the minimum number of swaps required to sort the array in ascending order
 Ex:
 Input:
@@ -1003,7 +1068,7 @@ Time Complexity: O(N * Log N)
 Auxiliary Space: O(N)
 
 --------------------------------------------------------------
-16) Aggressive cows: Problem Statement: You are given an array 'arr' of size 'n' which denotes the position of stalls.
+17) Aggressive cows: Problem Statement: You are given an array 'arr' of size 'n' which denotes the position of stalls.
 You are also given an integer 'k' which denotes the number of aggressive cows.
 You are given the task of assigning stalls to 'k' cows such that the minimum distance between any two of them is the maximum possible.
 Find the maximum possible minimum distance.
@@ -1070,7 +1135,7 @@ Reason: O(NlogN) for sorting the array. We are applying binary search on [1, max
 Space Complexity: O(1) as we are not using any extra space to solve this problem
 
 -------------------------------------------------------------
-17) Search in Rotated Sorted Array:
+18) Search in Rotated Sorted Array:
 Problem Statement: Given an integer array arr of size N, sorted in ascending 
 order (with distinct values) and a target value k. Now the array is rotated at 
 some pivot point unknown to you. Find the index at which k is present and if 
@@ -1140,7 +1205,7 @@ Reason: We have not used any extra data structures, this makes space complexity,
 
 --------------------------------------------------------------
 -------------------------Hard----
-18) Count of Smaller Numbers After Self
+19) Count of Smaller Numbers After Self
 
 --------------------------------------------------------------
-19) Split Array Largest Sum
+20) Split Array Largest Sum
