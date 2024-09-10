@@ -1036,7 +1036,22 @@ int mctFromLeafValues(vector<int>& A) {
 	Space O(N) for stack in the worst cases
 
 -----------------------------------------------------------
-19) Daily Temperatures:
+19) Daily Temperatures:Given an array of integers temperatures represents the daily 
+temperatures, return an array answer such that answer[i] is the number of days you have to 
+wait after the ith day to get a warmer temperature. If there is no future day for which this
+is possible, keep answer[i] == 0 instead.
+Example 1:
+Input: temperatures = [73,74,75,71,69,72,76,73]
+Output: [1,1,4,2,1,1,0,0]
+	
+Example 2:
+Input: temperatures = [30,40,50,60]
+Output: [1,1,1,0]
+
+Example 3:
+Input: temperatures = [30,60,90]
+Output: [1,1,0]
+ 
 vector<int> dailyTemperatures(vector<int>& temperatures) {
         int n = temperatures.size();
         vector<int> result(n, 0);
@@ -1052,164 +1067,10 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 
         return result;
     }
-	Time complexity: O(n), n is the total number of days and each index is pushed or popped from the stack at most onces.
-	Space complexity: O(n), for stack O(n)
+Time complexity: O(n), n is the total number of days and each index is pushed or popped from the stack at most onces.
+Space complexity: O(n), for stack O(n)
 -----------------------------------------------------------------------------
-20) Evaluate Reverse Polish Notation
-You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
-Evaluate the expression. Return an integer that represents the value of the expression.
-
-Note that:
-The valid operators are '+', '-', '*', and '/'.
-Each operand may be an integer or another expression.
-The division between two integers always truncates toward zero.
-There will not be any division by zero.
-The input represents a valid arithmetic expression in a reverse polish notation.
-The answer and all the intermediate calculations can be represented in a 32-bit integer.
-
-Example 1:
-
-Input: tokens = ["2","1","+","3","*"]
-Output: 9
-Explanation: ((2 + 1) * 3) = 9
-Example 2:
-
-Input: tokens = ["4","13","5","/","+"]
-Output: 6
-Explanation: (4 + (13 / 5)) = 6
-Example 3:
-
-Input: tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
-Output: 22
-Explanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
-= ((10 * (6 / (12 * -11))) + 17) + 5
-= ((10 * (6 / -132)) + 17) + 5
-= ((10 * 0) + 17) + 5
-= (0 + 17) + 5
-= 17 + 5
-= 22
-
-	 int evalRPN(vector<string>& tokens) {
-        stack<int> st;
-
-        for (string c : tokens) {
-            if (c == "+") {
-                int second = st.top(); st.pop();
-                int first = st.top(); st.pop();
-                st.push(first + second);
-            } else if (c == "-") {
-                int second = st.top(); st.pop();
-                int first = st.top(); st.pop();
-                st.push(first - second);
-            } else if (c == "*") {
-                int second = st.top(); st.pop();
-                int first = st.top(); st.pop();
-                st.push(first * second);
-            } else if (c == "/") {
-                int second = st.top(); st.pop();
-                int first = st.top(); st.pop();
-                st.push(first / second);
-            } else {
-                st.push(stoi(c));
-            }
-        }
-
-        return st.top();        
-    }
-	Time complexity: O(n)
-	Space complexity: O(n)
------------------------------------------------------------------------
-21) Rotten Oranges:
-Given a grid of dimension nxm where each cell in the grid can have values 0, 1 or 2 which has the following meaning:
-0 : Empty cell
-1 : Cells have fresh oranges
-2 : Cells have rotten oranges
-
-We have to determine what is the earliest time after which all the oranges are rotten. A rotten orange at index [i,j] can rot other fresh orange at indexes [i-1,j], [i+1,j], [i,j-1], [i,j+1] (up, down, left and right) in unit time. 
- 
-
-Example 1:
-
-Input: grid = {{0,1,2},{0,1,2},{2,1,1}}
-Output: 1
-Explanation: The grid is-
-0 1 2
-0 1 2
-2 1 1
-Oranges at positions (0,2), (1,2), (2,0)
-will rot oranges at (0,1), (1,1), (2,2) and 
-(2,1) in unit time.
-Example 2:
-
-Input: grid = {{2,2,0,1}}
-Output: -1
-Explanation: The grid is-
-2 2 0 1
-Oranges at (0,0) and (0,1) can't rot orange at
-(0,3).
-
-Your Task:
-You don't need to read or print anything, Your task is to complete the function orangesRotting() which takes grid as input parameter and returns the minimum time to rot all the fresh oranges. If not possible returns -1.
- 
-Expected Time Complexity: O(n*m)
-Expected Auxiliary Space: O(n*m)
-  int orangesRotting(vector<vector<int>>& grid) {
-          queue<pair<int, int>>q;
-          int r = grid.size();
-          int c = grid[0].size();
-          
-          for(int i=0; i<r; i++){
-              for(int j=0; j<c; j++){
-                  if(grid[i][j] == 2)
-                    q.push({i, j});
-              }   
-          }
-          int count = 0;
-          q.push({-1, -1});
-          while(!q.empty()){
-              int x = q.front().first;
-              int y = q.front().second;
-              if((x == -1 and y == -1) and q.size() == 1){
-                  q.pop();
-                  break;
-              }
-              else if((x == -1 and y == -1) and q.size() > 1){
-                  count++;
-                  q.pop();
-                  q.push({-1, -1});
-              }
-              else{
-                  
-                  if(x-1 >= 0 and grid[x-1][y] == 1 ){
-                      q.push({x-1, y});
-                       grid[x-1][y] = 2;
-                  }
-                  if(y-1 >= 0 and grid[x][y-1] == 1){
-                      q.push({x, y-1});
-                       grid[x][y-1] = 2;
-                  }
-                    if(x+1 < r and grid[x+1][y] == 1 ){
-                      q.push({x+1, y});
-                       grid[x+1][y] = 2;
-                  }
-                  if(y+1 < c and grid[x][y+1] == 1){
-                      q.push({x, y+1});
-                      grid[x][y+1] = 2;
-                  }
-                  q.pop();
-              }
-          }
-           for(int i=0; i<r; i++){
-              for(int j=0; j<c; j++){
-                  if(grid[i][j] == 1)
-                   return -1;
-              }   
-          }
-          return count;
-    }
-
-------------------------------------------------------------------------------
-22) Sum of Subarray Minimum: Given an array of integers arr, find the sum of min(b), where b ranges 
+20) Sum of Subarray Minimum: Given an array of integers arr, find the sum of min(b), where b ranges 
 over every (contiguous) subarray of arr. Since the answer may be large, return the answer 
 modulo 109 + 7.
 
@@ -1266,7 +1127,7 @@ should be minimum:
 Time complexity:O(n)
 Space complexity:O(n)
 --------------------------------------------------------------------------------
-23) Sum of subarray ranges: You are given an integer array nums. The range of a subarray of nums
+21) Sum of subarray ranges: You are given an integer array nums. The range of a subarray of nums
 is the difference between the largest and smallest element in the subarray.
 Return the sum of all subarray ranges of nums.
 A subarray is a contiguous non-empty sequence of elements within an array.
@@ -1323,8 +1184,8 @@ long long subArrayRanges(vector<int>& nums) {
         return sum;
       
     }
-------------------------------------------------------------------------------
-24) Aestroid Collisions: We are given an array asteroids of integers representing asteroids in a row.
+------------------------------------------------------------------------------------ 
+22) Aestroid Collisions: We are given an array asteroids of integers representing asteroids in a row.
 For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
 Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
 
@@ -1370,7 +1231,7 @@ vector<int> asteroidCollision(vector<int>& asteroids) {
     }
 
 -----------------------------------------------------------------------------
-25) Online Stock Span
+23) Online Stock Span
 Design an algorithm that collects daily price quotes for some stock and returns the span of that stock's price for the current day.
 
 The span of the stock's price in one day is the maximum number of consecutive days (starting from that day and going backward) for which the stock price was less than or equal to the price of that day.
@@ -1420,7 +1281,7 @@ public:
 Time complexity: O(1)
 Space complexity: O(n)
 ----------------------------------------------------------------------------------- 
-26) Evaluation of Postfix Expression:
+24) Evaluation of Postfix Expression:
 Given a postfix expression, the task is to evaluate the postfix expression.
 Postfix expression: The expression of the form “a b operator” (ab+) i.e., when a pair of operands is followed by an operator.
 
@@ -1495,6 +1356,155 @@ int main()
 }
 Time Complexity: O(N) 
 Auxiliary Space: O(N)
+------------------------------------------------------------------------------
+25) Evaluate Reverse Polish Notation
+You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
+Evaluate the expression. Return an integer that represents the value of the expression.
+
+Note that:
+The valid operators are '+', '-', '*', and '/'.
+Each operand may be an integer or another expression.
+The division between two integers always truncates toward zero.
+There will not be any division by zero.
+The input represents a valid arithmetic expression in a reverse polish notation.
+The answer and all the intermediate calculations can be represented in a 32-bit integer.
+
+Example 1:
+Input: tokens = ["2","1","+","3","*"]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+Example 2:
+
+Input: tokens = ["4","13","5","/","+"]
+Output: 6
+Explanation: (4 + (13 / 5)) = 6
+Example 3:
+
+Input: tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
+Output: 22
+Explanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+= ((10 * (6 / (12 * -11))) + 17) + 5
+= ((10 * (6 / -132)) + 17) + 5
+= ((10 * 0) + 17) + 5
+= (0 + 17) + 5
+= 17 + 5
+= 22
+
+	 int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+
+        for (string c : tokens) {
+            if (c == "+") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first + second);
+            } else if (c == "-") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first - second);
+            } else if (c == "*") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first * second);
+            } else if (c == "/") {
+                int second = st.top(); st.pop();
+                int first = st.top(); st.pop();
+                st.push(first / second);
+            } else {
+                st.push(stoi(c));
+            }
+        }
+
+        return st.top();        
+    }
+	Time complexity: O(n)
+	Space complexity: O(n)
+-----------------------------------------------------------------------
+26) Rotten Oranges:
+Given a grid of dimension nxm where each cell in the grid can have values 0, 1 or 2 which has the following meaning:
+0 : Empty cell
+1 : Cells have fresh oranges
+2 : Cells have rotten oranges
+
+We have to determine what is the earliest time after which all the oranges are rotten. A rotten orange at index [i,j] can rot other fresh orange at indexes [i-1,j], [i+1,j], [i,j-1], [i,j+1] (up, down, left and right) in unit time. 
+Example 1:
+Input: grid = {{0,1,2},{0,1,2},{2,1,1}}
+Output: 1
+Explanation: The grid is-
+0 1 2
+0 1 2
+2 1 1
+Oranges at positions (0,2), (1,2), (2,0)
+will rot oranges at (0,1), (1,1), (2,2) and 
+(2,1) in unit time.
+Example 2:
+Input: grid = {{2,2,0,1}}
+Output: -1
+Explanation: The grid is-
+2 2 0 1
+Oranges at (0,0) and (0,1) can't rot orange at
+(0,3).
+
+Your Task:
+You don't need to read or print anything, Your task is to complete the function orangesRotting() which takes grid as input parameter and returns the minimum time to rot all the fresh oranges. If not possible returns -1.
+ 
+Expected Time Complexity: O(n*m)
+Expected Auxiliary Space: O(n*m)
+  int orangesRotting(vector<vector<int>>& grid) {
+          queue<pair<int, int>>q;
+          int r = grid.size();
+          int c = grid[0].size();
+          
+          for(int i=0; i<r; i++){
+              for(int j=0; j<c; j++){
+                  if(grid[i][j] == 2)
+                    q.push({i, j});
+              }   
+          }
+          int count = 0;
+          q.push({-1, -1});
+          while(!q.empty()){
+              int x = q.front().first;
+              int y = q.front().second;
+              if((x == -1 and y == -1) and q.size() == 1){
+                  q.pop();
+                  break;
+              }
+              else if((x == -1 and y == -1) and q.size() > 1){
+                  count++;
+                  q.pop();
+                  q.push({-1, -1});
+              }
+              else{
+                  
+                  if(x-1 >= 0 and grid[x-1][y] == 1 ){
+                      q.push({x-1, y});
+                       grid[x-1][y] = 2;
+                  }
+                  if(y-1 >= 0 and grid[x][y-1] == 1){
+                      q.push({x, y-1});
+                       grid[x][y-1] = 2;
+                  }
+                    if(x+1 < r and grid[x+1][y] == 1 ){
+                      q.push({x+1, y});
+                       grid[x+1][y] = 2;
+                  }
+                  if(y+1 < c and grid[x][y+1] == 1){
+                      q.push({x, y+1});
+                      grid[x][y+1] = 2;
+                  }
+                  q.pop();
+              }
+          }
+           for(int i=0; i<r; i++){
+              for(int j=0; j<c; j++){
+                  if(grid[i][j] == 1)
+                   return -1;
+              }   
+          }
+          return count;
+    }
+	
 -------------------------------Hard------------------------------------------------------
 ----------------------------------------------------------------------------------
 
