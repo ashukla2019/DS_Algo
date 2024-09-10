@@ -415,190 +415,8 @@ Output: 50, 52, 53, 54 55
 	}
 	Time Complexity: O(n + (high-low+1))
 	Auxiliary Space: O(n)
------------------------------------------------------------------------------
-6) Pair with given Sum (Two Sum)
-Given an array A[] of n numbers and another number x, the task is to check whether or not there 
-exist two elements in A[] whose sum is exactly x. 
-
-Examples: 
-Input: arr[] = {0, -1, 2, -3, 1}, x= -2
-Output: Yes
-Explanation: If we calculate the sum of the output,1 + (-3) = -2
-
-Input: arr[] = {1, -2, 1, 0, 5}, x = 0
-Output: No
-
-	Approach 1: using two nested loops:
-	bool chkPair(int A[], int size, int x)
-	{
-		for (int i = 0; i < (size - 1); i++) {
-			for (int j = (i + 1); j < size; j++) {
-				if (A[i] + A[j] == x) {
-					return 1;
-				}
-			}
-		}
-
-		return 0;
-	}
-
-	// Driver code
-	int main()
-	{
-		int A[] = { 0, -1, 2, -3, 1 };
-		int x = -2;
-		int size = sizeof(A) / sizeof(A[0]);
-
-		if (chkPair(A, size, x)) {
-			cout << "Yes" << endl;
-		}
-		else {
-			cout << "No" << x << endl;
-		}
-
-		return 0;
-	}
-	Time Complexity: O(N2), Finding pair for every element in the array of size N.
-	Auxiliary Space: O(1)
-	
-	Approach 2: Two Sum using Hashing
-	void printPairs(int arr[], int arr_size, int sum)
-	{
-		unordered_set<int> s;
-		for (int i = 0; i < arr_size; i++) {
-			int temp = sum - arr[i];
-
-			if (s.find(temp) != s.end()) {
-				cout << "Yes" << endl;
-				return;
-			}
-			s.insert(arr[i]);
-		}
-		cout << "No" << endl;
-	}
-
-	/* Driver Code */
-	int main()
-	{
-		int A[] = { 1, 4, 45, 6, 10, 8 };
-		int n = 16;
-		int arr_size = sizeof(A) / sizeof(A[0]);
-
-		// Function calling
-		printPairs(A, arr_size, n);
-
-		return 0;
-	}
-	Time Complexity: O(N), As the whole array is needed to be traversed only once.
-	Auxiliary Space: O(N), A hash map has been used to store array elements.
-	
-	Approach 3: Using two pointers:
-	bool hasArrayTwoCandidates(int A[], int arr_size, int sum)
-	{
-		int l, r;
-
-		/* Sort the elements */
-		sort(A, A + arr_size);
-
-		/* Now look for the two candidates in
-		   the sorted array*/
-		l = 0;
-		r = arr_size - 1;
-		while (l < r) {
-			if (A[l] + A[r] == sum)
-				return 1;
-			else if (A[l] + A[r] < sum)
-				l++;
-			else // A[l] + A[r] > sum
-				r--;
-		}
-		return 0;
-	}
-
-	/* Driver program to test above function */
-	int main()
-	{
-		int A[] = { 1, 4, 45, 6, 10, -8 };
-		int n = 16;
-		int arr_size = sizeof(A) / sizeof(A[0]);
-
-		// Function calling
-		if (hasArrayTwoCandidates(A, arr_size, n))
-			cout << "Yes";
-		else
-			cout << "No";
-
-		return 0;
-	}
-	Time Complexity: O(NlogN), Time complexity for sorting the array
-	Auxiliary Space: O(1)
-	
-	Approach 4: Two Sum using Binary Search
-	
-	bool binarySearch(int A[], int low, int high, int searchKey)
-	{
-
-		while (low <= high) {
-			int m = low + (high - low) / 2;
-
-			// Check if searchKey is present at mid
-			if (A[m] == searchKey)
-				return true;
-
-			// If searchKey greater, ignore left half
-			if (A[m] < searchKey)
-				low = m + 1;
-
-			// If searchKey is smaller, ignore right half
-			else
-				high = m - 1;
-		}
-
-		// if we reach here, then element was
-		// not present
-		return false;
-	}
-
-	bool checkTwoSum(int A[], int arr_size, int sum)
-	{
-		int l, r;
-
-		/* Sort the elements */
-		sort(A, A + arr_size);
-
-		// Traversing all element in an array search for
-		// searchKey
-		for (int i = 0; i < arr_size - 1; i++) {
-
-			int searchKey = sum - A[i];
-			// calling binarySearch function
-			if (binarySearch(A, i + 1, arr_size - 1, searchKey)
-				== true) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/* Driver program to test above function */
-	int main()
-	{
-		int A[] = { 1, 4, 45, 6, 10, -8 };
-		int n = 14;
-		int arr_size = sizeof(A) / sizeof(A[0]);
-
-		// Function calling
-		if (checkTwoSum(A, arr_size, n))
-			cout << "Yes";
-		else
-			cout << "No";
-
-		return 0;
-	}
-	Time Complexity: O(NlogN)
-	Auxiliary Space: O(1)
 ---------------------------------------------------------------------------------------
-7) Count Distinct ( Unique ) elements in an array
+6) Count Distinct ( Unique ) elements in an array
 Given an array arr[] of length N, The task is to count all distinct elements in arr[].
 
 Examples: 
@@ -708,7 +526,7 @@ Output: 2
 	Time complexity: O(n)
 	Auxiliary Space: O(n)
 -----------------------------------------------------------------------------
-8) Count number of Distinct Substring in a String:
+7) Count number of Distinct Substring in a String:
 Input : abcd
 Output : abcd abc ab a bcd bc b cd c d
 All Elements are Distinct
@@ -785,7 +603,7 @@ All elements are not Distinct
 	Time Complexity: O(n2)
 	Auxiliary Space: O(n)
 ------------------------------------------------------------------
-9) Write a function that takes a String as an argument and prints all unique words in it.
+8) Write a function that takes a String as an argument and prints all unique words in it.
 
 Examples:
 Input: Java is great. Grails is also great
@@ -827,7 +645,7 @@ also
 	Time Complexity: O(n)
 	Auxiliary Space: O(n)
 --------------------------------------------------------------------------
-10) Remove duplicates from Sorted Array:
+9) Remove duplicates from Sorted Array:
 Given a sorted array arr[] of size N, the task is to remove the duplicate elements from the array.
 
 Examples: 
@@ -900,7 +718,7 @@ Output: arr[] = {1, 2, 3, 4, 5}
 	Time Complexity: O(n) 
 	Auxiliary Space: O(1)
 -------------------------------------------------------------------
-11) Find the only repetitive element between 1 to N-1
+10) Find the only repetitive element between 1 to N-1
 Given an array of size N filled with numbers from 1 to N-1 in random order. The array has only one repetitive element. The task is to find the repetitive element.
 
 Examples:
@@ -993,7 +811,7 @@ Output: 1
 	Time Complexity: O(N)
 	Auxiliary Space: O(N)
 ------------------------------------------------------------------------------
-12) Minimum insertions to form a palindrome with permutations allowed
+11) Minimum insertions to form a palindrome with permutations allowed
 Given a string of lowercase letters. Find minimum characters to be inserted in the string so that it can become palindrome. We can change the positions of characters in the string.
 
 Examples: 
@@ -1052,7 +870,7 @@ bacab
 	Time Complexity: O(n) 
 	Auxiliary Space: O(1)
 ----------------------------------------------------------------------
-13) Count all distinct pairs with difference equal to k:
+12) Count all distinct pairs with difference equal to k:
 Given an integer array and a positive integer k, count all distinct pairs with differences equal to k. 
 
 Examples: 
@@ -1159,7 +977,7 @@ There are 5 pairs with difference 4, the pairs are {0, 4}, {4, 8},
 	Auxiliary Space: O(1)
 -----------------------------------------------------------------------------
 ------------------Medium--------------------------------
-14)	Longest Consecutive Subsequence:
+13)	Longest Consecutive Subsequence:
 Given an array of integers, find the length of the longest sub-sequence such that elements 
 in the subsequence are consecutive integers, the consecutive numbers can be in any order. 
 
@@ -1397,117 +1215,8 @@ Output : (2, 5)
 		printPairs(arr, n, sum);
 		return 0;
 	}
-----------------------------------------------------------------------
-16) Longest Consecutive Subsequence:
-Given an array of integers, find the length of the longest sub-sequence such that elements in the subsequence are consecutive integers, the consecutive numbers can be in any order. 
-
-Examples:  
-Input: arr[] = {1, 9, 3, 10, 4, 20, 2}
-Output: 4
-Explanation: The subsequence 1, 3, 4, 2 is the longest subsequence of consecutive elements
-
-Input: arr[] = {36, 41, 56, 35, 44, 33, 34, 92, 43, 32, 42}
-Output: 5
-Explanation: The subsequence 36, 35, 33, 34, 32 is the longest subsequence of consecutive elements.	
-
-	Approach 1: 
-	Intialise ans and countConsecutive with 0.
-	Sort the arr[].
-	Store the distinct elements in dist[] array by traversing over the arr[].
-	Now, traverse on the dist[] array to find the count of consecutive elements and maintain the 
-	answer variable.
-	
-	int findLongestConseqSubseq(int arr[], int n)
-	{
-		int ans = 0, count = 0;
-
-		// sort the array
-		sort(arr, arr + n);
-
-		vector<int> v;
-		v.push_back(arr[0]);
-
-		// insert repeated elements only once in the vector
-		for (int i = 1; i < n; i++) {
-			if (arr[i] != arr[i - 1])
-				v.push_back(arr[i]);
-		}
-		// find the maximum length
-		// by traversing the array
-		for (int i = 0; i < v.size(); i++) {
-
-			// Check if the current element is equal
-			// to previous element +1
-			if (i > 0 && v[i] == v[i - 1] + 1)
-				count++;
-			// reset the count
-			else
-				count = 1;
-
-			// update the maximum
-			ans = max(ans, count);
-		}
-		return ans;
-	}
-
-	// Driver code
-	int main()
-	{
-		int arr[] = { 1, 2, 2, 3 };
-		int n = sizeof arr / sizeof arr[0];
-		cout << "Length of the Longest contiguous subsequence "
-				"is "
-			 << findLongestConseqSubseq(arr, n);
-		return 0;
-	}
-	Time complexity: O(Nlog(N)), Time to sort the array is O(Nlog(N)).
-	Auxiliary space: O(N)
-	
-	Approach 2: using Hashing 
-	int findLongestConseqSubseq(int arr[], int n)
-	{
-		unordered_set<int> S;
-		int ans = 0;
-
-		// Hash all the array elements
-		for (int i = 0; i < n; i++)
-			S.insert(arr[i]);
-
-		// check each possible sequence from
-		// the start then update optimal length
-		for (int i = 0; i < n; i++) {
-			// if current element is the starting
-			// element of a sequence
-			if (S.find(arr[i] - 1) == S.end()) {
-				// Then check for next elements
-				// in the sequence
-				int j = arr[i];
-				while (S.find(j) != S.end())
-					j++;
-
-				// update  optimal length if
-				// this length is more
-				ans = max(ans, j - arr[i]);
-			}
-		}
-		return ans;
-	}
-
-	// Driver code
-	int main()
-	{
-		int arr[] = { 1, 9, 3, 10, 4, 20, 2 };
-		int n = sizeof arr / sizeof arr[0];
-		cout << "Length of the Longest contiguous subsequence "
-				"is "
-			 << findLongestConseqSubseq(arr, n);
-		return 0;
-	}
-	Time complexity: O(N), Only one traversal is needed and the time complexity is O(N) 
-	under the assumption that hash insert and search takes O(1) time.
-	Auxiliary space: O(N)
-------------------------------------------------------------------
-17) Find the first repeating element in an array of integers	
+---------------------------------------------------------------------------------
+18) Find the first repeating element in an array of integers	
 Given an array of integers arr[], The task is to find the index of first repeating element in it i.e. the element that occurs more than once and whose index of the first occurrence is the smallest. 
 
 Examples: 
