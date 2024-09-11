@@ -723,29 +723,22 @@ Time Complexity: O(n2)
 Auxiliary Space: O(1)
 
 Approach 2: using hashing
-#define MAX 100000
-int countPairsWithDiffK(int arr[], int n, int k)
+int findPairs(vector<int>& nums, int k) 
 {
-	int count = 0; // Initialize count
-
-	// Initialize empty hashmap.
-	bool hashmap[MAX] = {false};
-
-	// Insert array elements to hashmap
-	for (int i = 0; i < n; i++)
-		hashmap[arr[i]] = true;
-
-	for (int i = 0; i < n; i++)
+	//the least time complexity is O(n) comes when we use map
+	//map is the only data structure that searches in O(1) time complexity
+	int n=nums.size();
+	map<int,int> mp;
+	for(auto p:nums) mp[p]++;
+	int ans=0;
+	for(auto p:mp)
 	{
-		int x = arr[i];
-		if (x - k >= 0 && hashmap[x - k])
-			count++;
-		if (x + k < MAX && hashmap[x + k])
-			count++;
-		hashmap[x] = false;
+		//If k==0, then if p.second>1 means we have got element with same value in array
+		//If k>0, then mp.count will check if p.first+k exists
+    		if((k==0 && p.second>1) || (k!=0 && mp.count(p.first+k))) ans++;
 	}
-	return count;
-}
+        return ans;
+    }
 Time Complexity: O(n)
 Auxiliary Space: O(n)
 
@@ -787,7 +780,7 @@ Time Complexity: O(nlogn)
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------
 ------------------Medium--------------------------------
-11)	Longest Consecutive Subsequence:
+11)Longest Consecutive Subsequence:
 Given an array of integers, find the length of the longest sub-sequence such that elements 
 in the subsequence are consecutive integers, the consecutive numbers can be in any order. 
 
@@ -853,8 +846,6 @@ Time complexity: O(Nlog(N)), Time to sort the array is O(Nlog(N)).
 Auxiliary space: O(N).
 
 Approach 2: Using Hashing
-
-
 int findLongestConseqSubseq(int arr[], int n)
 {
 	unordered_set<int> S;
