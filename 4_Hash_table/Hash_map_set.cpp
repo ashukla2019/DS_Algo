@@ -680,7 +680,7 @@ int main()
 Time Complexity: O(n) 
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------
-12) Count all distinct pairs with difference equal to k:
+10) Count all distinct pairs with difference equal to k:
 Given an integer array and a positive integer k, count all distinct pairs with differences equal to k. 
 
 Examples: 
@@ -787,7 +787,7 @@ Time Complexity: O(nlogn)
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------
 ------------------Medium--------------------------------
-13)	Longest Consecutive Subsequence:
+11)	Longest Consecutive Subsequence:
 Given an array of integers, find the length of the longest sub-sequence such that elements 
 in the subsequence are consecutive integers, the consecutive numbers can be in any order. 
 
@@ -898,7 +898,7 @@ Time complexity: O(N), Only one traversal is needed and the time complexity is O
 under the assumption that hash insert and search takes O(1) time.
 Auxiliary space: O(N),
 ----------------------------------------------------------------------
-15) Print all pairs with given sum
+12) Print all pairs with given sum
 Given an array of integers, and a number ‘sum’, print all unique pairs in the array whose sum is 
 equal to ‘sum’.
 
@@ -1026,7 +1026,7 @@ int main() {
 	return 0;
 }
 ---------------------------------------------------------------------------------
-16) Find the first repeating element in an array of integers	
+13) Find the first repeating element in an array of integers	
 Given an array of integers arr[], The task is to find the index of first repeating element in it i.e. the element that occurs more than once and whose index of the first occurrence is the smallest. 
 
 Examples: 
@@ -1127,7 +1127,7 @@ int main()
 Time Complexity: O(N).
 Auxiliary Space: O(N)
 --------------------------------------------------------------------------------
-17) Majority Element:
+14) Majority Element:
 Find the majority element in the array. A majority element in an array A[] of size n is an element that appears more than n/2 times (and hence there is at most one such element). 
 
 Examples : 
@@ -1322,7 +1322,7 @@ int main() {
 Time Complexity: O(n log n), Sorting requires O(n log n) time complexity.
 Auxiliary Space: O(1)
 ------------------------------------------------------------------------------
-18) Subarray with Given Sum
+15) Subarray with Given Sum
 Given a 1-based indexing array arr[] of integers and an integer sum. You mainly need to return the left and right indexes(1-based indexing) of that subarray. In case of multiple subarrays, return the subarray indexes which come first on moving from left to right. If no such subarray exists return an array consisting of element -1.
 
 Examples: 
@@ -1430,7 +1430,7 @@ int main() {
 Time Complexity: O(N), where N is the length of input array
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------
-19) Given a sequence of words, print all anagrams together
+16) Given a sequence of words, print all anagrams together
 Input : {“cat”, “dog”, “tac”, “god”, “act”}
 Output : {“cat”, “tac”, “act”, ‘”dog”, “god”}	
 	Approach: HashMap with O(NM) Solution
@@ -1505,7 +1505,7 @@ int main()
 	return 0;
 }
 ---------------------------------------------------------------------------------
-20) Longest sub-array having sum k
+17) Longest sub-array having sum k
 Given an array arr[] of size n containing integers. The problem is to find the length of the longest sub-array having sum equal to the given value k.
 
 Examples: 
@@ -1608,7 +1608,7 @@ int main()
 Time Complexity: O(N), where N is the length of the given array.
 Auxiliary Space: O(N) We are using Hash Table for storing prefix sums
 --------------------------------------------------------------------------------
-21)Largest subarray with 0 sum: Given an array containing both positive and negative integers,
+18)Largest subarray with 0 sum: Given an array containing both positive and negative integers,
 we have to find the length of the longest subarray with the sum of all elements equal to zero.
 Example 1:
 Input Format
@@ -1667,7 +1667,7 @@ int maxLen(int A[], int n)
 	Time Complexity: O(N), as we are traversing the array only once
 	Space Complexity: O(N), in the worst case we would insert all array elements prefix sum into our hashmap
 -------------------------------------------------------------------------------------
-22) Largest subarray with equal number of 0s and 1s:
+19) Largest subarray with equal number of 0s and 1s:
 Given an array containing only 0s and 1s, find the largest subarray which contains equal no of 0s and 1s. The expected time complexity is O(n). 
 
 Examples: 
@@ -1798,7 +1798,7 @@ int main()
 Time Complexity: O(n). 
 Auxiliary Space: O(n). 
 -----------------------------------------------------------------------
-23) Print all subarrays with 0 sum
+20) Print all subarrays with 0 sum
 Given an array arr[] of size n, the task is to print all subarrays in the array which has sum 0.
 
 Examples: 
@@ -1943,7 +1943,7 @@ int main()
 Time Complexity: O(n), where n is the number of elements in the array.
 Auxiliary Space: O(n)
 ----------------------------------------------------------------------------
-24) Sort an array according to the order defined by another array
+21) Sort an array according to the order defined by another array
 Given two arrays arr1[] and arr2[] of size m and n, the task is to sort arr1[] such that the relative order among the elements matches the order in arr2[]. For elements not present in arr2[], append them at the end in sorted order.
 
 Example: 
@@ -2016,7 +2016,7 @@ Output: 2 2 1 1 8 8 3 5 6 7 9
 Time complexity: O(m log m + n), where m is the size of arr1 and n is the size of arr2.
 Auxiliary Space: O(m)
 ----------------------------------------------------------------------
-25) Range Queries for Frequencies of array elements
+22) Range Queries for Frequencies of array elements
 Given an array of n non-negative integers. The task is to find frequency of a particular element in the arbitrary range of array[]. The range is given as positions (not 0 based indexes) in array. There can be multiple queries of given type.
 
 Examples: 
@@ -2109,7 +2109,7 @@ This approach will be beneficial if we have a large number of queries of an arbi
 Time complexity: O(log N) for single query.
 Auxiliary Space: O(N)
 ---------------------------------------------------------------------------
-26) Count subarrays having total distinct elements same as original array
+23) Count subarrays having total distinct elements same as original array
 Given an array of n integers. Count the total number of sub-arrays having total distinct elements, the same as that of the total distinct elements of the original array. 
 
 Examples:  
@@ -2221,7 +2221,7 @@ int main()
 Time complexity: O(n) 
 Auxiliary space: O(n)
 -------------------------------------------------------------------------
-27) All unique triplets that sum up to a given value
+24) All unique triplets that sum up to a given value
 Given an array and a sum value, find all possible unique triplets in that array whose sum is equal to the given sum value. If no such triplets can be formed from the array, then print “No triplets can be formed”, else print all the unique triplets. For example, if the given array is {12, 3, 6, 1, 6, 9} and the given sum is 24, then the unique triplets are (3, 9, 12) and (6, 6, 12) whose sum is 24.
 
 Examples: 
@@ -2342,7 +2342,7 @@ Since two nested loops is required, so the time complexity is O(n2).
 Auxiliary Space: O(1).
 Since we need no extra space for solving this.
 -------------------------------------------------------------------
-28) Smallest subarray with k distinct numbers	
+25) Smallest subarray with k distinct numbers	
 We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
 Examples: 
 Input : arr[] = { 1, 1, 2, 2, 3, 3, 4, 5} 
@@ -2512,7 +2512,7 @@ int main()
 Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once and removed once from the map.
 Space Complexity :  O(K)
 -------------------------------------------------------------------------------
-29) Maximum possible difference of two subsets of an array
+26) Maximum possible difference of two subsets of an array
 Input : arr[] = {5, 8, -1, 4}
 Output : Maximum Difference = 18
 Explanation : 
@@ -2602,7 +2602,7 @@ int main()
 Time Complexity: O(n log n)
 Auxiliary Space: O(1)
 ---------------------------------------------------------------------------
-30) Find the length of largest subarray with 0 sum
+27) Find the length of largest subarray with 0 sum
 Input: arr[] = {15, -2, 2, -8, 1, 7, 10, 23}
 Output: 5
 Explanation: The longest sub-array with elements summing up-to 0 is {-2, 2, -8, 1, 7}
@@ -2712,7 +2712,7 @@ int main()
 Time Complexity: O(N), where N is the number of elements in the array.
 Auxiliary Space: O(N)
 --------------------------------------------------------------------------
-31)Find Itinerary from a given list of tickets
+28)Find Itinerary from a given list of tickets
 Given a list of tickets, find itinerary in order using the given list.
 
 Example: 
@@ -2780,7 +2780,7 @@ int main()
 Time Complexity: O(n).
 Auxiliary Space: O(n)
 -------------------------------------------------------------------------
-32) Find all pairs (a, b) in an array such that a % b = k	
+29) Find all pairs (a, b) in an array such that a % b = k	
 Given an array with distinct elements, the task is to find the pairs in the array such that a % b = k, where k is a given integer.
 
 Examples : 
@@ -2831,7 +2831,7 @@ Output
 Time Complexity : O(n2)
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------
-33) Count the number of subarrays having a given XOR
+30) Count the number of subarrays having a given XOR
 Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
 Examples: 
 
