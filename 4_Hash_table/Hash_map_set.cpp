@@ -655,17 +655,18 @@ int minInsertion(string str)
 	// To store occurrence of each 
 	// character 
 	for (int i = 0; i < n; i++) 
-		count[str[i] - 'a']++; 
+		count[str[i] - 'a']++; //count[g - 'a'] = count[6]
 
 	// To count characters with odd 
 	// occurrence 
 	for (int i = 0; i < 26; i++) 
-		if (count[i] % 2 == 1) 
+		if (count[i] % 2 == 1) //Checking the number of characters coming odd times
 			res++; 
 
 	// As one character can be odd return 
 	// res - 1 but if string is already 
 	// palindrome return 0 
+	//res will be 3: means we need 3-1 =2 chars => 1 char would be always part of palindrome
 	return (res == 0) ? 0 : res - 1; 
 } 
 
