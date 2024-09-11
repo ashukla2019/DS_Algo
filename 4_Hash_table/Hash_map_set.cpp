@@ -215,8 +215,6 @@ void printFrequency(string str)
 {
 	// Define an unordered_map
 	unordered_map<char, int> M;
-	// Traverse string str check if
-	// current character is present or not
 	for (int i = 0; str[i]; i++) 
 	{
 		M[str[i]]++;
