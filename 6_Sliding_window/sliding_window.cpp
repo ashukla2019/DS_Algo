@@ -1,3 +1,58 @@
+Sliding window:
+1) Constant/Fixed size window:
+	Maximum subarray sum with length k: You are given an integer array nums and an integer k.
+	Find the maximum subarray sum of all the subarrays of nums that meet the following conditions:
+	The length of the subarray is k, and
+	All the elements of the subarray are distinct.
+	Return the maximum subarray sum of all the subarrays that meet the conditions. If no subarray meets the conditions, return 0.
+	A subarray is a contiguous non-empty sequence of elements within an array.
+
+	Example 1:
+	Input: nums = [1,5,4,2,9,9,9], k = 3
+	Output: 15
+	Explanation: The subarrays of nums with length 3 are:
+	- [1,5,4] which meets the requirements and has a sum of 10.
+	- [5,4,2] which meets the requirements and has a sum of 11.
+	- [4,2,9] which meets the requirements and has a sum of 15.
+	- [2,9,9] which does not meet the requirements because the element 9 is repeated.
+	- [9,9,9] which does not meet the requirements because the element 9 is repeated.
+	We return 15 because it is the maximum subarray sum of all the subarrays that meet the conditions
+
+	Solution:
+	 long long maximumSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        long long sum = 0;
+        
+        long long maxi = 0;  // Initialize maxi to 0
+        unordered_map<int ,int>mp;
+        for(int i=0;i<k;i++){
+            sum += nums[i];
+            mp[nums[i]]++;
+        }
+        // if all k elements are distinct then stote in maxi
+        if(mp.size()==k){
+            maxi = sum;
+        }
+        // then start from k to n and delete i-k and add i
+        for(int i=k;i<n;i++){
+            sum  = sum - nums[i-k] + nums[i];
+            mp[nums[i]]++;
+            mp[nums[i-k]]--;
+// if frequency is 0 than remove the element
+            if(mp[nums[i-k]] == 0){
+                mp.erase(nums[i-k]);
+            }
+            // If the current subarray contains distinct elements and has length 'k',
+        // update the result with the maximum of the result and the current sum
+            if(mp.size() == k){
+                maxi = max(sum , maxi);
+            }
+        }
+
+        
+        return maxi;
+    }
+	
 https://leetcode.com/discuss/study-guide/3630462/Top-20-Sliding-Window-Problems-for-beginners
 
 1) Maximum Sum of Distinct Subarrays With Length K:
