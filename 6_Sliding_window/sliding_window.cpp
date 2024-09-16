@@ -1,5 +1,7 @@
 https://leetcode.com/discuss/study-guide/3630462/Top-20-Sliding-Window-Problems-for-beginners
 
+https://builtin.com/data-science/sliding-window-algorithm
+
 Sliding window:
 1) Constant/Fixed size window:
 	Maximum subarray sum with length k: You are given an integer array nums and an integer k.
