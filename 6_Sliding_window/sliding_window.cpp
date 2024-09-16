@@ -1,3 +1,5 @@
+https://leetcode.com/discuss/study-guide/3630462/Top-20-Sliding-Window-Problems-for-beginners
+
 Sliding window:
 1) Constant/Fixed size window:
 	Maximum subarray sum with length k: You are given an integer array nums and an integer k.
@@ -52,61 +54,10 @@ Sliding window:
         
         return maxi;
     }
-	
-https://leetcode.com/discuss/study-guide/3630462/Top-20-Sliding-Window-Problems-for-beginners
+	The time complexity is O(n)
+	The space complexity is O(n)	
 
-1) Maximum Sum of Distinct Subarrays With Length K:
-you are given an integer array nums and an integer k. Find the maximum subarray sum of all the 
-subarrays of nums that meet the following conditions:
-The length of the subarray is k, and
-All the elements of the subarray are distinct.
-Return the maximum subarray sum of all the subarrays that meet the conditions. If no subarray meets the conditions, return 0.
 
-A subarray is a contiguous non-empty sequence of elements within an array.
-
-Example 1:
-
-Input: nums = [1,5,4,2,9,9,9], k = 3
-Output: 15
-Explanation: The subarrays of nums with length 3 are:
-- [1,5,4] which meets the requirements and has a sum of 10.
-- [5,4,2] which meets the requirements and has a sum of 11.
-- [4,2,9] which meets the requirements and has a sum of 15.
-- [2,9,9] which does not meet the requirements because the element 9 is repeated.
-- [9,9,9] which does not meet the requirements because the element 9 is repeated.
-We return 15 because it is the maximum subarray sum of all the subarrays that meet the conditions
-
-Solution: Sliding Window + Hash Table
-We maintain a sliding window of length k, use a hash table cnt to record the count of each number in the window, and use a variable 
-s to record the sum of all numbers in the window. Each time we slide the window, if all numbers in the window are unique, we update the answer.
-class Solution {
-public:
-    long long maximumSubarraySum(vector<int>& nums, int k) {
-        using ll = long long;
-        int n = nums.size();
-        unordered_map<int, ll> cnt;
-        ll s = 0;
-        for (int i = 0; i < k; ++i) {
-            ++cnt[nums[i]];
-            s += nums[i];
-        }
-        ll ans = cnt.size() == k ? s : 0;
-        for (int i = k; i < n; ++i) {
-            ++cnt[nums[i]];
-            if (--cnt[nums[i - k]] == 0) {
-                cnt.erase(nums[i - k]);
-            }
-            s += nums[i] - nums[i - k];
-            if (cnt.size() == k) {
-                ans = max(ans, s);
-            }
-        }
-        return ans;
-    }
-};
-The time complexity is O(n)
-The space complexity is O(n)
--------------------------------------------------------------------------------------
 2) Sliding Subarray Beauty
 Given an integer array nums containing n integers, find the beauty of each subarray of size k.
 The beauty of a subarray is the xth smallest integer in the subarray if it is negative, or 0 if there are fewer than x negative integers.
@@ -283,25 +234,21 @@ Example 2:
 Input: nums = [5], k = 1
 Output: 5.00000
 
-class Solution {
-public:
-    double findMaxAverage(vector<int>& nums, int k) {
-        double sum = 0, maxSum = INT_MIN;
-        
-        for (int i = 0; i < nums.size(); i++) {
-            if (i < k) {
-                sum += nums[i];
-                continue;
-            }
-            maxSum = max(sum, maxSum);
-            sum += nums[i] - nums[i-k];
+double findMaxAverage(vector<int>& nums, int k) {
+        int n=nums.size();
+        double sum=0;
+        for(int i=0;i<k;i++)
+        {
+            sum+=nums[i];
         }
-
-        maxSum = max(sum, maxSum);
-        return maxSum / (double) k;
+        double ans=sum;
+        for(int i=k;i<n;i++)
+        {
+            sum=sum-nums[i-k]+nums[i];
+            ans=max(ans,sum);
+        }
+        return ans/k;
     }
-};
-
 ------------------------------------------------------------------------------------------
 5) Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
 Given an array of integers arr and two integers k and threshold, return the number of sub-arrays of size k and average greater than or equal to threshold.
@@ -316,25 +263,23 @@ Input: arr = [11,13,17,23,29,31,7,5,2,3], k = 3, threshold = 5
 Output: 6
 Explanation: The first 6 sub-arrays of size 3 have averages greater than 5. Note that averages are not integers.
 
-int numOfSubarrays(vector<int>& arr, int k, int threshold) {
-	int i = 0, j = 0, n = arr.size(), ans = 0, sum = 0;
-	while(j<n){
-		sum+=arr[j];
-		if((j-i+1) < k){
-			j++;
-		}
-		else{
-			double avg = (double)sum/k;
-			if(avg >= threshold){
-				ans++;
-			}
-			j++;
-			sum-=arr[i];
-			i++;
-		}
-	}
-	return ans;
-}
+ int numOfSubarrays(vector<int>& arr, int k, int threshold) {
+        int sum=0;
+        for(int i=0;i<k;i++){
+            sum+=arr[i];
+        }
+        int count=0;
+        for(int i=k;i<arr.size();i++){
+            if((sum/k)>=threshold){
+                count++;
+            }
+            sum+=(arr[i]-arr[i-k]);            
+        }
+        if(sum/k>=threshold){
+            count++;
+        }
+        return count;
+    }
 Time complexity: O(n)
 Space complexity: O(1)
 
@@ -358,22 +303,17 @@ Input: s = "0110", k = 2
 Output: false
 Explanation: The binary code "00" is of length 2 and does not exist in the array.
 
-bool hasAllCodes(string s, int k) { 
-
-   int n = s.length();
-
-	if(n<k){
-		return false;
-	}
-	
-   unordered_set<string>str;
-	
-	for(int i=0;i<n-k+1;i++){
-
-		str.insert(s.substr(i,k));
-	}
-	
-  return (str.size() == pow(2,k));
+ bool hasAllCodes(string s, int k) 
+ {
+        // Unordered map of type string
+    unordered_set<string> us;
+   
+    for (int i = 0; i + k <= s.size(); i++) 
+    {
+        us.insert(s.substr(i, k));
+    }
+    return us.size() == 1 << k;
+   
 }
 
 --------------------------------------------------------------------------------------------
@@ -412,24 +352,26 @@ else if start equals to end increment both start and end
 else increment start and add 1 to hashMap of s[start]
 
 vector<int> findAnagrams(string s, string p) {
-        vector<int> f1(26,0);  //freq array for string s
-        vector<int> f2(26,0);  //freq array for string p
-        for(char x:p) f2[x-'a']++;
-        
-        int i=0,j=p.size()-1;
-        for(int ii=0;ii<s.size() && ii<=j;ii++) f1[s[ii]-'a']++;
-        
-        vector<int> ans;
-        if(f1==f2)ans.push_back(i);
-        
-        while(j< s.size()-1){
-            f1[(int)(s[i++]-'a')]--;
-            f1[(int)(s[++j]-'a')]++;
-            if(f1==f2)ans.push_back(i);
-        }
-        
+    vector<int> ans;
+    // Frequency arrays
+    vector<int> arr1(26, 0), arr2(26, 0);
+    int n = s.length(), m = p.length();
+    if (m > n)
         return ans;
+    // First window
+    for (int i = 0; i < m; i++)
+        arr1[p[i] - 'a']++, arr2[s[i] - 'a']++;
+    if (arr1 == arr2)
+        ans.push_back(0);
+    // subsequent windows
+    for (int i = m; i < n; i++)
+    {
+        arr2[s[i] - 'a']++;
+        arr2[s[i - m] - 'a']--;
+        if (arr1 == arr2)
+            ans.push_back(i - m + 1);
     }
+    return ans;
 
 --------------------------------------------------------------------------------
 8) Permutation in String
@@ -538,27 +480,16 @@ Output: 4
 Explanation: There are 7 substrings of size 3: "aab", "aba", "bab", "abc", "bca", "cab", and "abc".
 The good substrings are "abc", "bca", "cab", and "abc".
 
-int countGoodSubstrings(string s) {
-        int n = s.size();
-        unordered_map<char,int>mp;
-        int i = 0, j=0;
-        int cnt=0;
-        while(j<n){
-            mp[s[j]]++;
-            if((j-i+1) < 3) j++;
-           else{
-               if(mp.size() == 3){
-                   cnt++;
-               }
-               mp[s[i]]--;
-               if(mp[s[i]] == 0) mp.erase(s[i]);
-               i++;
-               j++;
-           }   
-            
-        }
-        return cnt;
+iint countGoodSubstrings(string s) {
+       int n=s.length(),cnt=0;
+
+        for(int i=0;i<n-2;i++)
+            if(s[i]!=s[i+1] && s[i+1]!=s[i+2] && s[i]!=s[i+2])
+                cnt++;
+
+        return cnt;   
     }
+
 -------------------------------------------------------------------------------
 10) Find the Longest Semi-Repetitive Substring
 You are given a digit string s that consists of digits from 0 to 9.
@@ -585,26 +516,17 @@ Output: 2
 Explanation:
 The longest semi-repetitive substring is "11". Picking the substring "111" has two adjacent same digit pairs, but at most one is allowed.
 
-int longestSemiRepetitiveSubstring(string s) {
-        int n = s.size(),count = 0;
-        int i = 0,j = 0,ans = 0;
-
-        while(j<n)
-        {
-            if(j>0 && s[j]==s[j-1]) count++; 
-            while(count>1 && i<j)
-            {
-                if(i<n-1 && s[i]==s[i+1]) count--;  
-                i++;
+ int longestSemiRepetitiveSubstring(string s) {
+        int n = s.length();
+        int cnt = 0, l = 0;
+        for (int i = 1; i < n; ++i) {
+            cnt += s[i] == s[i - 1] ? 1 : 0;
+            if (cnt > 1) {
+                cnt -= s[l] == s[++l] ? 1 : 0;
             }
-            ans = max(ans,j-i+1);
-            j++;
         }
-        return ans;
-        
+        return n - l;
     }
-Time complexity:O(N)
-Space complexity:O(1)	
 ---------------------------------------------------------------------------------
 11) Count the Number of Good Subarrays
 Given an integer array nums and an integer k, return the number of good subarrays of nums.
@@ -625,33 +547,22 @@ Explanation: There are 4 different good subarrays:
 - [1,4,3,2,2,4] that has 2 pairs.
 - [4,3,2,2,4] that has 2 pairs.
 
-long long countGood(vector<int>& nums, int k) {
-	int n=nums.size();
-	
-	ll int pairs_count=0;
-	
-	map<int,int> mp;
-	int i=0, j=0;
-	
-	ll int ans=0;
-	while(j<n){
-		mp[nums[j]]++;
-		
-		pairs_count += mp[nums[j]]-1; // number of new pairs formed 
-		
-		while(i<j && pairs_count >= k){
-			 ans += n-j; // if for [i,j] we have pairs_count >= k, so all idx => [j,n-1] can be included in answer
-			
-			mp[nums[i]]--;
-			pairs_count -= mp[nums[i]];
-			
-			i++;
-		}
-		j++;
-	}
-	
-	return ans;
-}
+ long long countGood(vector<int>& nums, int k) {
+        unordered_map<int, int> cnt;
+        long long ans = 0;
+        long long cur = 0;
+        int i = 0;
+        for (int& x : nums) {
+            cur += cnt[x]++;
+            while (cur - cnt[nums[i]] + 1 >= k) {
+                cur -= --cnt[nums[i++]];
+            }
+            if (cur >= k) {
+                ans += i + 1;
+            }
+        }
+        return ans;
+    }
 
 
 -------------------------------------------------------------------------
@@ -683,7 +594,8 @@ int minimumCardPickup(vector<int>& cards) {
         }
         return ans==INT_MAX?-1:ans;
     }
-
+	Time complexity: O(n)
+    Space complexity:O(n)
 --------------------------------------------------------------------------
 13) Minimum Operations to Reduce X to Zero 
 
@@ -695,35 +607,80 @@ class Solution {
     */
     
 public:
-    int minOperations(vector<int>& nums, int x) {
-        int totalSum = accumulate(begin(nums), end(nums), 0);
-        int reqSum = totalSum-x;
-        
-        if(reqSum < 0) return -1;
-        if(reqSum == 0) return nums.size();
-        
-        int sum = 0, start = 0, end = 0, res = 0, n = nums.size();
-        
-        // we just have to find the largest window with sum equal to (totalSum-x)
-        
-        while(end < nums.size()){
-            sum += nums[end];
-            
-            while(sum > reqSum){
-                sum -= nums[start];
-                start++;
-            }
-            
-            if(sum==reqSum) res = max(res, end-start+1);
-            end++;
+    int minOperations(vector<int>& nums, int x)
+    {
+        int n = nums.size();
+        int totalS = 0;
+ 
+        // Calculate the total sum of the
+        // elements in the vector 'nums'
+        for (int i = 0; i < n; i++) {
+            totalS += nums[i];
         }
-        
-        return res == 0 ? -1 : n-res;
+ 
+        // If the total sum is equal to 'x',
+        // no operations are needed
+        if (totalS == x) {
+            return n;
+        }
+ 
+        // Calculate the difference between
+        // the total sum and 'x'
+        totalS = totalS - x;
+        int i = 0;
+        int j = 0;
+        int sum = 0;
+        int ans = 0;
+ 
+        // Sliding window approach to find
+        // the minimum operations
+        while (j < n) {
+            sum += nums[j];
+ 
+            // If the current sum is greater
+            // than the target difference, move
+            // the window's left end (i) to
+            // reduce the sum
+            while (i < j && sum > totalS) {
+                sum -= nums[i];
+                i++;
+            }
+ 
+            // If the current sum equals the
+            // target difference, update the
+            // answer with the maximum
+            // window size
+            if (sum == totalS) {
+                ans = max(ans, j - i + 1);
+            }
+ 
+            j++;
+        }
+ 
+        // If 'ans' is still 0, it means no
+        // subarray with the target sum was found
+        return ans == 0 ? -1 : n - ans;
     }
 };
-
-
-
+ 
+// Drivers code
+int main()
+{
+    Solution solution;
+    vector<int> nums = { 1, 1, 4, 2, 3 };
+    int x = 5;
+    int result = solution.minOperations(nums, x);
+ 
+    if (result == -1) {
+        cout << "No solution found." << endl;
+    }
+    else {
+        cout << "Minimum operations required: " << result
+             << endl;
+    }
+ 
+    return 0;
+}
 
 ----------------------------------------------------------------------------
 14) Count Number of Nice Subarrays:
@@ -803,30 +760,41 @@ Output: 4
 Explanation: We can pick from trees [2,3,2,2].
 If we had started at the first tree, we would only pick from trees [1,2].
 
-class Solution {
-public:
-    int totalFruit(vector<int>& fruits) 
-    {
-        unordered_map<int, int>mp;
-        int ans = 0, i = 0, j = 0, n = fruits.size();
-        while(j < n)
-        {
-            mp[fruits[j++]]++;
-            while(mp.size() > 2)
-            {
-                mp[fruits[i]]--;
-                if(mp[fruits[i]] == 0)
-                    mp.erase(fruits[i]);
-                i++;
+int totalFruit(vector<int>& fruits) {
+        // Initialize a hash map to count the fruits
+        unordered_map<int, int> fruitCounter;
+      
+        // Initialize the start of the current window
+        int windowStart = 0;
+      
+        // Get the number of fruits
+        int totalFruits = fruits.size();
+      
+        // Iterate over all fruits
+        for (int windowEnd = 0; windowEnd < totalFruits; ++windowEnd) {
+            // Increase the count for the current fruit
+            fruitCounter[fruits[windowEnd]]++;
+          
+            // If there are more than 2 types of fruits in the current window
+            while (fruitCounter.size() > 2) {
+                // Decrease the count of the fruit at the start of the window
+                fruitCounter[fruits[windowStart]]--;
+              
+                // If the count becomes zero, remove the fruit from the map
+                if (fruitCounter[fruits[windowStart]] == 0) {
+                    fruitCounter.erase(fruits[windowStart]);
+                }
+              
+                // Move the window start forward
+                ++windowStart;
             }
-            ans = max(ans, j - i);
         }
-        return ans;
+      
+        // The maximum number of fruits is the size of the array minus the start of the last valid window
+        return totalFruits - windowStart;
     }
-};
 Time complexity: O(n)
 Space complexity: O(1)
-
 
 -------------------------------------------------------------------------------
 16) Max Consecutive Ones III
@@ -843,31 +811,29 @@ Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
 Output: 10
 Explanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]
 Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
-int longestOnes(vector<int>& nums, int k) {
-        // Initialize the variables
-        int ans = 0;  // To store the maximum length of the subarray with at most k zeroes
-        int ones = 0;  // To store the current length of the subarray being considered
-        int j = 0;  // Left pointer of the sliding window
-        
-        // Iterate through the nums array using the right pointer of the sliding window
-        for (int i = 0; i < nums.size(); i++) {
-            if (nums[i] == 0) k--;  // Decrement k if the current element is 0
-            ones++;  // Increment the length of the current subarray
-            
-            // If k becomes negative, it means we have more than k zeroes in the current subarray
-            // So, we need to move the left pointer of the window to reduce the number of zeroes
-            while (k < 0) {
-                if (nums[j] == 0) k++;  // Increment k if the element at the left pointer is 0
-                ones--;  // Decrement the length of the current subarray
-                j++;  // Move the left pointer to the right
-            }
-            
-            // Update the answer with the maximum length found so far
-            ans = max(ans, ones);
+ 
+int findMaxConsecutiveOnes(vector < int > & nums) {
+      int cnt = 0;
+      int maxi = 0;
+      for (int i = 0; i < nums.size(); i++) {
+        if (nums[i] == 1) {
+          cnt++;
+        } else {
+          cnt = 0;
         }
-        
-        return ans;
+
+        maxi = max(maxi, cnt);
+      }
+      return maxi;
     }
+};
+
+int main() {
+  vector < int > nums = { 1, 1, 0, 1, 1, 1 };
+  int ans =findMaxConsecutiveOnes(nums);
+  cout << "The maximum  consecutive 1's are " << ans;
+  return 0;
+}
 Time complexity: O(n)
 Space complexity: O(1)
 -----------------------------------------------------------------------------
@@ -886,25 +852,23 @@ Example 2:
 Input: nums = [1,2,3], k = 0
 Output: 0
 
-class Solution {
-public:
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-        int n = nums.size();
-        long long pro = 1;  //to store product of elements
-        int ri = 0;         //initial window index
-        int result = 0;
-        for(int i = 0; i < n; i++){
-            pro *= nums[i];
-            
-            while(pro >= k && i >= ri){
-                pro = pro/nums[ri++];
-            }
-            result += i -ri + 1;
-        }
+        
+    if (k <= 1)
+      return 0;
 
-        return result;
+    int ans = 0;
+    int prod = 1;
+
+    for (int l = 0, r = 0; r < nums.size(); ++r) {
+      prod *= nums[r];
+      while (prod >= k)
+        prod /= nums[l++];
+      ans += r - l + 1;
     }
-};
+
+    return ans;
+  }
 
 Time complexity: O(n) for average and most of the cases
 Space complexity: O(1) and we are using constant space that includes variables ri, pro, result, i 
@@ -928,21 +892,80 @@ Example 3:
 Input: target = 11, nums = [1,1,1,1,1,1,1,1]
 Output: 0
 
-class Solution {
-public:
-    int minSubArrayLen(int k, vector<int>& arr) {
-        int i = 0, n = arr.size(), ans = n+1;
-
-        for(int j = 0;j < n;j++){
-            k -= arr[j];
-            while(k <= 0){
-                ans = min(ans, j - i + 1);
-                k += arr[i++];
-            } 
+int subarraySumgreaterThanEqualToK(vector<int>& arr, int K) {
+    // Initialize variables to keep
+    // track of the count of subarrays
+    // and the current sum.
+    int count = 0, sum = 0;
+    
+    // Get the size of the array.
+    int n = arr.size();
+    // Initialize two pointers 'l'
+    // and 'r' to define the
+    // current subarray.
+    int l = 0, r = 0;
+    
+    // Iterate through the array.
+    while (r < n) {
+        // Add the current
+        // element to the sum.
+        sum += arr[r];
+        
+        // Adjust 'l' to maintain the
+        // sum greater than or equal to 'K'.
+        while (sum > K && l <= r) {
+            sum -= arr[l++];
         }
-        return ans % (n+1);
+        
+        // Update the count by the
+        // length of the current subarray.
+        count += (r - l + 1);
+        
+        // Move to the
+        // next element.
+        r++;
     }
-};
+    // Return the final count of
+    // subarrays with sum greater
+    // than or equal to 'K'.
+    return count;
+}
+
+// Function to calculate
+// the count of subarrays
+// with sum equal to 'k'.
+int subArraySum(vector<int>& nums, int k) {
+    // Calculate the count of
+    // subarrays with sum greater
+    // than or equal to 'k'.
+    int countK = subarraySumgreaterThanEqualToK(nums, k);
+    // Calculate the count of
+    // subarrays with sum greater
+    // than or equal to 'k-1'.
+    int countKMinus1 = subarraySumgreaterThanEqualToK(nums, k-1);
+    // Return the difference between the
+    // two counts, representing the count
+    // of subarrays with sum equal to 'k'.
+    return countK - countKMinus1;
+}
+
+
+int main() {
+    vector<int> arr = {2, 2, 5, 5, 4, 10};
+    int k = 14;
+
+    int count = subArraySum(arr, k);
+
+    cout << "Input Array: ";
+    for(int i =0 ; i< arr.size(); i++){
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    cout << "Number of subarrays with sum equal "<< k;
+    cout << ": " << count << endl;
+
+    return 0;
+}
  
 --------------------------------------------------------------------------------
 19) Longest Substring Without Repeating Characters
@@ -967,31 +990,31 @@ Output: 3
 Explanation: The answer is "wke", with the length of 3.
 Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
-int lengthOfLongestSubstring(string& s) {
-        unordered_set<char> chars; // to store characters in the current window
-        int maxSize = 0; // to store the maximum length of substring without repeating characters
-        int left = 0, right = 0; // pointers for the sliding window
-        
-        // sliding window approach
-        while (right < s.size()) {
-            // if the current character at s[right] is already in the set
-            while (chars.find(s[right]) != chars.end()) {
-                // remove characters from the set and move the left pointer to the right
-                chars.erase(s[left]);
-                ++left;
-            }
-            
-            // update the maximum length found so far
-            maxSize = max(maxSize, right - left + 1);
-            
-            // add the current character to the set and move the right pointer to the right
-            chars.insert(s[right]);
-            ++right;
-        }
-        
-        return maxSize;
-    }  
+int lengthofLongestSubstring(string s) {
+      map < int > mpp;
 
+      int left = 0, right = 0;
+      int n = s.size();
+      int len = 0;
+      while (right < n) {
+        if (mpp[s[right]] != -1)
+          left = max(mpp[s[right]] + 1, left);
+
+        mpp[s[right]] = right;
+
+        len = max(len, right - left + 1);
+        right++;
+      }
+      return len;
+    }
+};
+
+int main() {
+  string str = "takeUforward";
+  Solution obj;
+  cout << "The length of the longest substring without repeating characters is " << obj.lengthofLongestSubstring(str);
+  return 0;
+}
 ----------------------------------------------------------------------------------
 20) Sliding Window Maximum
 You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
