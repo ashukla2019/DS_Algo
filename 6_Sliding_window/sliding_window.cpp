@@ -374,7 +374,123 @@ vector<int> findAnagrams(string s, string p) {
             ans.push_back(i - m + 1);
     }
     return ans;
+---------------------------------------------------------------------------------
+8) Subarray with Given Sum: 
+Given a 1-based indexing array arr[] of integers and an integer sum. You mainly need to return the left and right indexes(1-based indexing) of that subarray. In case of multiple subarrays, return the subarray indexes which come first on moving from left to right. If no such subarray exists return an array consisting of element -1.
 
+Examples: 
+Input: arr[] = { 15, 2, 4, 8, 9, 5, 10, 23}, sum = 23
+Output: 2 5
+Explanation: Sum of elements between indices 2 and 5 is 2 + 4 + 8 + 9 = 23
+
+Input: arr[] = {1, 4, 0, 0, 3, 10, 5}, sum = 7
+Output: 2 5
+Explanation: Sum of elements between indices 1 and 4 is 4 + 0 + 0 + 3 = 7
+
+Input: arr[] = {1, 4}, sum = 0
+Output: -1
+Explanation: There is no subarray with 0 sum
+Approach 1: Using nested loop:
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to find a continuous sub-array which adds up to
+// a given number.
+vector<int> subarraySum(vector<int> arr, int sum)
+{
+    // To store the result
+    vector<int> res;
+    int n = arr.size();
+
+    // Pick a starting point for a 
+    // subarray
+    for (int s = 0; s < n; s++)
+    {
+        int curr = 0;
+      
+        // Consider all ending points
+        // for the picked starting point 
+        for (int e = s; e < n; e++)
+        {
+            curr += arr[e];
+            if (curr == sum)
+            {
+                res.push_back(s + 1);
+                res.push_back(e + 1);
+                return res;
+            }
+        }
+    }
+    return {-1}; // If no subarray is found
+}
+
+// Driver Code
+int main()
+{
+    vector<int> arr = {15, 2, 4, 8, 9, 5, 10, 23};
+    int sum = 23;
+    vector<int> result = subarraySum(arr, sum);
+    for (auto i : result)
+        cout << i << " ";
+    return 0;
+}
+Time Complexity: O(N2), Trying all subarrays from every index, used nested loop for the same
+Auxiliary Space: O(1).
+Approach 2: Using sliding window:
+Start with an empty window 
+add elements to the window while the current sum is less than sum 
+If the sum is greater than sum, remove elements from the start of the current window.
+If current sum becomes same as sum, return the result
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> subarraySum(vector<int>& arr, int sum) {
+  
+    int s = 0, e = 0;  // Initialize window
+  
+    vector<int> res;
+
+    int curr = 0;
+    for (int i = 0; i < arr.size(); i++) {
+        curr += rr[i];
+
+        // If current sum becomes more or equal,
+        // set end and try adjusting start
+        if (curr >= sum) {
+            e = i;
+
+            // While current sum is more
+            // remove, starting elements of
+            // current window
+            while (curr > sum && s < e) {
+                curr -= arr[s];
+                ++s;
+            }
+
+            // If we found a subraay
+            if (curr == sum) {
+                res.push_back(s + 1);
+                res.push_back(e + 1);
+                return res;
+            }
+        }
+    }
+
+    return {-1}; // Never found a subarray
+}
+
+int main() {
+    vector<int> arr = {15, 2, 4, 8, 9, 5, 10, 23};
+    int sum = 23;
+    vector<int> res = subarraySum(arr, sum);
+    for (auto i : res)
+        cout << i << " ";
+    return 0;
+}
+Time Complexity: O(N), where N is the length of input array
+Auxiliary Space: O(1). Since no extra space has been taken.
 --------------------------------------------------------------------------------
 8) Permutation in String
 Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
