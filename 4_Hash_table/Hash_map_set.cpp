@@ -847,45 +847,43 @@ Time complexity: O(Nlog(N)), Time to sort the array is O(Nlog(N)).
 Auxiliary space: O(N).
 
 Approach 2: Using Hashing
-int findLongestConseqSubseq(int arr[], int n)
-{
-	unordered_set<int> S;
-	int ans = 0;
+int longestSuccessiveElements(vector<int>&a) {
+    int n = a.size();
+    if (n == 0) return 0;
 
-	// Hash all the array elements
-	for (int i = 0; i < n; i++)
-		S.insert(arr[i]);
+    int longest = 1;
+    unordered_set<int> st;
+    //put all the array elements into set:
+    for (int i = 0; i < n; i++) {
+        st.insert(a[i]);
+    }
 
-	// check each possible sequence from
-	// the start then update optimal length
-	for (int i = 0; i < n; i++) {
-		// if current element is the starting
-		// element of a sequence
-		if (S.find(arr[i] - 1) == S.end()) {
-			// Then check for next elements
-			// in the sequence
-			int j = arr[i];
-			while (S.find(j) != S.end())
-				j++;
+    //Find the longest sequence:
+    for (auto it : st) {
+        //if 'it' is a starting number:
+        if (st.find(it - 1) == st.end()) {
+            //find consecutive numbers:
+            int cnt = 1;
+            int x = it;
+            while (st.find(x + 1) != st.end()) {
+                x = x + 1;
+                cnt = cnt + 1;
+            }
+            longest = max(longest, cnt);
+        }
+    }
+    return longest;
 
-			// update  optimal length if
-			// this length is more
-			ans = max(ans, j - arr[i]);
-		}
-	}
-	return ans;
 }
 
-// Driver code
 int main()
 {
-	int arr[] = { 1, 9, 3, 10, 4, 20, 2 };
-	int n = sizeof arr / sizeof arr[0];
-	cout << "Length of the Longest contiguous subsequence "
-			"is "
-		 << findLongestConseqSubseq(arr, n);
-	return 0;
+    vector<int> a = {100, 200, 1, 2, 3, 4};
+    int ans = longestSuccessiveElements(a);
+    cout << "The longest consecutive sequence is " << ans << "\n";
+    return 0;
 }
+
 Time complexity: O(N), Only one traversal is needed and the time complexity is O(N) 
 under the assumption that hash insert and search takes O(1) time.
 Auxiliary space: O(N),
