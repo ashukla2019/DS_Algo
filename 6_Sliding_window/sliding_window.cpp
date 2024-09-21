@@ -491,8 +491,603 @@ int main() {
 }
 Time Complexity: O(N), where N is the length of input array
 Auxiliary Space: O(1). Since no extra space has been taken.
+------------------------------------------------------------------------------------------
+9) Longest sub-array having sum k
+Given an array arr[] of size n containing integers. The problem is to find the length of the longest sub-array having sum equal to the given value k.
+
+Examples: 
+Input: arr[] = { 10, 5, 2, 7, 1, 9 }, k = 15
+Output: 4
+Explanation: The sub-array is {5, 2, 7, 1}.
+
+Input: arr[] = {-5, 8, -14, 2, 4, 12}, k = -5
+Output: 5	
+
+Approach 1: Consider the sum of all the sub-arrays and return the length of the longest 
+sub-array having the sum ‘k’. Time Complexity is of O(n^2).
+
+int lenOfLongSubarr(int arr[], int N, int K)
+{
+
+	// Variable to store the answer
+	int maxlength = 0;
+
+	for (int i = 0; i < N; i++) {
+
+		// Variable to store sum of subarrays
+		int Sum = 0;
+	  
+		// if maximum possible subarray length from i is equal to maxLength
+		if( maxlength == N - i )
+		  break;
+	  
+		for (int j = i; j < N; j++) {
+
+			// Storing sum of subarrays
+			Sum += arr[j];
+
+			// if Sum equals K
+			if (Sum == K) {
+
+				// Update maxLength
+				maxlength = max(maxlength, j - i + 1);
+			}
+		}
+	}
+
+	// Return the maximum length
+	return maxlength;
+}
+
+// Driver Code
+int main()
+{
+
+	// Given input
+	int arr[] = { 10, 5, 2, 7, 1, 9 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	int k = 15;
+
+	// Function Call
+	cout << "Length = " << lenOfLongSubarr(arr, n, k);
+
+	return 0;
+}
+Time Complexity: O(N2), for calculating the sum of all subarrays.
+Auxiliary Space: O(1)
+
+Approach 2: Hashmap and Prefix Sum Technique
+	
+int lenOfLongSubarr(vector<int>& A, int N, int K)
+{
+	unordered_map<int, int> sum_index_map;
+	int maxLen = 0;
+	int prefix_sum = 0;
+
+	for (int i = 0; i < N; ++i) {
+		prefix_sum += A[i];
+
+		if (prefix_sum == K) {
+			maxLen = i + 1;
+		}
+
+		else if (sum_index_map.find(prefix_sum - K) != sum_index_map.end()) {
+			maxLen = max(maxLen, i - sum_index_map[prefix_sum - K]);
+		}
+
+		if (sum_index_map.find(prefix_sum) == sum_index_map.end()) {
+			sum_index_map[prefix_sum] = i;
+		}
+	}
+
+	return maxLen;
+}
+
+int main()
+{
+	vector<int> arr = { 10, 5, 2, 7, 1, 9 };
+	int n = arr.size();
+	int k = 15;
+	cout << "Length = " << lenOfLongSubarr(arr, n, k)
+		 << endl;
+	return 0;
+}
+Time Complexity: O(N), where N is the length of the given array.
+Auxiliary Space: O(N) We are using Hash Table for storing prefix sums
+
+Approach3: Using sliding window:
+int getLongestSubarray(vector<int>& a, long long k) {
+    int n = a.size(); // size of the array.
+
+    int left = 0, right = 0; // 2 pointers
+    long long sum = a[0];
+    int maxLen = 0;
+    while (right < n) {
+        // if sum > k, reduce the subarray from left
+        // until sum becomes less or equal to k:
+        while (left <= right && sum > k) {
+            sum -= a[left];
+            left++;
+        }
+
+        // if sum = k, update the maxLen i.e. answer:
+        if (sum == k) {
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        // Move forward thw right pointer:
+        right++;
+        if (right < n) sum += a[right];
+    }
+
+    return maxLen;
+}
+
+int main()
+{
+    vector<int> a = {2, 3, 5, 1, 9};
+    long long k = 10;
+    int len = getLongestSubarray(a, k);
+    cout << "The length of the longest subarray is: " << len << "\n";
+    return 0;
+}
+Time Complexity: O(2*N), where N = size of the given array.
+Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
+
+Space Complexity: O(1) as we are not using any extra space.
 --------------------------------------------------------------------------------
-8) Permutation in String
+10) Largest subarray with 0 sum: Given an array containing both positive and negative integers,
+we have to find the length of the longest subarray with the sum of all elements equal to zero.
+Example 1:
+Input Format
+: N = 6, array[] = {9, -3, 3, -1, 6, -5}
+Result
+: 5
+Explanation
+: The following subarrays sum to zero:
+{-3, 3} , {-1, 6, -5}, {-3, 3, -1, 6, -5}
+Since we require the length of the longest subarray, our answer is 5!
+
+Example 2:
+Input Format:
+ N = 8, array[] = {6, -2, 2, -8, 1, 7, 4, -10}
+Result
+: 8
+Subarrays with sum 0 : {-2, 2}, {-8, 1, 7}, {-2, 2, -8, 1, 7}, {6, -2, 2, -8, 1, 7, 4, -10}
+Length of longest subarray = 8
+
+Example 3:
+Input Format:
+ N = 3, array[] = {1, 0, -5}
+Result
+: 1
+Subarray : {0}
+Length of longest subarray = 1
+
+Example 4:
+Input Format:
+ N = 5, array[] = {1, 3, -5, 6, -2}
+Result
+: 0
+Subarray: There is no subarray that sums to zero
+int maxLen(int A[], int n)
+{
+    // Your code here
+    unordered_map<int,int> mpp; 
+    int maxi = 0;
+    int sum = 0; 
+    for(int i = 0;i<n;i++) {
+        sum += A[i]; 
+        if(sum == 0) {
+            maxi = i + 1; 
+        }
+        else {
+            if(mpp.find(sum) != mpp.end()) {
+                maxi = max(maxi, i - mpp[sum]); 
+            }
+            else {
+                mpp[sum] = i;
+            }
+        }   
+    }
+
+    return maxi; 
+	Time Complexity: O(N), as we are traversing the array only once
+	Space Complexity: O(N), in the worst case we would insert all array elements prefix sum into our hashmap
+-----------------------------------------------------------------------------------------------------------	
+11) Count subarrays having total distinct elements same as original array
+Given an array of n integers. Count the total number of sub-arrays having total distinct elements, the same as that of the total distinct elements of the original array. 
+
+Examples:  
+
+Input  : arr[] = {2, 1, 3, 2, 3}
+Output : 5
+Total distinct elements in array is 3
+Total sub-arrays that satisfy the condition 
+are:  Subarray from index 0 to 2
+      Subarray from index 0 to 3
+      Subarray from index 0 to 4
+      Subarray from index 1 to 3
+      Subarray from index 1 to 4
+
+Input  : arr[] = {2, 4, 5, 2, 1}
+Output : 2
+
+Input  : arr[] = {2, 4, 4, 2, 4}
+Output : 9 
+
+Approach 1: 
+int countDistictSubarray(int arr[], int n)
+{
+	unordered_set<int> unst1;
+	for (int i = 0; i < n; i++)
+		unst1.insert(arr[i]);
+
+	int totalDist = unst1.size();
+	int count = 0;
+
+	for (int i = 0; i < n; i++) {
+		unordered_set<int> unst;
+		for (int j = i; j < n; j++) {
+			unst.insert(arr[j]);
+			if (unst.size() == totalDist)
+				count++;
+		}
+	}
+
+	return count;
+}
+
+// Driver code
+int main()
+{
+	int arr[] = { 2, 1, 3, 2, 3 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+
+	cout << countDistictSubarray(arr, n) << endl;
+	return 0;
+}
+Time Complexity: O(n*n)
+Auxiliary Space: O(n)
+
+Approach 2: Sliding window:
+int countDistictSubarray(int arr[], int n)
+{
+	// Count distinct elements in whole array
+	unordered_map<int, int> vis;
+	for (int i = 0; i < n; ++i)
+		vis[arr[i]] = 1;
+	int k = vis.size();
+
+	// Reset the container by removing all elements
+	vis.clear();
+
+	// Use sliding window concept to find
+	// count of subarrays having k distinct
+	// elements.
+	int ans = 0, right = 0, window = 0;
+	for (int left = 0; left < n; ++left)
+	{
+		while (right < n && window < k)
+		{
+			++vis[ arr[right] ];
+
+			if (vis[ arr[right] ] == 1)
+				++window;
+
+			++right;
+		}
+
+		// If window size equals to array distinct 
+		// element size, then update answer
+		if (window == k)
+			ans += (n - right + 1);
+
+		// Decrease the frequency of previous element
+		// for next sliding window
+		--vis[ arr[left] ];
+
+		// If frequency is zero then decrease the
+		// window size
+		if (vis[ arr[left] ] == 0)
+				--window;
+	}
+	return ans;
+}
+
+// Driver code
+int main()
+{
+	int arr[] = {2, 1, 3, 2, 3};
+	int n = sizeof(arr) / sizeof(arr[0]);
+
+	cout << countDistictSubarray(arr, n) <<"n";
+	return 0;
+}
+Time complexity: O(n) 
+Auxiliary space: O(n)
+-----------------------------------------------------------------------------------------------
+12) Smallest subarray with k distinct numbers	
+We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
+Examples: 
+Input : arr[] = { 1, 1, 2, 2, 3, 3, 4, 5} 
+            k = 3
+Output : 5 7
+
+Input : arr[] = { 1, 2, 2, 3} 
+            k = 2
+Output : 0 1
+
+Input : arr[] = {1, 1, 2, 1, 2}
+            k = 3
+Output : Invalid k
+
+Approach 1: The simplest approach in this problem is, try to generate all the subarrays
+and check for which subarray the size is k. But there are some points we need to take care
+void minRange(int arr[], int n, int k)
+{
+	// Starting and ending index of resultant subarray
+	int start = 0, end = n;
+
+	// Selecting each element as the start index for
+	// subarray
+	for (int i = 0; i < n; i++) {
+		// Initialize a set to store all distinct elements
+		unordered_set<int> set;
+
+		// Selecting the end index for subarray
+		int j;
+		for (j = i; j < n; j++) {
+			set.insert(arr[j]);
+
+			/*
+			If set contains exactly k elements,
+			then check subarray[i, j] is smaller in size
+			than the current resultant subarray
+			*/
+			if (set.size() == k) {
+				if (j - i < end - start) {
+					start = i;
+					end = j;
+				}
+
+				// There are already k distinct elements
+				// now, no need to consider further elements
+				break;
+			}
+		}
+
+		// If there are no k distinct elements
+		// left in the array starting from index i we will
+		// break
+		if (j == n) {
+			break;
+		}
+	}
+
+	// If no window found then print -1
+	if (start == 0 && end == n)
+		cout << "Invalid k";
+
+	else
+		cout << start << " " << end;
+}
+
+// Driver code for above function.
+int main()
+{
+	int arr[] = { 1, 2, 3, 4, 5 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	int k = 3;
+	minRange(arr, n, k);
+	return 0;
+}
+Output
+0 2
+Time Complexity : O(N^2) ,where N is the number of elements in the array. Every time picking the end points of the subarray using two nested loops(one inside another) makes the time complexity O(N^2).
+Space Complexity :  O(N)
+
+Approach 2: Sliding Window:
+Optimization is get rid of the repeated work while making all subarray, all subarray will not
+help to find the resultant. The approach is –
+Steps :
+Initialize a map to store the frequencies of each element.
+Taking two variables as taken before : start and end of the required subarray.
+And here we are using i and j as the starting and ending index of the window respectively, initializing as i = 0 and j = 0.
+Will traverse the array while the ending pointer of our window reach the end of given array. i.e.  while( j < n)
+Add the current element to the map map[ arr[j] ]++ and make j pointing to the next index
+Consider the window [ i, j-1 ] (reason for ‘j-1’ is as we incremented the value of ‘j’ just after insertion in last step) check whether its size is equal to k
+If window size is lesser than k then continue
+But if window size == k, then check its length whether it is the resultant subarray or not. 
+After that we need to move our window, but in order to move our window, we have to check the starting element of our current window (i.e. i-th). If the i-th element is having a frequency of 1 then erase it from the map and else decrease its frequency by 1. And increase the i-value. Make i to point to the next element
+
+void minRange(int arr[], int n, int k)
+{
+	/*
+		start = starting index of resultant subarray
+		end = ending index of resultant subarray
+	*/
+	int start = 0, end = n;
+
+	unordered_map<int, int> map;
+
+	/*
+		i = starting index of the window (on left side)
+		j = ending index of the window (on right side)
+	*/
+	int i = 0, j = 0;
+
+	while (j < n) {
+		// Add the current element to the map
+		map[arr[j]]++;
+		j++;
+
+		// Nothing to do when having less element
+		if (map.size() < k)
+			continue;
+
+		/*
+				If map contains exactly k elements,
+				consider subarray[i, j - 1] keep removing
+				left most elements
+		*/
+
+		while (map.size() == k) {
+			// as considering the (j-1)th and i-th index
+			int windowLen = (j - 1) - i + 1;
+			int subArrayLen = end - start + 1;
+
+			if (subArrayLen > windowLen) {
+				start = i;
+				end = j - 1;
+			}
+
+			// Remove elements from left
+
+			// If freq == 1 then totally erase
+			if (map[arr[i]] == 1)
+				map.erase(arr[i]);
+
+			// decrease freq by 1
+			else
+				map[arr[i]]--;
+
+			// move the starting index of window
+			i++;
+		}
+	}
+
+	if (start == 0 && end == n)
+		cout << "Invalid k" << endl;
+
+	else
+		cout << start << " " << end << endl;
+}
+
+// Driver code for above function.
+int main()
+{
+	int arr[] = { 1, 1, 2, 2, 3, 3, 4, 5 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	int k = 3;
+	minRange(arr, n, k);
+	return 0;
+}
+
+Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once and removed once from the map.
+Space Complexity :  O(K)
+--------------------------------------------------------------------------------------
+13) Find the length of largest subarray with 0 sum
+Input: arr[] = {15, -2, 2, -8, 1, 7, 10, 23}
+Output: 5
+Explanation: The longest sub-array with elements summing up-to 0 is {-2, 2, -8, 1, 7}
+
+Input: arr[] = {1, 2, 3}
+Output: 0
+Explanation: There is no subarray with 0 sum
+
+Input:  arr[] = {1, 0, 3}
+Output:  1
+Explanation: The longest sub-array with elements summing up-to 0 is {0}
+
+Approach 1: 
+Consider all sub-arrays one by one and check the sum of every sub-array. If the sum of
+the current subarray is equal to zero then update the maximum length accordingly. After 
+iterating over all the subarrays, return the maximum length.
+
+int maxLen(int arr[], int N)
+{
+	// Initialize result
+	int max_len = 0; 
+
+	// Pick a starting point
+	for (int i = 0; i < N; i++) {
+
+		// Initialize curr_sum for
+		// every starting point
+		int curr_sum = 0;
+
+		// Try all subarrays starting with 'i'
+		for (int j = i; j < N; j++) {
+			curr_sum += arr[j];
+
+			// If curr_sum becomes 0, 
+			// then update max_len
+			// if required
+			if (curr_sum == 0)
+				max_len = max(max_len, j - i + 1);
+		}
+	}
+	return max_len;
+}
+
+// Driver's Code
+int main()
+{
+	int arr[] = {15, -2, 2, -8, 1, 7, 10, 23};
+	int N = sizeof(arr) / sizeof(arr[0]);
+  
+  // Function call
+	cout << "Length of the longest 0 sum subarray is "
+		 << maxLen(arr, N);
+	return 0;
+}
+Output
+Length of the longest 0 sum subarray is 5
+Time Complexity: O(N2)
+Auxiliary Space: O(1)
+
+Approach 2: Using Hashmap and Prefix Sum
+	
+int maxLen(int arr[], int N)
+{
+	// Map to store the previous sums
+	unordered_map<int, int> presum;
+
+	int sum = 0; // Initialize the sum of elements
+	int max_len = 0; // Initialize result
+
+	// Traverse through the given array
+	for (int i = 0; i < N; i++) {
+
+		// Add current element to sum
+		sum += arr[i];
+		if (sum == 0)
+			max_len = i + 1;
+
+		// Look for this sum in Hash table
+		if (presum.find(sum) != presum.end()) {
+
+			// If this sum is seen before, then update
+			// max_len
+			max_len = max(max_len, i - presum[sum]);
+		}
+		else {
+			// Else insert this sum with index
+			// in hash table
+			presum[sum] = i;
+		}
+	}
+
+	return max_len;
+}
+
+// Driver's Code
+int main()
+{
+	int arr[] = { 15, -2, 2, -8, 1, 7, 10, 23 };
+	int N = sizeof(arr) / sizeof(arr[0]);
+
+	// Function call
+	cout << "Length of the longest 0 sum subarray is "
+		 << maxLen(arr, N);
+
+	return 0;
+}
+Time Complexity: O(N), where N is the number of elements in the array.
+Auxiliary Space: O(N)
+-------------------------------------------------------------------------------------------
+14) Permutation in String
 Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
 
 In other words, return true if one of s1's permutations is the substring of s2.
@@ -580,7 +1175,7 @@ bool checkInclusion(string s1, string s2) {
 
 
 ------------------------------------------------------------------------------
-9) Substrings of Size Three with Distinct Characters
+15) Substrings of Size Three with Distinct Characters
 A string is good if there are no repeated characters.
 Given a string s​​​​​, return the number of good substrings of length three in s​​​​​​.
 Note that if there are multiple occurrences of the same substring, every occurrence should be counted.
@@ -609,7 +1204,7 @@ iint countGoodSubstrings(string s) {
     }
 
 -------------------------------------------------------------------------------
-10) Find the Longest Semi-Repetitive Substring
+16) Find the Longest Semi-Repetitive Substring
 You are given a digit string s that consists of digits from 0 to 9.
 A string is called semi-repetitive if there is at most one adjacent pair of the same digit. For example, "0010", "002020", "0123", "2002", and "54944" are semi-repetitive while the following are not: "00101022" (adjacent same digit pairs are 00 and 22), and "1101234883" (adjacent same digit pairs are 11 and 88).
 Return the length of the longest semi-repetitive 
@@ -646,7 +1241,7 @@ The longest semi-repetitive substring is "11". Picking the substring "111" has t
         return n - l;
     }
 ---------------------------------------------------------------------------------
-11) Count the Number of Good Subarrays
+17) Count the Number of Good Subarrays
 Given an integer array nums and an integer k, return the number of good subarrays of nums.
 A subarray arr is good if it there are at least k pairs of indices (i, j) such that i < j and arr[i] == arr[j].
 A subarray is a contiguous non-empty sequence of elements within an array.
@@ -684,7 +1279,7 @@ Explanation: There are 4 different good subarrays:
 
 
 -------------------------------------------------------------------------
-12) Minimum Consecutive Cards to Pick Up
+18) Minimum Consecutive Cards to Pick Up
 You are given an integer array cards where cards[i] represents the value of the ith card. A pair of cards are matching if the cards have the same value.
 
 Return the minimum number of consecutive cards you have to pick up to have a pair of matching cards among the picked cards. If it is impossible to have matching cards, return -1.
@@ -715,7 +1310,7 @@ int minimumCardPickup(vector<int>& cards) {
 	Time complexity: O(n)
     Space complexity:O(n)
 --------------------------------------------------------------------------
-13) Minimum Operations to Reduce X to Zero 
+19) Minimum Operations to Reduce X to Zero 
 
 class Solution {
     
@@ -801,7 +1396,7 @@ int main()
 }
 
 ----------------------------------------------------------------------------
-14) Count Number of Nice Subarrays:
+20) Count Number of Nice Subarrays:
 Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
 
 Return the number of nice sub-arrays.
@@ -851,7 +1446,7 @@ public:
 
 
 -----------------------------------------------------------------------------
-15) Fruit Into Baskets
+21) Fruit Into Baskets
 You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the ith tree produces.
 
 You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:
@@ -915,7 +1510,7 @@ Time complexity: O(n)
 Space complexity: O(1)
 
 -------------------------------------------------------------------------------
-16) Max Consecutive Ones III
+22) Max Consecutive Ones III
 Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
 
 Example 1:
@@ -955,7 +1550,7 @@ int main() {
 Time complexity: O(n)
 Space complexity: O(1)
 -----------------------------------------------------------------------------
-17)Subarray Product Less Than K
+23)Subarray Product Less Than K
 Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
 
 Example 1:
@@ -992,7 +1587,7 @@ Time complexity: O(n) for average and most of the cases
 Space complexity: O(1) and we are using constant space that includes variables ri, pro, result, i 
 
 --------------------------------------------------------------------------------
-18) Minimum Size Subarray Sum
+24) Minimum Size Subarray Sum
 Given an array of positive integers nums and a positive integer target, return the minimal length of a 
 subarray
  whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
@@ -1086,7 +1681,7 @@ int main() {
 }
  
 --------------------------------------------------------------------------------
-19) Longest Substring Without Repeating Characters
+25) Longest Substring Without Repeating Characters
 Given a string s, find the length of the longest 
 substring
  without repeating characters.
@@ -1134,7 +1729,7 @@ int main() {
   return 0;
 }
 ----------------------------------------------------------------------------------
-20) Sliding Window Maximum
+26) Sliding Window Maximum
 You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
 
 Return the max sliding window.
