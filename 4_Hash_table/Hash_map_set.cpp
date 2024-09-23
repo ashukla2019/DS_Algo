@@ -744,6 +744,12 @@ Time Complexity: O(n)
 Auxiliary Space: O(n)
 
 Approach 3: Using sorting
+Take two pointers l&r, set them at starting index.
+run while(r<n)
+case1: if(arr[r] - arr[l] == k), increment counter, l and r 
+case 2: if(arr[r] - arr[l] > k), increment l sothat we can reduce the difference to reach k
+case 3: if(arr[r] - arr[l] < k), increment r sothat we can increase the difference to reach k
+
 int countPairsWithDiffK(int arr[], int n, int k)
 {
 	int count = 0;
@@ -888,135 +894,7 @@ Time complexity: O(N), Only one traversal is needed and the time complexity is O
 under the assumption that hash insert and search takes O(1) time.
 Auxiliary space: O(N),
 ----------------------------------------------------------------------
-12) Print all pairs with given sum
-Given an array of integers, and a number ‘sum’, print all unique pairs in the array whose sum is 
-equal to ‘sum’.
-
-Examples :
-Input : arr[] = {1, 5, 7, -1, 5}, sum = 6
-Output : (1, 5), (7, -1)
-
-Input : arr[] = {2, 5, 17, -1} sum = 7
-Output : (2, 5)
-
-Approach 1: A simple solution is to traverse each element and check if there’s another 
-number in the array which can be added to it to give sum, using set to handle duplicate pairs.
-
-int printPairs(int arr[], int n, int sum)
-{
-	int count = 0; // Initialize result
-	  set<pair<int,int>> dup;
-	// Consider all possible pairs and check
-	// their sums
-	for (int i = 0; i < n; i++)
-		for (int j = i + 1; j < n; j++)
-			if (arr[i] + arr[j] == sum)
-			{
-				  if(dup.find({arr[i],arr[j]})==dup.end() && dup.find({arr[j],arr[i]})==dup.end())
-				{
-				  cout << "(" << arr[i] << ", " << arr[j]
-					 << ")" << endl;
-				  dup.insert({arr[i],arr[j]});
-				}
-			  
-			}
-			  
-}
-
-// Driver function to test the above function
-int main()
-{
-	int arr[] = { 1, 5, 7, -1, 5 };
-	int n = sizeof(arr) / sizeof(arr[0]);
-	int sum = 6;
-	printPairs(arr, n, sum);
-	return 0;
-}
-Time Complexity: O(N2 logN) where N is the number of elements.
-Auxiliary Space: O(N)
-
-Approach 2: Using two pointers:
-void pairedElements(int arr[], int sum, int n)
-{
-	// Initialize pointers
-	int low = 0;
-	int high = n - 1;
-
-	// Map to track unique pairs
-	unordered_map<int, int> m;
-
-	// Iterate with two pointers
-	while (low < high) {
-		// Check if sum equals the target
-		if (arr[low] + arr[high] == sum) {
-			// Print pair if elements are not already in the map
-			if(m.find(arr[low]) == m.end() || m.find(arr[high])==m.end())
-			{
-			  cout << "The pair is : (" << arr[low] << ", "
-				 << arr[high] << ")" << endl;
-			  m[arr[low]]++;
-			  m[arr[high]]++;
-			}
-			low++;
-			high--;
-		}
-		// Adjust pointers based on sum comparison
-		else if (arr[low] + arr[high] > sum) {
-			high--;
-		}
-		else {
-			low++;
-		}
-	}
-}
-
-// Driver code
-int main()
-{
-	int arr[] = { 2, 3, 4, -2, 6, 8, 3, 3 };
-	int n = sizeof(arr) / sizeof(arr[0]);
-
-	// Sort the array
-	sort(arr, arr + n);
-
-	// Call the pairedElements function
-	pairedElements(arr, 6, n);
-}
-Time Complexity: O(N*logN) where N is the number of elements
-Auxiliary Space: O(N)
-
-Approach 3: using hashing 
-void printPairs(int arr[], int n, int sum) {
-	// Store counts of all elements in map m
-	unordered_map<int, int> m;
-
-	// Traverse through all elements
-	for (int i = 0; i < n; i++) {
-		// Search if a pair can be formed with arr[i].
-		int rem = sum - arr[i];
-		if (rem == arr[i]) {
-			// Check if the complement is in the map and occurs only once
-			if (m.find(rem) != m.end() && m[rem] == 1) {
-				cout << "(" << rem << ", " << arr[i] << ")" << endl;
-			}
-		} else if (m.find(rem) != m.end() && m.find(arr[i]) == m.end()) {
-			// Check if the complement is in the map and the current element is not in the map
-			cout << "(" << rem << ", " << arr[i] << ")" << endl;
-		}
-		m[arr[i]]++; // Update the map with the current element's count
-	}
-}
-
-// Driver function to test the above function
-int main() {
-	int arr[] = {1, 5, 7, -1, 5, 3, 3, 3};
-	int n = sizeof(arr) / sizeof(arr[0]);
-	int sum = 6;
-	printPairs(arr, n, sum);
-	return 0;
-}
----------------------------------------------------------------------------------
-13) Find the first repeating element in an array of integers	
+12) Find the first repeating element in an array of integers	
 Given an array of integers arr[], The task is to find the index of first repeating element in it i.e. the element that occurs more than once and whose index of the first occurrence is the smallest. 
 
 Examples: 
@@ -1071,248 +949,47 @@ Time Complexity: O(N2)
 Auxiliary Space: O(1)
 
 Approach 2: Using Hashing:
-void firstRepeating(int arr[], int n) {
-	
-		int max = -1;
-		//Finding max
-		for(int i = 0 ; i<n;i++){
-		if(max<arr[i]){
-			max = arr[i];
-		}
-		}
-		
-		//Creating array
-		int hash[max+1]={0};
-		
-		//Mapping/counting 
-		for(int i =0;i<n; i++){
-			hash[arr[i]]++;
-		}
-		//Variable for storing ans
-		int repeating=INT_MIN;
-		//Checking repeatibng element
-		for(int i =0;i<n; i++){
-			if(hash[arr[i]]>1){
-				repeating=arr[i];
-				break;
-			}
-		}
-		if(repeating==INT_MIN){
-		cout << "There are no repeating elements";
-		}
-		else{
-		cout << "The first repeating element is : "
-			<<repeating;
-		}
-	}
-
-// Driver method to test above method
+will travese array from end and will add element to set.
+if elementis present in set and then update min with current index value(repeating case)
+At last, will print arr[min], that would be first repeating char.
+void printFirstRepeating(int arr[], int n)
+{
+    // Initialize index of first repeating element
+    int min = -1;
+ 
+    // Creates an empty hashset
+    set<int> myset;
+ 
+    // Traverse the input array from right to left
+    for (int i = n - 1; i >= 0; i--) {
+        // If element is already in hash set, update min
+        if (myset.find(arr[i]) != myset.end())
+            min = i;
+ 
+        else // Else add element to hash set
+            myset.insert(arr[i]);
+    }
+ 
+    // Print the result
+    if (min != -1)
+        cout << "The first repeating element is "
+             << arr[min];
+    else
+        cout << "There are no repeating elements";
+}
+ 
+// Driver Code
 int main()
 {
-	int arr[] = { 10, 5, 3, 4, 3, 5, 6 };
-
-	int N = sizeof(arr) / sizeof(arr[0]);
-	firstRepeating(arr, N);
+    int arr[] = { 10, 5, 3, 4, 3, 5, 6 };
+ 
+    int n = sizeof(arr) / sizeof(arr[0]);
+    printFirstRepeating(arr, n);
 }
 Time Complexity: O(N).
 Auxiliary Space: O(N)
 --------------------------------------------------------------------------------
-14) Majority Element:
-Find the majority element in the array. A majority element in an array A[] of size n is an element that appears more than n/2 times (and hence there is at most one such element). 
-
-Examples : 
-Input : arr[] = {3, 9, 2, 9, 2, 9, 9}
-Output : 9
-Explanation: n = 7. Note that 9 appear more 4 times which is more than 7/2 times 
-
-Input : arr[] = {3}
-Output : 3
-Explanation: Appears more than n/2 times
-
-Input : A[] = {3, 3, 4, 2, 4, 4, 2, 4}
-Output : No Majority Element
-Explanation: There is no element whose frequency is greater than the half of the size of the array size.	
-
-Approach 1: 
-The basic solution is to have two loops and keep track of the maximum count for all different
-elements. If the maximum count becomes greater than n/2 then break the loops and return the 
-element having the maximum count. If the maximum count doesn’t become more than n/2 then 
-the majority element doesn’t exist.
-
-void findMajority(const vector<int>& arr) {
-	int n = arr.size();
-	int maxCount = 0;
-	int index = -1; // sentinels
-	for (int i = 0; i < n; i++) {
-		int count = 0;
-		for (int j = 0; j < n; j++) {
-			if (arr[i] == arr[j])
-				count++;
-		}
-
-		// update maxCount if count of
-		// current element is greater
-		if (count > maxCount) {
-			maxCount = count;
-			index = i;
-		}
-	}
-
-	// if maxCount is greater than n/2, 
-	// return the corresponding element
-	if (maxCount > n / 2)
-		cout << arr[index] << endl;
-	else
-		cout << "No Majority Element" << endl;
-}
-
-// Driver code
-int main() {
-	vector<int> arr = {1, 1, 2, 1, 3, 5, 1};
-
-	// Function calling
-	findMajority(arr);
-
-	return 0;
-}
-Time Complexity: O(n*n), A nested loop is needed where both the loops traverse the array from
-start to end.
-Auxiliary Space: O(1)
-
-Approach 2: Using Moore’s Voting Algorithm
-Loop through each element and maintains a count of the majority element, and a majority index, maj_index
-If the next element is the same then increment the count if the next element is not the same then decrement the count.
-if the count reaches 0 then change the maj_index to the current element and set the count again to 1.
-Now again traverse through the array and find the count of the majority element found.
-If the count is greater than half the size of the array, print the element
-Else print that there is no majority element
-
-int findCandidate(const vector<int>& arr) {
-	int maj_index = 0, count = 1;
-	int size = arr.size();
-	for (int i = 1; i < size; i++) {
-		if (arr[maj_index] == arr[i])
-			count++;
-		else
-			count--;
-		if (count == 0) {
-			maj_index = i;
-			count = 1;
-		}
-	}
-	return arr[maj_index];
-}
-
-/* Function to check if the candidate occurs 
-   more than n/2 times */
-bool isMajority(const vector<int>& arr, int cand) {
-	int count = 0;
-	int size = arr.size();
-	for (int i = 0; i < size; i++) {
-		if (arr[i] == cand)
-			count++;
-	}
-	return (count > size / 2);
-}
-
-/* Function to print Majority Element */
-void printMajority(const vector<int>& arr) {
-  
-	/* Find the candidate for Majority */
-	int cand = findCandidate(arr);
-
-	/* Print the candidate if it is Majority */
-	if (isMajority(arr, cand))
-		cout << " " << cand << " ";
-	else
-		cout << "No Majority Element";
-}
-
-/* Driver code */
-int main() {
-	vector<int> arr = { 1, 3, 3, 1, 2 };
-
-	// Function calling
-	printMajority(arr);
-
-	return 0;
-}
-Time Complexity: O(n), As two traversal of the array, is needed, so the time complexity is linear.
-Auxiliary Space: O(1)
-
-Approach 3: using Hashing 
-void findMajority(const vector<int>& arr) {
-  
-	// Find frequencies
-	unordered_map<int, int> m;
-	for (int num : arr)
-		m[num]++; 
-
-	// Find max Frequency item
-	int maxFreq = 0;
-	int res = -1;
-	for (auto i : m) {
-		if (i.second > maxFreq) {
-		   maxFreq = i.second;
-		   res = i.first;
-		}
-	}  
-
-	// Check for majority
-	if (maxFreq > arr.size() / 2) 
-		cout << "Majority found: " << res << endl; 
-	else
-		cout << "No Majority element" << endl; 
-}
-
-int main() {
-	vector<int> arr = {2, 1, 2, 3, 3, 3, 3}; 
-
-	findMajority(arr);
-
-	return 0;
-}
-
-Approach 4: Using Sorting
-int majorityElement(vector<int>& arr) {
-	int n = arr.size();
-	if (n == 1) return arr[0];    
-	int cnt = 1;
-  
-	// sort the array, O(n log n)
-	sort(arr.begin(), arr.end());
-	for (int i = 1; i < n; i++) {
-		if (arr[i - 1] == arr[i]) {
-			cnt++;
-		} else {
-			if (cnt > n / 2) {
-				return arr[i - 1];
-			}
-			cnt = 1;
-		}
-	}
-	// Check the last element
-	if (cnt > n / 2) {
-		return arr[n - 1];
-	}
-	// if no majority element, return -1
-	return -1;
-}
-
-// Driver code
-int main() {
-	vector<int> arr = {1, 1, 2, 1, 3, 5, 1};
-	
-	// Function calling 
-	cout << majorityElement(arr);
-
-	return 0;
-}
-
-Time Complexity: O(n log n), Sorting requires O(n log n) time complexity.
-Auxiliary Space: O(1)
-------------------------------------------------------------------------------
-15) Given a sequence of words, print all anagrams together
+13) Given a sequence of words, print all anagrams together
 Input : {“cat”, “dog”, “tac”, “god”, “act”}
 Output : {“cat”, “tac”, “act”, ‘”dog”, “god”}	
 	Approach: HashMap with O(NM) Solution
@@ -1387,7 +1064,7 @@ int main()
 	return 0;
 }
 ---------------------------------------------------------------------------------
-16) Largest subarray with equal number of 0s and 1s:
+14) Largest subarray with equal number of 0s and 1s:
 Given an array containing only 0s and 1s, find the largest subarray which contains equal no of 0s and 1s. The expected time complexity is O(n). 
 
 Examples: 
@@ -1518,7 +1195,7 @@ int main()
 Time Complexity: O(n). 
 Auxiliary Space: O(n). 
 ----------------------------------------------------------------------------
-17) Sort an array according to the order defined by another array
+15) Sort an array according to the order defined by another array
 Given two arrays arr1[] and arr2[] of size m and n, the task is to sort arr1[] such that the relative order among the elements matches the order in arr2[]. For elements not present in arr2[], append them at the end in sorted order.
 
 Example: 
@@ -1591,7 +1268,7 @@ Output: 2 2 1 1 8 8 3 5 6 7 9
 Time complexity: O(m log m + n), where m is the size of arr1 and n is the size of arr2.
 Auxiliary Space: O(m)
 ----------------------------------------------------------------------
-18) Range Queries for Frequencies of array elements
+16) Range Queries for Frequencies of array elements
 Given an array of n non-negative integers. The task is to find frequency of a particular element in the arbitrary range of array[]. The range is given as positions (not 0 based indexes) in array. There can be multiple queries of given type.
 
 Examples: 
@@ -1684,7 +1361,7 @@ This approach will be beneficial if we have a large number of queries of an arbi
 Time complexity: O(log N) for single query.
 Auxiliary Space: O(N)
 -------------------------------------------------------------------------------
-19) Maximum possible difference of two subsets of an array
+17) Maximum possible difference of two subsets of an array
 Input : arr[] = {5, 8, -1, 4}
 Output : Maximum Difference = 18
 Explanation : 
@@ -1774,7 +1451,7 @@ int main()
 Time Complexity: O(n log n)
 Auxiliary Space: O(1)
 ---------------------------------------------------------------------------
-20)Find Itinerary from a given list of tickets
+18)Find Itinerary from a given list of tickets
 Given a list of tickets, find itinerary in order using the given list.
 
 Example: 
@@ -1842,7 +1519,7 @@ int main()
 Time Complexity: O(n).
 Auxiliary Space: O(n)
 -------------------------------------------------------------------------
-21) Find all pairs (a, b) in an array such that a % b = k	
+19) Find all pairs (a, b) in an array such that a % b = k	
 Given an array with distinct elements, the task is to find the pairs in the array such that a % b = k, where k is a given integer.
 
 Examples : 
@@ -1893,7 +1570,7 @@ Output
 Time Complexity : O(n2)
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------
-22) Count the number of subarrays having a given XOR
+20) Count the number of subarrays having a given XOR
 Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
 Examples: 
 
