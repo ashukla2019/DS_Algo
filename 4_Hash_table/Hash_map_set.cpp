@@ -993,76 +993,21 @@ Auxiliary Space: O(N)
 Input : {“cat”, “dog”, “tac”, “god”, “act”}
 Output : {“cat”, “tac”, “act”, ‘”dog”, “god”}	
 	Approach: HashMap with O(NM) Solution
-void solver(vector<string> my_list)
-{
-	
-	// Inner hashmap counts frequency
-	// of characters in a string.
-	// Outer hashmap for if same
-	// frequency characters are present in
-	// in a string then it will add it to
-	// the vector.
-	map<map<char, int>, vector<string>> my_map;
-	
-	// Loop over all words
-	for(string str : my_list)
-	{
-		
-		// Counting the frequency of the
-		// characters present in a string
-		map<char, int> temp_map;
-		vector<string> temp_my_list;
-		for(int i = 0; i < str.length(); ++i) 
-		{
-			++temp_map[str[i]];
-		}
-		
-		// If the same frequency of characters
-		// are already present then add that
-		// string into that arraylist otherwise
-		// created a new arraylist and add that
-		// string
-		auto it = my_map.find(temp_map);
-		if (it != my_map.end())
-		{
-			it->second.push_back(str);
-		}
-		else
-		{
-			temp_my_list.push_back(str);
-			my_map.insert({ temp_map, temp_my_list });
-		}
-	}
-	
-	// Stores the result in a vector
-	vector<vector<string>> result;
-
-	for(auto it = my_map.begin();
-			 it != my_map.end(); ++it)
-	{
-		result.push_back(it->second);
-	}
-
-	for(int i = 0; i < result.size(); ++i) 
-	{
-		  cout << "[";
-		for(int j = 0; j < result[i].size()-1; ++j) 
-		{
-			cout << result[i][j] << ", ";
-		}
-			cout<< result[i][result[i].size()-1];
-		  cout << "]";
-	}
-}
-
-// Driver code
-int main()
-{
-	vector<string> my_list = { "cat", "dog", "ogd",
-							   "god", "atc" };
-	solver(my_list);
-	return 0;
-}
+ vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> mp;
+        
+        for(auto x: strs){
+            string word = x;
+            sort(word.begin(), word.end());
+            mp[word].push_back(x);
+        }
+        
+        vector<vector<string>> ans;
+        for(auto x: mp){
+            ans.push_back(x.second);
+        }
+        return ans;
+    }
 ---------------------------------------------------------------------------------
 14) Largest subarray with equal number of 0s and 1s:
 Given an array containing only 0s and 1s, find the largest subarray which contains equal no of 0s and 1s. The expected time complexity is O(n). 
@@ -1086,190 +1031,80 @@ where cumulative sum = 0 will signify that the sub-array from starting till that
 equal number of 0’s and 1’s. Now as this is a valid sub-array, compare it’s size with the
 maximum size of such sub-array found till now. 
 
-int findSubArray(int arr[], int n)
-{
-	int sum = 0;
-	int maxsize = -1, startindex;
+int findSubArray(int nums[], int n) {
+  int sum = 0;
+  int maxlen = -1, startindex;
 
-	// Pick a starting point as i
-	for (int i = 0; i < n - 1; i++) {
-		sum = (arr[i] == 0) ? -1 : 1;
+  // Pick a starting point as i
+  for (int i = 0; i < n - 1; i++) {
+    sum = (nums[i] == 0) ? -1 : 1;
 
-		// Consider all subarrays starting from i
-		for (int j = i + 1; j < n; j++) {
-			(arr[j] == 0) ? (sum += -1) : (sum += 1);
+    // Consider all subarrays starting from i
+    for (int j = i + 1; j < n; j++) {
+      (nums[j] == 0) ? (sum += -1) : (sum += 1);
 
-			// If this is a 0 sum subarray, then
-			// compare it with maximum size subarray
-			// calculated so far
-			if (sum == 0 && maxsize < j - i + 1) {
-				maxsize = j - i + 1;
-				startindex = i;
-			}
-		}
-	}
-	if (maxsize == -1)
-		cout << "No such subarray";
-	else
-		cout << startindex << " to "
-			 << startindex + maxsize - 1;
-
-	return maxsize;
+      // If this is a 0 sum subarray, then
+      // compare it with maximum size subarray
+      if (sum == 0 && maxlen < j - i + 1) {
+        maxlen = j - i + 1;
+        startindex = i;
+      }
+    }
+  }
+  if (maxlen == -1)
+    cout << "No such subarray";
+  else
+    cout << "The length of the longest subarray is: " << maxlen;
 }
 
 /* Driver code*/
-int main()
-{
-	int arr[] = { 1, 0, 0, 1, 0, 1, 1 };
-	int size = sizeof(arr) / sizeof(arr[0]);
+int main() {
+  int arr[] = { 1, 0, 0, 1, 0, 0, 1 };
+  int size = sizeof(arr) / sizeof(arr[0]);
 
-	findSubArray(arr, size);
-	return 0;
+  findSubArray(arr, size);
+  return 0;
 }
+Output: The length of the longest s
 Time Complexity: O(n^2). 
 As all the possible sub-arrays are generated using a pair of nested loops.
 Auxiliary Space: O(1). 
 As no extra data structure is used which takes auxiliary space.
 
-Approach 2: Using Hashmap and Prefix Sum Technique
-
-int maxLen(int arr[], int n)
+Approach 2: Using Hashmap
+Start with two vars: maxlen and count 
+count will store the cumulative sum{we will check array element if it's 1 then add 1 else add -1}
+if count or cumulative sum becomes 0 means we got equal number of 0s and 1s in subarray.
+store if count value is not present in map with index i. If count value is found in map then it got 
+the cumulative sum 0 and need to 
+int findMaxLength(vector<int>& nums) 
 {
-	// Creates an empty hashMap hM
-
-	unordered_map<int, int> hM;
-
-	int sum = 0; // Initialize sum of elements
-	int max_len = 0; // Initialize result
-	int ending_index = -1;
-
-	for (int i = 0; i < n; i++)
-		arr[i] = (arr[i] == 0) ? -1 : 1;
-
-	// Traverse through the given array
-
-	for (int i = 0; i < n; i++) {
-		// Add current element to sum
-
-		sum += arr[i];
-
-		// To handle sum=0 at last index
-
-		if (sum == 0) {
-			max_len = i + 1;
-			ending_index = i;
-		}
-
-		// If this sum is seen before, then update max_len
-		// if required
-
-		if (hM.find(sum) != hM.end()) {
-			if (max_len < i - hM[sum]) {
-				max_len = i - hM[sum];
-				ending_index = i;
-			}
-		}
-		else // Else put this sum in hash table
-			hM[sum] = i;
-	}
-
-	for (int i = 0; i < n; i++)
-		arr[i] = (arr[i] == -1) ? 0 : 1;
-
-	printf("%d to %d\n",
-		   ending_index - max_len + 1, ending_index);
-
-	return max_len;
-}
-
-// Driver method
-
-int main()
-{
-	int arr[] = { 1, 0, 0, 1, 0, 1, 1 };
-	int n = sizeof(arr) / sizeof(arr[0]);
-
-	maxLen(arr, n);
-	return 0;
+        unordered_map<int,int> mp; //stores [cumSum->index]
+        mp[0]=-1;
+        int maxLength=0, cumSum=0; //cummulativeSum
+        for(int i=0;i<nums.size();i++)
+        {
+            cumSum+=(nums[i]==0)?-1:1; //we are using prefix sum algo, so converting all 0's to -1 to create 0 sum
+            if(mp.find(cumSum)!=mp.end()) 
+                maxLength=max(maxLength, i-mp[cumSum]);
+            else 
+                mp[cumSum]=i;
+        }
+        return maxLength;
+    }
+/* Driver code*/
+int main() {
+  int arr[] = { 1, 0, 0, 1, 0, 0, 1 };
+  int size = sizeof(arr) / sizeof(arr[0]);
+  findMaxLength(arr, size);
+  return 0;
 }
 Time Complexity: O(n). 
 Auxiliary Space: O(n). 
 ----------------------------------------------------------------------------
-15) Sort an array according to the order defined by another array
-Given two arrays arr1[] and arr2[] of size m and n, the task is to sort arr1[] such that the relative order among the elements matches the order in arr2[]. For elements not present in arr2[], append them at the end in sorted order.
-
-Example: 
-Input: arr1[] = {2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8}
-           arr2[] = {2, 1, 8, 3}
-Output: arr1[] = {2, 2, 1, 1, 8, 8, 3, 5, 6, 7, 9}
-
-Input: arr1[] = {4, 5, 1, 1, 3, 2}
-           arr2[] = {3, 1}
-Output: arr1[] = {3, 1, 1, 2, 4, 5}	
-
-Approach:
-void relativeSort(vector<int>& arr1, vector<int>& arr2)
-{
-	int m = arr1.size(), n = arr2.size();
-	unordered_map<int, int> freq;
-
-	// Count frequency of each element in A1
-	for (int i = 0; i < m; i++) {
-		freq[arr1[i]]++;
-	}
-
-	int index = 0;
-
-	// Place elements of A2 in A1 based on frequency
-	for (int i = 0; i < n; i++) {
-		while (freq[arr2[i]]) {
-			arr1[index++] = arr2[i];
-			freq[arr2[i]]--;
-		}
-		freq.erase(arr2[i]);
-	}
-
-	// Collect remaining elements and sort them
-	vector<int> remaining;
-	for (auto& pair : freq) {
-		while (pair.second--) {
-			remaining.push_back(pair.first);
-		}
-	}
-	sort(remaining.begin(), remaining.end());
-
-	// Append remaining elements to A1
-	for (int i : remaining) {
-		arr1[index++] = i;
-	}
-}
-
-void printArray(vector<int> & arr)
-{
-	for (int i = 0; i < arr.size(); i++) {
-		cout << arr[i] << " ";
-	}
-	cout << endl;
-}
-
-// Driver code
-int main()
-{
-	vector<int> arr1 = { 2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8 };
-	vector<int> arr2 = { 2, 1, 8, 3 };
-
-	relativeSort(arr1, arr2);
-
-	printArray(arr1);
-
-	return 0;
-}
-Output: 2 2 1 1 8 8 3 5 6 7 9 
-Time complexity: O(m log m + n), where m is the size of arr1 and n is the size of arr2.
-Auxiliary Space: O(m)
-----------------------------------------------------------------------
-16) Range Queries for Frequencies of array elements
-Given an array of n non-negative integers. The task is to find frequency of a particular element in the arbitrary range of array[]. The range is given as positions (not 0 based indexes) in array. There can be multiple queries of given type.
+15) Range Queries for Frequencies of array elements
+Given an array of n non-negative integers. The task is to find frequency of a particular element in the arbitrary range of array[]. 
+The range is given as positions (not 0 based indexes) in array. There can be multiple queries of given type.
 
 Examples: 
 Input  : arr[] = {2, 8, 6, 9, 8, 6, 8, 2, 11};
@@ -1360,8 +1195,145 @@ Frequency of 8 from 4 to 9 = 2
 This approach will be beneficial if we have a large number of queries of an arbitrary range asking the total frequency of particular element.
 Time complexity: O(log N) for single query.
 Auxiliary Space: O(N)
--------------------------------------------------------------------------------
-17) Maximum possible difference of two subsets of an array
+-------------------------------------------------------------------------
+16) Find all pairs (a, b) in an array such that a % b = k	
+Given an array with distinct elements, the task is to find the pairs in the array such that a % b = k, where k is a given integer.
+
+Examples : 
+Input  :  arr[] = {2, 3, 5, 4, 7}   
+             k = 3
+Output :  (7, 4), (3, 4), (3, 5), (3, 7)
+7 % 4 = 3
+3 % 4 = 3
+3 % 5 = 3
+3 % 7 = 3
+
+Approach 1: 
+
+bool printPairs(int arr[], int n, int k) 
+{ 
+	bool isPairFound = true; 
+
+	// Consider each and every pair 
+	for (int i = 0; i < n; i++) { 
+		for (int j = 0; j < n; j++) { 
+			// Print if their modulo equals to k 
+			if (i != j && arr[i] % arr[j] == k) { 
+				cout << "(" << arr[i] << ", "
+					<< arr[j] << ")"
+					<< " "; 
+				isPairFound = true; 
+			} 
+		} 
+	} 
+
+	return isPairFound; 
+} 
+
+// Driver program 
+int main() 
+{ 
+	int arr[] = { 2, 3, 5, 4, 7 }; 
+	int n = sizeof(arr) / sizeof(arr[0]); 
+	int k = 3; 
+
+	if (printPairs(arr, n, k) == false) 
+		cout << "No such pair exists"; 
+
+	return 0; 
+} 
+Output
+(3, 5) (3, 4) (3, 7) (7, 4) 
+Time Complexity : O(n2)
+Auxiliary Space: O(1)
+-----------------------------------------------------------------------------
+17) Count the number of subarrays having a given XOR
+Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
+Examples: 
+
+Input : arr[] = {4, 2, 2, 6, 4}, m = 6
+Output : 4
+Explanation : The subarrays having XOR of 
+              their elements as 6 are {4, 2}, 
+              {4, 2, 2, 6, 4}, {2, 2, 6},
+               and {6}
+
+Input : arr[] = {5, 6, 7, 8, 9}, m = 5
+Output : 2
+Explanation : The subarrays having XOR of
+              their elements as 5 are {5}
+              and {5, 6, 7, 8, 9}
+			  
+	int subarraysWithXorK(vector<int> a, int k) {
+    int n = a.size(); //size of the given array.
+    int cnt = 0;
+
+    // Step 1: Generating subarrays:
+    for (int i = 0; i < n; i++) {
+        int xorr = 0;
+        for (int j = i; j < n; j++) {
+
+            //step 2:calculate XOR of all
+            // elements:
+            xorr = xorr ^ a[j];
+
+            // step 3:check XOR and count:
+            if (xorr == k) cnt++;
+        }
+    }
+    return cnt;
+}
+
+int main()
+{
+    vector<int> a = {4, 2, 2, 6, 4};
+    int k = 6;
+    int ans = subarraysWithXorK(a, k);
+    cout << "The number of subarrays with XOR k is: "
+         << ans << "\n";
+    return 0;
+}
+
+Approach2: using Hashing		  
+int subarraysWithXorK(vector<int> a, int k) {
+    int n = a.size(); //size of the given array.
+    int xr = 0;
+    map<int, int> mpp; //declaring the map.
+    mpp[xr]++; //setting the value of 0{0->1}
+    int cnt = 0;
+
+    for (int i = 0; i < n; i++) {
+        // prefix XOR till index i:
+        xr = xr ^ a[i];
+
+        //By formula: x = xr^k:
+        int x = xr ^ k; 
+
+        // add the occurrence of xr^k
+        // to the count:
+        cnt += mpp[x];
+
+        // Insert the prefix xor till index i
+        // into the map:
+        mpp[xr]++;
+    }
+    return cnt;
+}
+
+int main()
+{
+    vector<int> a = {4, 2, 2, 6, 4};
+    int k = 6;
+    int ans = subarraysWithXorK(a, k);
+    cout << "The number of subarrays with XOR k is: "
+         << ans << "\n";
+    return 0;
+}
+Output: Number of subarrays having given XOR is 2
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+---------------------------------------------------------------------------
+18) Maximum possible difference of two subsets of an array
 Input : arr[] = {5, 8, -1, 4}
 Output : Maximum Difference = 18
 Explanation : 
@@ -1451,7 +1423,7 @@ int main()
 Time Complexity: O(n log n)
 Auxiliary Space: O(1)
 ---------------------------------------------------------------------------
-18)Find Itinerary from a given list of tickets
+19)Find Itinerary from a given list of tickets
 Given a list of tickets, find itinerary in order using the given list.
 
 Example: 
@@ -1518,109 +1490,80 @@ int main()
 } 
 Time Complexity: O(n).
 Auxiliary Space: O(n)
--------------------------------------------------------------------------
-19) Find all pairs (a, b) in an array such that a % b = k	
-Given an array with distinct elements, the task is to find the pairs in the array such that a % b = k, where k is a given integer.
+----------------------------------------------------------------------------------------------
+20) Relative Sort Array: Sort an array according to the order defined by another array
+Given two arrays arr1[] and arr2[] of size m and n, the task is to sort arr1[] such that the relative order among the elements matches the order in arr2[]. 
+For elements not present in arr2[], append them at the end in sorted order.
 
-Examples : 
-Input  :  arr[] = {2, 3, 5, 4, 7}   
-             k = 3
-Output :  (7, 4), (3, 4), (3, 5), (3, 7)
-7 % 4 = 3
-3 % 4 = 3
-3 % 5 = 3
-3 % 7 = 3
+Example: 
+Input: arr1[] = {2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8}
+           arr2[] = {2, 1, 8, 3}
+Output: arr1[] = {2, 2, 1, 1, 8, 8, 3, 5, 6, 7, 9}
 
-Approach 1: 
+Input: arr1[] = {4, 5, 1, 1, 3, 2}
+           arr2[] = {3, 1}
+Output: arr1[] = {3, 1, 1, 2, 4, 5}	
 
-bool printPairs(int arr[], int n, int k) 
-{ 
-	bool isPairFound = true; 
-
-	// Consider each and every pair 
-	for (int i = 0; i < n; i++) { 
-		for (int j = 0; j < n; j++) { 
-			// Print if their modulo equals to k 
-			if (i != j && arr[i] % arr[j] == k) { 
-				cout << "(" << arr[i] << ", "
-					<< arr[j] << ")"
-					<< " "; 
-				isPairFound = true; 
-			} 
-		} 
-	} 
-
-	return isPairFound; 
-} 
-
-// Driver program 
-int main() 
-{ 
-	int arr[] = { 2, 3, 5, 4, 7 }; 
-	int n = sizeof(arr) / sizeof(arr[0]); 
-	int k = 3; 
-
-	if (printPairs(arr, n, k) == false) 
-		cout << "No such pair exists"; 
-
-	return 0; 
-} 
-Output
-(3, 5) (3, 4) (3, 7) (7, 4) 
-Time Complexity : O(n2)
-Auxiliary Space: O(1)
------------------------------------------------------------------------------
-20) Count the number of subarrays having a given XOR
-Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
-Examples: 
-
-Input : arr[] = {4, 2, 2, 6, 4}, m = 6
-Output : 4
-Explanation : The subarrays having XOR of 
-              their elements as 6 are {4, 2}, 
-              {4, 2, 2, 6, 4}, {2, 2, 6},
-               and {6}
-
-Input : arr[] = {5, 6, 7, 8, 9}, m = 5
-Output : 2
-Explanation : The subarrays having XOR of
-              their elements as 5 are {5}
-              and {5, 6, 7, 8, 9}
-			  
-int subarrayXor(int arr[], int n, int m)
+Approach:
+void relativeSort(vector<int>& arr1, vector<int>& arr2)
 {
-	//declaring the hashtable
-	//and initializing it with a count of 1 
-	//for 0
-	unordered_map <int, int> HashTable;
-	HashTable[0] = 1;
-	int count = 0, curSum = 0;
-	for (int i = 0; i < n; i++)
-	{
-		curSum ^= arr[i];
-		if (HashTable[curSum ^ m] > 0)
-			count += HashTable[curSum ^ m];
-		HashTable[curSum]++;
-	}
-	return(count);
-}
-		
+	int m = arr1.size(), n = arr2.size();
+	unordered_map<int, int> freq;
 
-// Driver program to test above function 
+	// Count frequency of each element in A1
+	for (int i = 0; i < m; i++) {
+		freq[arr1[i]]++;
+	}
+
+	int index = 0;
+
+	// Place elements of A2 in A1 based on frequency
+	for (int i = 0; i < n; i++) {
+		while (freq[arr2[i]]) {
+			arr1[index++] = arr2[i];
+			freq[arr2[i]]--;
+		}
+		freq.erase(arr2[i]);
+	}
+
+	// Collect remaining elements and sort them
+	vector<int> remaining;
+	for (auto& pair : freq) {
+		while (pair.second--) {
+			remaining.push_back(pair.first);
+		}
+	}
+	sort(remaining.begin(), remaining.end());
+
+	// Append remaining elements to A1
+	for (int i : remaining) {
+		arr1[index++] = i;
+	}
+}
+
+void printArray(vector<int> & arr)
+{
+	for (int i = 0; i < arr.size(); i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+}
+
+// Driver code
 int main()
 {
-	int arr[] = { 5, 6, 7, 8, 9 }; 
-	int n = sizeof(arr) / sizeof(arr[0]);
-	int m = 5;
-	
-	//Function call
-	cout << "Number of subarrays having given XOR is " << subarrayXor(arr, n, m);
+	vector<int> arr1 = { 2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8 };
+	vector<int> arr2 = { 2, 1, 8, 3 };
+
+	relativeSort(arr1, arr2);
+
+	printArray(arr1);
+
+	return 0;
 }
-Output: Number of subarrays having given XOR is 2
-Time Complexity: O(n)
-Auxiliary Space: O(n)
----------------------------------------------------------------------------
-
+Output: 2 2 1 1 8 8 3 5 6 7 9 
+Time complexity: O(m log m + n), where m is the size of arr1 and n is the size of arr2.
+Auxiliary Space: O(m)
 
 
 
@@ -1630,4 +1573,4 @@ Auxiliary Space: O(n)
 
 		
 		
-		a
+		
