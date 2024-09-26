@@ -1208,7 +1208,7 @@ Output :  (7, 4), (3, 4), (3, 5), (3, 7)
 3 % 5 = 3
 3 % 7 = 3
 
-Approach 1: 
+Approach 1: Using nested loops:
 
 bool printPairs(int arr[], int n, int k) 
 { 
@@ -1246,6 +1246,7 @@ Output
 (3, 5) (3, 4) (3, 7) (7, 4) 
 Time Complexity : O(n2)
 Auxiliary Space: O(1)
+//Need to find optimal solution.........
 -----------------------------------------------------------------------------
 17) Count the number of subarrays having a given XOR
 Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
@@ -1294,7 +1295,32 @@ int main()
     return 0;
 }
 
-Approach2: using Hashing		  
+Approach2: using Hashing	
+--------->XR(till 3rd index)
+4, 2, 2, 6, 4
+x  ------>k
+
+Assume XOR from 0th index till 3rd index is XR, 
+XOR from 1st index to 3rd index is k(6)
+assume XOR at 0th index is X 
+then=> X^k = XR (till 3rd index), which means we need X which will be required.
+Before dryRun:
+XR=0, cnt=0, mpp[0]->1{when we get XOR equal to k without X, we will increment count}
+Iteration 1, val=4:
+i=0, XR=4, X=2, , cnt =0 (mpp[2]=0), mpp[4]->1
+
+Iteration 2,val=2:
+i=1, XR=6, X=0, , cnt =0+1 (mpp[0]=1), mpp[4]->1,mpp[6]->1  -->Here we don't need X value, since XR became 6, will just increment count.
+
+Iteration 3,val=2:
+i=2, XR=4, X=2, , cnt = 1 (mpp[2]=0), mpp[4]->2,mpp[6]->1  -->No count will be incremented
+
+Iteration 4,val=6:
+i=3, XR=2, X=4, , cnt = 1+2 (mpp[4]=2), mpp[2]->1,mpp[4]->2,mpp[6]->1  
+
+Iteration 5,val=4:
+i=4, XR=6, X=0, , cnt = 1+2+1 (mpp[4]=2), mpp[2]->1,mpp[4]->2,mpp[6]->1  
+
 int subarraysWithXorK(vector<int> a, int k) {
     int n = a.size(); //size of the given array.
     int xr = 0;
@@ -1391,25 +1417,33 @@ Auxiliary Space: O(1)
 Approach 2: 
 int maxDiff(int arr[], int n) 
 { 
-	int result = 0; 
+	unordered_map<int, int> hashPositive; 
+	unordered_map<int, int> hashNegative; 
 
-	// sort the array 
-	sort(arr, arr + n); 
+	int SubsetSum_1 = 0, SubsetSum_2 = 0; 
 
-	// calculate the result 
-	for (int i = 0; i < n - 1; i++) { 
-		if (arr[i] != arr[i + 1]) 
-			result += abs(arr[i]); 
-		else
-			i++; 
-	} 
+	// construct hash for positive elements 
+	for (int i = 0; i <= n - 1; i++) 
+		if (arr[i] > 0) 
+			hashPositive[arr[i]]++; 
 
-	// check for last element 
-	if (arr[n - 2] != arr[n - 1]) 
-		result += abs(arr[n - 1]); 
+	// calculate subset sum for positive elements 
+	for (int i = 0; i <= n - 1; i++) 
+		if (arr[i] > 0 && hashPositive[arr[i]] == 1) 
+			SubsetSum_1 += arr[i]; 
 
-	// return result 
-	return result; 
+	// construct hash for negative elements 
+	for (int i = 0; i <= n - 1; i++) 
+		if (arr[i] < 0) 
+			hashNegative[abs(arr[i])]++; 
+
+	// calculate subset sum for negative elements 
+	for (int i = 0; i <= n - 1; i++) 
+		if (arr[i] < 0 && 
+			hashNegative[abs(arr[i])] == 1) 
+			SubsetSum_2 += arr[i]; 
+
+    return abs(SubsetSum_1 - SubsetSum_2); 
 } 
 
 // driver program 
@@ -1420,8 +1454,8 @@ int main()
 	cout << "Maximum Difference = " << maxDiff(arr, n); 
 	return 0; 
 } 
-Time Complexity: O(n log n)
-Auxiliary Space: O(1)
+Time Complexity: O(n )
+Auxiliary Space: O(n)
 ---------------------------------------------------------------------------
 19)Find Itinerary from a given list of tickets
 Given a list of tickets, find itinerary in order using the given list.
@@ -1442,9 +1476,16 @@ void printItinerary(map<string, string> dataSet)
 	map<string, string> reversemap; 
 	map<string, string>::iterator it; 
 
-	// To fill reverse map, iterate through the given map 
+	// To fill reverse map, iterate through the given map :
+	
 	for (it = dataSet.begin(); it!=dataSet.end(); it++) 
 		reversemap[it->second] = it->first; 
+	/*
+	reversemap["Banglore"] = "Chennai"; 
+	reversemap["Delhi"] = "Bombay"; 
+	reversemap["Chennai"] = "Goa"; 
+	reversemap["Goa"] = "Delhi";
+	*/
 
 	// Find the starting point of itinerary 
 	string start; 
@@ -1453,7 +1494,7 @@ void printItinerary(map<string, string> dataSet)
 	{ 
 		if (reversemap.find(it->first) == reversemap.end()) 
 		{ 
-			start = it->first; 
+			start = it->first; //This will be Bombay
 			break; 
 		} 
 	} 
@@ -1505,50 +1546,42 @@ Input: arr1[] = {4, 5, 1, 1, 3, 2}
 Output: arr1[] = {3, 1, 1, 2, 4, 5}	
 
 Approach:
-void relativeSort(vector<int>& arr1, vector<int>& arr2)
-{
-	int m = arr1.size(), n = arr2.size();
-	unordered_map<int, int> freq;
-
-	// Count frequency of each element in A1
-	for (int i = 0; i < m; i++) {
-		freq[arr1[i]]++;
-	}
-
-	int index = 0;
-
-	// Place elements of A2 in A1 based on frequency
-	for (int i = 0; i < n; i++) {
-		while (freq[arr2[i]]) {
-			arr1[index++] = arr2[i];
-			freq[arr2[i]]--;
+1) Create map to store array data, Iterate through arr1 and store element with frequency.
+2) Check arr2 if elements of arr2 is present in map where we have stored elements of arr1.
+3) If element of arr2 is found then calcuate the count of it.
+4) push_back that element(count times) to ans vector and decrease the count of element of arr2 in map.
+5) Now we are left with remaining elements of arr1, will iterate in map for ramianing elements:
+we can check while(it.second), push_back to ans and also decrement it.second.
+vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+        int n=arr1.size(), m=arr2.size();
+        map<int,int> mp;
+        for(int i=0; i<n; i++)
+		{
+			mp[arr1[i]]++;
 		}
-		freq.erase(arr2[i]);
-	}
-
-	// Collect remaining elements and sort them
-	vector<int> remaining;
-	for (auto& pair : freq) {
-		while (pair.second--) {
-			remaining.push_back(pair.first);
-		}
-	}
-	sort(remaining.begin(), remaining.end());
-
-	// Append remaining elements to A1
-	for (int i : remaining) {
-		arr1[index++] = i;
-	}
-}
-
-void printArray(vector<int> & arr)
-{
-	for (int i = 0; i < arr.size(); i++) {
-		cout << arr[i] << " ";
-	}
-	cout << endl;
-}
-
+        vector<int> ans;
+        for(int i=0; i<m; i++)
+        {
+			if(mp.find(arr2[i])!=mp.end())
+            {
+                int t=mp[arr2[i]];
+                while(t--)
+                {
+                    ans.push_back(arr2[i]);
+                    mp[arr2[i]]--;
+                }
+            }
+        }
+        for(auto it:mp)
+        {
+            while(it.second)
+            {
+                ans.push_back(it.first);
+                it.second--;
+            }
+        }
+        return ans;
+    }
 // Driver code
 int main()
 {
