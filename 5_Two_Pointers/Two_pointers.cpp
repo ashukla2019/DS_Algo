@@ -78,6 +78,7 @@ Note: In the worst case(which rarely happens), the unordered_map takes O(N) to f
 Space Complexity: O(N) as we use the map data structure.
 
 Optimized Approach(using two-pointer): 
+Code for Variant 1:
 string twoSum(int n, vector<int> &arr, int target) {
     sort(arr.begin(), arr.end());
     int left = 0, right = n - 1;
@@ -94,47 +95,30 @@ string twoSum(int n, vector<int> &arr, int target) {
 Time Complexity: O(N) + O(N*logN), where N = size of the array.
 Reason: The loop will run at most N times. And sorting the array will take N*logN time complexity.
 Space Complexity: O(1) as we are not using any extra space.
-----------------------------------------------------------------------------------------
-1) Two Sum II - Input Array Is Sorted
-Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.
-Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
-The tests are generated such that there is exactly one solution. You may not use the same element twice.
-Your solution must use only constant extra space.
 
-Example 1:
-Input: numbers = [2,7,11,15], target = 9
-Output: [1,2]
-Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
-
-Example 2:
-Input: numbers = [2,3,4], target = 6
-Output: [1,3]
-Explanation: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
-
-Example 3:
-Input: numbers = [-1,0], target = -1
-Output: [1,2]
-Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
-
-vector<int> twoSum(vector<int>& numbers, int target) {
-        int left = 0;
-        int right = numbers.size() - 1;
-
-        while (left < right) {
-            int total = numbers[left] + numbers[right];
-
-            if (total == target) {
-                return {left + 1, right + 1};
-            } else if (total > target) {
-                right--;
-            } else {
-                left++;
-            }
+Code for Variant 2:
+vector<int> twoSum(vector<int>& nums, int target) 
+{
+        int n = nums.size();
+        vector<pair<int,int>>vp;
+        for(int i=0; i<n; i++){
+            vp.push_back({nums[i],i});
         }
-        return {-1, -1}; // If no solution is found        
-    }
-
-----------------------------------------------------------------------------------------------
+        sort(vp.begin(), vp.end());
+        int l = 0, r = n-1;
+        while(l < r){
+            int sum = vp[l].first + vp[r].first;
+            if(sum == target) 
+				return {vp[l].second,vp[r].second};
+            if(sum < target) 
+				l++;
+            else r--;
+        }
+        return {};
+}
+Time Complexity: O(N*logN), where N = size of the array.
+Space Complexity: O(1) 
+----------------------------------------------------------------------------------------
 2) 3Sum:
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j,
 i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
@@ -160,31 +144,75 @@ Input: nums = [0,0,0]
 Output: [[0,0,0]]
 Explanation: The only possible triplet sums up to 0.
 
-vector<vector<int>> threeSum(vector<int>& nums) {
+Approach 1: Using nested loop:
+vector<vector<int>> threeSum(vector<int>& nums) 
+{
         int n = nums.size();
         sort(nums.begin(), nums.end());
         set<vector<int>> set;
         vector<vector<int>> output;
-        for(int i=0; i<n-2; i++){
-            int low = i+1, high = n-1;
-            while(low < high){
-                if(nums[i] + nums[low] + nums[high] < 0){
-                    low++;
-                }
-                else if(nums[i] + nums[low] + nums[high] > 0){
-                    high--;
-                }
-                else{
-                    set.insert({nums[i], nums[low], nums[high]});
-                    low++;
-                    high--;
+        for(int i=0; i<n-2; i++)
+		{
+            for(int j=i+1; j<n-1; j++)
+			{
+                for(int k=j+1; k<n; k++)
+				{
+                    if((nums[i] + nums[j] + nums[k] == 0) && i != j && j != k && k != i)
+					{
+                        set.insert({nums[i], nums[j], nums[k]});
+                    }
                 }
             }
         }
-        for(auto it : set){
+        for(auto it : set)
+		{
             output.push_back(it);
         }
         return output;
+}
+Time Complexity : O(N^3), Here three nested loop creates the time complexity. Where N is the size of the
+array(nums).
+Space Complexity : O(N), Hash Table(set) space.
+
+vector<vector<int>> threeSum(vector<int>& nums) 
+    {
+        int n=nums.size();
+        vector<vector<int>> ans;
+        sort(nums.begin(), nums.end());
+        for (int low = 0; low < n; low++) 
+        {
+            //remove duplicates:
+			//Check if it's not first element and first and second elements are same then continue loop, don't 
+			//execute after if statement..
+            if (low > 0 && nums[low] == nums[low - 1]) 
+                continue;
+            //moving 2 pointers:
+            int mid = low + 1;
+            int high = n - 1;
+            while (mid < high) 
+            {
+                int sum = nums[low] + nums[mid] + nums[high];
+                if (sum < 0) 
+                {
+                   mid++;
+                }
+                else if (sum > 0)
+                {
+                    high--;
+                }
+                else 
+                {
+                    vector<int> temp = {nums[low], nums[mid], nums[high]};
+                    ans.push_back(temp);
+                    mid++;
+                    high--;
+                    //skip the duplicates:
+                    while (mid < high && nums[mid] == nums[mid - 1]) mid++;
+                    while (mid <high && nums[high] == nums[high + 1]) high--;
+                }
+            }
+        }
+    return ans;
     }
 	Time Complexity : O(N^2), Here Two nested loop creates the time complexity. Where N is the size of the
     array(nums).
@@ -212,11 +240,11 @@ int threeSumClosest(vector<int>& nums, int target) {
         sort(nums.begin(), nums.end());
         int ans = INT_MAX;
         int result = 0;
-        for (int i = 0; i < nums.size() - 2; i++) {
-            int j = i + 1;
-            int k = nums.size() - 1;
-            while (j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
+        for (int low = 0; low < nums.size() - 2; low++) {
+            int mid = low + 1;
+            int high = nums.size() - 1;
+            while (mid < high) {
+                int sum = nums[low] + nums[mid] + nums[high];
                 if (sum == target) {
                     return sum;
                 } else if (abs(sum - target) < abs(ans)) {
@@ -224,9 +252,9 @@ int threeSumClosest(vector<int>& nums, int target) {
                     result = sum;
                 }
                 if (sum > target) {
-                    k--;
+                    high--;
                 } else {
-                    j++;
+                    mid++;
                 }
             }
         }
@@ -237,7 +265,8 @@ int threeSumClosest(vector<int>& nums, int target) {
 	
 -------------------------------------------------------------------------------
 4) 4Sum:
-Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+Given an array nums of n integers, return an array of all the unique quadruplets 
+[nums[a], nums[b], nums[c], nums[d]] such that:
 
 Example 1:
 Input: nums = [1,0,-1,0,-2,2], target = 0
