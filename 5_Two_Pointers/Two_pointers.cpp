@@ -179,36 +179,36 @@ vector<vector<int>> threeSum(vector<int>& nums)
         int n=nums.size();
         vector<vector<int>> ans;
         sort(nums.begin(), nums.end());
-        for (int low = 0; low < n; low++) 
+        for (int i = 0; i < n; i++) 
         {
             //remove duplicates:
 			//Check if it's not first element and first and second elements are same then continue loop, don't 
 			//execute after if statement..
-            if (low > 0 && nums[low] == nums[low - 1]) 
+            if (i > 0 && nums[i] == nums[i - 1]) 
                 continue;
             //moving 2 pointers:
-            int mid = low + 1;
-            int high = n - 1;
-            while (mid < high) 
+            int j = i + 1;
+            int k = n - 1;
+            while (j < k) 
             {
-                int sum = nums[low] + nums[mid] + nums[high];
-                if (sum < 0) 
+                int sum = nums[i] + nums[j] + nums[k];
+				if( sum == 0)
                 {
-                   mid++;
-                }
-                else if (sum > 0)
-                {
-                    high--;
-                }
-                else 
-                {
-                    vector<int> temp = {nums[low], nums[mid], nums[high]};
+                    vector<int> temp = {nums[i], nums[j], nums[k]};
                     ans.push_back(temp);
-                    mid++;
-                    high--;
+                    j++;
+                    k--;
                     //skip the duplicates:
-                    while (mid < high && nums[mid] == nums[mid - 1]) mid++;
-                    while (mid <high && nums[high] == nums[high + 1]) high--;
+                    while (j < k && nums[j] == nums[j - 1]) j++;
+                    while (j <k && nums[k] == nums[k + 1]) k--;
+                }
+                else if (sum < 0) 
+                {
+                   j++;
+                }
+                else
+                {
+                    k--;
                 }
             }
         }
@@ -222,8 +222,8 @@ vector<vector<int>> threeSum(vector<int>& nums)
 
 --------------------------------------------------------------------------------
 3) 3Sum Closest
-Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
-Return the sum of the three integers.
+Given an integer array nums of length n and an integer target, find three integers in nums such that the 
+sum is closest to target. Return the sum of the three integers.
 You may assume that each input would have exactly one solution.
 
 Example 1:
@@ -243,7 +243,8 @@ int threeSumClosest(vector<int>& nums, int target) {
         for (int low = 0; low < nums.size() - 2; low++) {
             int mid = low + 1;
             int high = nums.size() - 1;
-            while (mid < high) {
+            while (mid < high) 
+			{
                 int sum = nums[low] + nums[mid] + nums[high];
                 if (sum == target) {
                     return sum;
@@ -284,45 +285,46 @@ using namespace std;
 /* A sorting based solution to print
 all combination of 4 elements in A[]
 with sum equal to X */
-void find4Numbers(int A[], int n, int X)
-{
-    int l, r;
+vector<vector<int>> fourSum(vector<int>& nums, int target) {
+    int n = nums.size(); //size of the array
+    vector<vector<int>> ans;
 
-    // Sort the array in increasing
-    // order, using library function
-    // for quick sort
-    sort(A, A + n);
+    // sort the given array:
+    sort(nums.begin(), nums.end());
 
-    /* Now fix the first 2 elements
-    one by one and find
-    the other two elements */
-    for (int i = 0; i < n - 3; i++) {
-        for (int j = i + 1; j < n - 2; j++) {
-            // Initialize two variables as
-            // indexes of the first and last
-            // elements in the remaining elements
-            l = j + 1;
-            r = n - 1;
+    //calculating the quadruplets:
+    for (int i = 0; i < n; i++) {
+        // avoid the duplicates while moving i:
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        for (int j = i + 1; j < n; j++) {
+            // avoid the duplicates while moving j:
+            if (j > i + 1 && nums[j] == nums[j - 1]) continue;
 
-            // To find the remaining two
-            // elements, move the index
-            // variables (l & r) toward each other.
-            while (l < r) {
-                if (A[i] + A[j] + A[l] + A[r] == X) {
-                    cout << A[i] << " " << A[j] << " "
-                         << A[l] << " " << A[r] << endl;
-                    l++;
-                    r--;
+            // 2 pointers:
+            int k = j + 1;
+            int l = n - 1;
+			while (k < l) {
+                long long sum = nums[i];
+                sum += nums[j];
+                sum += nums[k];
+                sum += nums[l];
+                if (sum == target) {
+                    vector<int> temp = {nums[i], nums[j], nums[k], nums[l]};
+                    ans.push_back(temp);
+                    k++; l--;
+
+                    //skip the duplicates for pointer k and l:
+                    while (k < l && nums[k] == nums[k - 1]) k++;
+                    while (k < l && nums[l] == nums[l + 1]) l--;
                 }
-                else if (A[i] + A[j] + A[l] + A[r] < X)
-                    l++;
-                else // A[i] + A[j] + A[l] + A[r] > X
-                    r--;
-            } // end of while
-        } // end of inner for loop
-    } // end of outer for loop
-}
+                else if (sum < target) k++;
+                else l--;
+            }
+        }
+    }
 
+    return ans;
+}
 /* Driver code */
 int main()
 {
