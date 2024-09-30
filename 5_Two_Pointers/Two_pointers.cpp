@@ -97,24 +97,35 @@ Reason: The loop will run at most N times. And sorting the array will take N*log
 Space Complexity: O(1) as we are not using any extra space.
 
 Code for Variant 2:
-vector<int> twoSum(vector<int>& nums, int target) 
-{
-        int n = nums.size();
-        vector<pair<int,int>>vp;
-        for(int i=0; i<n; i++){
-            vp.push_back({nums[i],i});
+vector<int> twoSum(vector<int>& nums, int target) {
+    
+        //Need vector of pair<int,int> to store value with index, so that we can sort array and index value would be present with each element
+        vector<pair<int, int>>ans; 
+        for(int i=0; i<nums.size(); i++)
+        {
+            ans.push_back({nums[i], i});
         }
-        sort(vp.begin(), vp.end());
-        int l = 0, r = n-1;
-        while(l < r){
-            int sum = vp[l].first + vp[r].first;
-            if(sum == target) 
-				return {vp[l].second,vp[r].second};
-            if(sum < target) 
-				l++;
-            else r--;
+       
+        //Sort array:
+        sort(ans.begin(), ans.end());
+        int left=0; int right=ans.size()-1;
+        while(left<right)
+        {
+            int sum = ans[left].first+ans[right].first;
+            if(sum == target)
+            {
+                return {ans[left].second, ans[right].second};
+            }
+            else if(sum > target)
+            {
+                right--;
+            }
+            else
+            {
+                left++;
+            }
         }
-        return {};
+    return {};
 }
 Time Complexity: O(N*logN), where N = size of the array.
 Space Complexity: O(1) 
@@ -174,41 +185,42 @@ Time Complexity : O(N^3), Here three nested loop creates the time complexity. Wh
 array(nums).
 Space Complexity : O(N), Hash Table(set) space.
 
+Approach 1: Using 2 pointers:
 vector<vector<int>> threeSum(vector<int>& nums) 
     {
         int n=nums.size();
         vector<vector<int>> ans;
         sort(nums.begin(), nums.end());
-        for (int i = 0; i < n; i++) 
+        for (int low = 0; low < n-2; low++) 
         {
             //remove duplicates:
 			//Check if it's not first element and first and second elements are same then continue loop, don't 
 			//execute after if statement..
-            if (i > 0 && nums[i] == nums[i - 1]) 
+            if (low > 0 && nums[low] == nums[low - 1]) 
                 continue;
             //moving 2 pointers:
-            int j = i + 1;
-            int k = n - 1;
-            while (j < k) 
+            int mid = low + 1;
+            int high = n - 1;
+            while (mid < high) 
             {
-                int sum = nums[i] + nums[j] + nums[k];
+                int sum = nums[low] + nums[mid] + nums[high];
 				if( sum == 0)
                 {
-                    vector<int> temp = {nums[i], nums[j], nums[k]};
+                    vector<int> temp = {nums[low], nums[mid], nums[high]};
                     ans.push_back(temp);
-                    j++;
-                    k--;
+                    mid++;
+                    high--;
                     //skip the duplicates:
-                    while (j < k && nums[j] == nums[j - 1]) j++;
-                    while (j <k && nums[k] == nums[k + 1]) k--;
+                    while (mid < high && nums[mid] == nums[mid - 1]) mid++;
+                    while (mid <high && nums[high] == nums[high + 1]) high--;
                 }
                 else if (sum < 0) 
                 {
-                   j++;
+                   mid++;
                 }
                 else
                 {
-                    k--;
+                    high--;
                 }
             }
         }
@@ -293,10 +305,10 @@ vector<vector<int>> fourSum(vector<int>& nums, int target) {
     sort(nums.begin(), nums.end());
 
     //calculating the quadruplets:
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n-3; i++) {
         // avoid the duplicates while moving i:
         if (i > 0 && nums[i] == nums[i - 1]) continue;
-        for (int j = i + 1; j < n; j++) {
+        for (int j = i + 1; j < n-2; j++) {
             // avoid the duplicates while moving j:
             if (j > i + 1 && nums[j] == nums[j - 1]) continue;
 
@@ -354,27 +366,22 @@ Input: nums = [4,2,3,4]
 Output: 4
 
 int triangleNumber(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        int count = 0;
-        /*
-        for any three sides a b c
-              * a + b > c
-             * a + c > b
-            * b + c > a
-        */
         int n = nums.size();
-        for (int i = n-1 ; i >= 2 ; i--) {// for(int i=2; i<n; i++) also possible 
-            int left = 0, right = i - 1;
-            while(left < right){
-                if(nums[left] + nums[right] > nums[i]) {
-                    count += (right - left);// if nums[left] + nums[right] > nums[i] satisfies then the the no of trianlge pair will be right - left;
-                    right--;
+        int cnt = 0;
+        sort(nums.begin(),nums.end());
+        for(int i = 2; i <= n-1; i++){
+            int low = 0;
+            int high = i - 1 ;
+            while(low < high){
+                if(nums[low] + nums[high] > nums[i]){
+                    cnt += (high - low);
+                    high--;
                 }else{
-                    left++;
+                    low++;
                 }
             }
         }
-        return count;
+        return cnt ;
     }
 	Time complexity: o(nlogn + n^2) => o(n^2)
 	Space complexity:o(1)
@@ -443,10 +450,20 @@ two endpoints of the ith line are (i, 0) and (i, height[i]).
 Find two lines that together with the x-axis form a container, such that the container contains the most water.
 Return the maximum amount of water a container can store.
 Notice that you may not slant the container.
-
+    
+   |-|Water filled area    
+   | |--------------|-|             
+   | | |-|          | |
+   | | | |          | |
+   | | | |          | |
+   | | | |          | |
+   | | | | |-|      | |
+ |-| | | | | |      | |
+-------------------------------------
 Input: height = [1,8,6,2,5,4,8,3,7]
 Output: 49
-Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, 
+the max area of water (blue section) the container can contain is 49.
 Example 2:
 
 Input: height = [1,1]
@@ -534,18 +551,21 @@ Example 2:
 Input: nums = [2,0,1]
 Output: [0,1,2]
 
+Approach: will use 3 pointers: low, mid & high
+0000000->low 1111111->mid high->22222222(if we find nums[mid]==1, means only increment mid)
+
 void sortColors(vector<int>& nums) {
-    int n=nums.size(),l=0,r=n-1,i=0; // Initialization of l,r and i.
-    while(i<=r){          // contition until i<=r to run loop 
-        if(nums[i]==0){   // if find 0 then swap to send the left side
-            swap(nums[l],nums[i]);
-            l++;
+    int n=nums.size(),low=0,high=n-1,mid=0; // Initialization of low,high and mid.
+    while(mid<=high){          // contition until mid<=high to run loop 
+        if(nums[mid]==0){   // if find 0 then swap to send the left side
+            swap(nums[low],nums[mid]);
+            low++;
         }
-        if(nums[i]==2){  // if find 2 then swap to send the right side
-            swap(nums[r],nums[i]);
-            r--;
+        if(nums[mid]==2){  // if find 2 then swap to send the right side
+            swap(nums[high],nums[mid]);
+            high--;
         }
-        else{i++;} // iterate through the nums
+        else{mid++;} // iterate through the nums
     }
 }
 	Time complexity:O(N)
@@ -558,45 +578,26 @@ Example:
 Input  = {12, 34, 45, 9, 8, 90, 3}
 Output = {12, 34, 8, 90, 45, 9, 3}
 
-// C++ program to segregate even and odd elements of array
-#include <iostream>
-using namespace std;
+vector<int> sortArrayByParity(vector<int>& nums) 
+    {
+        int low=0, high=nums.size()-1;
 
-/* Function to swap *a and *b */
-void swap(int *a, int *b);
+        while(low<high)
+        {
+            //Until we are getting even integer at the beginning
+            while(low<high && nums[low]%2==0) low++; 
 
-void segregateEvenOdd(int arr[], int size)
-{
-	/* Initialize left and right indexes */
-	int left = 0, right = size-1;
-	while (left < right)
-	{
-		/* Increment left index while we see 0 at left */
-		while (arr[left] % 2 == 0 && left < right)
-			left++;
+            //Until we are getting odd integer at the end
+            while(low<high && nums[high]%2==1) high--;
 
-		/* Decrement right index while we see 1 at right */
-		while (arr[right] % 2 == 1 && left < right)
-			right--;
-
-		if (left < right)
-		{
-			/* Swap arr[left] and arr[right]*/
-			swap(&arr[left], &arr[right]);
-			left++;
-			right--;
-		}
-	}
-}
-
-/* UTILITY FUNCTIONS */
-void swap(int *a, int *b)
-{
-	int temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
+            //Swap odd integer from the beginning to the even integer at the end
+            swap(nums[low], nums[high]);
+            low++;
+            high--;          
+        }
+        return nums;
+    }
+    
 /* Driver code */
 int main()
 {
@@ -645,25 +646,28 @@ Output: 1
 Example 3:
 Input: target = 11, nums = [1,1,1,1,1,1,1,1]
 Output: 0 
-int minSubArrayLen(int k, vector<int>& arr) {
-          
-        int l=0,r=0;
-        int n=arr.size();
+int minSubArrayLen(int target, vector<int>& nums) {
+        int left=0,right=0;
+        int n=nums.size();
         int sum=0;
-        int mini=INT_MAX;
-        while(r<n){
-            sum+=arr[r++];
-            while(sum>=k){
-               sum-=arr[l++];
-               mini=min(mini,r-l+1);
+        int minimum=INT_MAX;
+        while(right<n)
+        {
+            sum+=nums[right];
+            right++;
+            while(sum>=target)
+            {
+               sum-=nums[left];
+               left++;
+               minimum=min(minimum,right-left+1);
             }
         }
-        if(mini<INT_MAX)
-        return mini;
-        else return 0;
-       
-
+        if(minimum<INT_MAX)
+            return minimum;
+        else 
+            return 0;
     }
+    
 	Time complexity:O(n)
     Space complexity:O(1)
 -------------------------------------------------------------------------------------
@@ -687,6 +691,7 @@ Output: 3
 Explanation: The answer is "wke", with the length of 3.
 Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
+Approach 1: Using set:
 int lengthOfLongestSubstring(string& s) {
         unordered_set<char> chars; // to store characters in the current window
         int maxSize = 0; // to store the maximum length of substring without repeating characters
@@ -713,6 +718,27 @@ int lengthOfLongestSubstring(string& s) {
     }
 	Time complexity:O(n) because each character is processed at most twice (once by the right pointer and once by the left pointer).
 	Space complexity:O(n) because in the worst case, we may need to store all characters in the set.
+
+Approach 2: using map:
+int lengthofLongestSubstring(string s) {
+      map < int > mpp;
+
+      int left = 0, right = 0;
+      int n = s.size();
+      int len = 0;
+      while (right < n) {
+        if (mpp[s[right]] != -1)
+          left = max(mpp[s[right]] + 1, left);
+
+        mpp[s[right]] = right;
+
+        len = max(len, right - left + 1);
+        right++;
+      }
+      return len;
+    }
+};
+	
 ------------------------------------------------------------------------------------
 15) Minimum Window Substring:
 Given two strings s and t of lengths m and n respectively, return the minimum window 
@@ -977,4 +1003,4 @@ Time Complexity: O(m log m + n log n)
 This algorithm takes O(m log m + n log n) time to sort and O(m + n) time to find the minimum difference. Therefore, the overall runtime is O(m log m + n log n). 
 Auxiliary Space: O(1)
 
------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
