@@ -616,24 +616,47 @@ int main()
 Output : Array after segregation 12 34 90 8 9 45 3 
 Time Complexity: O(n)
 Auxiliary Space: O(1)
-----------------------------------------------------------------------------------
-12) Sort Letters by Case:
-Description
-Given a string chars which contains only letters. Sort it by lower case first and upper case second.
-In different languages, chars will be given in different ways. For example, the string "abc" will be given in following ways:
+--------------------------------------------------------------------------
+12) Remove Duplicates from Sorted Array
+Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
+Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
+Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
+Return k.
 
 Example 1:
-Input:
-chars = "abAcD"
-Output:
-"acbAD"
-Explanation:
-You can also return "abcAD" or "cbaAD" or other correct answers.
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+Example 2:
+
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+Approach:
+Take two pointer left and right pointing to 0th and 1st index respectively.
+Check if nums[left] != nums[right] then we got usinque element then store it to nums[left] and move left++
+
+int removeDuplicates(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        int left = 0;
+        for(int right =1; right< nums.size(); right++){
+           if(nums[left] != nums[right])
+               left++;
+               nums[left] = nums[right];
+           }
+    return left+1;
+    }
+	Time Complexity - O(N)
+	Space Complexity - O(1)
 
 ------------------------------------------------------------------------------------
 13) Minimum Size Subarray Sum:
-Given an array of positive integers nums and a positive integer target, return the minimal length of a 
-subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+Given an array of positive integers nums and a positive integer target, return the minimal 
+length of a subarray whose sum is greater than or equal to target. If there is no such subarray,
+return 0 instead.
 
 Example 1:
 Input: target = 7, nums = [2,3,1,2,4,3]
@@ -650,24 +673,25 @@ int minSubArrayLen(int target, vector<int>& nums) {
         int left=0,right=0;
         int n=nums.size();
         int sum=0;
-        int minimum=INT_MAX;
+        int minLength=INT_MAX;
         while(right<n)
         {
             sum+=nums[right];
             right++;
-            while(sum>=target)
+			while(sum>=target)
             {
+			   //We have got the sum >= target then calculate minLength	
+               minLength=min(minLength,right-left);
                sum-=nums[left];
                left++;
-               minimum=min(minimum,right-left+1);
+              
             }
         }
-        if(minimum<INT_MAX)
-            return minimum;
+        if(minLength<INT_MAX)
+            return minLength;
         else 
             return 0;
     }
-    
 	Time complexity:O(n)
     Space complexity:O(1)
 -------------------------------------------------------------------------------------
@@ -739,60 +763,8 @@ int lengthofLongestSubstring(string s) {
     }
 };
 	
-------------------------------------------------------------------------------------
-15) Minimum Window Substring:
-Given two strings s and t of lengths m and n respectively, return the minimum window 
-substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
-The testcases will be generated such that the answer is unique.
-
-Example 1:
-
-Input: s = "ADOBECODEBANC", t = "ABC"
-Output: "BANC"
-Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
-
-Example 2:
-Input: s = "a", t = "a"
-Output: "a"
-Explanation: The entire string s is the minimum window.
-
-Example 3:
-Input: s = "a", t = "aa"
-Output: ""
-Explanation: Both 'a's from t must be included in the window.
-Since the largest window of s only has one 'a', return empty string.
-
-string minWindow(string s, string t) {
-        int sizeS = s.size(), sizeT = t.size();
-        if (sizeS==0 || sizeT==0 || sizeS<sizeT) return "";
-
-        unordered_map<char, int> freq;
-        for (char c:t){
-            freq[c]++;
-        }
-
-        int minLen = INT_MAX;
-        int start = 0;
-        int l = 0, r = 0;
-        int count = sizeT;  // tracks how many required chars from t are still needed in s
-        while(r < sizeS){
-            if (freq[s[r++]]-- > 0) count--;
-
-            while (count==0){
-                if (r-l < minLen){
-                    start = l;
-                    minLen = r-l;
-                }
-
-                if (freq[s[l++]]++==0) count++;
-            }
-        }
-
-        return minLen == INT_MAX ? "" : s.substr(start, minLen);
-    }
-
 ---------------------------------------------------------------------------------- 
-16) Longest Substring with At Most Two Distinct Characters
+15) Longest Substring with At Most Two Distinct Characters
 Given a string s, return the length of the longest substring that contains at most two distinct characters.
 
 Example 1:
@@ -827,7 +799,7 @@ public:
 };
 
 ----------------------------------------------------------------------------------
-17) Longest Substring with At Most K Distinct Characters:
+16) Longest Substring with At Most K Distinct Characters:
 Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
 
 Examples: 
@@ -896,39 +868,9 @@ Space Complexity:O(|S|)
 
 
 ------------------------------------------------------------------------------------
-18) Remove Duplicates from Sorted Array
-Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
-Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
-Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
-Return k.
-
-Example 1:
-Input: nums = [1,1,2]
-Output: 2, nums = [1,2,_]
-Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-Example 2:
-
-Input: nums = [0,0,1,1,1,2,2,3,3,4]
-Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
-Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-
-int removeDuplicates(vector<int>& nums) {
-        if(nums.size() == 0) return 0;
-        int left = 0;
-        for(int right =1; right< nums.size(); right++){
-           if(nums[left] != nums[right])
-               left++;
-               nums[left] = nums[right];
-           }
-    return left+1;
-    }
-	Time Complexity - O(N)
-	Space Complexity - O(1)
 
 -------------------------------------------------------------------------------------
-19) The Smallest Difference
+17) The Smallest Difference
 Example 1:
 
 Input: A = [3, 6, 7, 4], B = [2, 8, 9, 3]
@@ -940,13 +882,48 @@ Input: A = [1, 2, 3, 4], B = [7, 6, 5]
 Output: 1
 Explanation: B[2] - A[3] = 1
 
-// C++ Code to find Smallest 
-// Difference between two Arrays
-#include <bits/stdc++.h>
-using namespace std;
+Approach 1: using nested loop:
+int findSmallestDifference(int A[], int B[], int m, int n) {
+    int minDiff = INT_MAX; // Initialize with maximum integer value
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            int diff = abs(A[i] - B[j]); // Calculate absolute difference
+            if (diff < minDiff) {
+                minDiff = diff; // Update smallest difference found so far
+            }
+        }
+    }
+    return minDiff;
+}
+ 
+// Driver Code
+int main()
+{
+    // Input given array A
+    int A[] = {1, 2, 11, 5};
+ 
+    // Input given array B
+    int B[] = {4, 12, 19, 23, 127, 235};
+ 
+ 
+    // Calculate size of Both arrays
+    int m = sizeof(A) / sizeof(A[0]);
+    int n = sizeof(B) / sizeof(B[0]);
+ 
+    // Call function to print
+    // smallest result
+    cout << findSmallestDifference(A, B, m, n);
+ 
+    return 0;
+}
 
-// function to calculate Small 
-// result between two arrays
+Approach 2: Using 2 pointers
+Sort both the arrays
+Put pointer a on Array A and pointer b on array B 
+now check diff(A[a]-B[b]) and update the result with minimum value 
+now check if element of A is less or element of B is less:
+if A[a]<B[b] then move to next in Array A else move pointer b to B.(Sothat difference would be min)
+
 int findSmallestDifference(int A[], int B[],
 						int m, int n)
 {
@@ -967,7 +944,8 @@ int findSmallestDifference(int A[], int B[],
 		if (abs(A[a] - B[b]) < result)
 			result = abs(A[a] - B[b]);
 
-		// Move Smaller Value
+		// Move Smaller Value: diff would be min if we have first operand min than second opernad
+		//that's why we consider min(A, B)
 		if (A[a] < B[b])
 			a++;
 
@@ -1004,3 +982,54 @@ This algorithm takes O(m log m + n log n) time to sort and O(m + n) time to find
 Auxiliary Space: O(1)
 
 --------------------------------------------------------------------------------
+-----------hard:
+18) Minimum Window Substring:
+Given two strings s and t of lengths m and n respectively, return the minimum window 
+substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+The testcases will be generated such that the answer is unique.
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+
+Example 2:
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+
+Example 3:
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+
+string minWindow(string s, string t) {
+        int sizeS = s.size(), sizeT = t.size();
+        if (sizeS==0 || sizeT==0 || sizeS<sizeT) return "";
+
+        unordered_map<char, int> freq;
+        for (char c:t){
+            freq[c]++;
+        }
+
+        int minLen = INT_MAX;
+        int start = 0;
+        int l = 0, r = 0;
+        int count = sizeT;  // tracks how many required chars from t are still needed in s
+        while(r < sizeS){
+            if (freq[s[r++]]-- > 0) count--;
+
+            while (count==0){
+                if (r-l < minLen){
+                    start = l;
+                    minLen = r-l;
+                }
+
+                if (freq[s[l++]]++==0) count++;
+            }
+        }
+
+        return minLen == INT_MAX ? "" : s.substr(start, minLen);
+    }
