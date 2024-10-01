@@ -33,9 +33,9 @@ Sliding window:
             sum += nums[i];
             mp[nums[i]]++;
         }
-        // if all k elements are distinct then stote in maxi
+        // if all k elements are distinct then store in maximum
         if(mp.size()==k){
-            maxi = sum;
+            maximum = sum;
         }
         // then start from k to n and delete i-k and add i
         for(int i=k;i<n;i++){
@@ -49,84 +49,117 @@ Sliding window:
             // If the current subarray contains distinct elements and has length 'k',
         // update the result with the maximum of the result and the current sum
             if(mp.size() == k){
-                maxi = max(sum , maxi);
+                maximum = max(sum , maximum);
             }
         }
 
         
-        return maxi;
+        return maximum;
     }
 	The time complexity is O(n)
 	The space complexity is O(n)	
+------------------------------------------------------------------------
+2) Substrings of Size Three with Distinct Characters
+A string is good if there are no repeated characters.
+Given a string s​​​​​, return the number of good substrings of length three in s​​​​​​.
+Note that if there are multiple occurrences of the same substring, every occurrence should be counted.
 
+A substring is a contiguous sequence of characters in a string.
+Example 1:
+Input: s = "xyzzaz"
+Output: 1
+Explanation: There are 4 substrings of size 3: "xyz", "yzz", "zza", and "zaz". 
+The only good substring of length 3 is "xyz".
+Example 2:
 
-2) Sliding Subarray Beauty
-Given an integer array nums containing n integers, find the beauty of each subarray of size k.
-The beauty of a subarray is the xth smallest integer in the subarray if it is negative, or 0 if there are fewer than x negative integers.
-Return an integer array containing n - k + 1 integers, which denote the beauty of the subarrays in order from the first index in the array.
-A subarray is a contiguous non-empty sequence of elements within an array.
+Input: s = "aababcabc"
+Output: 4
+Explanation: There are 7 substrings of size 3: "aab", "aba", "bab", "abc", "bca", "cab", and "abc".
+The good substrings are "abc", "bca", "cab", and "abc".
+
+iint countGoodSubstrings(string s) {
+       int n=s.length(),cnt=0;
+
+        for(int i=0;i<n-2;i++)
+            if(s[i]!=s[i+1] && s[i+1]!=s[i+2] && s[i]!=s[i+2])
+                cnt++;
+
+        return cnt;   
+    }	
+--------------------------------------------------------------------
+3) Maximum Number of Vowels in a Substring of Given Length:
+Given a string s and an integer k, return the maximum number of vowel letters in any substring of s with length k.
+
+Vowel letters in English are 'a', 'e', 'i', 'o', and 'u'.
 
 Example 1:
-Input: nums = [1,-1,-3,-2,3], k = 3, x = 2
-Output: [-1,-2,-2]
-Explanation: There are 3 subarrays with size k = 3. 
-The first subarray is [1, -1, -3] and the 2nd smallest negative integer is -1. 
-The second subarray is [-1, -3, -2] and the 2nd smallest negative integer is -2. 
-The third subarray is [-3, -2, 3] and the 2nd smallest negative integer is -2.
+Input: s = "abciiidef", k = 3
+Output: 3
+Explanation: The substring "iii" contains 3 vowel letters.
 
 Example 2:
-Input: nums = [-1,-2,-3,-4,-5], k = 2, x = 2
-Output: [-1,-2,-3,-4]
-Explanation: There are 4 subarrays with size k = 2.
-For [-1, -2], the 2nd smallest negative integer is -1.
-For [-2, -3], the 2nd smallest negative integer is -2.
-For [-3, -4], the 2nd smallest negative integer is -3.
-For [-4, -5], the 2nd smallest negative integer is -4. 
+Input: s = "aeiou", k = 2
+Output: 2
+Explanation: Any substring of length 2 contains 2 vowels.
 
 Example 3:
-Input: nums = [-3,1,2,-3,0,-3], k = 2, x = 1
-Output: [-3,0,-3,-3,-3]
-Explanation: There are 5 subarrays with size k = 2.
-For [-3, 1], the 1st smallest negative integer is -3.
-For [1, 2], there is no negative integer so the beauty is 0.
-For [2, -3], the 1st smallest negative integer is -3.
-For [-3, 0], the 1st smallest negative integer is -3.
-For [0, -3], the 1st smallest negative integer is -3.
+Input: s = "leetcode", k = 3
+Output: 2
+Explanation: "lee", "eet" and "ode" contain 2 vowels.	
 
+bool isvowel(char ch){
+        if (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u')return true;
+        return false;
+    }
+    int maxVowels(string s, int k) {
+        int maximum=0;
+        for (int i=0; i<k; i++){
+            if (isvowel(s[i]))maximum++;
+        }
+        int ans= maximum;
+        for (int i=k; i<s.size(); i++){
+            if (isvowel(s[i]))maximum++;
+            if (isvowel(s[i-k]))maximum--;
+            ans= max(ans,maximum);
+        }
+        return ans;
+    }
+Time complexity: O(n)	
+------------------------------------------------------------------------------
+4) Maximum Average Subarray I
+You are given an integer array nums consisting of n elements, and an integer k.
+Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.
 
-vector<int> getSubarrayBeauty(vector<int>& nums, int k, int x) {
-	int n = nums.size();
-	int cnt[101]{};
-	for (int i = 0; i < k; ++i) {
-		++cnt[nums[i] + 50];
-	}
-	vector<int> ans(n - k + 1);
-	auto f = [&](int x) {
-		int s = 0;
-		for (int i = 0; i < 50; ++i) {
-			s += cnt[i];
-			if (s >= x) {
-				return i - 50;
-			}
-		}
-		return 0;
-	};
-	ans[0] = f(x);
-	for (int i = k, j = 1; i < n; ++i) {
-		++cnt[nums[i] + 50];
-		--cnt[nums[i - k] + 50];
-		ans[j++] = f(x);
-	}
-	return ans;
-}
+Example 1:
+Input: nums = [1,12,-5,-6,50,3], k = 4
+Output: 12.75000
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+Example 2:
 
---------------------------------------------------------------------------------------
-3)  Maximum Points You Can Obtain from Cards
+Input: nums = [5], k = 1
+Output: 5.00000
+
+double findMaxAverage(vector<int>& nums, int k) {
+        int n=nums.size();
+        double sum=0;
+        for(int i=0;i<k;i++)
+        {
+            sum+=nums[i];
+        }
+        double ans=sum;
+        for(int i=k;i<n;i++)
+        {
+            sum=sum-nums[i-k]+nums[i];
+            ans=max(ans,sum);
+        }
+        return ans/k;
+    }
+---------------------------------------------------------------------
+5) Maximum Points You Can Obtain from Cards
 There are several cards arranged in a row, and each card has an associated number of points. The points are given in the integer array cardPoints.
 In one step, you can take one card from the beginning or from the end of the row. You have to take exactly k cards.
 Your score is the sum of the points of the cards you have taken.
 Given the integer array cardPoints and the integer k, return the maximum score you can obtain.
-
 
 Example 1:
 Input: cardPoints = [1,2,3,4,5,6,1], k = 3
@@ -142,13 +175,6 @@ Example 3:
 Input: cardPoints = [9,7,7,9,7,7,9], k = 7
 Output: 55
 Explanation: You have to take all the cards. Your score is the sum of points of all cards.
-
-                            
-#include <vector>
-#include <algorithm>
-#include <iostream>
-
-using namespace std;
 
 // To calculate the maximum score obtainable
 // by taking exactly 'k' cards from either
@@ -221,38 +247,69 @@ int main() {
 }
 Time Complexity: O(2K) where K is the number of cards to choose. To calculate the initial sum of the left window we iterate over K elements then we slide this window to the maximum of K elements from the right giving complexity O(K + K).
 Space Complexity: O(1) as the algorithm uses only a constant amount of extra space regardless of the size of the input array. It does not require any additional data structures that scale with the input size.           
-
------------------------------------------------------------------------------------------
-4) Maximum Average Subarray I
-You are given an integer array nums consisting of n elements, and an integer k.
-Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.
+--------------------------------------------------------------------
+6) Sliding Subarray Beauty
+Given an integer array nums containing n integers, find the beauty of each subarray of size k.
+The beauty of a subarray is the xth smallest integer in the subarray if it is negative, or 0 if there are fewer than x negative integers.
+Return an integer array containing n - k + 1 integers, which denote the beauty of the subarrays in order from the first index in the array.
+A subarray is a contiguous non-empty sequence of elements within an array.
 
 Example 1:
-Input: nums = [1,12,-5,-6,50,3], k = 4
-Output: 12.75000
-Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+Input: nums = [1,-1,-3,-2,3], k = 3, x = 2
+Output: [-1,-2,-2]
+Explanation: There are 3 subarrays with size k = 3. 
+The first subarray is [1, -1, -3] and the 2nd smallest negative integer is -1. 
+The second subarray is [-1, -3, -2] and the 2nd smallest negative integer is -2. 
+The third subarray is [-3, -2, 3] and the 2nd smallest negative integer is -2.
+
 Example 2:
+Input: nums = [-1,-2,-3,-4,-5], k = 2, x = 2
+Output: [-1,-2,-3,-4]
+Explanation: There are 4 subarrays with size k = 2.
+For [-1, -2], the 2nd smallest negative integer is -1.
+For [-2, -3], the 2nd smallest negative integer is -2.
+For [-3, -4], the 2nd smallest negative integer is -3.
+For [-4, -5], the 2nd smallest negative integer is -4. 
 
-Input: nums = [5], k = 1
-Output: 5.00000
+Example 3:
+Input: nums = [-3,1,2,-3,0,-3], k = 2, x = 1
+Output: [-3,0,-3,-3,-3]
+Explanation: There are 5 subarrays with size k = 2.
+For [-3, 1], the 1st smallest negative integer is -3.
+For [1, 2], there is no negative integer so the beauty is 0.
+For [2, -3], the 1st smallest negative integer is -3.
+For [-3, 0], the 1st smallest negative integer is -3.
+For [0, -3], the 1st smallest negative integer is -3.
 
-double findMaxAverage(vector<int>& nums, int k) {
-        int n=nums.size();
-        double sum=0;
-        for(int i=0;i<k;i++)
-        {
-            sum+=nums[i];
-        }
-        double ans=sum;
-        for(int i=k;i<n;i++)
-        {
-            sum=sum-nums[i-k]+nums[i];
-            ans=max(ans,sum);
-        }
-        return ans/k;
-    }
-------------------------------------------------------------------------------------------
-5) Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+
+vector<int> getSubarrayBeauty(vector<int>& nums, int k, int x) {
+	int n = nums.size();
+	int cnt[101]{};
+	for (int i = 0; i < k; ++i) {
+		++cnt[nums[i] + 50];
+	}
+	vector<int> ans(n - k + 1);
+	auto f = [&](int x) {
+		int s = 0;
+		for (int i = 0; i < 50; ++i) {
+			s += cnt[i];
+			if (s >= x) {
+				return i - 50;
+			}
+		}
+		return 0;
+	};
+	ans[0] = f(x);
+	for (int i = k, j = 1; i < n; ++i) {
+		++cnt[nums[i] + 50];
+		--cnt[nums[i - k] + 50];
+		ans[j++] = f(x);
+	}
+	return ans;
+}
+
+--------------------------------------------------------------------------------------
+7) Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
 Given an array of integers arr and two integers k and threshold, return the number of sub-arrays of size k and average greater than or equal to threshold.
 
 Example 1:
@@ -285,8 +342,8 @@ Explanation: The first 6 sub-arrays of size 3 have averages greater than 5. Note
 Time complexity: O(n)
 Space complexity: O(1)
 
----------------------------------------------------------------------------------------------
-6) Check If a String Contains All Binary Codes of Size K
+-----------------------------------------------------------------------------------------
+8) Check If a String Contains All Binary Codes of Size K
 Given a binary string s and an integer k, return true if every binary code of length k is a substring of s. Otherwise, return false.
 
 Example 1:
@@ -318,8 +375,8 @@ Explanation: The binary code "00" is of length 2 and does not exist in the array
    
 }
 
---------------------------------------------------------------------------------------------
-7) Find All Anagrams in a String
+------------------------------------------------------------------------------------------
+9) Find All Anagrams in a String
 Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.
 An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 
@@ -374,9 +431,13 @@ vector<int> findAnagrams(string s, string p) {
             ans.push_back(i - m + 1);
     }
     return ans;
----------------------------------------------------------------------------------
-8) Subarray with Given Sum: 
-Given a 1-based indexing array arr[] of integers and an integer sum. You mainly need to return the left and right indexes(1-based indexing) of that subarray. In case of multiple subarrays, return the subarray indexes which come first on moving from left to right. If no such subarray exists return an array consisting of element -1.
+---------------------------------------------------------------------------------------------
+-----------variable window size:
+10) Subarray with Given Sum: 
+Given a 1-based indexing array arr[] of integers and an integer sum. 
+You mainly need to return the left and right indexes(1-based indexing) of that subarray. 
+In case of multiple subarrays, return the subarray indexes which come first on moving from 
+left to right. If no such subarray exists return an array consisting of element -1.
 
 Examples: 
 Input: arr[] = { 15, 2, 4, 8, 9, 5, 10, 23}, sum = 23
@@ -492,7 +553,7 @@ int main() {
 Time Complexity: O(N), where N is the length of input array
 Auxiliary Space: O(1). Since no extra space has been taken.
 ------------------------------------------------------------------------------------------
-9) Longest sub-array having sum k
+11) Longest sub-array having sum k
 Given an array arr[] of size n containing integers. The problem is to find the length of the longest sub-array having sum equal to the given value k.
 
 Examples: 
@@ -636,7 +697,7 @@ Reason: The outer while loop i.e. the right pointer can move up to index n-1(the
 
 Space Complexity: O(1) as we are not using any extra space.
 --------------------------------------------------------------------------------
-10) Largest subarray with 0 sum: Given an array containing both positive and negative integers,
+12) Largest subarray with 0 sum: Given an array containing both positive and negative integers,
 we have to find the length of the longest subarray with the sum of all elements equal to zero.
 Example 1:
 Input Format
@@ -695,7 +756,7 @@ int maxLen(int A[], int n)
 	Time Complexity: O(N), as we are traversing the array only once
 	Space Complexity: O(N), in the worst case we would insert all array elements prefix sum into our hashmap
 -----------------------------------------------------------------------------------------------------------	
-11) Count subarrays having total distinct elements same as original array
+13) Count subarrays having total distinct elements same as original array
 Given an array of n integers. Count the total number of sub-arrays having total distinct elements, the same as that of the total distinct elements of the original array. 
 
 Examples:  
@@ -807,7 +868,7 @@ int main()
 Time complexity: O(n) 
 Auxiliary space: O(n)
 -----------------------------------------------------------------------------------------------
-12) Smallest subarray with k distinct numbers	
+14) Smallest subarray with k distinct numbers	
 We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
 Examples: 
 Input : arr[] = { 1, 1, 2, 2, 3, 3, 4, 5} 
@@ -977,7 +1038,7 @@ int main()
 Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once and removed once from the map.
 Space Complexity :  O(K)
 --------------------------------------------------------------------------------------
-13) Find the length of largest subarray with 0 sum
+15) Find the length of largest subarray with 0 sum
 Input: arr[] = {15, -2, 2, -8, 1, 7, 10, 23}
 Output: 5
 Explanation: The longest sub-array with elements summing up-to 0 is {-2, 2, -8, 1, 7}
@@ -1087,7 +1148,7 @@ int main()
 Time Complexity: O(N), where N is the number of elements in the array.
 Auxiliary Space: O(N)
 -------------------------------------------------------------------------------------------
-14) Permutation in String
+16) Permutation in String
 Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
 
 In other words, return true if one of s1's permutations is the substring of s2.
@@ -1174,37 +1235,8 @@ bool checkInclusion(string s1, string s2) {
     }
 
 
-------------------------------------------------------------------------------
-15) Substrings of Size Three with Distinct Characters
-A string is good if there are no repeated characters.
-Given a string s​​​​​, return the number of good substrings of length three in s​​​​​​.
-Note that if there are multiple occurrences of the same substring, every occurrence should be counted.
-
-A substring is a contiguous sequence of characters in a string.
-Example 1:
-Input: s = "xyzzaz"
-Output: 1
-Explanation: There are 4 substrings of size 3: "xyz", "yzz", "zza", and "zaz". 
-The only good substring of length 3 is "xyz".
-Example 2:
-
-Input: s = "aababcabc"
-Output: 4
-Explanation: There are 7 substrings of size 3: "aab", "aba", "bab", "abc", "bca", "cab", and "abc".
-The good substrings are "abc", "bca", "cab", and "abc".
-
-iint countGoodSubstrings(string s) {
-       int n=s.length(),cnt=0;
-
-        for(int i=0;i<n-2;i++)
-            if(s[i]!=s[i+1] && s[i+1]!=s[i+2] && s[i]!=s[i+2])
-                cnt++;
-
-        return cnt;   
-    }
-
 -------------------------------------------------------------------------------
-16) Find the Longest Semi-Repetitive Substring
+17) Find the Longest Semi-Repetitive Substring
 You are given a digit string s that consists of digits from 0 to 9.
 A string is called semi-repetitive if there is at most one adjacent pair of the same digit. For example, "0010", "002020", "0123", "2002", and "54944" are semi-repetitive while the following are not: "00101022" (adjacent same digit pairs are 00 and 22), and "1101234883" (adjacent same digit pairs are 11 and 88).
 Return the length of the longest semi-repetitive 
@@ -1241,7 +1273,7 @@ The longest semi-repetitive substring is "11". Picking the substring "111" has t
         return n - l;
     }
 ---------------------------------------------------------------------------------
-17) Count the Number of Good Subarrays
+18) Count the Number of Good Subarrays
 Given an integer array nums and an integer k, return the number of good subarrays of nums.
 A subarray arr is good if it there are at least k pairs of indices (i, j) such that i < j and arr[i] == arr[j].
 A subarray is a contiguous non-empty sequence of elements within an array.
@@ -1279,7 +1311,7 @@ Explanation: There are 4 different good subarrays:
 
 
 -------------------------------------------------------------------------
-18) Minimum Consecutive Cards to Pick Up
+19) Minimum Consecutive Cards to Pick Up
 You are given an integer array cards where cards[i] represents the value of the ith card. A pair of cards are matching if the cards have the same value.
 
 Return the minimum number of consecutive cards you have to pick up to have a pair of matching cards among the picked cards. If it is impossible to have matching cards, return -1.
@@ -1310,7 +1342,7 @@ int minimumCardPickup(vector<int>& cards) {
 	Time complexity: O(n)
     Space complexity:O(n)
 --------------------------------------------------------------------------
-19) Minimum Operations to Reduce X to Zero 
+20) Minimum Operations to Reduce X to Zero 
 
 class Solution {
     
@@ -1396,7 +1428,7 @@ int main()
 }
 
 ----------------------------------------------------------------------------
-20) Count Number of Nice Subarrays:
+21) Count Number of Nice Subarrays:
 Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
 
 Return the number of nice sub-arrays.
@@ -1446,13 +1478,19 @@ public:
 
 
 -----------------------------------------------------------------------------
-21) Fruit Into Baskets
-You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the ith tree produces.
+22) Fruit Into Baskets
+You are visiting a farm that has a single row of fruit trees arranged from left
+to right. The trees are represented by an integer array fruits where fruits[i] is 
+the type of fruit the ith tree produces.
 
-You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:
+You want to collect as much fruit as possible. However, the owner has some strict
+rules that you must follow:
 
-You only have two baskets, and each basket can only hold a single type of fruit. There is no limit on the amount of fruit each basket can hold.
-Starting from any tree of your choice, you must pick exactly one fruit from every tree (including the start tree) while moving to the right. The picked fruits must fit in one of your baskets.
+You only have two baskets, and each basket can only hold a single type of fruit. 
+There is no limit on the amount of fruit each basket can hold.
+Starting from any tree of your choice, you must pick exactly one fruit from every 
+tree (including the start tree) while moving to the right. The picked fruits must
+fit in one of your baskets.
 Once you reach a tree with fruit that cannot fit in your baskets, you must stop.
 Given the integer array fruits, return the maximum number of fruits you can pick.
 
@@ -1510,8 +1548,9 @@ Time complexity: O(n)
 Space complexity: O(1)
 
 -------------------------------------------------------------------------------
-22) Max Consecutive Ones III
-Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+23) Max Consecutive Ones III
+Given a binary array nums and an integer k, return the maximum number of consecutive 
+1's in the array if you can flip at most k 0's.
 
 Example 1:
 Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
@@ -1525,21 +1564,23 @@ Output: 10
 Explanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]
 Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
  
-int findMaxConsecutiveOnes(vector < int > & nums) {
-      int cnt = 0;
-      int maxi = 0;
-      for (int i = 0; i < nums.size(); i++) {
-        if (nums[i] == 1) {
-          cnt++;
-        } else {
-          cnt = 0;
+ int longestOnes(vector<int>& arr, int k) {
+        int cnt = 0,i = 0,j = 0,n = arr.size(),ans = -1;
+        while(j<n)
+        {
+            if(arr[j++] == 0) 
+				cnt++;
+            
+            while(cnt>k)
+			{				
+				if(arr[i++] == 0) 
+				cnt--;
+			}
+            ans = max(ans,j-i);
         }
-
-        maxi = max(maxi, cnt);
-      }
-      return maxi;
+        return ans;    
     }
-};
+   
 
 int main() {
   vector < int > nums = { 1, 1, 0, 1, 1, 1 };
@@ -1550,7 +1591,7 @@ int main() {
 Time complexity: O(n)
 Space complexity: O(1)
 -----------------------------------------------------------------------------
-23)Subarray Product Less Than K
+24)Subarray Product Less Than K
 Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
 
 Example 1:
@@ -1587,7 +1628,7 @@ Time complexity: O(n) for average and most of the cases
 Space complexity: O(1) and we are using constant space that includes variables ri, pro, result, i 
  
 ----------------------------------------------------------------------------------
-24) Sliding Window Maximum
+25) Sliding Window Maximum
 You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
 
 Return the max sliding window.
