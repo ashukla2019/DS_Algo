@@ -763,43 +763,8 @@ int lengthofLongestSubstring(string s) {
     }
 };
 	
----------------------------------------------------------------------------------- 
-15) Longest Substring with At Most Two Distinct Characters
-Given a string s, return the length of the longest substring that contains at most two distinct characters.
-
-Example 1:
-Input: s = "eceba"
-Output: 3
-Explanation: The substring is "ece" which its length is 3.
-Example 2:
-
-Input: s = "ccaabbb"
-Output: 5
-Explanation: The substring is "aabbb" which its length is 5.
-
-class Solution {
-public:
-    int lengthOfLongestSubstringTwoDistinct(string s) {
-        unordered_map<char, int> cnt;
-        int n = s.size();
-        int ans = 0;
-        for (int i = 0, j = 0; i < n; ++i) {
-            cnt[s[i]]++;
-            while (cnt.size() > 2) {
-                cnt[s[j]]--;
-                if (cnt[s[j]] == 0) {
-                    cnt.erase(s[j]);
-                }
-                ++j;
-            }
-            ans = max(ans, i - j + 1);
-        }
-        return ans;
-    }
-};
-
 ----------------------------------------------------------------------------------
-16) Longest Substring with At Most K Distinct Characters:
+15) Longest Substring with At Most K Distinct Characters:
 Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
 
 Examples: 
@@ -823,35 +788,35 @@ Input: Str = “aaabbb”, k = 3
 Output: Not enough unique characters
 Explanation: There are only two unique characters, thus show error message. 
 
-Approach:
-We declare a Map<Character,Integer> data structure to store frequency of characters.
-Here we use acquire and release property .
-In this we declare two pointers i and j, we traverse from i pointer and acquire characters until map size is greater than K. When map size get equals to k we store the length of i-j in a variable and traverse forward.
-Once map size exceeds K,then we start releasing characters from map with the help of j pointer till map size again equals K, and we store the length and compare with 
-
-
-#include <iostream>
-#include <unordered_map>
-using namespace std;
-
+Approach: using 2 pointers:
+Take 2 pointers l & r pointing to starting index.
+create unordered map<char, int>mp -> to store character with frequency. Insert elements with 
+frequency until (r<n) and check if it's not valid(mp.size()> k)
+then decrease frequency of mp[s[l]] and if it becomes zero, remove/erase it from map.
+If mp.size()=k then it; svalid update max length.
+ 
 int longestKSubstr(string s, int k)
 {
-	int i = 0;
-	int j = 0;
+	int longestKSubstr(string s, int k) {
+    int l = 0;
+	int r = 0;
 	int ans = -1;
+	int n = s.size();
 	unordered_map<char, int> mp;
-	while (j < s.size()) {
-		mp[s[j]]++;
-		while (mp.size() > k) {
-			mp[s[i]]--;
-			if (mp[s[i]] == 0)
-				mp.erase(s[i]);
-			i++;
+	while (r < n) 
+	{
+		mp[s[r]]++;
+		if (mp.size() > k) 
+		{
+			mp[s[l]]--;
+			if (mp[s[l]] == 0)
+				mp.erase(s[l]);
+			l++;
 		}
 		if (mp.size() == k) {
-			ans = max(ans, j - i + 1);
+			ans = max(ans, r - l + 1);
 		}
-		j++;
+		r++;
 	}
 	return ans;
 }
@@ -866,11 +831,8 @@ int main()
 Time Complexity: O(|S|)
 Space Complexity:O(|S|)
 
-
-------------------------------------------------------------------------------------
-
 -------------------------------------------------------------------------------------
-17) The Smallest Difference
+16) The Smallest Difference
 Example 1:
 
 Input: A = [3, 6, 7, 4], B = [2, 8, 9, 3]
@@ -983,7 +945,7 @@ Auxiliary Space: O(1)
 
 --------------------------------------------------------------------------------
 -----------hard:
-18) Minimum Window Substring:
+17) Minimum Window Substring:
 Given two strings s and t of lengths m and n respectively, return the minimum window 
 substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
 The testcases will be generated such that the answer is unique.
