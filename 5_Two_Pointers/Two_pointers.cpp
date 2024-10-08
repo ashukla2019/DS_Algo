@@ -374,7 +374,10 @@ int triangleNumber(vector<int>& nums) {
             int high = i - 1 ;
             while(low < high){
                 if(nums[low] + nums[high] > nums[i]){
-                    cnt += (high - low);
+                    cnt += (high - low); //adding high-low to count
+//sort([4,2,3,4])=> 2,2,3,4=> if i is at 3 and low at 2 and high at i-1(4)
+//2+3>4{a+b>c}=> r-l=>2 => count would be increased by 2 becuase a(0th index), b(2th index)
+//c(3rd index) and a+b>c means if low{a} reaches to 1st index even then a + b>c					
                     high--;
                 }else{
                     low++;
@@ -386,111 +389,8 @@ int triangleNumber(vector<int>& nums) {
 	Time complexity: o(nlogn + n^2) => o(n^2)
 	Space complexity:o(1)
 
-------------------------------------------------------------------------------
-6)Trapping Rain Water
-Given n non-negative integers representing an elevation map where the width of each bar is 1,
-compute how much water it can trap after raining
-
-Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
-Output: 6
-Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
-Example 2:
-
-Input: height = [4,2,0,3,2,5]
-Output: 9
-
-vector<int> getLeft(vector<int> height){
-        int n = height.size();
-        int maxi = -1;
-        vector<int> ans(n);
-        
-        for(int i=0; i<n; i++){
-            maxi = max(maxi, height[i]);
-            ans[i] = maxi;
-        }
-        
-        return ans;
-    }
-    
-    vector<int> getRight(vector<int> height){
-        int n = height.size();
-        int maxi = -1;
-        vector<int> ans(n);
-        
-        for(int i=n-1; i>=0; i--){
-            maxi = max(maxi, height[i]);
-            ans[i] = maxi;
-        }
-        
-        return ans;
-    }
-    
-    int trap(vector<int>& height) {
-        vector<int> left = getLeft(height);
-        vector<int> right = getRight(height);
-        
-        int ans = 0;
-        
-        for(int i=0; i<height.size(); i++){
-            int tall = min(left[i], right[i]);
-            
-            int water = tall - height[i];
-            ans += water;
-        }
-        
-        return ans;
-    }
-	Time complexity:O(n)
-	Space complexity:O(n)
-
----------------------------------------------------------------------------------
-7) Container With Most Water
-You are given an integer array height of length n. There are n vertical lines drawn such that the 
-two endpoints of the ith line are (i, 0) and (i, height[i]).
-Find two lines that together with the x-axis form a container, such that the container contains the most water.
-Return the maximum amount of water a container can store.
-Notice that you may not slant the container.
-    
-   |-|Water filled area    
-   | |--------------|-|             
-   | | |-|          | |
-   | | | |          | |
-   | | | |          | |
-   | | | |          | |
-   | | | | |-|      | |
- |-| | | | | |      | |
--------------------------------------
-Input: height = [1,8,6,2,5,4,8,3,7]
-Output: 49
-Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, 
-the max area of water (blue section) the container can contain is 49.
-Example 2:
-
-Input: height = [1,1]
-Output: 1
-
-int maxArea(vector<int>& height) {
-        int maxArea = 0;
-        int left = 0;
-        int right = height.size() - 1;
-
-        while (left < right) {
-            maxArea = max(maxArea, (right - left) * min(height[left], height[right]));
-
-            if (height[left] < height[right]) {
-                left++;
-            } else {
-                right--;
-            }
-        }
-
-        return maxArea;        
-    }
-	Time complexity: O(n)
-	Space complexity: O(1)
-
-------------------------------------------------------------------------------------
-9) Valid Palindrome:
+-----------------------------------------------------------------------------------
+6) Valid Palindrome:
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
 Given a string s, return true if it is a palindrome, or false otherwise.
@@ -518,16 +418,18 @@ bool isPalindrome(string s) {
         while(start<=end){
             if(!isalnum(s[start])){
                 start++;
-                continue;
+                continue; //Don't proceed and skip this case
             }
 
             if(!isalnum(s[end])){
                 end--;
-                continue;
+                continue; //Don't proceed and skip this case
             }
 
-            if(tolower(s[start]) != tolower(s[end])) return false;
-            else{
+            if(tolower(s[start]) != tolower(s[end])) 
+				return false;
+            else
+{
                 start++;
                 end--;
             }
@@ -538,7 +440,7 @@ bool isPalindrome(string s) {
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-10) Sort colors:
+7) Sort colors:
 Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
 We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
 You must solve this problem without using the library's sort function.
@@ -572,7 +474,7 @@ void sortColors(vector<int>& nums) {
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-11)Partition Array by Odd and Even/Segregate Even and Odd numbers:
+8)Partition Array by Odd and Even/Segregate Even and Odd numbers:
 Given an array A[], write a function that segregates even and odd numbers. The functions should put all even numbers first, and then odd numbers.
 Example:  
 Input  = {12, 34, 45, 9, 8, 90, 3}
@@ -617,7 +519,7 @@ Output : Array after segregation 12 34 90 8 9 45 3
 Time Complexity: O(n)
 Auxiliary Space: O(1)
 --------------------------------------------------------------------------
-12) Remove Duplicates from Sorted Array
+9) Remove Duplicates from Sorted Array
 Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
 Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
 Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
@@ -653,7 +555,7 @@ int removeDuplicates(vector<int>& nums) {
 	Space Complexity - O(1)
 
 ------------------------------------------------------------------------------------
-13) Minimum Size Subarray Sum:
+10) Minimum Size Subarray Sum:
 Given an array of positive integers nums and a positive integer target, return the minimal 
 length of a subarray whose sum is greater than or equal to target. If there is no such subarray,
 return 0 instead.
@@ -695,7 +597,7 @@ int minSubArrayLen(int target, vector<int>& nums) {
 	Time complexity:O(n)
     Space complexity:O(1)
 -------------------------------------------------------------------------------------
-14) Longest Substring Without Repeating Characters
+11) Longest Substring Without Repeating Characters
 Given a string s, find the length of the longest 
 substring without repeating characters.
 
@@ -744,27 +646,33 @@ int lengthOfLongestSubstring(string& s) {
 	Space complexity:O(n) because in the worst case, we may need to store all characters in the set.
 
 Approach 2: using map:
-int lengthofLongestSubstring(string s) {
-      map < int > mpp;
+int lengthOfLongestSubstring(string s) {
+      map<int, int >mpp;
 
       int left = 0, right = 0;
       int n = s.size();
       int len = 0;
-      while (right < n) {
-        if (mpp[s[right]] != -1)
-          left = max(mpp[s[right]] + 1, left);
-
+      while (right < n) 
+	  {
+		  //Check if character is found in map 
+		if (mpp.find(s[right]) != mpp.end())
+		{
+			//update left pointer: left should point to right+1
+			//(it should be max then previous left index)
+			left = max(mpp[s[right]] + 1, left);
+		}
+		//If character is not found in map: store character with index value
         mpp[s[right]] = right;
 
+		//Update the length
         len = max(len, right - left + 1);
         right++;
       }
       return len;
-    }
-};
-	
+ }
+    
 ----------------------------------------------------------------------------------
-15) Longest Substring with At Most K Distinct Characters:
+12) Longest Substring with At Most K Distinct Characters:
 Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
 
 Examples: 
@@ -832,7 +740,7 @@ Time Complexity: O(|S|)
 Space Complexity:O(|S|)
 
 -------------------------------------------------------------------------------------
-16) The Smallest Difference
+13) The Smallest Difference
 Example 1:
 
 Input: A = [3, 6, 7, 4], B = [2, 8, 9, 3]
@@ -942,10 +850,110 @@ int main()
 Time Complexity: O(m log m + n log n)
 This algorithm takes O(m log m + n log n) time to sort and O(m + n) time to find the minimum difference. Therefore, the overall runtime is O(m log m + n log n). 
 Auxiliary Space: O(1)
+---------------------------------------------------------
+14) Container With Most Water
+You are given an integer array height of length n. There are n vertical lines drawn such that the 
+two endpoints of the ith line are (i, 0) and (i, height[i]).
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+Return the maximum amount of water a container can store.
+Notice that you may not slant the container.
+    
+   |-|Water filled area    
+   | |--------------|-|             
+   | | |-|          | |
+   | | | |          | |
+   | | | |          | |
+   | | | |          | |
+   | | | | |-|      | |
+ |-| | | | | |      | |
+-------------------------------------
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, 
+the max area of water (blue section) the container can contain is 49.
+Example 2:
 
+Input: height = [1,1]
+Output: 1
+
+int maxArea(vector<int>& height) {
+        int maxArea = 0;
+        int left = 0;
+        int right = height.size() - 1;
+
+        while (left < right) {
+            maxArea = max(maxArea, (right - left) * min(height[left], height[right]));
+
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxArea;        
+    }
+	Time complexity: O(n)
+	Space complexity: O(1)
 --------------------------------------------------------------------------------
 -----------hard:
-17) Minimum Window Substring:
+15)Trapping Rain Water
+Given n non-negative integers representing an elevation map where the width of each bar is 1,
+compute how much water it can trap after raining
+
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+Example 2:
+
+Input: height = [4,2,0,3,2,5]
+Output: 9
+
+vector<int> getLeft(vector<int> height){
+        int n = height.size();
+        int maxi = -1;
+        vector<int> ans(n);
+        
+        for(int i=0; i<n; i++){
+            maxi = max(maxi, height[i]);
+            ans[i] = maxi;
+        }
+        
+        return ans;
+    }
+    
+    vector<int> getRight(vector<int> height){
+        int n = height.size();
+        int maxi = -1;
+        vector<int> ans(n);
+        
+        for(int i=n-1; i>=0; i--){
+            maxi = max(maxi, height[i]);
+            ans[i] = maxi;
+        }
+        
+        return ans;
+    }
+    
+    int trap(vector<int>& height) {
+        vector<int> left = getLeft(height);
+        vector<int> right = getRight(height);
+        
+        int ans = 0;
+        
+        for(int i=0; i<height.size(); i++){
+            int tall = min(left[i], right[i]);
+            
+            int water = tall - height[i];
+            ans += water;
+        }
+        
+        return ans;
+    }
+	Time complexity:O(n)
+	Space complexity:O(n)
+------------------------------------------------------------------------
+16) Minimum Window Substring:
 Given two strings s and t of lengths m and n respectively, return the minimum window 
 substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
 The testcases will be generated such that the answer is unique.
