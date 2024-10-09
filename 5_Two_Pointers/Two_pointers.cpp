@@ -369,7 +369,7 @@ int triangleNumber(vector<int>& nums) {
         int n = nums.size();
         int cnt = 0;
         sort(nums.begin(),nums.end());
-        for(int i = 2; i <= n-1; i++){
+        for(int i = n-1; i >=2; i--){
             int low = 0;
             int high = i - 1 ;
             while(low < high){
@@ -583,7 +583,7 @@ int minSubArrayLen(int target, vector<int>& nums) {
 			while(sum>=target)
             {
 			   //We have got the sum >= target then calculate minLength	
-               minLength=min(minLength,right-left);
+               minLength=min(minLength,right-left); //subarray length would be right-left
                sum-=nums[left];
                left++;
               
@@ -665,7 +665,8 @@ int lengthOfLongestSubstring(string s) {
         mpp[s[right]] = right;
 
 		//Update the length
-        len = max(len, right - left + 1);
+        len = max(len, right - left + 1); //should add 1 to right-left, since we want length of included chars 
+		// ex: abc{ l=0, r=2, r-l=2 but length of substring should be 3{abc}, so add 1.
         right++;
       }
       return len;
