@@ -161,7 +161,7 @@ subsequences: {3},{1},{2}, {3,1}, {1,2}, {3,2}->this one is non contiguous, {3,1
 	Time Complexity: O(2^N) { This problem involves two function calls for each iteration which further expands to 4 function calls and so on which makes worst-case time complexity to be exponential in nature }.
 	Space Complexity: O(N) 
 ---------------------------------------------------------------------------	
-9) Print subsequences whosw sum is k:
+9) Print subsequences whose sum is k:
 arr[]={1,2,1};
 	
 	void printSubArrayWithGivenSum(int index, int arr[], int n, vector<int>& ds, int givenSum, int sum)
