@@ -114,18 +114,22 @@ Output: 2
 Explanation: "lee", "eet" and "ode" contain 2 vowels.	
 
 bool isvowel(char ch){
-        if (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u')return true;
-        return false;
+        return (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u');
+       
     }
     int maxVowels(string s, int k) {
         int maximum=0;
         for (int i=0; i<k; i++){
             if (isvowel(s[i]))maximum++;
         }
+		//update ans with maximum value till now for o->k window
         int ans= maximum;
         for (int i=k; i<s.size(); i++){
             if (isvowel(s[i]))maximum++;
+			//decrement maximum, if (i-k)th character was vowel, since we are shrinking window by 
+			//removing that vowel count if it was vowel.
             if (isvowel(s[i-k]))maximum--;
+			//update ans with maximum value till now for k->n window
             ans= max(ans,maximum);
         }
         return ans;
@@ -330,19 +334,25 @@ Explanation: The first 6 sub-arrays of size 3 have averages greater than 5. Note
 
  int numOfSubarrays(vector<int>& arr, int k, int threshold) {
         int sum=0;
-        for(int i=0;i<k;i++){
+        for(int i=0;i<k;i++)
+        {
             sum+=arr[i];
         }
-        int count=0;
-        for(int i=k;i<arr.size();i++){
-            if((sum/k)>=threshold){
+        int count=0;       
+        
+        if((sum/k)>=threshold)
+        {
                 count++;
-            }
-            sum+=(arr[i]-arr[i-k]);            
         }
-        if(sum/k>=threshold){
+        for(int i=k;i<arr.size();i++)
+        {
+           sum+=(arr[i]-arr[i-k]);  
+           if(sum/k>=threshold)
+           {
             count++;
+            }          
         }
+       
         return count;
     }
 Time complexity: O(n)
@@ -370,9 +380,10 @@ Explanation: The binary code "00" is of length 2 and does not exist in the array
 
  bool hasAllCodes(string s, int k) 
  {
-        // Unordered map of type string
+    // Unordered map of type string
     unordered_set<string> us;
    
+   //Iterate through string and find substring of length k with index i and store it in map.
     for (int i = 0; i + k <= s.size(); i++) 
     {
         us.insert(s.substr(i, k));
@@ -513,54 +524,37 @@ If current sum becomes same as sum, return the result
 #include <vector>
 using namespace std;
 
-vector<int> subarraySum(vector<int>& arr, int sum) {
-  
-    int s = 0, e = 0;  // Initialize window
-  
-    vector<int> res;
-
-    int curr = 0;
-    for (int i = 0; i < arr.size(); i++) {
-        curr += rr[i];
-
-        // If current sum becomes more or equal,
-        // set end and try adjusting start
-        if (curr >= sum) {
-            e = i;
-
-            // While current sum is more
-            // remove, starting elements of
-            // current window
-            while (curr > sum && s < e) {
-                curr -= arr[s];
-                ++s;
-            }
-
-            // If we found a subraay
-            if (curr == sum) {
-                res.push_back(s + 1);
-                res.push_back(e + 1);
-                return res;
-            }
+vector<int> subarraySum(vector<int>& arr, int sum) 
+{
+    int l=0;
+    int r=0;
+    int n= arr.size();
+    int total=0;
+    while(r<n)
+    {
+        total = total + arr[r];
+               
+        while(total > sum)
+        {
+            total = total - arr[l];
+            l++;
         }
+        if(total == sum)
+        {
+            return{l+1, r+1};
+        }
+        r++;
+       
     }
-
-    return {-1}; // Never found a subarray
-}
-
-int main() {
-    vector<int> arr = {15, 2, 4, 8, 9, 5, 10, 23};
-    int sum = 23;
-    vector<int> res = subarraySum(arr, sum);
-    for (auto i : res)
-        cout << i << " ";
-    return 0;
+    return {};
+    
 }
 Time Complexity: O(N), where N is the length of input array
 Auxiliary Space: O(1). Since no extra space has been taken.
 ------------------------------------------------------------------------------------------
-11) Longest sub-array having sum k
-Given an array arr[] of size n containing integers. The problem is to find the length of the longest sub-array having sum equal to the given value k.
+11) Longest sub-array with k sum
+Given an array arr[] of size n containing integers. The problem is to find the length 
+of the longest sub-array having sum equal to the given value k.
 
 Examples: 
 Input: arr[] = { 10, 5, 2, 7, 1, 9 }, k = 15
