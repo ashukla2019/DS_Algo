@@ -2,9 +2,9 @@ https://leetcode.com/discuss/study-guide/3630462/Top-20-Sliding-Window-Problems-
 
 https://builtin.com/data-science/sliding-window-algorithm
 
-Sliding window:
-1) Constant/Fixed size window:
-	Maximum subarray sum with length k: You are given an integer array nums and an integer k.
+Sliding window: Constant/Fixed size window:
+
+1) Maximum sum of Distinct subarrays with length k:                                   You are given an integer array nums and an integer k.
 	Find the maximum subarray sum of all the subarrays of nums that meet the following conditions:
 	The length of the subarray is k, and
 	All the elements of the subarray are distinct.
