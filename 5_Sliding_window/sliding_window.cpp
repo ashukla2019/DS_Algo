@@ -380,11 +380,12 @@ Explanation: The binary code "00" is of length 2 and does not exist in the array
 
  bool hasAllCodes(string s, int k) 
  {
-    // Unordered map of type string
+    // Unordered set of type string to store unique combination of k length binary codes
     unordered_set<string> us;
    
-   //Iterate through string and find substring of length k with index i and store it in map.
-    for (int i = 0; i + k <= s.size(); i++) 
+    //Iterate through string and find substring of length k with index i and store it in set.
+    //i will go upto s.size()-k otherwise it will go out of bound for substr.
+	for (int i = 0; i <= s.size()-k; i++) 
     {
         us.insert(s.substr(i, k));
     }
@@ -676,7 +677,7 @@ int getLongestSubarray(vector<int>& a, long long k) {
             maxLen = max(maxLen, right - left + 1);
         }
 
-        // Move forward thw right pointer:
+        // Move forward the right pointer:
         right++;
         if (right < n) sum += a[right];
     }
@@ -755,120 +756,9 @@ int maxLen(int A[], int n)
     return maxi; 
 	Time Complexity: O(N), as we are traversing the array only once
 	Space Complexity: O(N), in the worst case we would insert all array elements prefix sum into our hashmap
------------------------------------------------------------------------------------------------------------	
-13) Count subarrays having total distinct elements same as original array
-Given an array of n integers. Count the total number of sub-arrays having total distinct elements, the same as that of the total distinct elements of the original array. 
 
-Examples:  
-
-Input  : arr[] = {2, 1, 3, 2, 3}
-Output : 5
-Total distinct elements in array is 3
-Total sub-arrays that satisfy the condition 
-are:  Subarray from index 0 to 2
-      Subarray from index 0 to 3
-      Subarray from index 0 to 4
-      Subarray from index 1 to 3
-      Subarray from index 1 to 4
-
-Input  : arr[] = {2, 4, 5, 2, 1}
-Output : 2
-
-Input  : arr[] = {2, 4, 4, 2, 4}
-Output : 9 
-
-Approach 1: 
-int countDistictSubarray(int arr[], int n)
-{
-	unordered_set<int> unst1;
-	for (int i = 0; i < n; i++)
-		unst1.insert(arr[i]);
-
-	int totalDist = unst1.size();
-	int count = 0;
-
-	for (int i = 0; i < n; i++) {
-		unordered_set<int> unst;
-		for (int j = i; j < n; j++) {
-			unst.insert(arr[j]);
-			if (unst.size() == totalDist)
-				count++;
-		}
-	}
-
-	return count;
-}
-
-// Driver code
-int main()
-{
-	int arr[] = { 2, 1, 3, 2, 3 };
-	int n = sizeof(arr) / sizeof(arr[0]);
-
-	cout << countDistictSubarray(arr, n) << endl;
-	return 0;
-}
-Time Complexity: O(n*n)
-Auxiliary Space: O(n)
-
-Approach 2: Sliding window:
-int countDistictSubarray(int arr[], int n)
-{
-	// Count distinct elements in whole array
-	unordered_map<int, int> vis;
-	for (int i = 0; i < n; ++i)
-		vis[arr[i]] = 1;
-	int k = vis.size();
-
-	// Reset the container by removing all elements
-	vis.clear();
-
-	// Use sliding window concept to find
-	// count of subarrays having k distinct
-	// elements.
-	int ans = 0, right = 0, window = 0;
-	for (int left = 0; left < n; ++left)
-	{
-		while (right < n && window < k)
-		{
-			++vis[ arr[right] ];
-
-			if (vis[ arr[right] ] == 1)
-				++window;
-
-			++right;
-		}
-
-		// If window size equals to array distinct 
-		// element size, then update answer
-		if (window == k)
-			ans += (n - right + 1);
-
-		// Decrease the frequency of previous element
-		// for next sliding window
-		--vis[ arr[left] ];
-
-		// If frequency is zero then decrease the
-		// window size
-		if (vis[ arr[left] ] == 0)
-				--window;
-	}
-	return ans;
-}
-
-// Driver code
-int main()
-{
-	int arr[] = {2, 1, 3, 2, 3};
-	int n = sizeof(arr) / sizeof(arr[0]);
-
-	cout << countDistictSubarray(arr, n) <<"n";
-	return 0;
-}
-Time complexity: O(n) 
-Auxiliary space: O(n)
 -----------------------------------------------------------------------------------------------
-14) Smallest subarray with k distinct numbers	
+13) Smallest subarray with k distinct numbers	
 We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
 Examples: 
 Input : arr[] = { 1, 1, 2, 2, 3, 3, 4, 5} 
@@ -1038,7 +928,7 @@ int main()
 Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once and removed once from the map.
 Space Complexity :  O(K)
 --------------------------------------------------------------------------------------
-15) Find the length of largest subarray with 0 sum
+14) Find the length of largest subarray with 0 sum
 Input: arr[] = {15, -2, 2, -8, 1, 7, 10, 23}
 Output: 5
 Explanation: The longest sub-array with elements summing up-to 0 is {-2, 2, -8, 1, 7}
@@ -1148,7 +1038,7 @@ int main()
 Time Complexity: O(N), where N is the number of elements in the array.
 Auxiliary Space: O(N)
 -------------------------------------------------------------------------------------------
-16) Permutation in String
+15) Permutation in String
 Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
 
 In other words, return true if one of s1's permutations is the substring of s2.
@@ -1236,7 +1126,7 @@ bool checkInclusion(string s1, string s2) {
 
 
 -------------------------------------------------------------------------------
-17) Find the Longest Semi-Repetitive Substring
+16) Find the Longest Semi-Repetitive Substring
 You are given a digit string s that consists of digits from 0 to 9.
 A string is called semi-repetitive if there is at most one adjacent pair of the same digit. For example, "0010", "002020", "0123", "2002", and "54944" are semi-repetitive while the following are not: "00101022" (adjacent same digit pairs are 00 and 22), and "1101234883" (adjacent same digit pairs are 11 and 88).
 Return the length of the longest semi-repetitive 
@@ -1273,9 +1163,10 @@ The longest semi-repetitive substring is "11". Picking the substring "111" has t
         return n - l;
     }
 ---------------------------------------------------------------------------------
-18) Count the Number of Good Subarrays
-Given an integer array nums and an integer k, return the number of good subarrays of nums.
-A subarray arr is good if it there are at least k pairs of indices (i, j) such that i < j and arr[i] == arr[j].
+17) Count the Number of Good Subarrays
+Given an integer array nums and an integer k, return the number of good subarrays of 
+nums.A subarray arr is good if it there are at least k pairs of indices (i, j) such 
+that i < j and arr[i] == arr[j].
 A subarray is a contiguous non-empty sequence of elements within an array.
 
 Example 1:
@@ -1309,9 +1200,8 @@ Explanation: There are 4 different good subarrays:
         return ans;
     }
 
-
 -------------------------------------------------------------------------
-19) Minimum Consecutive Cards to Pick Up
+18) Minimum Consecutive Cards to Pick Up
 You are given an integer array cards where cards[i] represents the value of the ith card. A pair of cards are matching if the cards have the same value.
 
 Return the minimum number of consecutive cards you have to pick up to have a pair of matching cards among the picked cards. If it is impossible to have matching cards, return -1.
@@ -1341,94 +1231,9 @@ int minimumCardPickup(vector<int>& cards) {
     }
 	Time complexity: O(n)
     Space complexity:O(n)
---------------------------------------------------------------------------
-20) Minimum Operations to Reduce X to Zero 
-
-class Solution {
-    
-    /*
-        Time Complexity : O(N)
-        Space Complexity : O(1)
-    */
-    
-public:
-    int minOperations(vector<int>& nums, int x)
-    {
-        int n = nums.size();
-        int totalS = 0;
- 
-        // Calculate the total sum of the
-        // elements in the vector 'nums'
-        for (int i = 0; i < n; i++) {
-            totalS += nums[i];
-        }
- 
-        // If the total sum is equal to 'x',
-        // no operations are needed
-        if (totalS == x) {
-            return n;
-        }
- 
-        // Calculate the difference between
-        // the total sum and 'x'
-        totalS = totalS - x;
-        int i = 0;
-        int j = 0;
-        int sum = 0;
-        int ans = 0;
- 
-        // Sliding window approach to find
-        // the minimum operations
-        while (j < n) {
-            sum += nums[j];
- 
-            // If the current sum is greater
-            // than the target difference, move
-            // the window's left end (i) to
-            // reduce the sum
-            while (i < j && sum > totalS) {
-                sum -= nums[i];
-                i++;
-            }
- 
-            // If the current sum equals the
-            // target difference, update the
-            // answer with the maximum
-            // window size
-            if (sum == totalS) {
-                ans = max(ans, j - i + 1);
-            }
- 
-            j++;
-        }
- 
-        // If 'ans' is still 0, it means no
-        // subarray with the target sum was found
-        return ans == 0 ? -1 : n - ans;
-    }
-};
- 
-// Drivers code
-int main()
-{
-    Solution solution;
-    vector<int> nums = { 1, 1, 4, 2, 3 };
-    int x = 5;
-    int result = solution.minOperations(nums, x);
- 
-    if (result == -1) {
-        cout << "No solution found." << endl;
-    }
-    else {
-        cout << "Minimum operations required: " << result
-             << endl;
-    }
- 
-    return 0;
-}
 
 ----------------------------------------------------------------------------
-21) Count Number of Nice Subarrays:
+19) Count Number of Nice Subarrays:
 Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
 
 Return the number of nice sub-arrays.
@@ -1456,14 +1261,14 @@ public:
         int prefix_odd_count = 0;
 
         for (int right = 0; right < nums.size(); ++right) {
-            if (nums[right] % 2 != 0) {
+            if (nums[right] % 2 == 1) {
                 ++odd;
                 prefix_odd_count = 0;
             }
             
             while (odd == k) {
                 ++prefix_odd_count;
-                if (nums[left] % 2 != 0) {
+                if (nums[left] % 2 == 1) {
                     --odd;
                 }
                 ++left;
@@ -1475,10 +1280,75 @@ public:
         return count;
     }
 };
+---------------------------------------------------------------------------- 
+20) Longest Substring with At Most K Distinct Characters:
+Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
 
+Examples: 
 
+Input: Str = “aabbcc”, k = 1
+Output: 2
+Explanation: Max substring can be any one from {“aa” , “bb” , “cc”}.
+
+Input: Str = “aabbcc”, k = 2
+Output: 4
+Explanation: Max substring can be any one from {“aabb” , “bbcc”}.
+
+Input: Str = “aabbcc”, k = 3
+Output: 6
+Explanation: 
+There are substrings with exactly 3 unique characters
+{“aabbcc” , “abbcc” , “aabbc” , “abbc” }
+Max is “aabbcc” with length 6.
+
+Input: Str = “aaabbb”, k = 3
+Output: Not enough unique characters
+Explanation: There are only two unique characters, thus show error message. 
+
+Approach: using 2 pointers:
+Take 2 pointers l & r pointing to starting index.
+create unordered map<char, int>mp -> to store character with frequency. Insert elements with 
+frequency until (r<n) and check if it's not valid(mp.size()> k)
+then decrease frequency of mp[s[l]] and if it becomes zero, remove/erase it from map.
+If mp.size()=k then it; svalid update max length.
+ 
+int longestKSubstr(string s, int k)
+{
+	int longestKSubstr(string s, int k) {
+    int l = 0;
+	int r = 0;
+	int ans = -1;
+	int n = s.size();
+	unordered_map<char, int> mp;
+	while (r < n) 
+	{
+		mp[s[r]]++;
+		if (mp.size() > k) 
+		{
+			mp[s[l]]--;
+			if (mp[s[l]] == 0)
+				mp.erase(s[l]);
+			l++;
+		}
+		if (mp.size() == k) {
+			ans = max(ans, r - l + 1);
+		}
+		r++;
+	}
+	return ans;
+}
+
+int main()
+{
+	string s = "aabacbebebe";
+	int k = 3;
+	cout << longestKSubstr(s, k) << endl;
+	return 0;
+}
+Time Complexity: O(|S|)
+Space Complexity:O(|S|)
 -----------------------------------------------------------------------------
-22) Fruit Into Baskets
+21) Fruit Into Baskets/max length subarray with at most 2 types of fruits
 You are visiting a farm that has a single row of fruit trees arranged from left
 to right. The trees are represented by an integer array fruits where fruits[i] is 
 the type of fruit the ith tree produces.
@@ -1512,43 +1382,34 @@ Explanation: We can pick from trees [2,3,2,2].
 If we had started at the first tree, we would only pick from trees [1,2].
 
 int totalFruit(vector<int>& fruits) {
-        // Initialize a hash map to count the fruits
-        unordered_map<int, int> fruitCounter;
-      
-        // Initialize the start of the current window
-        int windowStart = 0;
-      
-        // Get the number of fruits
-        int totalFruits = fruits.size();
-      
-        // Iterate over all fruits
-        for (int windowEnd = 0; windowEnd < totalFruits; ++windowEnd) {
-            // Increase the count for the current fruit
-            fruitCounter[fruits[windowEnd]]++;
-          
-            // If there are more than 2 types of fruits in the current window
-            while (fruitCounter.size() > 2) {
-                // Decrease the count of the fruit at the start of the window
-                fruitCounter[fruits[windowStart]]--;
-              
-                // If the count becomes zero, remove the fruit from the map
-                if (fruitCounter[fruits[windowStart]] == 0) {
-                    fruitCounter.erase(fruits[windowStart]);
+        int n=fruits.size();
+        int l=0,r=0;
+        map<int,int>m;
+        int ans=0;
+        while(r<n)
+        {
+            m[fruits[r]]++;
+             while(m.size()>2)
+                {
+                    m[fruits[l]]--;
+                    if(m[fruits[l]]==0)
+                        m.erase(fruits[l]);
+                    l++;
                 }
-              
-                // Move the window start forward
-                ++windowStart;
+            if(m.size()<=2)
+            {
+                ans=max(ans,r-l+1); 
             }
+            r++;  
+               
         }
-      
-        // The maximum number of fruits is the size of the array minus the start of the last valid window
-        return totalFruits - windowStart;
+        return ans;
     }
 Time complexity: O(n)
 Space complexity: O(1)
 
 -------------------------------------------------------------------------------
-23) Max Consecutive Ones III
+22) Max Consecutive Ones III
 Given a binary array nums and an integer k, return the maximum number of consecutive 
 1's in the array if you can flip at most k 0's.
 
@@ -1563,24 +1424,29 @@ Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
 Output: 10
 Explanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]
 Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
- 
+
+Approach:
+will increment cnt if we find 0 and if cnt becomes greater than k then will check 
+if l is pointing to 0 will decrement cnt. 
  int longestOnes(vector<int>& arr, int k) {
-        int cnt = 0,i = 0,j = 0,n = arr.size(),ans = -1;
-        while(j<n)
+        int cnt = 0,l = 0,r = 0,n = arr.size(),ans = -1;
+        while(r<n)
         {
-            if(arr[j++] == 0) 
+            if(arr[r] == 0) 
 				cnt++;
             
             while(cnt>k)
 			{				
-				if(arr[i++] == 0) 
+				if(arr[l] == 0) 
 				cnt--;
+				l++;
 			}
-            ans = max(ans,j-i);
+            r++;
+            ans = max(ans,r-l);
+			
         }
         return ans;    
     }
-   
 
 int main() {
   vector < int > nums = { 1, 1, 0, 1, 1, 1 };
@@ -1591,7 +1457,7 @@ int main() {
 Time complexity: O(n)
 Space complexity: O(1)
 -----------------------------------------------------------------------------
-24)Subarray Product Less Than K
+23)Subarray Product Less Than K
 Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
 
 Example 1:
@@ -1628,7 +1494,7 @@ Time complexity: O(n) for average and most of the cases
 Space complexity: O(1) and we are using constant space that includes variables ri, pro, result, i 
 -----------------------------------------------------------------------------------
 -----Sliding window: Two pointer approach:
-25) Two Sum : Check if a pair with given sum exists in Array:
+24) Two Sum : Check if a pair with given sum exists in Array:
 Problem Statement: Given an array of integers arr[] and an integer target.
 1st variant: Return YES if there exist two numbers such that their sum is equal to the target. Otherwise, return NO.
 2nd variant: Return indices of the two numbers such that their sum is equal to the target. Otherwise, we will return {-1, -1}.
@@ -1760,7 +1626,7 @@ vector<int> twoSum(vector<int>& nums, int target) {
 Time Complexity: O(N*logN), where N = size of the array.
 Space Complexity: O(1) 
 ----------------------------------------------------------------------------------------
-26) 3Sum:
+25) 3Sum:
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j,
 i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 Notice that the solution set must not contain duplicate triplets.
@@ -1863,7 +1729,7 @@ vector<vector<int>> threeSum(vector<int>& nums)
     output does not count towards the space complexity.
 
 --------------------------------------------------------------------------------
-27) 3Sum Closest
+26) 3Sum Closest
 Given an integer array nums of length n and an integer target, find three integers in nums such that the 
 sum is closest to target. Return the sum of the three integers.
 You may assume that each input would have exactly one solution.
@@ -1907,7 +1773,7 @@ int threeSumClosest(vector<int>& nums, int target) {
 	Space complexity:0(1)
 	
 -------------------------------------------------------------------------------
-28) 4Sum:
+27) 4Sum:
 Given an array nums of n integers, return an array of all the unique quadruplets 
 [nums[a], nums[b], nums[c], nums[d]] such that:
 
@@ -1980,7 +1846,7 @@ Time Complexity : O(n^3)
 Auxiliary Space: O(1)
 
 ------------------------------------------------------------------------------
-29) Valid Triangle Number
+28) Valid Triangle Number
 Given an integer array nums, return the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
 
 Example 1:
@@ -2020,7 +1886,7 @@ int triangleNumber(vector<int>& nums) {
 	Space complexity:o(1)
 
 -----------------------------------------------------------------------------------
-30) Valid Palindrome:
+29) Valid Palindrome:
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
 Given a string s, return true if it is a palindrome, or false otherwise.
@@ -2070,7 +1936,7 @@ bool isPalindrome(string s) {
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-31) Sort colors:
+30) Sort colors:
 Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
 We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
 You must solve this problem without using the library's sort function.
@@ -2104,7 +1970,7 @@ void sortColors(vector<int>& nums) {
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-32)Partition Array by Odd and Even/Segregate Even and Odd numbers:
+31)Partition Array by Odd and Even/Segregate Even and Odd numbers:
 Given an array A[], write a function that segregates even and odd numbers. The functions should put all even numbers first, and then odd numbers.
 Example:  
 Input  = {12, 34, 45, 9, 8, 90, 3}
@@ -2149,7 +2015,7 @@ Output : Array after segregation 12 34 90 8 9 45 3
 Time Complexity: O(n)
 Auxiliary Space: O(1)
 --------------------------------------------------------------------------
-33) Remove Duplicates from Sorted Array
+32) Remove Duplicates from Sorted Array
 Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
 Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
 Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
@@ -2185,7 +2051,7 @@ int removeDuplicates(vector<int>& nums) {
 	Space Complexity - O(1)
 
 ------------------------------------------------------------------------------------
-34) Minimum Size Subarray Sum:
+33) Minimum Size Subarray Sum:
 Given an array of positive integers nums and a positive integer target, return the minimal 
 length of a subarray whose sum is greater than or equal to target. If there is no such subarray,
 return 0 instead.
@@ -2227,7 +2093,7 @@ int minSubArrayLen(int target, vector<int>& nums) {
 	Time complexity:O(n)
     Space complexity:O(1)
 -------------------------------------------------------------------------------------
-35) Longest Substring Without Repeating Characters
+34) Longest Substring Without Repeating Characters
 Given a string s, find the length of the longest 
 substring without repeating characters.
 
@@ -2302,76 +2168,8 @@ int lengthOfLongestSubstring(string s) {
       return len;
  }
     
-----------------------------------------------------------------------------------
-36) Longest Substring with At Most K Distinct Characters:
-Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
-
-Examples: 
-
-Input: Str = “aabbcc”, k = 1
-Output: 2
-Explanation: Max substring can be any one from {“aa” , “bb” , “cc”}.
-
-Input: Str = “aabbcc”, k = 2
-Output: 4
-Explanation: Max substring can be any one from {“aabb” , “bbcc”}.
-
-Input: Str = “aabbcc”, k = 3
-Output: 6
-Explanation: 
-There are substrings with exactly 3 unique characters
-{“aabbcc” , “abbcc” , “aabbc” , “abbc” }
-Max is “aabbcc” with length 6.
-
-Input: Str = “aaabbb”, k = 3
-Output: Not enough unique characters
-Explanation: There are only two unique characters, thus show error message. 
-
-Approach: using 2 pointers:
-Take 2 pointers l & r pointing to starting index.
-create unordered map<char, int>mp -> to store character with frequency. Insert elements with 
-frequency until (r<n) and check if it's not valid(mp.size()> k)
-then decrease frequency of mp[s[l]] and if it becomes zero, remove/erase it from map.
-If mp.size()=k then it; svalid update max length.
- 
-int longestKSubstr(string s, int k)
-{
-	int longestKSubstr(string s, int k) {
-    int l = 0;
-	int r = 0;
-	int ans = -1;
-	int n = s.size();
-	unordered_map<char, int> mp;
-	while (r < n) 
-	{
-		mp[s[r]]++;
-		if (mp.size() > k) 
-		{
-			mp[s[l]]--;
-			if (mp[s[l]] == 0)
-				mp.erase(s[l]);
-			l++;
-		}
-		if (mp.size() == k) {
-			ans = max(ans, r - l + 1);
-		}
-		r++;
-	}
-	return ans;
-}
-
-int main()
-{
-	string s = "aabacbebebe";
-	int k = 3;
-	cout << longestKSubstr(s, k) << endl;
-	return 0;
-}
-Time Complexity: O(|S|)
-Space Complexity:O(|S|)
-
 -------------------------------------------------------------------------------------
-37) The Smallest Difference
+35) The Smallest Difference
 Example 1:
 
 Input: A = [3, 6, 7, 4], B = [2, 8, 9, 3]
@@ -2482,7 +2280,7 @@ Time Complexity: O(m log m + n log n)
 This algorithm takes O(m log m + n log n) time to sort and O(m + n) time to find the minimum difference. Therefore, the overall runtime is O(m log m + n log n). 
 Auxiliary Space: O(1)
 ---------------------------------------------------------
-38) Container With Most Water
+36) Container With Most Water
 You are given an integer array height of length n. There are n vertical lines drawn such that the 
 two endpoints of the ith line are (i, 0) and (i, height[i]).
 Find two lines that together with the x-axis form a container, such that the container contains the most water.
@@ -2528,7 +2326,7 @@ int maxArea(vector<int>& height) {
 	Space complexity: O(1)
 --------------------------------------------------------------------------------
 -----------hard:
-39)Trapping Rain Water
+37)Trapping Rain Water
 Given n non-negative integers representing an elevation map where the width of each bar is 1,
 compute how much water it can trap after raining
 
@@ -2584,9 +2382,10 @@ vector<int> getLeft(vector<int> height){
 	Time complexity:O(n)
 	Space complexity:O(n)
 ------------------------------------------------------------------------
-40) Minimum Window Substring:
+38) Minimum Window Substring:
 Given two strings s and t of lengths m and n respectively, return the minimum window 
-substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+substring of s such that every character in t (including duplicates) is included in 
+the window. If there is no such substring, return the empty string "".
 The testcases will be generated such that the answer is unique.
 
 Example 1:
@@ -2635,10 +2434,8 @@ string minWindow(string s, string t) {
         return minLen == INT_MAX ? "" : s.substr(start, minLen);
     }
 
-
- 
 ----------------------------------------------------------------------------------
-41) Sliding Window Maximum
+39) Sliding Window Maximum
 You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
 
 Return the max sliding window.
