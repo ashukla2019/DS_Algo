@@ -1041,16 +1041,19 @@ Output: 2
 Explanation:
 The longest semi-repetitive substring is "11". Picking the substring "111" has two adjacent same digit pairs, but at most one is allowed.
 
- int longestSemiRepetitiveSubstring(string s) {
-        int n = s.length();
-        int cnt = 0, l = 0;
-        for (int i = 1; i < n; ++i) {
-            cnt += s[i] == s[i - 1] ? 1 : 0;
-            if (cnt > 1) {
-                cnt -= s[l] == s[++l] ? 1 : 0;
+int longestSemiRepetitiveSubstring(string s) {
+        int ans = 1, l = 0, r= 1, lastfound = 0;
+        while(r < s.size())
+        {
+           if(s[r] == s[r-1]) 
+           {
+                if(lastfound) l = lastfound; //This is needed only for the first duplicate found, as we don't want to update the value of i for the first duplicate. As one duplicate is allowed.
+                lastfound = r;
             }
+            ans = max(ans, r - l+1);
+            r++;
         }
-        return n - l;
+        return ans;
     }
 ---------------------------------------------------------------------------------
 16) Count the Number of Good Subarrays
