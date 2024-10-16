@@ -12,7 +12,7 @@ The binary representation is 100011
 /*
 
 00101101    &               (n)
-01011010                   left shift n by 1
+01011010               left shift n by 1
 ~~~~~~~~
 00001000                    (n & (n << 1))
 
