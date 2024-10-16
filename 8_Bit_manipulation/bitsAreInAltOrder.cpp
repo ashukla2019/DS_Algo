@@ -1,7 +1,10 @@
 // C++ implementation to check if a number 
 // has bits in alternate pattern 
-#include <bits/stdc++.h> 
 
+#Given an integer n > 0, the task is to find whether this integer has an alternate pattern in its bits representation. For example- 5 has an alternate pattern i.e. 101. 
+Print “Yes” if it has an alternate pattern otherwise “No”. Here alternate patterns can be like 0101 or 1010. 
+
+<bits/stdc++.h> 
 using namespace std; 
 
 // function to check if all the bits are set or not 
