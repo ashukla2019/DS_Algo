@@ -1,33 +1,4 @@
-1) Searching:Linear search & Binary search
 
-//complexity: o(logn)
-void binarySearch(int arr[], int lower, int upper, int num) 
-{ 
-    while (lower <= upper)
-	{ 
-        int mid = lower + upper / 2; 
-  
-        // Check if num is present at mid 
-        if (arr[mid] == num) 
-		{
-            cout<<"number found at position"<<mid<<endl; 
-		}
-  
-        // If number greater, ignore left half 
-        if (arr[mid] < num) 
-		{
-            lower = mid + 1; 
-		}	
-  
-        // If number is smaller, ignore right half 
-        else
-		{
-           upper = mid - 1; 
-		} 
-	} 
-}
-
-//complexity: o(n)
 void linearSearch(int* p, int num, int len)
 {
 	bool flag_found = false;
@@ -53,8 +24,45 @@ int main()
 {
 	int arr[] = {10, 30, 50, 60, 70};
 	int len = sizeof(arr)/sizeof(int);
-	//linearSearch(arr, 11, len);
-	binarySearch(arr, 0, 4, 50);
+	linearSearch(arr, 11, len);
+	return 0;
+}
+//Time complexity: o(n)
+-------------------------------------------------
+
+1) Searching:Linear search & Binary search
+
+//Time complexity: o(logn)
+void binarySearch(int arr[], int lower, int upper, int num) 
+{ 
+    while (lower <= upper)
+	{ 
+        int mid = lower + upper / 2; 
+  
+        // Check if num is present at mid 
+        if (arr[mid] == num) 
+		{
+            cout<<"number found at position"<<mid<<endl; 
+		}
+  
+        // If number greater, ignore left half 
+        if (arr[mid] < num) 
+		{
+            lower = mid + 1; 
+		}	
+  
+        // If number is smaller, ignore right half 
+        else
+		{
+           upper = mid - 1; 
+		} 
+	} 
+}
+int main()
+{
+	int arr[] = {10, 30, 50, 60, 70};
+	int len = sizeof(arr)/sizeof(int);
+	binarySearch(arr, 0, 4, 60);
 	return 0;
 }
 
@@ -505,141 +513,7 @@ int main()
 Time Complexity: O(n log n).
 Auxiliary Space: O(1)
 --------------------------------------------------------------------
-10) Find a pair with the given difference:
-Given an unsorted array and a number n, find if there exists a pair of elements in the array whose difference is n. 
-Examples: 
-
-Input: arr[] = {5, 20, 3, 2, 50, 80}, n = 78
-Output: Pair Found: (2, 80)
-
-Input: arr[] = {90, 70, 20, 80, 50}, n = 45
-Output: No Such Pair
-Approach 1: Using nested loops:
-Approach 2: Use sorting and Binary Search to improve time complexity to O(nLogn).
-The first step is to sort the array in ascending order. Once the array is sorted,
-traverse the array from left to right, and for each element arr[i], binary search
-for arr[i] + n in arr[i+1..n-1].
-
-// C++ program to find a pair with the given difference 
-#include <bits/stdc++.h>
-using namespace std;
-
-// The function assumes that the array is sorted 
-bool findPair(int arr[], int size, int n) 
-{ 
-    // Initialize positions of two elements 
-    int i = 0; 
-    int j = 1; 
-	sort(arr, arr+size);
-    // Search for a pair 
-    while (i < size && j < size) 
-    { 
-        if (i != j && (arr[j] - arr[i] == n || arr[i] - arr[j] == n) )
-        { 
-            cout << "Pair Found: (" << arr[i] <<
-                        ", " << arr[j] << ")"; 
-            return true; 
-        } 
-        else if (arr[j]-arr[i] < n) 
-            j++; 
-        else
-            i++; 
-    } 
-
-    cout << "No such pair"; 
-    return false; 
-} 
-
-// Driver program to test above function 
-int main() 
-{ 
-    int arr[] = {1, 8, 30, 40, 100}; 
-    int size = sizeof(arr)/sizeof(arr[0]); 
-    int n = -60; 
-    findPair(arr, size, n); 
-    return 0; 
-} 
-Time Complexity: O(n*log(n)) [Sorting is still required as first step], 
-Where n is number of element in given array
-Auxiliary Space: O(1)
------------------------------------------------------
-11) Check if reversing a sub array make the array sorted
-Given an array of n distinct integers. The task is to check whether reversing any one sub-array can make the array sorted or not. If the array is already sorted or can be made sorted by reversing any one subarray, print “Yes“, else print “No“.
-
-Examples: 
-Input : arr [] = {1, 2, 5, 4, 3}
-Output : Yes
-By reversing the subarray {5, 4, 3}, the array will be sorted.
-
-Input : arr [] = { 1, 2, 4, 5, 3 }
-Output : No
-
-Method 1: Brute force (O(n3)):
-Consider every subarray and check if reversing the subarray makes the whole array
-sorted. If yes, return True. If reversing any of the subarrays doesn’t make 
-the array sorted, then return False. Considering every subarray will take O(n2),
-and for each subarray, checking whether the whole array will get sorted after 
-reversing the subarray in consideration will take O(n). Thus overall complexity 
-would be O(n3).
-
-Method 2: The idea to solve this problem is based on the observation that if we
-perform one rotation of any subarray in the sorted array (increasing order), 
-then we there will be exactly one subarray which will be in decreasing order. 
-So, we have to find that rotated subarray and perform one rotation on it. 
-Finally check if the array becomes sorted or not.
-Initialize two variables x and y with -1.
-Iterate over the array.
-Find the first number for which a[i] > a[i+1] and store it into x. 
-Similarly, Store index i+1 as well into y, As this will keep track of the ending of the subarray which is needed to reverse.
-Check if x == -1 then array is already sorted so return true.
-Otherwise, reverse the array from index x to index y.
-Traverse the array to check for every element is sorted or not.
-If not sorted, return false.
-Finally, return true. 
-#include <bits/stdc++.h> 
-using namespace std; 
-
-bool sortArr(int a[], int n) 
-{ 
-	int x = -1; 
-	int y = -1; 
-
-	for (int i = 0; i < n - 1; i++) { 
-		if (a[i] > a[i + 1]) { 
-			if (x == -1) { 
-				x = i; 
-			} 
-			y = i + 1; 
-		} 
-	} 
-
-	if (x != -1) { 
-		reverse(a + x, a + y + 1); 
-		for (int i = 0; i < n - 1; i++) { 
-			if (a[i] > a[i + 1]) { 
-				return false; 
-				return 0; 
-			} 
-		} 
-	} 
-
-	return true; 
-} 
-
-// Driver Program 
-int main() 
-{ 
-	int arr[] = { 1, 2, 5, 4, 3 }; 
-	int n = sizeof(arr) / sizeof(arr[0]); 
-
-	sortArr(arr, n) ? (cout << "Yes" << endl) 
-					: (cout << "No" << endl); 
-	return 0; 
-} 
-Time Complexity: O(n)
-Auxiliary Space: O(1)
----------------------------------------------------------------
-12)Product of Array except itself
+11)Product of Array except itself
 Given an array arr[] of n integers, construct a Product Array prod[] (of the same size) such that prod[i] is equal to the product of all the elements of arr[] except arr[i]. 
 
 Note: Solve it without the division operator in O(n) time.
@@ -679,62 +553,46 @@ using namespace std;
 
 /* Function to print product array 
 for a given array arr[] of size n */
-void productArray(int arr[], int n) 
-{ 
+void findproduct(int arr[], int product[],int n)
+{
+    int prefix[n];
+    prefix[0]=1; // since first element can have no prefix
+    for(int i=1;i<n;i++)
+    {
+        prefix[i]=prefix[i-1]*arr[i-1];
+    }
+    int suffixproduct=1;
+    // Building Product array and maintaining suffix product
+    for(int i=n-1;i>=0;i--)
+    {
+        product[i]=suffixproduct*prefix[i];
+        suffixproduct*=arr[i];
+    }
+}
+// Driver Code
+int main()
+{
+    int arr[] = { 1 , 4 , 6 , 2 , 3};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int product[n];
+    findproduct(arr,product,n);
+ 
+    cout << "The product of array Except itself is: ";
+    for(int i=0;i<n;i++)
+    {
+        cout<<product[i]<<", "; 
+    }
+    cout<<endl;
+ 
+    return 0;
+}
 
-	// Base case 
-	if (n == 1) { 
-		cout << 0; 
-		return; 
-	} 
-
-	int i, temp = 1; 
-
-	/* Allocate memory for the product array */
-	int* prod = new int[(sizeof(int) * n)]; 
-
-	/* Initialize the product array as 1 */
-	memset(prod, 1, n); 
-
-	/* In this loop, temp variable contains product of 
-	elements on left side excluding arr[i] */
-	for (i = 0; i < n; i++) { 
-		prod[i] = temp; 
-		temp *= arr[i]; 
-	} 
-
-	/* Initialize temp to 1 
-	for product on right side */
-	temp = 1; 
-
-	/* In this loop, temp variable contains product of 
-	elements on right side excluding arr[i] */
-	for (i = n - 1; i >= 0; i--) { 
-		prod[i] *= temp; 
-		temp *= arr[i]; 
-	} 
-
-	/* print the constructed prod array */
-	for (i = 0; i < n; i++) 
-		cout << prod[i] << " "; 
-
-	return; 
-} 
-
-// Driver Code 
-int main() 
-{ 
-	int arr[] = { 10, 3, 5, 6, 2 }; 
-	int n = sizeof(arr) / sizeof(arr[0]); 
-	cout << "The product array is: \n"; 
-	productArray(arr, n); 
-} 
 Time Complexity: O(n). 
 The original array needs to be traversed only once, so the time complexity is constant.
 Auxiliary Space: O(n). 
 Even though the extra arrays are removed, the space complexity remains O(n), as the product array is still needed.
 ------------------------------------------------------------------
-13)Make all array elements equal with minimum cost
+12)Make all array elements equal with minimum cost
 Given an array which contains integer values, we need to make all values of this array equal to some integer value with minimum cost where the cost of changing an array value x to y is abs(x-y). 
 Examples : 
 Input  : arr[] = [1, 100, 101]
@@ -829,7 +687,7 @@ int main()
 Time Complexity: O(NlogN)
 Auxiliary Space: O(1)
 -------------------------------------------------------------------
-14) Find Peak Element:
+13) Find Peak Element:
 A peak element is an element that is strictly greater than its neighbors.
 Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
 You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
@@ -845,27 +703,47 @@ Input: nums = [1,2,1,3,5,6,4]
 Output: 5
 Explanation: Your function can return either index number 1 where the peak element is 2, or index number 5 where the peak element is 6.
 
-int findPeakElement(vector<int>& nums) {
-        int n = nums.size();
-        int low = 0;
-        int high = nums.size()-1;
-        while(low < high){
-            int mid = (low + high) >> 1;
-            if(nums[mid] > nums[mid+1]){
-                high = mid;
-            }
-            else{
-                low = mid + 1;
-            }
-        }
-        return low;
-    } 
-Time Complexity : O(log N), since we have used binary search to find the target 
-element.
-Space Complexity : O(1), since we stored only some constant number of elements, the space complexity is
-constant.
+int findPeakElement(vector<int> &arr) {
+    int n = arr.size(); //Size of array.
+
+    // Edge cases:
+    if (n == 1) return 0;
+    if (arr[0] > arr[1]) return 0;
+    if (arr[n - 1] > arr[n - 2]) return n - 1;
+
+    int low = 1, high = n - 2;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        //If arr[mid] is the peak:
+        if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1])
+            return mid;
+
+        // If we are in the left:
+        if (arr[mid] > arr[mid - 1]) low = mid + 1;
+
+        // If we are in the right:
+        // Or, arr[mid] is a common point:
+        else high = mid - 1;
+    }
+    // Dummy return statement
+    return -1;
+}
+
+int main()
+{
+    vector<int> arr = {1, 2, 3, 4, 5, 6, 7, 8, 5, 1};
+    int ans = findPeakElement(arr);
+    cout << "The peak is at index: " << ans << "\n";
+    return 0;
+}
+
+Time Complexity: O(logN), N = size of the given array.
+Reason: We are basically using binary search to find the minimum.
+
+Space Complexity: O(1)
 ----------------------------------------------------------
-15) Allocate minimum pages:
+14) Allocate minimum pages:
 Problem Statement: Given an array ‘arr of integer numbers, ‘ar[i]’ represents the number of pages in the ‘i-th’ book. There are a ‘m’ number of students, and the task is to allocate all the books to the students.
 Allocate books in such a way that:
 
@@ -959,7 +837,7 @@ Reason: We are applying binary search on [max(arr[]), sum(arr[])]. Inside the lo
 Space Complexity:  O(1) as we are not using any extra space to solve this problem
 
 -------------------------------------------------------------
-16) Minimum number of swaps required to sort an array
+15) Minimum number of swaps required to sort an array
 You are given an unordered array consisting of consecutive integers [1, 2, 3, ..., n] without any duplicates. You are allowed to swap any two elements. Find the minimum number of swaps required to sort the array in ascending order
 Ex:
 Input:
@@ -1068,7 +946,7 @@ Time Complexity: O(N * Log N)
 Auxiliary Space: O(N)
 
 --------------------------------------------------------------
-17) Aggressive cows: Problem Statement: You are given an array 'arr' of size 'n' which denotes the position of stalls.
+16) Aggressive cows: Problem Statement: You are given an array 'arr' of size 'n' which denotes the position of stalls.
 You are also given an integer 'k' which denotes the number of aggressive cows.
 You are given the task of assigning stalls to 'k' cows such that the minimum distance between any two of them is the maximum possible.
 Find the maximum possible minimum distance.
@@ -1135,7 +1013,7 @@ Reason: O(NlogN) for sorting the array. We are applying binary search on [1, max
 Space Complexity: O(1) as we are not using any extra space to solve this problem
 
 -------------------------------------------------------------
-18) Search in Rotated Sorted Array:
+17) Search in Rotated Sorted Array:
 Problem Statement: Given an integer array arr of size N, sorted in ascending 
 order (with distinct values) and a target value k. Now the array is rotated at 
 some pivot point unknown to you. Find the index at which k is present and if 
@@ -1205,7 +1083,7 @@ Reason: We have not used any extra data structures, this makes space complexity,
 
 --------------------------------------------------------------
 -------------------------Hard----
-19) Count of Smaller Numbers After Self
+18) Count of Smaller Numbers After Self
 
 --------------------------------------------------------------
-20) Split Array Largest Sum
+19) Split Array Largest Sum
