@@ -2314,6 +2314,51 @@ int main()
 Time Complexity: O(m log m + n log n)
 This algorithm takes O(m log m + n log n) time to sort and O(m + n) time to find the minimum difference. Therefore, the overall runtime is O(m log m + n log n). 
 Auxiliary Space: O(1)
+-----------------------------------------------------------------------------------------------------
+36) Find a pair with the given difference:
+Given an unsorted array and a number n, find if there exists a pair of elements in the array whose difference is n. 
+Examples: 
+
+Input: arr[] = {5, 20, 3, 2, 50, 80}, n = 78
+Output: Pair Found: (2, 80)
+
+Input: arr[] = {90, 70, 20, 80, 50}, n = 45
+Output: No Such Pair
+Approach 1: Using nested loops:
+Approach 2: Use sorting and two pointers
+int findPair(int n, int x, vector<int> &arr) {
+        // code here
+        sort(arr.begin(), arr.end());
+        int i=0, j=1;
+        while(j<n){
+            int diff=abs(arr[j]-arr[i]);
+            
+            if(diff==x){
+                return 1;
+            }
+            else if(diff<x){
+                j++;
+            }
+            else{
+                i++;
+            }
+        }
+        
+        return -1;
+    }
+// Driver program to test above function 
+int main() 
+{ 
+    int arr[] = {1, 8, 30, 40, 100}; 
+    int size = sizeof(arr)/sizeof(arr[0]); 
+    int n = -60; 
+    findPair(arr, size, n); 
+    return 0; 
+} 
+Time Complexity: O(n*log(n)) [Sorting is still required as first step], 
+Where n is number of element in given array
+Auxiliary Space: O(1)
+
 ---------------------------------------------------------
 36) Container With Most Water
 You are given an integer array height of length n. There are n vertical lines drawn such that the 
