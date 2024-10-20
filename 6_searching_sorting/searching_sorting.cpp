@@ -338,7 +338,8 @@ Approach:
 4) Update count array with cumulative sum. //cumulative sum of every index will give actual index of elements
    0 1 2 3 4 5 (index)
    2 2 4 7 7 8 (value)
-5) Now store actual elements to answe array:
+5) Traverse array arr[] from end and update ans[ countArray[ arr[i] ] – 1] = arr[i]. 
+   Also, update countArray[ arr[i] ] = countArray[ array[i] ]- – . 
    0 0 2 2 2 3 3 5
 // C++ Program to implement counting sort 
 #include <bits/stdc++.h> 
