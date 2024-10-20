@@ -325,6 +325,21 @@ It is particularly efficient when the range of input values is small compared
 to the number of elements to be sorted. The basic idea behind Counting Sort is
 to count the frequency of each distinct element in the input array and use that
 information to place the elements in their correct sorted positions.
+Approach:
+1) Find the max from the given array.
+   arr = [ 2, 5, 3, 0, 2, 3, 0, 2] => max would be 5
+2) Create count array of (max+1) and initialize all elements with 0.{size => 0..max}
+   0 1 2 3 4 5 (index)
+   0 0 0 0 0 5 (value)
+3) Update count array with frequency of elements. //Now er got elements sorted and now need to find the correct index
+   of each element.
+   0 1 2 3 4 5 (index)
+   2 0 2 3 0 1 (value)
+4) Update count array with cumulative sum. //cumulative sum of every index will give actual index of elements
+   0 1 2 3 4 5 (index)
+   2 2 4 7 7 8 (value)
+5) Now store actual elements to answe array:
+   0 0 2 2 2 3 3 5
 // C++ Program to implement counting sort 
 #include <bits/stdc++.h> 
 using namespace std; 
