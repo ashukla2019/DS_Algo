@@ -2404,6 +2404,93 @@ int maxArea(vector<int>& height) {
     }
 	Time complexity: O(n)
 	Space complexity: O(1)
+-----------------------------------------Check where to fit below:------------------------
+Count Subarray sum Equals K
+N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
+Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
+	Optimal Approach:
+	int subarrayCountSumEqualsK(vector<int>& a, long long k) {
+    int n = a.size(); // size of the array.
+
+    int left = 0, right = 0; // 2 pointers
+    long long sum = a[0];
+    int maxLen = 0;
+    int subArrayCount=0;
+    while (right < n) {
+        // if sum > k, reduce the subarray from left
+        // until sum becomes less or equal to k:
+        while (left <= right && sum > k) {
+            sum -= a[left];
+            left++;
+        }
+
+        // if sum = k, update the maxLen i.e. answer:
+        if (sum == k) {
+            subArrayCount++;
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        // Move forward thw right pointer:
+        right++;
+        if (right < n) sum += a[right];
+    }
+
+    return subArrayCount;
+	}
+	Time Complexity: O(2*N), where N = size of the given array.
+	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
+	Space Complexity: O(1) as we are not using any extra space.
+------------------------------------------------------------------------
+Subarray Sums Divisible by K
+Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
+A subarray is a contiguous part of an array.
+Example 1:
+
+Input: nums = [4,5,0,-2,-3,1], k = 5
+Output: 7
+Explanation: There are 7 subarrays with a sum divisible by k = 5:
+[4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
+Example 2:
+
+Input: nums = [5], k = 9
+Output: 0
+	
+	int subarraysDivByK(vector<int>& nums, int k) {
+        // Array to store the frequency of remainders
+        vector<int> remainderList(k, 0);
+        // Variable to store the cumulative sum
+        int sum = 0;
+        // Variable to count the number of subarrays divisible by k
+        int count = 0;
+        // Initialize remainderList[0] to 1 to handle subarrays directly divisible by k
+        remainderList[0] = 1;
+
+        // Traverse through the array
+        for (int i = 0; i < nums.size(); ++i) {
+            // Update the cumulative sum
+            sum += nums[i];
+
+            // Calculate the remainder of the cumulative sum divided by k
+            int rem = sum % k;
+
+            // If the remainder is negative, adjust it to be positive
+            if (rem < 0) {
+                rem += k;
+            }
+
+            // Add the frequency of the current remainder to the count
+            count += remainderList[rem];
+
+            // Increment the frequency of the current remainder in the remainderList
+            remainderList[rem]++;
+        }
+
+        // Return the count of subarrays divisible by k
+        return count;
+    }
+	Time complexity: O(n), We traverse the array once, and each operation (updating and accessing the array) takes constant time.
+	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
+		
 --------------------------------------------------------------------------------
 -----------hard:
 37)Trapping Rain Water
