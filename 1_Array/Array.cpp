@@ -680,149 +680,7 @@ arr[] = {2,2,1}, Result: 1
 	Reason: We are iterating the array only once.
 	Space Complexity: O(1) as we are not using any extra space.
 ---------------------------------------------------------------------------------------------------
-15) Longest subarray with K sum:
-Input Format: N = 3, k = 5, array[] = {2,3,5}, Result: 2, Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.
-	Subarray: Contiguous part of array Ex:{2,3}, {3,5}, {2,3,5}
-	Subsequence: {2,5}
-	Brute Force Approach:
-	First, we will run a loop(say i) that will select every possible starting index of the subarray. The 		possible starting indices can vary from index 0 to index n-1(n = size of the array).
-	Inside the loop, we will run another loop(say j) that will signify the ending index of the subarray. For 	every subarray starting from the index i, the possible ending index can vary from index i to n-1(n = size 	of the array).
-	After that for each subarray starting from index i and ending at index j (i.e. arr[i….j]), we will run 		another loop to calculate the sum of all the elements(of that particular subarray).
-	If the sum is equal to k, we will consider its length i.e. (j-i+1). Among all such subarrays, we will 		consider the maximum length by comparing all the lengths.
-	int len = 0;
-    for (int i = 0; i < n; i++) { // starting index
-        for (int j = i; j < n; j++) { // ending index
-            // add all the elements of
-            // subarray = a[i...j]:
-            long long s = 0;
-            for (int K = i; K <= j; K++) {
-                s += a[K];
-            }
-
-            if (s == k)
-                len = max(len, j - i + 1);
-        }
-    }
-    return len;
-	Time Complexity: O(N3) approx., where N = size of the array.
-	Reason: We are using three nested loops, each running approximately N times.
-	Space Complexity: O(1) as we are not using any extra space.
-	
-	Better Appraoch: Will remove extra loop to iterate through subarray and add it,instead will add elements
-	to existing sum while getting elements using 2 loops.
-	int findAllSubarraysWithGivenSum(vector < int > & arr, int k) {
-    int n = arr.size(); // size of the given array.
-    int cnt = 0; // Number of subarrays:
-
-    for (int i = 0 ; i < n; i++) { // starting index i
-        int sum = 0;
-        for (int j = i; j < n; j++) { // ending index j
-            // calculate the sum of subarray [i...j]
-            // sum of [i..j-1] + arr[j]
-            sum += arr[j];
-
-            // Increase the count if sum == k:
-            if (sum == k)
-                cnt++;
-        }
-    }
-    return cnt;
-	}
-	Time Complexity: O(N2), where N = size of the array.
-	Reason: We are using two nested loops here. As each of them is running for exactly N times, the time complexity will be approximately O(N2).
-	Space Complexity: O(1) as we are not using any extra space.
-	
-	Optimal Solution:Two pointers approach
-	1)Check if sum>k, if yes then we ca not go ahead using this subarray and we should remove left element
-	so that new subarray would be considered from left+1 th element now
-	Ex: {2, 3, 5, 1, 9}; suppose left at 0th index and right reached to 3rd index and sum is= 2+3+5+1=11
-	we can not consider this subarray now, so to select new subarray, move left to 1st index and 
-	new subarray list would be now: 3,....
-	2) Check if sum==k means we found solution then update maxLen
-	3) Else, increment right and calculate new sum(sum += a[right])
-	
-	int getLongestSubarray(vector<int>& a, long long k) {
-    int n = a.size(); // size of the array.
-
-    int left = 0, right = 0; // 2 pointers
-    long long sum = a[0]; //sum is pointing to first element
-    int maxLen = 0;
-    while (right < n) {
-        // if sum > k, reduce the subarray from left
-        // until sum becomes less or equal to k:
-        while (left <= right && sum > k) {
-            sum -= a[left];
-            left++;
-        }
-
-        // if sum = k, update the maxLen i.e. answer:
-        if (sum == k) {
-            maxLen = max(maxLen, right - left + 1);
-        }
-
-        // Move forward thw right pointer:
-        right++;
-        if (right < n) sum += a[right];
-    }
-
-    return maxLen;
-	}
-	Time Complexity: O(2*N), where N = size of the given array.
-	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
-	Space Complexity: O(1) as we are not using any extra space.
-	
-----------------------------------------------------------------------------------
-16) 2SUM problem:
-arr[]={2,6,5,8,11}, target=14
-	Brute Force Approach:
-	for(i=0; i<n; i++)
-	{
-		for(j=i+1; j<n; j++)
-		{
-			if(arr[i]+arr[j] == target)
-			{
-				return i,j;
-			}
-		}
-	}
-	Time Complexity: O(N2) approx., where N = size of the array.
-	Space Complexity: O(1) as we are not using any extra space.
-	
-	Better Approach: hashing technique
-	We will select the element of the array one by one using a loop(say i).
-	Then we will check if the other required element(i.e. target-arr[i]) exists in the hashMap.
-	If that element exists, then we will return “YES” for the first variant or we will return the current index i.e. i, and the index of the element found using map i.e. mp[target-arr[i]].
-	If that element does not exist, then we will just store the current element in the hashMap along with its index. Because in the future, the current element might be a part of our answer.
-	Finally, if we are out of the loop, that means there is no such pair whose sum is equal to the target. In this case, we will return either “NO” or {-1, -1} as per the variant of the question.
-	unordered_map<int, int> mpp;
-    for (int i = 0; i < n; i++) {
-        int num = arr[i];
-        int moreNeeded = target - num;
-        if (mpp.find(moreNeeded) != mpp.end()) {
-            return {mpp[moreNeeded], i};
-        }
-        mpp[num] = i;
-    }
-    return { -1, -1};
-	Time Complexity: O(N), where N = size of the array.
-	Space Complexity: O(N) as we use the map data structure
-	
-	Optimal Approach: using two pointers 
-	sort(arr.begin(), arr.end());
-    int left = 0, right = n - 1;
-    while (left < right) {
-        int sum = arr[left] + arr[right];
-        if (sum == target) {
-            return "YES";
-        }
-        else if (sum < target) left++;
-        else right--;
-    }
-    return "NO";
-	Time Complexity: O(N) + O(N*logN), where N = size of the array
-	Space Complexity: O(1) as we use the map data structure
---------------------------------------------------------------------------------
-17) Sort an array of 0,1 &2/sort colors:
+15) Sort an array of 0,1 &2/sort colors:
 nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 
 	Brute Force Approach:
@@ -885,7 +743,7 @@ nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 	Time Complexity: O(N), where N = size of the given array.
 	Space Complexity: O(1) as we are not using any extra space.
 ----------------------------------------------------------------------------------------
-18) Majority Element(N/2)
+16) Majority Element(N/2)
 N = 3, nums[] = {3,2,3}, Result: 3
 	Brute Force Approach:
 	We will run a loop that will select the elements of the array one by one.
@@ -985,7 +843,7 @@ N = 3, nums[] = {3,2,3}, Result: 3
 	Note: If the question states that the array must contain a majority element, in that case, we do not need the second check. Then the time complexity will boil down to O(N).
 	Space Complexity: O(1) as we are not using any extra space.
 -----------------------------------------------------------------------------------------
-19) Maximum subarray sum(kadane's algo)
+17) Maximum subarray sum(kadane's algo)
 arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6 
 	Brute Force Approach:
 	First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = size of the array).
@@ -1078,7 +936,7 @@ arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6
 	Reason: We are using a single loop running N times.
 	Space Complexity: O(1) as we are not using any extra space.
 ---------------------------------------------------------------------------------------
-20) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
+18) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
 and negative elements. Without altering the relative order of positive and negative elements, 
 you must return an array of alternately positive and negative values.
 arr[] = {1,2,-4,-5}, N = 4, Output:1 -4 2 -5
@@ -1148,7 +1006,7 @@ To maintain relative ordering, 1 must occur before 2, and -4 must occur before -
 	Time Complexity: O(N) { O(N) for traversing the array once and substituting positives and negatives simultaneously using pointers, where N = size of the array A}.
 	Space Complexity:  O(N) { Extra Space used to store the rearranged elements separately in an array, where N = size of array A}.
 ---------------------------------------------------------------------------------------------------
-21) Best Time to Buy and Sell Stock:
+19) Best Time to Buy and Sell Stock:
 arr[] = {7,1,5,3,6,4};
 	Ex: If we buy stock on 2nd day means in 1 rs, then sell it on 5th day(6rs), profit would be(6-1=5)
 	For max profit, buy when it is min and sell when it is max.
@@ -1162,7 +1020,7 @@ arr[] = {7,1,5,3,6,4};
 	return maxprofit;
 	
 ----------------------------------------------------------------------
-22) Best Time to Buy and Sell Stock II
+20) Best Time to Buy and Sell Stock II
 You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
 On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
 Find and return the maximum profit you can achieve.
@@ -1206,7 +1064,7 @@ int maxProfit(vector<int>& nums) {
 	Time complexity: O(n)
 	Space complexity: O(1) 	
 -----------------------------------------------------------------------------------------------------
-23) Leaders in an Array: Given an array, print all the elements which are leaders. 
+21) Leaders in an Array: Given an array, print all the elements which are leaders. 
 A Leader is an element that is greater than all of the elements on its right side in the array.	
 arr = [4, 7, 1, 0] => 7 1 0
 	Brute Force Approach:
@@ -1256,77 +1114,7 @@ arr = [4, 7, 1, 0] => 7 1 0
 	Time Complexity: O(n)
 	Space Compleixty: O(1)
 ---------------------------------------------------------------------------------
-24) Longest Consecutive Sequence 
-arr[]= [100, 200, 1, 3, 2, 4], Output:  4, Explanation:  The longest consecutive subsequence is 1, 2, 3, and 4.	
-	Brute Force Approach:
-	int longestSuccessiveElements(vector<int>&a) {
-    int n = a.size(); //size of array
-    int longest = 1;
-    //pick a element and search for its
-    //consecutive numbers:
-    for (int i = 0; i < n; i++) {
-        int x = a[i];
-        int cnt = 1;
-        //search for consecutive numbers
-        //using linear search:
-        while (linearSearch(a, x + 1) == true) {
-            x += 1;
-            cnt += 1;
-        }
-
-        longest = max(longest, cnt);
-    }
-    return longest;
-   }
-	Time Complexity: O(N2), N = size of the given array.
-	Reason: We are using nested loops each running for approximately N times.
-	Space Complexity: O(1), as we are not using any extra space to solve this problem.
-	
-	Optimal Approach(Using Set data structure):
-	We will declare 2 variables, 
-
-	‘cnt’ → (to store the length of the current sequence), 
-	‘longest’ → (to store the maximum length).
-	First, we will put all the array elements into the set data structure.
-	For every element, x, that can be a starting number(i.e. x-1 does not exist in the set) we will do the following:
-	We will set the length of the current sequence(cnt) to 1.
-	Then, again using the set, we will search for the consecutive elements such as x+1, x+2, and so on, and find the maximum possible length of the current sequence. This length will be stored in the variable ‘cnt’.
-	After that, we will compare ‘cnt’ and ‘longest’ and update the variable ‘longest’ with the maximum value (i.e. longest = max(longest, cnt)).
-	Finally, we will have the answer i.e. ‘longest’.
-	
-	int longestSuccessiveElements(vector<int>&a) {
-    int n = a.size();
-    if (n == 0) return 0;
-
-    int longest = 1;
-    unordered_set<int> st;
-    //put all the array elements into set:
-    for (int i = 0; i < n; i++) {
-        st.insert(a[i]);
-    }
-
-    //Find the longest sequence:
-    for (auto it : st) {
-        //if 'it' is a starting number:
-        if (st.find(it - 1) == st.end()) {
-            //find consecutive numbers:
-            int cnt = 1;
-            int x = it;
-            while (st.find(x + 1) != st.end()) {
-                x = x + 1;
-                cnt = cnt + 1;
-            }
-            longest = max(longest, cnt);
-        }
-    }
-    return longest;
-
-	}
-	Time Complexity: O(N) + O(2*N) ~ O(3*N), where N = size of the array.
-	Reason: O(N) for putting all the elements into the set data structure. After that for every starting element, we are finding the consecutive elements. Though we are using nested loops, the set will be traversed at most twice in the worst case. So, the time complexity is O(2*N) instead of O(N2).
-	Space Complexity: O(N), as we are using the set data structure to solve this problem.
------------------------------------------------------------------------
-25) Chocolate Distribution Problem:
+22) Chocolate Distribution Problem:
 Given an array of N integers where each value represents the number of chocolates
 in a packet. Each packet can have a variable number of chocolates. 
 There are m students, the task is to distribute chocolate packets such that: 
@@ -1400,7 +1188,7 @@ int main()
 Time Complexity: O(N*log(N))
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------------------------
-26) Set Matrix Zero:
+23) Set Matrix Zero:
 matrix= [1,1,1]               [1,0,1]
 		[1,0,1]     =>        [0,0,0] 
 		[1,1,1]               [1,0,1]
@@ -1495,7 +1283,7 @@ matrix= [1,1,1]               [1,0,1]
 	Reason: O(N) is for using the row array and O(M) is for using the col array.
 	
 -----------------------------------------------------------------------------------------
-27) Rotate Matrix/Image by 90 Degrees:
+24) Rotate Matrix/Image by 90 Degrees:
 [1,2,3]     [7,4,1]
 [4,5,6] =>  [8,5,2]
 [7,8,9]     [9,6,3]
@@ -1536,135 +1324,6 @@ Input: Matrix[][] =
 9, 10, 11, 12
 13,14, 15, 16 
 
-
-
-
--------------------------------------------------------------------------------
-29) Count Subarray sum Equals K
-N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
-Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
-	Optimal Approach:
-	int subarrayCountSumEqualsK(vector<int>& a, long long k) {
-    int n = a.size(); // size of the array.
-
-    int left = 0, right = 0; // 2 pointers
-    long long sum = a[0];
-    int maxLen = 0;
-    int subArrayCount=0;
-    while (right < n) {
-        // if sum > k, reduce the subarray from left
-        // until sum becomes less or equal to k:
-        while (left <= right && sum > k) {
-            sum -= a[left];
-            left++;
-        }
-
-        // if sum = k, update the maxLen i.e. answer:
-        if (sum == k) {
-            subArrayCount++;
-            maxLen = max(maxLen, right - left + 1);
-        }
-
-        // Move forward thw right pointer:
-        right++;
-        if (right < n) sum += a[right];
-    }
-
-    return subArrayCount;
-	}
-	Time Complexity: O(2*N), where N = size of the given array.
-	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
-	Space Complexity: O(1) as we are not using any extra space.
-------------------------------------------------------------------------
-30) Subarray Sums Divisible by K
-Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
-A subarray is a contiguous part of an array.
-Example 1:
-
-Input: nums = [4,5,0,-2,-3,1], k = 5
-Output: 7
-Explanation: There are 7 subarrays with a sum divisible by k = 5:
-[4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
-Example 2:
-
-Input: nums = [5], k = 9
-Output: 0
-	
-	int subarraysDivByK(vector<int>& nums, int k) {
-        // Array to store the frequency of remainders
-        vector<int> remainderList(k, 0);
-        // Variable to store the cumulative sum
-        int sum = 0;
-        // Variable to count the number of subarrays divisible by k
-        int count = 0;
-        // Initialize remainderList[0] to 1 to handle subarrays directly divisible by k
-        remainderList[0] = 1;
-
-        // Traverse through the array
-        for (int i = 0; i < nums.size(); ++i) {
-            // Update the cumulative sum
-            sum += nums[i];
-
-            // Calculate the remainder of the cumulative sum divided by k
-            int rem = sum % k;
-
-            // If the remainder is negative, adjust it to be positive
-            if (rem < 0) {
-                rem += k;
-            }
-
-            // Add the frequency of the current remainder to the count
-            count += remainderList[rem];
-
-            // Increment the frequency of the current remainder in the remainderList
-            remainderList[rem]++;
-        }
-
-        // Return the count of subarrays divisible by k
-        return count;
-    }
-	Time complexity: O(n), We traverse the array once, and each operation (updating and accessing the array) takes constant time.
-	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
------------------------------------------------------------------------
-31) Merge Sorted Array:
-You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
-Merge nums1 and nums2 into a single array sorted in non-decreasing order.
-
-Example 1:
-
-Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
-Output: [1,2,2,3,5,6]
-Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
-The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
-Example 2:
-
-Input: nums1 = [1], m = 1, nums2 = [], n = 0
-Output: [1]
-Explanation: The arrays we are merging are [1] and [].
-The result of the merge is [1].
-Example 3:
-
-Input: nums1 = [0], m = 0, nums2 = [1], n = 1
-Output: [1]
-Explanation: The arrays we are merging are [] and [1].
-The result of the merge is [1].
-Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
-
-void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int i = m - 1;
-        int j = n - 1;
-        int k = m + n - 1;
-
-        while (j >= 0) {
-            if (i >= 0 && nums1[i] > nums2[j]) {
-                nums1[k--] = nums1[i--];
-            } else {
-                nums1[k--] = nums2[j--];
-            }
-        }
-    } 
-	Time complexity: O(m), where m and n are the sizes of nums1 and nums2 respectively.
-	Space complexity: O(1), as no extra space is used other than a few variables for pointers.
 ------------------------------------------------------------------------
 32) Game of Life:
 
