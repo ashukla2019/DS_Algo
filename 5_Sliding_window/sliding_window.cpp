@@ -1528,7 +1528,6 @@ Output: 0
 Time complexity: O(n) for average and most of the cases
 Space complexity: O(1) and we are using constant space that includes variables ri, pro, result, i 
 -----------------------------------------------------------------------------------
------Sliding window: Two pointer approach:
 24) Two Sum : Check if a pair with given sum exists in Array:
 Problem Statement: Given an array of integers arr[] and an integer target.
 1st variant: Return YES if there exist two numbers such that their sum is equal to the target. Otherwise, return NO.
@@ -2202,9 +2201,96 @@ int lengthOfLongestSubstring(string s) {
       }
       return len;
  }
+----------------------------------------------------------------------------------------------------- 
+35) Count Subarray sum Equals K
+N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
+Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
+	Optimal Approach:
+	int subarrayCountSumEqualsK(vector<int>& a, long long k) {
+    int n = a.size(); // size of the array.
+
+    int left = 0, right = 0; // 2 pointers
+    long long sum = a[0];
+    int maxLen = 0;
+    int subArrayCount=0;
+    while (right < n) {
+        // if sum > k, reduce the subarray from left
+        // until sum becomes less or equal to k:
+        while (left <= right && sum > k) {
+            sum -= a[left];
+            left++;
+        }
+
+        // if sum = k, update the maxLen i.e. answer:
+        if (sum == k) {
+            subArrayCount++;
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        // Move forward thw right pointer:
+        right++;
+        if (right < n) sum += a[right];
+    }
+
+    return subArrayCount;
+	}
+	Time Complexity: O(2*N), where N = size of the given array.
+	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
+	Space Complexity: O(1) as we are not using any extra space.
+------------------------------------------------------------------------
+36) Subarray Sums Divisible by K
+Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
+A subarray is a contiguous part of an array.
+Example 1:
+
+Input: nums = [4,5,0,-2,-3,1], k = 5
+Output: 7
+Explanation: There are 7 subarrays with a sum divisible by k = 5:
+[4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
+Example 2:
+
+Input: nums = [5], k = 9
+Output: 0
+	
+	int subarraysDivByK(vector<int>& nums, int k) {
+        // Array to store the frequency of remainders
+        vector<int> remainderList(k, 0);
+        // Variable to store the cumulative sum
+        int sum = 0;
+        // Variable to count the number of subarrays divisible by k
+        int count = 0;
+        // Initialize remainderList[0] to 1 to handle subarrays directly divisible by k
+        remainderList[0] = 1;
+
+        // Traverse through the array
+        for (int i = 0; i < nums.size(); ++i) {
+            // Update the cumulative sum
+            sum += nums[i];
+
+            // Calculate the remainder of the cumulative sum divided by k
+            int rem = sum % k;
+
+            // If the remainder is negative, adjust it to be positive
+            if (rem < 0) {
+                rem += k;
+            }
+
+            // Add the frequency of the current remainder to the count
+            count += remainderList[rem];
+
+            // Increment the frequency of the current remainder in the remainderList
+            remainderList[rem]++;
+        }
+
+        // Return the count of subarrays divisible by k
+        return count;
+    }
+	Time complexity: O(n), We traverse the array once, and each operation (updating and accessing the array) takes constant time.
+	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
+		
     
 -------------------------------------------------------------------------------------
-35) The Smallest Difference
+37) The Smallest Difference
 Example 1:
 
 Input: A = [3, 6, 7, 4], B = [2, 8, 9, 3]
@@ -2315,7 +2401,7 @@ Time Complexity: O(m log m + n log n)
 This algorithm takes O(m log m + n log n) time to sort and O(m + n) time to find the minimum difference. Therefore, the overall runtime is O(m log m + n log n). 
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------------------------------
-36) Find a pair with the given difference:
+38) Find a pair with the given difference:
 Given an unsorted array and a number n, find if there exists a pair of elements in the array whose difference is n. 
 Examples: 
 
@@ -2358,9 +2444,112 @@ int main()
 Time Complexity: O(n*log(n)) [Sorting is still required as first step], 
 Where n is number of element in given array
 Auxiliary Space: O(1)
+---------------------------------------------------------------------------------------------- 
+39) Longest palindrome substring:
+Given a string str, the task is to find the longest substring which is a palindrome.
 
+Examples:
+Input: str = “forgeeksskeegfor” 
+Output: “geeksskeeg”
+Explanation: There are several possible palindromic substrings like “kssk”, “ss”, “eeksskee” etc. But the substring “geeksskeeg” is the longest among all.
+
+Input: str = “Geeks” 
+Output: “ee”
+ 
+string longestPalindrome(string s) 
+{
+        int n = s.size();
+        int start = 0;
+        int maxLen = 1;
+
+        for(int i=0; i<n; i++) 
+        {
+            //Even length palindrome
+            int low = i-1;
+            int high = i;
+
+            //Check if it's in boundary(lower and upper) and chars are matching
+            while(low>=0 && high<n && s[low]==s[high]) 
+            {
+                //If high-low+1(curent length) > maxLen: update maxLen and update start
+                if(high-low+1 >  maxLen) 
+                {
+                    maxLen = high-low+1;
+                    start = low;
+                }
+                low--; high++;
+            }
+            //Odd length palindrome
+            low = i-1;
+            high = i+1;
+
+            //Check if it's in boundary(lower and upper) and chars are matching 
+            while(low>=0 && high<n && s[low]==s[high]) 
+            {
+                //If high-low+1(curent length) > maxLen: update maxLen and update start
+                if(high-low+1 >  maxLen) 
+                {
+                    maxLen = high-low+1;
+                    start = low;
+                }
+                low--; high++;
+            }
+        } 
+        //return substring which starts from start value and upto maxLen
+        return s.substr(start, maxLen);
+    }  
+------------------------------------------------------------------------------------------------ 
+40) min chars to be added at front to make palindrome:
+Given string str we need to tell minimum characters to be added in front of the string to make string 
+palindrome.
+
+Examples: 
+Input  : str = "ABC"
+Output : 2
+We can make above string palindrome as "CBABC"
+by adding 'B' and 'C' at front.
+Input  : str = "AACECAAAA";
+Output : 2
+We can make above string palindrome as AAAACECAAAA
+by adding two A's at front of string.
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+	int addMinChar(string str1) {
+		int n = str1.length();
+		int start = 0;
+		int end = n - 1;
+		int res = 0;
+		while (start < end) { // While the pointers have not met in the middle of the string
+			if (str1[start] == str1[end]) { // If the characters at the start and end pointers are equal
+				start++; // Move the start pointer to the right
+				end--; // Move the end pointer to the left
+			}
+			else {
+				res++; // Increment the count of characters to be added
+				start = 0; // Reset the start pointer to the beginning of the string
+				end = n - res - 1; // Reset the end pointer to the end of the string with a reduced number of characters
+			}
+		}
+		return res; // Return the count of characters to be added
+	}
+};
+
+int main() 
+{
+	Solution sol;
+	string str = "AACECAAAA";
+	cout << sol.addMinChar(str) << endl;
+	return 0;
+}	
+	
 ---------------------------------------------------------
-36) Container With Most Water
+41) Container With Most Water
 You are given an integer array height of length n. There are n vertical lines drawn such that the 
 two endpoints of the ith line are (i, 0) and (i, height[i]).
 Find two lines that together with the x-axis form a container, such that the container contains the most water.
@@ -2405,95 +2594,10 @@ int maxArea(vector<int>& height) {
 	Time complexity: O(n)
 	Space complexity: O(1)
 -----------------------------------------Check where to fit below:------------------------
-Count Subarray sum Equals K
-N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
-Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
-	Optimal Approach:
-	int subarrayCountSumEqualsK(vector<int>& a, long long k) {
-    int n = a.size(); // size of the array.
 
-    int left = 0, right = 0; // 2 pointers
-    long long sum = a[0];
-    int maxLen = 0;
-    int subArrayCount=0;
-    while (right < n) {
-        // if sum > k, reduce the subarray from left
-        // until sum becomes less or equal to k:
-        while (left <= right && sum > k) {
-            sum -= a[left];
-            left++;
-        }
-
-        // if sum = k, update the maxLen i.e. answer:
-        if (sum == k) {
-            subArrayCount++;
-            maxLen = max(maxLen, right - left + 1);
-        }
-
-        // Move forward thw right pointer:
-        right++;
-        if (right < n) sum += a[right];
-    }
-
-    return subArrayCount;
-	}
-	Time Complexity: O(2*N), where N = size of the given array.
-	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
-	Space Complexity: O(1) as we are not using any extra space.
-------------------------------------------------------------------------
-Subarray Sums Divisible by K
-Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
-A subarray is a contiguous part of an array.
-Example 1:
-
-Input: nums = [4,5,0,-2,-3,1], k = 5
-Output: 7
-Explanation: There are 7 subarrays with a sum divisible by k = 5:
-[4, 5, 0, -2, -3, 1], [5], [5, 0], [5, 0, -2, -3], [0], [0, -2, -3], [-2, -3]
-Example 2:
-
-Input: nums = [5], k = 9
-Output: 0
-	
-	int subarraysDivByK(vector<int>& nums, int k) {
-        // Array to store the frequency of remainders
-        vector<int> remainderList(k, 0);
-        // Variable to store the cumulative sum
-        int sum = 0;
-        // Variable to count the number of subarrays divisible by k
-        int count = 0;
-        // Initialize remainderList[0] to 1 to handle subarrays directly divisible by k
-        remainderList[0] = 1;
-
-        // Traverse through the array
-        for (int i = 0; i < nums.size(); ++i) {
-            // Update the cumulative sum
-            sum += nums[i];
-
-            // Calculate the remainder of the cumulative sum divided by k
-            int rem = sum % k;
-
-            // If the remainder is negative, adjust it to be positive
-            if (rem < 0) {
-                rem += k;
-            }
-
-            // Add the frequency of the current remainder to the count
-            count += remainderList[rem];
-
-            // Increment the frequency of the current remainder in the remainderList
-            remainderList[rem]++;
-        }
-
-        // Return the count of subarrays divisible by k
-        return count;
-    }
-	Time complexity: O(n), We traverse the array once, and each operation (updating and accessing the array) takes constant time.
-	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
-		
 --------------------------------------------------------------------------------
 -----------hard:
-37)Trapping Rain Water
+42)Trapping Rain Water
 Given n non-negative integers representing an elevation map where the width of each bar is 1,
 compute how much water it can trap after raining
 
@@ -2549,7 +2653,7 @@ vector<int> getLeft(vector<int> height){
 	Time complexity:O(n)
 	Space complexity:O(n)
 ------------------------------------------------------------------------
-38) Minimum Window Substring:
+43) Minimum Window Substring:
 Given two strings s and t of lengths m and n respectively, return the minimum window 
 substring of s such that every character in t (including duplicates) is included in 
 the window. If there is no such substring, return the empty string "".
@@ -2602,7 +2706,7 @@ string minWindow(string s, string t) {
     }
 
 ----------------------------------------------------------------------------------
-39) Sliding Window Maximum
+44) Sliding Window Maximum
 You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
 
 Return the max sliding window.
