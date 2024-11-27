@@ -16,50 +16,8 @@ void reverseString(vector<char>& s)
 Time Complexity: O(n)
 Auxiliary Space: O(1)  
 -------------------------------------------------------------------------------
-2) Remove duplicates from string:
-Given a string S which may contain lowercase and uppercase characters. The task is to remove all duplicate
-characters from the string and find the resultant string.
-
-Note: The order of remaining characters in the output should be the same as in the original string.
-Example:
-
-Input: Str = geeksforgeeks
-Output: geksfor
-Explanation: After removing duplicate characters such as e, k, g, s, we have string as “geksfor”.
-// C++ program to create a unique string using unordered_map
-
-/* access time in unordered_map on is O(1) generally if no
-collisions occur and therefore it helps us check if an
-element exists in a string in O(1) time complexity with
-constant space. */
-
-#include <bits/stdc++.h>
-using namespace std;
-string removeDuplicates(string s, int n)
-{
-	unordered_map<char, int> exists;
-	string ans = "";
-	for (int i = 0; i < n; i++) {
-		if (exists.find(s[i]) == exists.end()) {
-			ans.push_back(s[i]);
-			exists[s[i]]++;
-		}
-	}
-	return ans;
-}
-
-// driver code
-int main()
-{
-	string s = "geeksforgeeks";
-	int n = s.size();
-	cout << removeDuplicates(s, n) << endl;
-	return 0;
-}
-Time Complexity: O(n)
-Auxiliary Space: O(n)  
---------------------------------------------------------------------------
-3) Reverse words in given string:
+--------------------------------------
+2) Reverse words in given string:
 Given an input string s, reverse the order of the words.
 A word is defined as a sequence of non-space characters. The words in s will be separated by at
 least one space.
@@ -101,7 +59,7 @@ int main()
     return 0;
 }
 ----------------------------------------------------------------------- 
-4) //Implement strstr:
+3) //Implement strstr:
 /*Input: haystack = "hello", needle = "ll"
 Output: 2
 */
@@ -126,7 +84,7 @@ int strStr(string haystack, string needle)
 	return -1;
 }
 --------------------------------------------------------------------------
-5) Given two strings. The task is to check whether the given strings are anagrams of each other or not. 
+4) Given two strings. The task is to check whether the given strings are anagrams of each other or not. 
 An anagram of a string is another string that contains the same characters, only the order of characters 
 can be different. For example, “abcd” and “dabc” are an anagram of each other.
 
@@ -179,7 +137,7 @@ int main()
 	return 0;
 }
 ----------------------------------------------------------------- 
-6) Valid palindrome:
+5) Valid palindrome:
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and 
 removing all non-alphanumeric characters, it reads the same forward and backward. 
 Alphanumeric characters include letters and numbers.
@@ -212,7 +170,7 @@ bool isPalindrome(string s)
 	return true;
 }
 -------------------------------------------------------------------- 
-7) //Permutations of a given string :
+6) //Permutations of a given string :
 Input: ABC
 Output: ABC ACB BAC BCA CAB CBA
 vector<string>find_permutation(string str)
@@ -226,7 +184,7 @@ vector<string>find_permutation(string str)
      return s;
 }
 ---------------------------------------------------------------------------
-8) Recursively remove all adjacent duplicate:
+7) Recursively remove all adjacent duplicate:
 Problem: Given a string s, remove all its adjacent duplicate characters recursively.
 Example 1:
 Input:
@@ -269,7 +227,7 @@ return str;
 
 }	
 ----------------------------------------------------------------------------------
-9) Given a Roman numeral, the task is to find its corresponding decimal value.
+8) Given a Roman numeral, the task is to find its corresponding decimal value.
 
 Example : 
 Input: IX
@@ -353,7 +311,7 @@ Time Complexity: O(n), where n is the length of the string.
 Only one traversal of the string is required.
 Auxiliary Space: O(1), As no extra space is required.  
 -------------------------------------------------------------------------------
-10) String to Integer (atoi):
+9) String to Integer (atoi):
 Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.
 The algorithm for myAtoi(string s) is as follows:
 
@@ -441,7 +399,7 @@ Reading stops at the first non-digit character 'w'.
         return ans*sign;
     }
 --------------------------------------------------------------------------
-11) Longest common prefix:
+10) Longest common prefix:
 Write a function to find the longest common prefix string amongst an array of strings.
 If there is no common prefix, return an empty string "".
 
