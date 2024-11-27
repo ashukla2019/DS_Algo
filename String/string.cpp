@@ -430,62 +430,8 @@ string longestCommonPrefix(vector<string>& strs) {
 
         return lcp;
     }
-----------------------------------------------------------------------
-12) Longest palindrome substring:
-Given a string str, the task is to find the longest substring which is a palindrome.
-
-Examples:
-Input: str = “forgeeksskeegfor” 
-Output: “geeksskeeg”
-Explanation: There are several possible palindromic substrings like “kssk”, “ss”, “eeksskee” etc. But the substring “geeksskeeg” is the longest among all.
-
-Input: str = “Geeks” 
-Output: “ee”
----------------------------------------------------------------------------------------------- 
-string longestPalindrome(string s) 
-{
-        int n = s.size();
-        int start = 0;
-        int maxLen = 1;
-
-        for(int i=0; i<n; i++) 
-        {
-            //Even length palindrome
-            int low = i-1;
-            int high = i;
-
-            //Check if it's in boundary(lower and upper) and chars are matching
-            while(low>=0 && high<n && s[low]==s[high]) 
-            {
-                //If high-low+1(curent length) > maxLen: update maxLen and update start
-                if(high-low+1 >  maxLen) 
-                {
-                    maxLen = high-low+1;
-                    start = low;
-                }
-                low--; high++;
-            }
-            //Odd length palindrome
-            low = i-1;
-            high = i+1;
-
-            //Check if it's in boundary(lower and upper) and chars are matching 
-            while(low>=0 && high<n && s[low]==s[high]) 
-            {
-                //If high-low+1(curent length) > maxLen: update maxLen and update start
-                if(high-low+1 >  maxLen) 
-                {
-                    maxLen = high-low+1;
-                    start = low;
-                }
-                low--; high++;
-            }
-        } 
-        //return substring which starts from start value and upto maxLen
-        return s.substr(start, maxLen);
-    }  
  ---------------------------------------------------------------------- 
-13) Count & say problem"
+11) Count & say problem"
 Find the n’th term in Look-and-say (Or Count and Say) Sequence. The look-and-say sequence is the sequence
 of the below integers: 
 1, 11, 21, 1211, 111221, 312211, 13112221, 1113213211, … 
@@ -557,99 +503,8 @@ int main()
 	cout << countnndSay(N) << endl;
 	return 0;
 }
- --------------------------------------------------------------------- 
-14) Longest substring without repeating characters:
-Given a string str, find the length of the longest substring without repeating characters. 
-Example:
-Example 1:
-Input: “ABCDEFGABEF”
-Output: 7
-Explanation: The longest substring without repeating characters are “ABCDEFG”, “BCDEFGA”, and “CDEFGAB” with lengths of 7
-
-Example 2:
-Input: “GEEKSFORGEEKS”
-Output: 7
-Explanation: The longest substrings without repeating characters are “EKSFORG” and “KSFORGE”, with lengths of 7
-
- int lengthOfLongestSubstring(string s) 
-{
-        int n=s.length();
-        int left=0;
-        int right=0;
-        unordered_map<int,int> m;
-        int maxcnt=0;
-        for(right=0;right<n;right++){
-        // if char s[right] is already present in map and index of s[right] >= left then update the left pointer to previoues accour of that s[right] char + 1 
-            if(m.find(s[right])!=m.end() && m[s[right]]>=left)
-            {
-                left=m[s[right]]+1;
-            }
-            // everytime update the index for s[right]
-            m[s[right]]=right;
-           // for calculating the count of non repeating char between left and right do this  ->> (right-left+1)take always max   ->> maxcnt=max(maxcnt,right-left+1);
-            maxcnt=max(maxcnt,right-left+1);
-        } 
-        return maxcnt;
-    }
-    
-int main()
-{
-    int len = lengthOfLongestSubstring("abcabcbb");
-    cout<<"result"<<len<<std::endl;
-    return 0;
-}
-O/p: 3
----------------------------------------------------------------------------
-15) min chars to be added at front to make palindrome:
-Given string str we need to tell minimum characters to be added in front of the string to make string 
-palindrome.
-
-Examples: 
-Input  : str = "ABC"
-Output : 2
-We can make above string palindrome as "CBABC"
-by adding 'B' and 'C' at front.
-Input  : str = "AACECAAAA";
-Output : 2
-We can make above string palindrome as AAAACECAAAA
-by adding two A's at front of string.
-----------------------------------------------------------------------------------------------------  
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-class Solution {
-public:
-	int addMinChar(string str1) {
-		int n = str1.length();
-		int start = 0;
-		int end = n - 1;
-		int res = 0;
-		while (start < end) { // While the pointers have not met in the middle of the string
-			if (str1[start] == str1[end]) { // If the characters at the start and end pointers are equal
-				start++; // Move the start pointer to the right
-				end--; // Move the end pointer to the left
-			}
-			else {
-				res++; // Increment the count of characters to be added
-				start = 0; // Reset the start pointer to the beginning of the string
-				end = n - res - 1; // Reset the end pointer to the end of the string with a reduced number of characters
-			}
-		}
-		return res; // Return the count of characters to be added
-	}
-};
-
-int main() 
-{
-	Solution sol;
-	string str = "AACECAAAA";
-	cout << sol.addMinChar(str) << endl;
-	return 0;
-}
  ---------------------------------------------------------------------
-16) 7-z algo:
+12) 7-z algo:
 /*
 Example:
 Index            0   1   2   3   4   5   6   7   8   9  10  11 
@@ -718,5 +573,5 @@ vector<int> search(string s, string pattern)
     return ans;
 }
 -------------------------------------------------------------------------- 
-17)  
+13)  
  
