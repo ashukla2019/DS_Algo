@@ -312,8 +312,51 @@ int main()
 }
 Time Complexity: O(n), where n is the length of given string
 Auxiliary Space: O(1)
+------------------------------------------------------------------------------------------------------- 
+5) Remove duplicates from string:
+Given a string S which may contain lowercase and uppercase characters. The task is to remove all duplicate
+characters from the string and find the resultant string.
+
+Note: The order of remaining characters in the output should be the same as in the original string.
+Example:
+
+Input: Str = geeksforgeeks
+Output: geksfor
+Explanation: After removing duplicate characters such as e, k, g, s, we have string as “geksfor”.
+// C++ program to create a unique string using unordered_map
+
+/* access time in unordered_map on is O(1) generally if no
+collisions occur and therefore it helps us check if an
+element exists in a string in O(1) time complexity with
+constant space. */
+
+#include <bits/stdc++.h>
+using namespace std;
+string removeDuplicates(string s, int n)
+{
+	unordered_map<char, int> exists;
+	string ans = "";
+	for (int i = 0; i < n; i++) {
+		if (exists.find(s[i]) == exists.end()) {
+			ans.push_back(s[i]);
+			exists[s[i]]++;
+		}
+	}
+	return ans;
+}
+
+// driver code
+int main()
+{
+	string s = "geeksforgeeks";
+	int n = s.size();
+	cout << removeDuplicates(s, n) << endl;
+	return 0;
+}
+Time Complexity: O(n)
+Auxiliary Space: O(n)  
 ----------------------------------------------------------------------
-5) Find missing elements of a range:
+6) Find missing elements of a range:
 Given an array, arr[0..n-1] of distinct elements and a range [low, high], find all numbers
 that are in a range, but not the array. The missing elements should be printed in sorted order.
 
@@ -392,7 +435,7 @@ int main()
 Time Complexity: O(n + (high-low+1))
 Auxiliary Space: O(n)
 ---------------------------------------------------------------------------------------
-6) Count Distinct ( Unique ) elements in an array
+7) Count Distinct ( Unique ) elements in an array
 Given an array arr[] of length N, The task is to count all distinct elements in arr[].
 
 Examples: 
@@ -501,7 +544,7 @@ int main()
 Time complexity: O(n)
 Auxiliary Space: O(n)
 -----------------------------------------------------------------------------
-7) Count number of Distinct Substring in a String:
+8) Count number of Distinct Substring in a String:
 Input : abcd
 Output : abcd abc ab a bcd bc b cd c d
 All Elements are Distinct
@@ -578,7 +621,7 @@ int main()
 Time Complexity: O(n2)
 Auxiliary Space: O(n)
 ------------------------------------------------------------------
-8) Write a function that takes a String as an argument and prints all unique words in it.
+9) Write a function that takes a String as an argument and prints all unique words in it.
 
 Examples:
 Input: Java is great. Grails is also great
@@ -621,7 +664,7 @@ int main() {
 Time Complexity: O(n)
 Auxiliary Space: O(n)
 ------------------------------------------------------------------------------
-9) Minimum insertions to form a palindrome with permutations allowed
+10) Minimum insertions to form a palindrome with permutations allowed
 Given a string of lowercase letters. Find minimum characters to be inserted in the string so that it can become palindrome. We can change the positions of characters in the string.
 
 Examples: 
@@ -681,7 +724,7 @@ int main()
 Time Complexity: O(n) 
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------
-10) Count all distinct pairs with difference equal to k:
+11) Count all distinct pairs with difference equal to k:
 Given an integer array and a positive integer k, count all distinct pairs with differences equal to k. 
 
 Examples: 
@@ -787,7 +830,7 @@ Time Complexity: O(nlogn)
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------
 ------------------Medium--------------------------------
-11)Longest Consecutive Subsequence:
+12)Longest Consecutive Subsequence:
 Given an array of integers, find the length of the longest sub-sequence such that elements 
 in the subsequence are consecutive integers, the consecutive numbers can be in any order. 
 
@@ -894,7 +937,7 @@ Time complexity: O(N), Only one traversal is needed and the time complexity is O
 under the assumption that hash insert and search takes O(1) time.
 Auxiliary space: O(N),
 ----------------------------------------------------------------------
-12) Find the first repeating element in an array of integers	
+13) Find the first repeating element in an array of integers	
 Given an array of integers arr[], The task is to find the index of first repeating element in it i.e. the element that occurs more than once and whose index of the first occurrence is the smallest. 
 
 Examples: 
@@ -989,7 +1032,7 @@ int main()
 Time Complexity: O(N).
 Auxiliary Space: O(N)
 --------------------------------------------------------------------------------
-13) Given a sequence of words, print all anagrams together
+14) Given a sequence of words, print all anagrams together
 Input : {“cat”, “dog”, “tac”, “god”, “act”}
 Output : {“cat”, “tac”, “act”, ‘”dog”, “god”}	
 	Approach: HashMap with O(NM) Solution
@@ -1009,7 +1052,7 @@ Output : {“cat”, “tac”, “act”, ‘”dog”, “god”}
         return ans;
     }
 ---------------------------------------------------------------------------------
-14) Largest subarray with equal number of 0s and 1s:
+15) Largest subarray with equal number of 0s and 1s:
 Given an array containing only 0s and 1s, find the largest subarray which contains equal no of 0s and 1s. The expected time complexity is O(n). 
 
 Examples: 
@@ -1102,7 +1145,7 @@ int main() {
 Time Complexity: O(n). 
 Auxiliary Space: O(n). 
 ----------------------------------------------------------------------------
-15) Range Queries for Frequencies of array elements
+16) Range Queries for Frequencies of array elements
 Given an array of n non-negative integers. The task is to find frequency of a particular element in the arbitrary range of array[]. 
 The range is given as positions (not 0 based indexes) in array. There can be multiple queries of given type.
 
@@ -1196,7 +1239,7 @@ This approach will be beneficial if we have a large number of queries of an arbi
 Time complexity: O(log N) for single query.
 Auxiliary Space: O(N)
 -------------------------------------------------------------------------
-16) Find all pairs (a, b) in an array such that a % b = k	
+17) Find all pairs (a, b) in an array such that a % b = k	
 Given an array with distinct elements, the task is to find the pairs in the array such that a % b = k, where k is a given integer.
 
 Examples : 
@@ -1248,7 +1291,7 @@ Time Complexity : O(n2)
 Auxiliary Space: O(1)
 //Need to find optimal solution.........
 -----------------------------------------------------------------------------
-17) Count the number of subarrays having a given XOR
+18) Count the number of subarrays having a given XOR
 Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
 Examples: 
 
@@ -1359,7 +1402,7 @@ Output: Number of subarrays having given XOR is 2
 Time Complexity: O(n)
 Auxiliary Space: O(n)
 ---------------------------------------------------------------------------
-18) Maximum possible difference of two subsets of an array
+19) Maximum possible difference of two subsets of an array
 Input : arr[] = {5, 8, -1, 4}
 Output : Maximum Difference = 18
 Explanation : 
@@ -1457,7 +1500,7 @@ int main()
 Time Complexity: O(n )
 Auxiliary Space: O(n)
 ---------------------------------------------------------------------------
-19)Find Itinerary from a given list of tickets
+20)Find Itinerary from a given list of tickets
 Given a list of tickets, find itinerary in order using the given list.
 
 Example: 
@@ -1532,7 +1575,7 @@ int main()
 Time Complexity: O(n).
 Auxiliary Space: O(n)
 ----------------------------------------------------------------------------------------------
-20) Relative Sort Array: Sort an array according to the order defined by another array
+21) Relative Sort Array: Sort an array according to the order defined by another array
 Given two arrays arr1[] and arr2[] of size m and n, the task is to sort arr1[] such that the relative order among the elements matches the order in arr2[]. 
 For elements not present in arr2[], append them at the end in sorted order.
 
