@@ -1,4 +1,22 @@
-1) Find the Largest element in an array:
+------------------------------------------------EASY-----------------------------------------------------------
+1) Linear search:
+Input: arr[]= 1 2 3 4 5, num = 3, Output: 2, Explanation: 3 is present in the 2nd index	
+	for i=0;i<n;i++){
+        
+        if(arr[i] == element){
+            
+            // Return index, if the given element 
+            // matches with any element of array.
+            return i;
+        }
+    }
+    
+    // If the given number not found.
+    return -1; 
+	Time Complexity: O(N) { At the worst case, the whole array would be traversed i.e N elements }.
+	Space Complexity: O(1) { There is no extra space being used in this approach }.
+-----------------------------------------------------------------------------------------------------
+2) Find the Largest element in an array:
 arr[] = {2,5,1,3,0}; => largest=5
 
 	Brute Force Approach:
@@ -28,7 +46,7 @@ arr[] = {2,5,1,3,0}; => largest=5
 	Space Complexity: O(1)
 	
 -------------------------------------------------------------------------------------------------
-2) Second largest element in array:
+3) Second largest element in array:
  arr[]=[1,2,4,7,7,5]; => 5
  
  	Brute Force Approach:
@@ -95,7 +113,7 @@ arr[] = {2,5,1,3,0}; => largest=5
 	Time Complexity: O(N) 
 	Space Complexity: O(1)
 ----------------------------------------------------------------------------------------------
-3) Check if array is sorted:
+4) Check if array is sorted:
 array[] = {1,2,3,4,5} => yes
 
 	for(i=1; i<n; i++)
@@ -109,7 +127,7 @@ array[] = {1,2,3,4,5} => yes
 	Time Complexity: O(N) 
 	Space Complexity: O(1)	
 -------------------------------------------------------------------------------------------------
-4) Remove duplicate in-place from sorted array:
+5) Remove duplicate in-place from sorted array:
 arr[1,1,2,2,2,3,3] => arr[1,2,3,_,_,_,_]
 
 	Brute Force Approach:
@@ -153,8 +171,221 @@ arr[1,1,2,2,2,3,3] => arr[1,2,3,_,_,_,_]
   	return i + 1;
   	Time Complexity: O(N)
 	Space Complexity: O(1)
-------------------------------------------------------------------------
-5) Find the Duplicate Number:
+--------------------------------------------------------------------------------------
+6) Missing Numbers:
+ Input Format: N = 5, array[] = {1,2,4,5}, Result: 3
+ 	Brute Force Approach:
+ 	We will run a loop(say i) from 1 to N.
+	For each integer, i, we will try to find it in the given array using linear search.
+	For that, we will run another loop to iterate over the array and consider a flag variable to indicate if 		the element exists in the array. Flag = 1 means the element is present and flag = 0 means the element is 		missing.
+	Initially, the flag value will be set to 0. While iterating the array, if we find the element, we will set 		the flag to 1 and break out from the loop.
+	Now, for any number i, if we cannot find it, the flag will remain 0 even after iterating the whole array 		and we will return the number.
+ 	 // Outer loop that runs from 1 to N:
+    for (int i = 1; i <= N; i++) {
+
+        // flag variable to check
+        //if an element exists
+        int flag = 0;
+
+        //Search the element using linear search:
+        for (int j = 0; j < N - 1; j++) {
+            if (a[j] == i) {
+
+                // i is present in the array:
+                flag = 1;
+                break;
+            }
+        }
+
+        // check if the element is missing
+        //i.e flag == 0:
+
+        if (flag == 0) return i;
+    }
+    Time Complexity: O(N2), where N = size of the array+1.
+	Reason: In the worst case i.e. if the missing number is N itself, the outer loop will run for N times, and 		for every single number the inner loop will also run for approximately N times. So, the total time 		    	complexity will be O(N2).
+
+    Space Complexity: O(1)  as we are not using any extra space.
+    
+    Better Approach: Using hashing
+    The range of the number is 1 to N. So, we need a hash array of size N+1 (as we want to store the frequency 		of N as well).
+	Now, for each element in the given array, we will store the frequency in the hash array.
+	After that, for each number between 1 to N, we will check the frequencies. And for any number, if the 		frequency is 0, we will return it.
+	int hash[N + 1] = {0}; //hash array
+
+    // storing the frequencies:
+    for (int i = 0; i < N - 1; i++)
+        hash[a[i]]++;
+
+    //checking the freqencies for numbers 1 to N:
+    for (int i = 1; i <= N; i++) {
+        if (hash[i] == 0) {
+            return i;
+        }
+    }
+
+    // The following line will never execute.
+    // It is just to avoid warnings.
+    return -1;
+	Time Complexity: O(N) + O(N) ~ O(2*N),  where N = size of the array+1.
+	Reason: For storing the frequencies in the hash array, the program takes O(N) time complexity and for 		checking the frequencies in the second step again O(N) is required. So, the total time complexity is O(N) 		+ O(N).
+
+	Space Complexity: O(N), where N = size of the array+1. Here we are using an extra hash array of size N+1.
+	
+	Optimal Approach:
+	Sum of first N numbers(S1) = (N*(N+1))/2
+	Sum of all array elements(S2) = i = 0n-2a[i]
+	The missing number = S1-S2
+	
+	 //Summation of first N numbers:
+    int sum = (N * (N + 1)) / 2;
+
+    //Summation of all array elements:
+    int s2 = 0;
+    for (int i = 0; i < N - 1; i++) {
+        s2 += a[i];
+    }
+
+    int missingNum = sum - s2;
+    return missingNum;
+	Time Complexity: O(N), where N = size of array+1.
+	Reason: Here, we need only 1 loop to get the sum of the array elements. The loop runs for approx. N times. 		So, the time complexity is O(N).
+
+	Space Complexity: O(1) as we are not using any extra space.	
+----------------------------------------------------------------------------------------
+7) Max. Consecutive 1's:
+Input: prices = {1, 1, 0, 1, 1, 1}, Output: 3	
+
+	Approach:
+	We maintain a variable count that keeps a track of the number of consecutive 1’s while traversing the 		array. The other variable max_count maintains the maximum number of 1’s, in other words, it maintains the 		answer.
+
+	We start traversing from the beginning of the array. Since we can encounter either a 1 or 0 there can be 		two situations:-
+
+	If  the value at the current index is equal to 1 we increase the value of count by one. After updating  	the count variable if it becomes more than the max_count  update the max_count.
+	If the value at the current index is equal to zero we make the variable count as 0 since there are no more 		consecutive ones.
+
+	 int cnt = 0;
+      int maximum = 0;
+      for (int i = 0; i < nums.size(); i++) 
+      {
+        if (nums[i] == 1) 
+        {
+        
+          cnt++;
+        } else 
+        {
+          cnt = 0;
+        }
+
+        maximum = max(maximum, cnt);
+      }
+      return maxi;
+    }
+    Time Complexity: O(N) since the solution involves only a single pass.
+	Space Complexity: O(1) because no extra space is used.
+------------------------------------------------------------------------------------------
+8) Find the number appeared once:
+arr[] = {2,2,1}, Result: 1
+	Better Approach:Using Hashing
+	First, we will find the maximum element(say maxElement) to know the size of the hash array.
+	Then we will declare a hash array of size maxElement+1.
+	Now, using another loop we will store the elements of the array along with their frequency in the hash 		array. (i.e. hash[arr[i]]++)
+	After that, using another loop we will iterate over the hash array, and try to find the element for which 		the frequency is 1, and finally, we will return that particular element.
+	//size of the array:
+    int n = arr.size();
+
+    // Declare the hashmap.
+    // And hash the given array:
+    map<int, int> mpp;
+    for (int i = 0; i < n; i++) {
+        mpp[arr[i]]++;
+    }
+
+    //Find the single element and return the answer:
+    for (auto it : mpp) {
+        if (it.second == 1)
+            return it.first;
+    }
+
+    //This line will never execute
+    //if the array contains a single element.
+    return -1;
+	Time Complexity: O(N*logM) + O(M), where M = size of the map i.e. M = (N/2)+1. N = size of the array.
+	Reason: We are inserting N elements in the map data structure and insertion takes logM time(where M = size 		of the map). So this results in the first term O(N*logM). The second term is to iterate the map and search 		the single element. In Java, HashMap generally takes O(1) time complexity for insertion and search. In 		that case, the time complexity will be O(N) + O(M).
+
+	Note: The time complexity will be changed depending on which map data structure we are using. If we use 	unordered_map in C++, the time complexity will be O(N) for the best and average case instead of O(N*logM). 		But in the worst case(which rarely happens), it will be nearly O(N2).
+	Space Complexity: O(M) as we are using a map data structure. Here M = size of the map i.e. M = (N/2)+1.
+	
+	Optimal Approach: Using XOR: 
+	Assume the given array is: [4,1,2,1,2]
+	XOR of all elements = 4^1^2^1^2
+      = 4 ^ (1^1) ^ (2^2)
+      = 4 ^ 0 ^ 0 = 4^0 = 4
+	Hence, 4 is the single element in the array.
+	 int n = arr.size();
+
+    // XOR all the elements:
+    int xorr = 0;
+    for (int i = 0; i < n; i++) {
+        xorr = xorr ^ arr[i];
+    }
+    return xorr;
+	Time Complexity: O(N), where N = size of the array.
+	Reason: We are iterating the array only once.
+	Space Complexity: O(1) as we are not using any extra space.	
+	
+-----------------------------------------------------------------------------------
+9) Leaders in an Array: Given an array, print all the elements which are leaders. 
+A Leader is an element that is greater than all of the elements on its right side in the array.	
+arr = [4, 7, 1, 0] => 7 1 0
+	Brute Force Approach:
+	vector<int> printLeadersBruteForce(int arr[], int n) {
+
+  vector<int> ans;
+  
+  for (int i = 0; i < n; i++) {
+    bool leader = true;
+
+    //Checking whether arr[i] is greater than all 
+    //the elements in its right side
+    for (int j = i + 1; j < n; j++)
+      if (arr[j] > arr[i]) {
+          
+        // If any element found is greater than current leader
+        // curr element is not the leader.
+        leader = false;
+        break;
+      }
+
+    // Push all the leaders in ans array.
+    if (leader)
+    ans.push_back(arr[i]);
+
+   }
+  
+   return ans;
+   }
+   Time Complexity: O(N^2) { Since there are nested loops being used, at the worst case n^2 time would be consumed }.
+   Space Complexity: O(N) { There is no extra space being used in this approach. But, a O(N) of space for ans array will be used in the worst case }.
+	
+ 	Optimal Approach:
+	int currentleader =  arr[size-1]; 
+  
+    /* Rightmost element is always leader */
+    cout << currentleader << " "; 
+      
+    for (int i = size-2; i >= 0; i--) 
+    { 
+        if (arr[i]>= currentleader)  
+        {            
+            currentleader = arr[i]; 
+            cout << currentleader << " "; 
+        } 
+    }     
+	Time Complexity: O(n)
+	Space Compleixty: O(1)	
+----------------------------------Medium-------------------------------------------------------------------
+10) Find the Duplicate Number:
 Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
 There is only one repeated number in nums, return this repeated number.
 You must solve the problem without modifying the array nums and uses only constant extra space.
@@ -244,7 +475,7 @@ Time complexity: O(N). Since we traversed through the array only once.
 Space complexity: O(1).	
 
 -----------------------------------------------------------------------
-6) Find All Duplicates in an Array	
+11) Find All Duplicates in an Array	
 Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.
 You must write an algorithm that runs in O(n) time and uses only constant auxiliary space, excluding the space needed to store the output
 Example 1:
@@ -306,7 +537,7 @@ Output: []
 	TC = O(n)
 	SC = O(1)
 -------------------------------------------------------------------------------------------
-7) Left rotate an array by one index:
+12) Left rotate an array by one index:
  N = 5, array[] = {1,2,3,4,5} => {2,3,4,5,1};
  	Optimal Approach:
  	At first, we have to shift the array towards the left so, we store the value of the first index in a    	variable (temp).
@@ -324,7 +555,7 @@ Output: []
  	Time Complexity: O(n), as we iterate through the array only once.
 	Space Complexity: O(1) as no extra space is used
 ------------------------------------------------------------------------------------
-8) Left rotate an array by d places:
+13) Left rotate an array by d places:
 Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3	
 
 	Brute Force Approach:
@@ -372,7 +603,7 @@ Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3
 	Space Complexity: O(1) since no extra space is required.
 	
 ---------------------------------------------------------------------------------------
-9) Move zeros to end of the array:
+14) Move zeros to end of the array:
  arr[]=1 ,0 ,2 ,3 ,0 ,4 ,0 ,1, Output: 1 ,2 ,3 ,4 ,1 ,0 ,0 ,0	
 
 	Brute Force Approach:
@@ -430,25 +661,8 @@ Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3
 	Time Complexity: O(N), N = size of the array.
 	Space Complexity: O(1) as we are not using any extra space to solve this problem. 
 	
-------------------------------------------------------------------------------------------------
-10) Linear search:
-Input: arr[]= 1 2 3 4 5, num = 3, Output: 2, Explanation: 3 is present in the 2nd index	
-	for i=0;i<n;i++){
-        
-        if(arr[i] == element){
-            
-            // Return index, if the given element 
-            // matches with any element of array.
-            return i;
-        }
-    }
-    
-    // If the given number not found.
-    return -1; 
-	Time Complexity: O(N) { At the worst case, the whole array would be traversed i.e N elements }.
-	Space Complexity: O(1) { There is no extra space being used in this approach }.
--------------------------------------------------------------------------------------------
-11) Union of Two Sorted Arrays:
+------------------------------------------------------------------------------------------
+15) Union of Two Sorted Arrays:
 n = 5,m = 5. arr1[] = {1,2,3,4,5} , arr2[] = {2,3,4,4,5} , Output: {1,2,3,4,5}	
 	Brute Force Approach:
 	set<int>st;
@@ -517,170 +731,8 @@ n = 5,m = 5. arr1[] = {1,2,3,4,5} , arr2[] = {2,3,4,4,5} , Output: {1,2,3,4,5}
 
   Space Complexity : O(m+n) {If Space of Union ArrayList is considered}
   
- ------------------------------------------------------------------------------------
- 12) Missing Numbers:
- Input Format: N = 5, array[] = {1,2,4,5}, Result: 3
- 	Brute Force Approach:
- 	We will run a loop(say i) from 1 to N.
-	For each integer, i, we will try to find it in the given array using linear search.
-	For that, we will run another loop to iterate over the array and consider a flag variable to indicate if 		the element exists in the array. Flag = 1 means the element is present and flag = 0 means the element is 		missing.
-	Initially, the flag value will be set to 0. While iterating the array, if we find the element, we will set 		the flag to 1 and break out from the loop.
-	Now, for any number i, if we cannot find it, the flag will remain 0 even after iterating the whole array 		and we will return the number.
- 	 // Outer loop that runs from 1 to N:
-    for (int i = 1; i <= N; i++) {
-
-        // flag variable to check
-        //if an element exists
-        int flag = 0;
-
-        //Search the element using linear search:
-        for (int j = 0; j < N - 1; j++) {
-            if (a[j] == i) {
-
-                // i is present in the array:
-                flag = 1;
-                break;
-            }
-        }
-
-        // check if the element is missing
-        //i.e flag == 0:
-
-        if (flag == 0) return i;
-    }
-    Time Complexity: O(N2), where N = size of the array+1.
-	Reason: In the worst case i.e. if the missing number is N itself, the outer loop will run for N times, and 		for every single number the inner loop will also run for approximately N times. So, the total time 		    	complexity will be O(N2).
-
-    Space Complexity: O(1)  as we are not using any extra space.
-    
-    Better Approach: Using hashing
-    The range of the number is 1 to N. So, we need a hash array of size N+1 (as we want to store the frequency 		of N as well).
-	Now, for each element in the given array, we will store the frequency in the hash array.
-	After that, for each number between 1 to N, we will check the frequencies. And for any number, if the 		frequency is 0, we will return it.
-	int hash[N + 1] = {0}; //hash array
-
-    // storing the frequencies:
-    for (int i = 0; i < N - 1; i++)
-        hash[a[i]]++;
-
-    //checking the freqencies for numbers 1 to N:
-    for (int i = 1; i <= N; i++) {
-        if (hash[i] == 0) {
-            return i;
-        }
-    }
-
-    // The following line will never execute.
-    // It is just to avoid warnings.
-    return -1;
-	Time Complexity: O(N) + O(N) ~ O(2*N),  where N = size of the array+1.
-	Reason: For storing the frequencies in the hash array, the program takes O(N) time complexity and for 		checking the frequencies in the second step again O(N) is required. So, the total time complexity is O(N) 		+ O(N).
-
-	Space Complexity: O(N), where N = size of the array+1. Here we are using an extra hash array of size N+1.
-	
-	Optimal Approach:
-	Sum of first N numbers(S1) = (N*(N+1))/2
-	Sum of all array elements(S2) = i = 0n-2a[i]
-	The missing number = S1-S2
-	
-	 //Summation of first N numbers:
-    int sum = (N * (N + 1)) / 2;
-
-    //Summation of all array elements:
-    int s2 = 0;
-    for (int i = 0; i < N - 1; i++) {
-        s2 += a[i];
-    }
-
-    int missingNum = sum - s2;
-    return missingNum;
-	Time Complexity: O(N), where N = size of array+1.
-	Reason: Here, we need only 1 loop to get the sum of the array elements. The loop runs for approx. N times. 		So, the time complexity is O(N).
-
-	Space Complexity: O(1) as we are not using any extra space.
---------------------------------------------------------------------------------------------
-13) Max. Consecutive 1's:
-Input: prices = {1, 1, 0, 1, 1, 1}, Output: 3	
-
-	Approach:
-	We maintain a variable count that keeps a track of the number of consecutive 1’s while traversing the 		array. The other variable max_count maintains the maximum number of 1’s, in other words, it maintains the 		answer.
-
-	We start traversing from the beginning of the array. Since we can encounter either a 1 or 0 there can be 		two situations:-
-
-	If  the value at the current index is equal to 1 we increase the value of count by one. After updating  	the count variable if it becomes more than the max_count  update the max_count.
-	If the value at the current index is equal to zero we make the variable count as 0 since there are no more 		consecutive ones.
-
-	 int cnt = 0;
-      int maximum = 0;
-      for (int i = 0; i < nums.size(); i++) 
-      {
-        if (nums[i] == 1) 
-        {
-        
-          cnt++;
-        } else 
-        {
-          cnt = 0;
-        }
-
-        maximum = max(maximum, cnt);
-      }
-      return maxi;
-    }
-    Time Complexity: O(N) since the solution involves only a single pass.
-	Space Complexity: O(1) because no extra space is used.
-------------------------------------------------------------------------------------------
-14) Find the number appeared once:
-arr[] = {2,2,1}, Result: 1
-	Better Approach:Using Hashing
-	First, we will find the maximum element(say maxElement) to know the size of the hash array.
-	Then we will declare a hash array of size maxElement+1.
-	Now, using another loop we will store the elements of the array along with their frequency in the hash 		array. (i.e. hash[arr[i]]++)
-	After that, using another loop we will iterate over the hash array, and try to find the element for which 		the frequency is 1, and finally, we will return that particular element.
-	//size of the array:
-    int n = arr.size();
-
-    // Declare the hashmap.
-    // And hash the given array:
-    map<int, int> mpp;
-    for (int i = 0; i < n; i++) {
-        mpp[arr[i]]++;
-    }
-
-    //Find the single element and return the answer:
-    for (auto it : mpp) {
-        if (it.second == 1)
-            return it.first;
-    }
-
-    //This line will never execute
-    //if the array contains a single element.
-    return -1;
-	Time Complexity: O(N*logM) + O(M), where M = size of the map i.e. M = (N/2)+1. N = size of the array.
-	Reason: We are inserting N elements in the map data structure and insertion takes logM time(where M = size 		of the map). So this results in the first term O(N*logM). The second term is to iterate the map and search 		the single element. In Java, HashMap generally takes O(1) time complexity for insertion and search. In 		that case, the time complexity will be O(N) + O(M).
-
-	Note: The time complexity will be changed depending on which map data structure we are using. If we use 	unordered_map in C++, the time complexity will be O(N) for the best and average case instead of O(N*logM). 		But in the worst case(which rarely happens), it will be nearly O(N2).
-	Space Complexity: O(M) as we are using a map data structure. Here M = size of the map i.e. M = (N/2)+1.
-	
-	Optimal Approach: Using XOR: 
-	Assume the given array is: [4,1,2,1,2]
-	XOR of all elements = 4^1^2^1^2
-      = 4 ^ (1^1) ^ (2^2)
-      = 4 ^ 0 ^ 0 = 4^0 = 4
-	Hence, 4 is the single element in the array.
-	 int n = arr.size();
-
-    // XOR all the elements:
-    int xorr = 0;
-    for (int i = 0; i < n; i++) {
-        xorr = xorr ^ arr[i];
-    }
-    return xorr;
-	Time Complexity: O(N), where N = size of the array.
-	Reason: We are iterating the array only once.
-	Space Complexity: O(1) as we are not using any extra space.
----------------------------------------------------------------------------------------------------
-15) Sort an array of 0,1 &2/sort colors:
+--------------------------------------------------------------------------------------------------
+16) Sort an array of 0,1 &2/sort colors:
 nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 
 	Brute Force Approach:
@@ -743,7 +795,7 @@ nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 	Time Complexity: O(N), where N = size of the given array.
 	Space Complexity: O(1) as we are not using any extra space.
 ----------------------------------------------------------------------------------------
-16) Majority Element(N/2)
+17) Majority Element(N/2)
 N = 3, nums[] = {3,2,3}, Result: 3
 	Brute Force Approach:
 	We will run a loop that will select the elements of the array one by one.
@@ -843,7 +895,7 @@ N = 3, nums[] = {3,2,3}, Result: 3
 	Note: If the question states that the array must contain a majority element, in that case, we do not need the second check. Then the time complexity will boil down to O(N).
 	Space Complexity: O(1) as we are not using any extra space.
 -----------------------------------------------------------------------------------------
-17) Maximum subarray sum(kadane's algo)
+18) Maximum subarray sum(kadane's algo)
 arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6 
 	Brute Force Approach:
 	First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = size of the array).
@@ -936,7 +988,7 @@ arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6
 	Reason: We are using a single loop running N times.
 	Space Complexity: O(1) as we are not using any extra space.
 ---------------------------------------------------------------------------------------
-18) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
+19) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
 and negative elements. Without altering the relative order of positive and negative elements, 
 you must return an array of alternately positive and negative values.
 arr[] = {1,2,-4,-5}, N = 4, Output:1 -4 2 -5
@@ -1006,7 +1058,7 @@ To maintain relative ordering, 1 must occur before 2, and -4 must occur before -
 	Time Complexity: O(N) { O(N) for traversing the array once and substituting positives and negatives simultaneously using pointers, where N = size of the array A}.
 	Space Complexity:  O(N) { Extra Space used to store the rearranged elements separately in an array, where N = size of array A}.
 ---------------------------------------------------------------------------------------------------
-19) Best Time to Buy and Sell Stock:
+20) Best Time to Buy and Sell Stock:
 arr[] = {7,1,5,3,6,4};
 	Ex: If we buy stock on 2nd day means in 1 rs, then sell it on 5th day(6rs), profit would be(6-1=5)
 	For max profit, buy when it is min and sell when it is max.
@@ -1020,7 +1072,7 @@ arr[] = {7,1,5,3,6,4};
 	return maxprofit;
 	
 ----------------------------------------------------------------------
-20) Best Time to Buy and Sell Stock II
+21) Best Time to Buy and Sell Stock II
 You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
 On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
 Find and return the maximum profit you can achieve.
@@ -1064,56 +1116,6 @@ int maxProfit(vector<int>& nums) {
 	Time complexity: O(n)
 	Space complexity: O(1) 	
 -----------------------------------------------------------------------------------------------------
-21) Leaders in an Array: Given an array, print all the elements which are leaders. 
-A Leader is an element that is greater than all of the elements on its right side in the array.	
-arr = [4, 7, 1, 0] => 7 1 0
-	Brute Force Approach:
-	vector<int> printLeadersBruteForce(int arr[], int n) {
-
-  vector<int> ans;
-  
-  for (int i = 0; i < n; i++) {
-    bool leader = true;
-
-    //Checking whether arr[i] is greater than all 
-    //the elements in its right side
-    for (int j = i + 1; j < n; j++)
-      if (arr[j] > arr[i]) {
-          
-        // If any element found is greater than current leader
-        // curr element is not the leader.
-        leader = false;
-        break;
-      }
-
-    // Push all the leaders in ans array.
-    if (leader)
-    ans.push_back(arr[i]);
-
-   }
-  
-   return ans;
-   }
-   Time Complexity: O(N^2) { Since there are nested loops being used, at the worst case n^2 time would be consumed }.
-   Space Complexity: O(N) { There is no extra space being used in this approach. But, a O(N) of space for ans array will be used in the worst case }.
-	
- 	Optimal Approach:
-	int currentleader =  arr[size-1]; 
-  
-    /* Rightmost element is always leader */
-    cout << currentleader << " "; 
-      
-    for (int i = size-2; i >= 0; i--) 
-    { 
-        if (arr[i]>= currentleader)  
-        {            
-            currentleader = arr[i]; 
-            cout << currentleader << " "; 
-        } 
-    }     
-	Time Complexity: O(n)
-	Space Compleixty: O(1)
----------------------------------------------------------------------------------
 22) Chocolate Distribution Problem:
 Given an array of N integers where each value represents the number of chocolates
 in a packet. Each packet can have a variable number of chocolates. 
