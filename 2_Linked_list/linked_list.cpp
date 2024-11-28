@@ -1,3 +1,4 @@
+---------------------------------EASY---------------------------------------------
 1) Implement linkedlist:
 class NodeList
 {
@@ -353,323 +354,8 @@ ListNode* deleteDuplicates(ListNode* head)
 	return head;
 }
 Time complexity: O(n)
----------------------------------------------------------------------------------------
-6) Remove Duplicates from Sorted List II
-Given the head of a sorted linked list, delete all nodes that have duplicate 
-numbers, leaving only distinct numbers from the original list. Return the 
-linked list sorted as well.
-
-Input: head = [1,2,3,3,4,4,5]
-Output: [1,2,5]
-
-Input: head = [1,1,1,2,3]
-Output: [2,3]
-
-ListNode* deleteDuplicates(ListNode* head) {
-        // Handle edge cases where the list is empty or has only one node
-        if (head == NULL || head->next == NULL) {
-            return head;  // No duplicates to remove, return the list as is
-        }
-
-        // Create a dummy node that points to the head of the list
-        // This helps in handling cases where the first few nodes are duplicates
-        ListNode* dummy = new ListNode(0);
-	dummy -> next = head;
-        
-        // Initialize 'prev' to point to the dummy node
-        // 'prev' will be used to link nodes that are not part of any duplicate sequence
-        ListNode* prev = dummy;
-        
-        // Initialize 'curr' to start at the head of the list
-        // 'curr' will be used to traverse through the list
-        ListNode* curr = head;
-
-        // Traverse through the list until the end
-        while (curr != NULL) {
-            // Check if the current node has a duplicate
-                // Skip all nodes that have the same value as 'curr'
-                // Move 'curr' forward until the last duplicate node
-                while (curr->next != NULL && curr->val == curr->next->val) {
-                    curr = curr->next;
-                }
-                // Link 'prev->next' to the node after the last duplicate
-                // This effectively removes the sequence of duplicates
-                prev->next = curr->next;
-            } else {
-                // If no duplicate is found, move 'prev' to the current node
-                prev = curr;
-            }
-            // Move 'curr' to the next node in the list
-            curr = curr->next;
-        }
-
-        // Return the modified list, starting from 'dummy->next'
-        // We skip the dummy node itself
-        return dummy->next;
-    }
-	Time complexity: O(n)
-	Space complexity: O(1)
----------------------------------------------------------
-7) Remove Linked List Elements:
-Given the head of a linked list and an integer val, remove all the nodes of
-the linked list that has Node.val == val, and return the new head.
-Input: head = [1,2,6,3,4,5,6], val = 6
-Output: [1,2,3,4,5]
-Input: head = [], val = 1
-Output: []
-ListNode* removeElements(ListNode* head, int val) {
-    
-    while(head != NULL && head -> val == val)    // eg [7, 7, 7, 5] val = 7, then we have to delete all 7 and move head to 5.
-    {
-        head = head -> next;
-    }
-    
-    if(head == NULL)            // eg [7, 7, 7, 7] val = 7, then we have to delete all 7 and return NULL.
-        return head;
-    
-    ListNode* curr = head;
-    
-    while(curr -> next != NULL)
-    {
-        if(curr -> next -> val == val)
-        {
-            curr -> next = curr -> next -> next;
-        }
-        else  
-        {
-            curr = curr -> next;
-        }
-    }
-    
-    return head;
-}
------------------------------------------------------------------------------------
-8) Add two numbers in linked list:
-Problem: You are given two non-empty linked lists representing two non-negative integers. The digits are
-stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return 
-the sum as a linked list.
-You may assume the two numbers do not contain any leading zero, except the number 0 itself.
-
-        2---->4---->3
-        5---->6---->4
-result= 7---->0---->8    
-
-/*
-1) Create dummy node with val 0
-2) Set result to dummy
-3) while(l1 !=NULL || l2 != NULL || carry !=0), do sum by adding
-l1->val then l2->val and then carry;
-4) Calculate carry by sum/10
-5) Calculate node_value by (sum%10) and create new node and move result to next
-
-*/  
-ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
-    {
-        ListNode* dummy= new ListNode(0);
-        ListNode* result=dummy;
-        
-        int carry=0;
-        while(l1 !=NULL || l2 != NULL || carry !=0)
-        {
-            int sum=0;
-            if(l1 != NULL)
-            {
-                sum=sum+l1->val;
-                l1 = l1->next;
-            }
-             if(l2 != NULL)
-            {
-                sum=sum+l2->val;
-                l2 = l2->next;
-            }
-            sum=sum+carry;
-            carry=sum/10;
-            result->next=new ListNode(sum%10);
-            result=result->next;
-        }
-        return dummy->next;
-    }
-	TC-> O(max(l1, l2)
-	SC-> O(max(l1,l2)
---------------------------------------------------------------------------
-9) Add Two Numbers II
-You are given two non-empty linked lists representing two non-negative integers.
-The most significant digit comes first and each of their nodes contains a single 
-digit. Add the two numbers and return the sum as a linked list.
-You may assume the two numbers do not contain any leading zero, 
-except the number 0 itself.
-Input: l1 = [7,2,4,3], l2 = [5,6,4]
-Output: [7,8,0,7]
-
-Input: l1 = [2,4,3], l2 = [5,6,4]
-Output: [8,0,7]
- 
-Input: l1 = [0], l2 = [0]
-Output: [0]
-
-ListNode* reverseList(ListNode* head)
-{
-    ListNode*current=head;
-    ListNode* temp=nullptr;
-    ListNode* prev=nullptr;
-    while(current != nullptr)
-    {
-        temp = current->next;
-        current->next=prev;
-        prev=current;
-        current=temp;
-    }
-    head=prev;
-    return head;
-}
-ListNode* add(ListNode* l1, ListNode* l2) {
-	auto dummyHead = new ListNode(0); 
-	auto curr = dummyHead;
-	int carry = 0;
-
-	while(l1 != NULL || l2 != NULL || carry > 0){
-		int sum = carry;
-
-		if(l1 != NULL){
-			sum += l1->val;
-			l1 = l1->next;
-		}
-
-		if(l2 != NULL){
-			sum += l2->val;
-			l2 = l2->next;
-		}
-
-		int digit = sum%10;
-		carry = sum/10;
-
-		curr->next = new ListNode(digit);
-		curr = curr->next;
-	}
-
-        return dummyHead->next;
-    }
-
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* nl1 = reverseList(l1);
-        ListNode* nl2 = reverseList(l2);
-        return (reverseList(add(nl1, nl2)));
-    }
-Time complexity: O(n)
-Space complexity: O(n)
-------------------------------------------------------------------------------
-10) Odd & Even Linked list: You are given the 'head' of a singly linked list. Your task is to group 
-all the nodes with odd indices together followed by the nodes with even indices, and return the 
-reordered list’s head. The first node is considered odd, and the second node is even, and so on.
-Example:
-Input: 'head' -> 1 -> 3 -> 5 -> 7
-Output: 'head' -> 1 -> 5 -> 3 -> 7
-Explanation:
-The nodes with odd indices (1, 5) are grouped together, followed by the nodes with even indices (3, 7).
-Approach:
-1) Check if there is no node or only single node, then return head itself/
-2) Take odd pointer to point odd indices, take even pointer to point even indices.
-3) Take evenHead which will point to head of even list
-4) set odd to head of list and even to head->next and evenhead to even.
-5) Iterate though list until even and even->next not equal to null(checkig for even because even indices list will be followed by odd indices)	
-6) odd->next=odd->next->next; //odd pointer was pointing to 1st pos and now it's next is set to 3rd pos
-7) even->next=even->next->next; //even pointer was pointing to 2nd pos and now it's next is set to 4th pos
-8) odd=odd->next; //moving odd pointer to next which is 3rd...5th..7th....pos
-9) even=even->next; //moving even pointer to next which is 2nd...4th..6th....pos
-10) set odd->next to evenHead.
-Node* oddEvenList(Node* head)
-{
-	//Check if there is no node or only single node, then return head itself
-	if(head==NULL || head->next==NULL) return head;
-    Node * odd = head; //This will to link odd indices
-    Node * even = head->next; //This will to link even indices
-    Node * evenhead = even; //This would be required to link odd with even set of indices
-    while(even && even->next){
-        odd->next=odd->next->next; //odd pointer was pointing to 1st pos and now it's next is set to 3rd pos
-        even->next=even->next->next; //even pointer was pointing to 2nd pos and now it's next is set to 4th pos
-        odd=odd->next; //moving odd pointer to next which is 3rd...5th..7th....pos
-        even=even->next; //moving even pointer to next which is 2nd...4th..6th....pos
-    }
-    odd->next = evenhead; //Now we have completed linking of odd nodes and even nodes, now set odd->next to evenhead(2nd pos)
-    return head;
-}
-TC-> O(n) While loop is running n/2 times. 
-SC-> O(1)
----------------------------------------------------------------------------------------
-11) Sort linked list of 0s 1s 2s:
-Given a linked list of 'N' nodes, where each node has an integer value that can be 0, 1, or 2. 
-You need to sort the linked list in non-decreasing order and the return the head of the sorted list.
-Example:
-Given linked list is 1 -> 0 -> 2 -> 1 -> 2. 
-The sorted list for the given linked list will be 0 -> 1 -> 1 -> 2 -> 2.
-
-Approach: To store every type of value{0,1,2}, we need 3 dummy pointers for 0,1,2 series and head for all 
-three would be required, we will take one more temp pointer to traverse complete list.
-if temp->data =0 then zero->next=temp, elsif temp->data =1 then one->next=temp else two->next=temp
-Then will set head of zero, one and two:
-Node* sortList(Node *head){
-    Node *zeroHead=new Node(-1);
-    Node *oneHead=new Node(-1);
-    Node *twoHead=new Node(-1);
-    Node *zero=zeroHead;
-    Node *one=oneHead;
-    Node *two=twoHead;
-    Node *temp=head;
-
-    while(temp!=NULL){
-        if(temp->data==0){
-            zero->next=temp;
-            zero=zero->next;
-        }else if(temp->data==1){
-            one->next=temp;
-            one=one->next;
-        }else{
-            two->next=temp;
-            two=two->next;
-        }
-        temp=temp->next;
-    }
-    zero->next=(oneHead->next)?(oneHead->next):(twoHead->next);
-    one->next=twoHead->next;
-    two->next=NULL;
-
-    Node *newHead=zeroHead->next;
-    //this is for more optimization , code can run without them also
-    free(zeroHead);
-    free(oneHead);
-    free(twoHead);
-    return newHead;
-}
-TC->O(n)
-SC->O(1)
----------------------------------------------------------------------------------	
-12) Remove Nth Node from the end of the LinkedList:
-You have been given a singly Linked List of 'N' nodes with integer data and an integer 'K'.
-Your task is to remove the 'K'th node from the end of the given Linked List and return the head 
-of the modified linked list.
-Example:
-Input : 1 -> 2 -> 3 -> 4 -> 'NULL'  and  'K' = 2
-Output: 1 -> 2 -> 4 -> 'NULL'
-
-Approach: We will take two pointers fast and slow. Fast will move till kth position. we will chck
-if fast==NULL then will return head->next,
-else iterate through list until fast->next == NULL, move fast and slow by 1.	
-
-ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *fast = head, *slow = head;
-        for (int i = 0; i < n; i++)
-            fast = fast->next;
-        if (fast == NULL) 
-            return head->next;
-        while (fast->next)
-            fast = fast->next, slow = slow->next;
-        slow->next = slow->next->next;
-        return head;
-    }
-TC->O(length)
-SC->O(1)
----------------------------------------------------------------------------------
-13) Reverse the linkedlist:
+-------------------------------------------------------------------------------
+6) Reverse the linkedlist:
 Input:
 2 4 5 -1
 Output:
@@ -735,8 +421,392 @@ reverseLinkedList(4) --> Now, head->next is null, it will return to 3rd call
 
 TC->O(n)
 SC->O(n){auxiliary space}
---------------------------------------------------------------------
-14) Reverse Linked List II
+---------------------------------------------------------------------------------
+7) Find the middle element of the LinkedList:
+Given a singly linked list of 'N' nodes. The objective is to determine the middle node of a singly
+linked list. However, if the list has an even number of nodes, we return the second middle node.
+1 2 3 4 5 => 3 4 5(We can clearly see that there are 5 elements in the linked list therefore the middle node is the node with value '3'.)
+Approach: Tortoise and hare algorithm
+Node *findMiddle(Node *head) {
+    Node* fast=head;
+    Node* slow=head;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    return slow;
+}
+TC->O(n/2)
+SC->O(1)
+--------------------------------------------------------------------------------------
+8) Detect a loop or cycle in LinkedList:
+You are given a Singly Linked List of integers. Return true if it has a cycle, else return false.
+1->2->3->4 
+^        |
+|        |  
+--------- 
+bool detectCycle(Node *head)
+{
+	Node* slow = head;
+	Node* fast = head;
+	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	{
+		fast=fast->next->next;
+		slow=slow->next;
+		if(slow==fast) return true;
+	}
+	return false;
+}
+TC->O(n)
+SC->O(1)
+----------------------------------------------------------------------------
+9) Find the length of loop in given linked list:
+Input: Linked List: 4 -> 10 -> 3 -> 5 -> 10(at position 2)
+Output: Length of cycle = 3
+Explanation: The cycle is 10, 3, 5.
+Approach:
+1) Run fast 2 steps and slow pointer 1 step, if they collide, it means there is cycle/loop.
+2) Now find the length: now move slow until slow->next becomes fast, increment cycle count.
+int findLength(Node* slow, Node* fast)
+{
+	int cycleLength = 1;
+        while (slow->next != fast)
+        {
+            cycleLength++;
+            slow = slow->next;
+        }
+}
+
+int lengthOfLoop(Node *head)
+{
+	Node* slow = head;
+	Node* fast = head;
+	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	{
+		fast=fast->next->next;
+		slow=slow->next;
+		if(slow==fast) 
+			return findLength(slow, fast);
+	}
+	return 0;
+}
+------------------------------------MEDIUM---------------------------------------------------
+10) Remove Duplicates from Sorted List II
+Given the head of a sorted linked list, delete all nodes that have duplicate 
+numbers, leaving only distinct numbers from the original list. Return the 
+linked list sorted as well.
+
+Input: head = [1,2,3,3,4,4,5]
+Output: [1,2,5]
+
+Input: head = [1,1,1,2,3]
+Output: [2,3]
+
+ListNode* deleteDuplicates(ListNode* head) {
+        // Handle edge cases where the list is empty or has only one node
+        if (head == NULL || head->next == NULL) {
+            return head;  // No duplicates to remove, return the list as is
+        }
+
+        // Create a dummy node that points to the head of the list
+        // This helps in handling cases where the first few nodes are duplicates
+        ListNode* dummy = new ListNode(0);
+	dummy -> next = head;
+        
+        // Initialize 'prev' to point to the dummy node
+        // 'prev' will be used to link nodes that are not part of any duplicate sequence
+        ListNode* prev = dummy;
+        
+        // Initialize 'curr' to start at the head of the list
+        // 'curr' will be used to traverse through the list
+        ListNode* curr = head;
+
+        // Traverse through the list until the end
+        while (curr != NULL) {
+            // Check if the current node has a duplicate
+                // Skip all nodes that have the same value as 'curr'
+                // Move 'curr' forward until the last duplicate node
+                while (curr->next != NULL && curr->val == curr->next->val) {
+                    curr = curr->next;
+                }
+                // Link 'prev->next' to the node after the last duplicate
+                // This effectively removes the sequence of duplicates
+                prev->next = curr->next;
+            } else {
+                // If no duplicate is found, move 'prev' to the current node
+                prev = curr;
+            }
+            // Move 'curr' to the next node in the list
+            curr = curr->next;
+        }
+
+        // Return the modified list, starting from 'dummy->next'
+        // We skip the dummy node itself
+        return dummy->next;
+    }
+	Time complexity: O(n)
+	Space complexity: O(1)
+--------------------------------------------------------------------------
+11) Remove Linked List Elements:
+Given the head of a linked list and an integer val, remove all the nodes of
+the linked list that has Node.val == val, and return the new head.
+Input: head = [1,2,6,3,4,5,6], val = 6
+Output: [1,2,3,4,5]
+Input: head = [], val = 1
+Output: []
+ListNode* removeElements(ListNode* head, int val) {
+    
+    while(head != NULL && head -> val == val)    // eg [7, 7, 7, 5] val = 7, then we have to delete all 7 and move head to 5.
+    {
+        head = head -> next;
+    }
+    
+    if(head == NULL)            // eg [7, 7, 7, 7] val = 7, then we have to delete all 7 and return NULL.
+        return head;
+    
+    ListNode* curr = head;
+    
+    while(curr -> next != NULL)
+    {
+        if(curr -> next -> val == val)
+        {
+            curr -> next = curr -> next -> next;
+        }
+        else  
+        {
+            curr = curr -> next;
+        }
+    }
+    
+    return head;
+}
+-----------------------------------------------------------------------------------
+12) Add two numbers in linked list:
+Problem: You are given two non-empty linked lists representing two non-negative integers. The digits are
+stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return 
+the sum as a linked list.
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+        2---->4---->3
+        5---->6---->4
+result= 7---->0---->8    
+
+/*
+1) Create dummy node with val 0
+2) Set result to dummy
+3) while(l1 !=NULL || l2 != NULL || carry !=0), do sum by adding
+l1->val then l2->val and then carry;
+4) Calculate carry by sum/10
+5) Calculate node_value by (sum%10) and create new node and move result to next
+
+*/  
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
+    {
+        ListNode* dummy= new ListNode(0);
+        ListNode* result=dummy;
+        
+        int carry=0;
+        while(l1 !=NULL || l2 != NULL || carry !=0)
+        {
+            int sum=0;
+            if(l1 != NULL)
+            {
+                sum=sum+l1->val;
+                l1 = l1->next;
+            }
+             if(l2 != NULL)
+            {
+                sum=sum+l2->val;
+                l2 = l2->next;
+            }
+            sum=sum+carry;
+            carry=sum/10;
+            result->next=new ListNode(sum%10);
+            result=result->next;
+        }
+        return dummy->next;
+    }
+	TC-> O(max(l1, l2)
+	SC-> O(max(l1,l2)
+--------------------------------------------------------------------------
+13) Add Two Numbers II
+You are given two non-empty linked lists representing two non-negative integers.
+The most significant digit comes first and each of their nodes contains a single 
+digit. Add the two numbers and return the sum as a linked list.
+You may assume the two numbers do not contain any leading zero, 
+except the number 0 itself.
+Input: l1 = [7,2,4,3], l2 = [5,6,4]
+Output: [7,8,0,7]
+
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [8,0,7]
+ 
+Input: l1 = [0], l2 = [0]
+Output: [0]
+
+ListNode* reverseList(ListNode* head)
+{
+    ListNode*current=head;
+    ListNode* temp=nullptr;
+    ListNode* prev=nullptr;
+    while(current != nullptr)
+    {
+        temp = current->next;
+        current->next=prev;
+        prev=current;
+        current=temp;
+    }
+    head=prev;
+    return head;
+}
+ListNode* add(ListNode* l1, ListNode* l2) {
+	auto dummyHead = new ListNode(0); 
+	auto curr = dummyHead;
+	int carry = 0;
+
+	while(l1 != NULL || l2 != NULL || carry > 0){
+		int sum = carry;
+
+		if(l1 != NULL){
+			sum += l1->val;
+			l1 = l1->next;
+		}
+
+		if(l2 != NULL){
+			sum += l2->val;
+			l2 = l2->next;
+		}
+
+		int digit = sum%10;
+		carry = sum/10;
+
+		curr->next = new ListNode(digit);
+		curr = curr->next;
+	}
+
+        return dummyHead->next;
+    }
+
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* nl1 = reverseList(l1);
+        ListNode* nl2 = reverseList(l2);
+        return (reverseList(add(nl1, nl2)));
+    }
+Time complexity: O(n)
+Space complexity: O(n)
+------------------------------------------------------------------------------
+14) Odd & Even Linked list: You are given the 'head' of a singly linked list. Your task is to group 
+all the nodes with odd indices together followed by the nodes with even indices, and return the 
+reordered list’s head. The first node is considered odd, and the second node is even, and so on.
+Example:
+Input: 'head' -> 1 -> 3 -> 5 -> 7
+Output: 'head' -> 1 -> 5 -> 3 -> 7
+Explanation:
+The nodes with odd indices (1, 5) are grouped together, followed by the nodes with even indices (3, 7).
+Approach:
+1) Check if there is no node or only single node, then return head itself/
+2) Take odd pointer to point odd indices, take even pointer to point even indices.
+3) Take evenHead which will point to head of even list
+4) set odd to head of list and even to head->next and evenhead to even.
+5) Iterate though list until even and even->next not equal to null(checkig for even because even indices list will be followed by odd indices)	
+6) odd->next=odd->next->next; //odd pointer was pointing to 1st pos and now it's next is set to 3rd pos
+7) even->next=even->next->next; //even pointer was pointing to 2nd pos and now it's next is set to 4th pos
+8) odd=odd->next; //moving odd pointer to next which is 3rd...5th..7th....pos
+9) even=even->next; //moving even pointer to next which is 2nd...4th..6th....pos
+10) set odd->next to evenHead.
+Node* oddEvenList(Node* head)
+{
+	//Check if there is no node or only single node, then return head itself
+	if(head==NULL || head->next==NULL) return head;
+    Node * odd = head; //This will to link odd indices
+    Node * even = head->next; //This will to link even indices
+    Node * evenhead = even; //This would be required to link odd with even set of indices
+    while(even && even->next){
+        odd->next=odd->next->next; //odd pointer was pointing to 1st pos and now it's next is set to 3rd pos
+        even->next=even->next->next; //even pointer was pointing to 2nd pos and now it's next is set to 4th pos
+        odd=odd->next; //moving odd pointer to next which is 3rd...5th..7th....pos
+        even=even->next; //moving even pointer to next which is 2nd...4th..6th....pos
+    }
+    odd->next = evenhead; //Now we have completed linking of odd nodes and even nodes, now set odd->next to evenhead(2nd pos)
+    return head;
+}
+TC-> O(n) While loop is running n/2 times. 
+SC-> O(1)
+---------------------------------------------------------------------------------------
+15) Sort linked list of 0s 1s 2s:
+Given a linked list of 'N' nodes, where each node has an integer value that can be 0, 1, or 2. 
+You need to sort the linked list in non-decreasing order and the return the head of the sorted list.
+Example:
+Given linked list is 1 -> 0 -> 2 -> 1 -> 2. 
+The sorted list for the given linked list will be 0 -> 1 -> 1 -> 2 -> 2.
+
+Approach: To store every type of value{0,1,2}, we need 3 dummy pointers for 0,1,2 series and head for all 
+three would be required, we will take one more temp pointer to traverse complete list.
+if temp->data =0 then zero->next=temp, elsif temp->data =1 then one->next=temp else two->next=temp
+Then will set head of zero, one and two:
+Node* sortList(Node *head){
+    Node *zeroHead=new Node(-1);
+    Node *oneHead=new Node(-1);
+    Node *twoHead=new Node(-1);
+    Node *zero=zeroHead;
+    Node *one=oneHead;
+    Node *two=twoHead;
+    Node *temp=head;
+
+    while(temp!=NULL){
+        if(temp->data==0){
+            zero->next=temp;
+            zero=zero->next;
+        }else if(temp->data==1){
+            one->next=temp;
+            one=one->next;
+        }else{
+            two->next=temp;
+            two=two->next;
+        }
+        temp=temp->next;
+    }
+    zero->next=(oneHead->next)?(oneHead->next):(twoHead->next);
+    one->next=twoHead->next;
+    two->next=NULL;
+
+    Node *newHead=zeroHead->next;
+    //this is for more optimization , code can run without them also
+    free(zeroHead);
+    free(oneHead);
+    free(twoHead);
+    return newHead;
+}
+TC->O(n)
+SC->O(1)
+---------------------------------------------------------------------------------	
+16) Remove Nth Node from the end of the LinkedList:
+You have been given a singly Linked List of 'N' nodes with integer data and an integer 'K'.
+Your task is to remove the 'K'th node from the end of the given Linked List and return the head 
+of the modified linked list.
+Example:
+Input : 1 -> 2 -> 3 -> 4 -> 'NULL'  and  'K' = 2
+Output: 1 -> 2 -> 4 -> 'NULL'
+
+Approach: We will take two pointers fast and slow. Fast will move till kth position. we will chck
+if fast==NULL then will return head->next,
+else iterate through list until fast->next == NULL, move fast and slow by 1.	
+
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *fast = head, *slow = head;
+        for (int i = 0; i < n; i++)
+            fast = fast->next;
+        if (fast == NULL) 
+            return head->next;
+        while (fast->next)
+            fast = fast->next, slow = slow->next;
+        slow->next = slow->next->next;
+        return head;
+    }
+TC->O(length)
+SC->O(1)
+---------------------------------------------------------------------------------
+17) Reverse Linked List II
 Given the head of a singly linked list and two integers left and right where
 left <= right, reverse the nodes of the list from position left to position right,
 and return the reversed list.
@@ -787,7 +857,7 @@ ListNode* reverseBetween(ListNode* head, int left, int right) {
 	Time Complexity :- O(N)
 	Space Complexity :- O(1)
 ------------------------------------------------------------------------------------
-15) Intersection of Two Linked Lists
+18) Intersection of Two Linked Lists
 4->1
 	\
 	 8
@@ -819,75 +889,6 @@ Node* findIntersection(Node *firstHead, Node *secondHead)
 }
 TC->O(n1+n2)
 SC->O(1)
-------------------------------------------------------------------------------
-16) Find the middle element of the LinkedList:
-Given a singly linked list of 'N' nodes. The objective is to determine the middle node of a singly
-linked list. However, if the list has an even number of nodes, we return the second middle node.
-1 2 3 4 5 => 3 4 5(We can clearly see that there are 5 elements in the linked list therefore the middle node is the node with value '3'.)
-Approach: Tortoise and hare algorithm
-Node *findMiddle(Node *head) {
-    Node* fast=head;
-    Node* slow=head;
-    while (fast != nullptr && fast->next != nullptr) {
-        slow=slow->next;
-        fast=fast->next->next;
-    }
-    return slow;
-}
-TC->O(n/2)
-SC->O(1)
---------------------------------------------------------------------------
-17) Detect a loop or cycle in LinkedList:
-You are given a Singly Linked List of integers. Return true if it has a cycle, else return false.
-1->2->3->4 
-^        |
-|        |  
---------- 
-bool detectCycle(Node *head)
-{
-	Node* slow = head;
-	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
-	{
-		fast=fast->next->next;
-		slow=slow->next;
-		if(slow==fast) return true;
-	}
-	return false;
-}
-TC->O(n)
-SC->O(1)
-----------------------------------------------------------------------------
-18) Find the length of loop in given linked list:
-Input: Linked List: 4 -> 10 -> 3 -> 5 -> 10(at position 2)
-Output: Length of cycle = 3
-Explanation: The cycle is 10, 3, 5.
-Approach:
-1) Run fast 2 steps and slow pointer 1 step, if they collide, it means there is cycle/loop.
-2) Now find the length: now move slow until slow->next becomes fast, increment cycle count.
-int findLength(Node* slow, Node* fast)
-{
-	int cycleLength = 1;
-        while (slow->next != fast)
-        {
-            cycleLength++;
-            slow = slow->next;
-        }
-}
-
-int lengthOfLoop(Node *head)
-{
-	Node* slow = head;
-	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
-	{
-		fast=fast->next->next;
-		slow=slow->next;
-		if(slow==fast) 
-			return findLength(slow, fast);
-	}
-	return 0;
-}
 ---------------------------------------------------------------------------
 19) Delete the middle node of the LinkedList:
 Given a singly linked list of 'N' nodes. Your task is to delete the middle node of this list
@@ -1656,7 +1657,7 @@ Node* sortLL(Node* head){
    3->4->NULL  2->NULL	
   /     \       
 3->NULL 4->NULL
--------------------------------------------------------------------------------
+------------------------------------HARD-------------------------------------------
 31)Merge k Sorted Lists
 
 
