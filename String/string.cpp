@@ -1,3 +1,4 @@
+-----------------------------------EASY----------------------------------------------
 1) //Reverse String: 
 /*Write a function that reverses a string. The input string is given as an array of characters s.
 Input: s = ["h","e","l","l","o"]
@@ -16,7 +17,6 @@ void reverseString(vector<char>& s)
 Time Complexity: O(n)
 Auxiliary Space: O(1)  
 -------------------------------------------------------------------------------
---------------------------------------
 2) Reverse words in given string:
 Given an input string s, reverse the order of the words.
 A word is defined as a sequence of non-space characters. The words in s will be separated by at
@@ -169,7 +169,7 @@ bool isPalindrome(string s)
 	}
 	return true;
 }
--------------------------------------------------------------------- 
+-------------------------------------MEDIUM----------------------------------------- 
 6) //Permutations of a given string :
 Input: ABC
 Output: ABC ACB BAC BCA CAB CBA
@@ -431,7 +431,7 @@ string longestCommonPrefix(vector<string>& strs) {
         return lcp;
     }
  ---------------------------------------------------------------------- 
-11) Count & say problem"
+11) Count & say problem
 Find the n’th term in Look-and-say (Or Count and Say) Sequence. The look-and-say sequence is the sequence
 of the below integers: 
 1, 11, 21, 1211, 111221, 312211, 13112221, 1113213211, … 
