@@ -1317,7 +1317,7 @@ matrix= [1,1,1]               [1,0,1]
 	Time Complexity: O(N*N) + O(N*N).One O(N*N) is for transposing the matrix and the other is for reversing the matrix.
 	Space Complexity: O(1).
 -------------------------------------------------------------------------------
-28) Spiral Traversal of a Matrix:
+25) Spiral Traversal of a Matrix:
 Input: Matrix[][] = 
 1, 2,  3,  4 
 5, 6,  7,  8   =>  1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10
@@ -1325,13 +1325,13 @@ Input: Matrix[][] =
 13,14, 15, 16 
 
 ------------------------------------------------------------------------
-32) Game of Life:
+26) Game of Life:
 
 
 -----------------------------------------------------------------------------------------
 Hard problems pending	
 -----------------------Reverse Pairs:
-33) Given an integer array nums, return the number of reverse pairs in the array.
+27) Given an integer array nums, return the number of reverse pairs in the array.
 Example 1:
 
 Input: nums = [1,3,2,3,1]
@@ -1352,7 +1352,7 @@ Explanation: The reverse pairs are:
 
 
 ------------------------------------------------------------
-34) Max Value of Equation:
+28) Max Value of Equation:
 
 
 
