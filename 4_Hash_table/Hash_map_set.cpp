@@ -1,3 +1,4 @@
+-------------------------------------EASY-----------------------------------------------
 Hashing is a technique or process of mapping keys, and values into the hash table by 
 using a hash function. It is done for faster access to elements.
 
@@ -434,7 +435,7 @@ int main()
 }
 Time Complexity: O(n + (high-low+1))
 Auxiliary Space: O(n)
----------------------------------------------------------------------------------------
+----------------------------------MEDIUM-----------------------------------------------------
 7) Count Distinct ( Unique ) elements in an array
 Given an array arr[] of length N, The task is to count all distinct elements in arr[].
 
@@ -829,7 +830,6 @@ int main()
 Time Complexity: O(nlogn)
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------
-------------------Medium--------------------------------
 12)Longest Consecutive Subsequence:
 Given an array of integers, find the length of the longest sub-sequence such that elements 
 in the subsequence are consecutive integers, the consecutive numbers can be in any order. 
