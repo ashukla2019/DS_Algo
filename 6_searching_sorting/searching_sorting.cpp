@@ -1,4 +1,4 @@
-
+-------------------------------------EASY-------------------------------------
 void linearSearch(int* p, int num, int len)
 {
 	bool flag_found = false;
@@ -29,9 +29,7 @@ int main()
 }
 //Time complexity: o(n)
 -------------------------------------------------
-
-1) Searching:Linear search & Binary search
-
+2. Binary search:
 //Time complexity: o(logn)
 void binarySearch(int arr[], int lower, int upper, int num) 
 { 
@@ -67,7 +65,7 @@ int main()
 }
 
 ------------------------------------------------------------------------
-2)Sorting: selection sort:
+3)Sorting: selection sort:
 int* selection_sort(int arr[], int len)
 {
     for(int i=0; i<len; i++)
@@ -94,7 +92,7 @@ int main()
 	return 0;
 }
 ---------------------------------------------------------------
-3) Bubble sort:
+4) Bubble sort:
 int* bubble_sort(int arr[], int len)
 {
     for(int i=0; i<len; i++)
@@ -122,8 +120,8 @@ int main()
     }
 	return 0;
 }
--------------------------------------------------------------
-4) Quick sort:
+------------------------------------MEDIUM------------------------------------------
+5) Quick sort:
 	//Algo steps:
 	1. Choose the appropriate pivot element.
 	2. Take two variables to point left and right of the list 
@@ -188,7 +186,7 @@ int main()
 	return 0;
 }
 --------------------------------------------------------------
-5) Insertion sort:
+6) Insertion sort:
 Example 1:
 Input: N = 6, array[] = {13,46,24,52,20,9}
 Output: 9,13,20,24,46,52
@@ -240,7 +238,7 @@ int main()
 }
 Time complexity: O(N2)
 --------------------------------------------------------------------
-6) Merge sort:
+7) Merge sort:
 Example 1:
 Input: N=5, arr[]={4,2,1,6,7}
 Output: 1,2,4,6,7,
@@ -320,7 +318,7 @@ Time complexity: O(nlogn)
 Reason: At each step, we divide the whole array, for that logn and we assume n steps are taken to get sorted array, so overall time complexity will be nlogn
 Space complexity: O(n)  
 ---------------------------------------------------------------
-7) Counting Sort: Counting Sort is a non-comparison-based sorting algorithm. 
+8) Counting Sort: Counting Sort is a non-comparison-based sorting algorithm. 
 It is particularly efficient when the range of input values is small compared 
 to the number of elements to be sorted. The basic idea behind Counting Sort is
 to count the frequency of each distinct element in the input array and use that
@@ -402,7 +400,7 @@ Space Complexity:
 The space complexity of counting sort is O(n + k).  
 
 ----------------------------------------------------------------		
-8) Permute two arrays such that sum of every pair is greater or equal to K:
+9) Permute two arrays such that sum of every pair is greater or equal to K:
 Given two arrays of equal size n and an integer k. The task is to permute both
 arrays such that sum of their corresponding element is greater than or equal to 
 k i.e a[i] + b[i] >= k. The task is to print “Yes” if any such permutation exists, 
@@ -464,7 +462,7 @@ int main()
 Time Complexity: O(n log n).
 Auxiliary Space: O(1)
 --------------------------------------------------------------------
-9)Product of Array except itself
+10)Product of Array except itself
 Given an array arr[] of n integers, construct a Product Array prod[] (of the same size) such that prod[i] is equal to the product of all the elements of arr[] except arr[i]. 
 
 Note: Solve it without the division operator in O(n) time.
@@ -543,7 +541,7 @@ The original array needs to be traversed only once, so the time complexity is co
 Auxiliary Space: O(n). 
 Even though the extra arrays are removed, the space complexity remains O(n), as the product array is still needed.
 ------------------------------------------------------------------
-10)Make all array elements equal with minimum cost
+11)Make all array elements equal with minimum cost
 Given an array which contains integer values, we need to make all values of this array equal to some integer value with minimum cost where the cost of changing an array value x to y is abs(x-y). 
 Examples : 
 Input  : arr[] = [1, 100, 101]
@@ -638,7 +636,7 @@ int main()
 Time Complexity: O(NlogN)
 Auxiliary Space: O(1)
 -------------------------------------------------------------------
-11) Find Peak Element:
+12) Find Peak Element:
 A peak element is an element that is strictly greater than its neighbors.
 Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
 You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
@@ -694,7 +692,7 @@ Reason: We are basically using binary search to find the minimum.
 
 Space Complexity: O(1)
 ----------------------------------------------------------
-12) Allocate minimum pages:
+13) Allocate minimum pages:
 Problem Statement: Given an array ‘arr of integer numbers, ‘ar[i]’ represents the number of pages in the ‘i-th’ book. There are a ‘m’ number of students, and the task is to allocate all the books to the students.
 Allocate books in such a way that:
 
@@ -788,7 +786,7 @@ Reason: We are applying binary search on [max(arr[]), sum(arr[])]. Inside the lo
 Space Complexity:  O(1) as we are not using any extra space to solve this problem
 
 -------------------------------------------------------------
-13) Minimum number of swaps required to sort an array
+14) Minimum number of swaps required to sort an array
 You are given an unordered array consisting of consecutive integers [1, 2, 3, ..., n] without any duplicates. You are allowed to swap any two elements. Find the minimum number of swaps required to sort the array in ascending order
 Ex:
 Input:
@@ -897,7 +895,7 @@ Time Complexity: O(N * Log N)
 Auxiliary Space: O(N)
 
 --------------------------------------------------------------
-14) Aggressive cows: Problem Statement: You are given an array 'arr' of size 'n' which denotes the position of stalls.
+15) Aggressive cows: Problem Statement: You are given an array 'arr' of size 'n' which denotes the position of stalls.
 You are also given an integer 'k' which denotes the number of aggressive cows.
 You are given the task of assigning stalls to 'k' cows such that the minimum distance between any two of them is the maximum possible.
 Find the maximum possible minimum distance.
@@ -964,7 +962,7 @@ Reason: O(NlogN) for sorting the array. We are applying binary search on [1, max
 Space Complexity: O(1) as we are not using any extra space to solve this problem
 
 -------------------------------------------------------------
-15) Search in Rotated Sorted Array:
+16) Search in Rotated Sorted Array:
 Problem Statement: Given an integer array arr of size N, sorted in ascending 
 order (with distinct values) and a target value k. Now the array is rotated at 
 some pivot point unknown to you. Find the index at which k is present and if 
