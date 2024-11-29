@@ -1,3 +1,4 @@
+-------------------------------------------EASY----------------------------------------
 1) Stack implementation using array:
 class myStack
 {
@@ -505,9 +506,108 @@ Time Complexity:
 Push operation: O(N). In the worst case we have empty whole of stack 1 into stack 2.
 Pop operation: O(1). Same as pop operation in stack.
 Auxiliary Space: O(N). Use of stack for storing values.
+-------------------------------------------------------------------------------
+8) Check for Balanced Parentheses:
+Input: str = “( )[ { } ( ) ]”
+Output: True
+Explanation: As every open bracket has its corresponding 
+close bracket. Match parentheses are in correct order 
+hence they are balanced.
 
------------------------------------------------------------------------
-8) Circular queue implementation:
+Approach:
+1) If we have character '(' or '{' or '[' then push to stack 
+2) If we have character ')' and st.top()!= '(' or '}' and st.top()!= '{' '[' and st.top()!= ']'
+
+bool isValid(string s) {
+        stack<char> st;
+        for(auto i:s)
+        {
+            if(i=='(' || i=='{'|| i=='[' )
+            {
+                st.push(i);
+            }
+            else
+            {
+                if(st.empty() || (st.top()=='(' && i!=')') ||(st.top()=='{' && i!='}')||(st.top()=='[' && i!=']'))
+                {
+                    return false;
+                }
+                else
+                {
+                    st.pop();
+                }
+            }
+            
+        }
+        return st.empty();
+        
+    }
+int main()
+{
+    string s="()[{}()]";
+    if(isValid(s))
+    cout<<"True"<<endl;
+    else
+    cout<<"False"<<endl;
+}
+Time Complexity: O(N)
+Space Complexity: O(N)
+
+--------------------------------------------------------------------------------
+9) Backspace String Compare:
+Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
+Note that after backspacing an empty text, the text will continue empty.
+Example 1:
+Input: s = "ab#c", t = "ad#c"
+Output: true
+Explanation: Both s and t become "ac".
+	
+Example 2:
+Input: s = "ab##", t = "c#d#"
+Output: true
+Explanation: Both s and t become "".
+	
+Example 3:
+Input: s = "a#c", t = "b"
+Output: false
+Explanation: s becomes "c" while t becomes "b".
+
+Approach:
+1) will convert strings by putting all chars to stack.
+2) will check current stack element, if it is '#' and stack is not empty then pop the last stack element
+3) if it is other than '#' then push element to stack.
+4) Now iterate through stack and crate new string with stack elements.
+	
+    string convert(string s)
+    {
+        stack<char>st;//stack of characters
+        for(int i = 0;i<s.length();i++)
+        {
+            if(s[i]=='#')
+            {
+                if(st.empty()) continue;// if there is nothing to remove
+                else st.pop();
+            }
+            else
+                st.push(s[i]);
+        }
+        string a = "";
+        while(!st.empty())
+        {
+            a+=st.top();
+            st.pop();
+        }
+        return a;
+    }
+    bool backspaceCompare(string s, string t) {
+        string s1 = convert(s);
+        string s2 = convert(t);
+        return s1==s2;
+    }
+Time complexity:O(N), N being the length of longer string
+Space complexity:O(N)
+--------------------------------------MEDIUM---------------------------------
+10) Circular queue implementation:
 	1) Initialize front and rear to -1
 	2) Enqueue:
 		1) Check if queue is full:if ((rear + 1) % MAX == front) then print queue is full.
@@ -610,105 +710,6 @@ int main()
   q1.display();
   return 0;
 }
---------------------------------------------------------------------------------
-9) Check for Balanced Parentheses:
-Input: str = “( )[ { } ( ) ]”
-Output: True
-Explanation: As every open bracket has its corresponding 
-close bracket. Match parentheses are in correct order 
-hence they are balanced.
-
-Approach:
-1) If we have character '(' or '{' or '[' then push to stack 
-2) If we have character ')' and st.top()!= '(' or '}' and st.top()!= '{' '[' and st.top()!= ']'
-
-bool isValid(string s) {
-        stack<char> st;
-        for(auto i:s)
-        {
-            if(i=='(' || i=='{'|| i=='[' )
-            {
-                st.push(i);
-            }
-            else
-            {
-                if(st.empty() || (st.top()=='(' && i!=')') ||(st.top()=='{' && i!='}')||(st.top()=='[' && i!=']'))
-                {
-                    return false;
-                }
-                else
-                {
-                    st.pop();
-                }
-            }
-            
-        }
-        return st.empty();
-        
-    }
-int main()
-{
-    string s="()[{}()]";
-    if(isValid(s))
-    cout<<"True"<<endl;
-    else
-    cout<<"False"<<endl;
-}
-Time Complexity: O(N)
-Space Complexity: O(N)
----------------------------------------------------------------
-10) Backspace String Compare:
-Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
-Note that after backspacing an empty text, the text will continue empty.
-Example 1:
-Input: s = "ab#c", t = "ad#c"
-Output: true
-Explanation: Both s and t become "ac".
-	
-Example 2:
-Input: s = "ab##", t = "c#d#"
-Output: true
-Explanation: Both s and t become "".
-	
-Example 3:
-Input: s = "a#c", t = "b"
-Output: false
-Explanation: s becomes "c" while t becomes "b".
-
-Approach:
-1) will convert strings by putting all chars to stack.
-2) will check current stack element, if it is '#' and stack is not empty then pop the last stack element
-3) if it is other than '#' then push element to stack.
-4) Now iterate through stack and crate new string with stack elements.
-	
-    string convert(string s)
-    {
-        stack<char>st;//stack of characters
-        for(int i = 0;i<s.length();i++)
-        {
-            if(s[i]=='#')
-            {
-                if(st.empty()) continue;// if there is nothing to remove
-                else st.pop();
-            }
-            else
-                st.push(s[i]);
-        }
-        string a = "";
-        while(!st.empty())
-        {
-            a+=st.top();
-            st.pop();
-        }
-        return a;
-    }
-    bool backspaceCompare(string s, string t) {
-        string s1 = convert(s);
-        string s2 = convert(t);
-        return s1==s2;
-    }
-Time complexity:O(N), N being the length of longer string
-Space complexity:O(N)
 -----------------------------------------------------------------------------
 11) Implement two Stacks in an Array
 Create a data structure twoStacks that represent two stacks. Implementation of twoStacks should use only 
@@ -895,7 +896,7 @@ int main()
 Time Complexity: O(1)
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------------
-15) Next Greater Element Using Stack:
+13) Next Greater Element Using Stack:
 Example 1: 
 Input: N = 5, A[] = {6,0,8,1,3}
 Output: 8,8,-1,3,-1
@@ -932,7 +933,7 @@ vector<int> nextGreaterElement(vector<int>& nums, int n)
 TC-> O(2n)
 SC-> O(n)+ O(n) //n for stack + n for vector
 --------------------------------------------------------------------------
-16) Next Greater Element Using Stack-II:
+14) Next Greater Element Using Stack-II:
 Input: N = 5, A[] = {2,10,12,1,11}
 Output: 10,12,-1,11,12
 
@@ -967,7 +968,7 @@ vector<int> nextGreaterElements(vector<int>& a) {
 TC-> O(4n)
 SC-> O(2n)+ O(n) //2n for stack + n for vector
 --------------------------------------------------------------------------------
-17) Previous smaller element:
+15) Previous smaller element:
 arr[]={4,5,2,10,8};
 
 vector<int> nextSmallerElement(vector<int>& nums, int n)
@@ -996,7 +997,7 @@ vector<int> nextSmallerElement(vector<int>& nums, int n)
 TC-> O(2n)
 SC-> O(n)+ O(n) //n for stack + n for vector
 --------------------------------------------------------------------------
-18) Minimum Cost Tree From Leaf Values
+16) Minimum Cost Tree From Leaf Values
 Given an array arr of positive integers, consider all binary trees such that:
 
 Each node has either 0 or 2 children;
@@ -1036,7 +1037,7 @@ int mctFromLeafValues(vector<int>& A) {
 	Space O(N) for stack in the worst cases
 
 -----------------------------------------------------------
-19) Daily Temperatures:Given an array of integers temperatures represents the daily 
+17) Daily Temperatures:Given an array of integers temperatures represents the daily 
 temperatures, return an array answer such that answer[i] is the number of days you have to 
 wait after the ith day to get a warmer temperature. If there is no future day for which this
 is possible, keep answer[i] == 0 instead.
@@ -1070,7 +1071,7 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 Time complexity: O(n), n is the total number of days and each index is pushed or popped from the stack at most onces.
 Space complexity: O(n), for stack O(n)
 -----------------------------------------------------------------------------
-20) Sum of Subarray Minimum: Given an array of integers arr, find the sum of min(b), where b ranges 
+18) Sum of Subarray Minimum: Given an array of integers arr, find the sum of min(b), where b ranges 
 over every (contiguous) subarray of arr. Since the answer may be large, return the answer 
 modulo 109 + 7.
 
@@ -1127,7 +1128,7 @@ should be minimum:
 Time complexity:O(n)
 Space complexity:O(n)
 --------------------------------------------------------------------------------
-21) Sum of subarray ranges: You are given an integer array nums. The range of a subarray of nums
+19) Sum of subarray ranges: You are given an integer array nums. The range of a subarray of nums
 is the difference between the largest and smallest element in the subarray.
 Return the sum of all subarray ranges of nums.
 A subarray is a contiguous non-empty sequence of elements within an array.
@@ -1185,7 +1186,7 @@ long long subArrayRanges(vector<int>& nums) {
       
     }
 ------------------------------------------------------------------------------------ 
-22) Aestroid Collisions: We are given an array asteroids of integers representing asteroids in a row.
+20) Aestroid Collisions: We are given an array asteroids of integers representing asteroids in a row.
 For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
 Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
 
@@ -1231,7 +1232,7 @@ vector<int> asteroidCollision(vector<int>& asteroids) {
     }
 
 -----------------------------------------------------------------------------
-23) Online Stock Span
+21) Online Stock Span
 Design an algorithm that collects daily price quotes for some stock and returns the span of that stock's price for the current day.
 
 The span of the stock's price in one day is the maximum number of consecutive days (starting from that day and going backward) for which the stock price was less than or equal to the price of that day.
@@ -1281,7 +1282,7 @@ public:
 Time complexity: O(1)
 Space complexity: O(n)
 ----------------------------------------------------------------------------------- 
-24) Evaluation of Postfix Expression:
+22) Evaluation of Postfix Expression:
 Given a postfix expression, the task is to evaluate the postfix expression.
 Postfix expression: The expression of the form “a b operator” (ab+) i.e., when a pair of operands is followed by an operator.
 
@@ -1357,7 +1358,7 @@ int main()
 Time Complexity: O(N) 
 Auxiliary Space: O(N)
 ------------------------------------------------------------------------------
-25) Evaluate Reverse Polish Notation
+23) Evaluate Reverse Polish Notation
 You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
 Evaluate the expression. Return an integer that represents the value of the expression.
 
@@ -1420,7 +1421,7 @@ Explanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
 	Time complexity: O(n)
 	Space complexity: O(n)
 -----------------------------------------------------------------------
-26) Rotten Oranges:
+24) Rotten Oranges:
 Given a grid of dimension nxm where each cell in the grid can have values 0, 1 or 2 which has the following meaning:
 0 : Empty cell
 1 : Cells have fresh oranges
@@ -1542,4 +1543,3 @@ LRU Cache
 
 --------------------------------------------------------------------------
 Celebrity problem
-
