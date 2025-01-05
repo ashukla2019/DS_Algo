@@ -138,18 +138,21 @@ arr[1,1,2,2,2,3,3] => arr[1,2,3,_,_,_,_]
 	Now put all elements of the set in the array from the starting of the array.
 	Return K.
 	
-	set < int > set;
-  	for (i = 0; i < n; i++) =>O(nlogn)
+	int removeDuplicates(vector<int>& nums) {
+    	set < int > myset;
+    	int n = nums.size();
+  	for (int i = 0; i < n; i++) 
   	{
-    	set.insert(arr[i]);
+    	myset.insert(nums[i]);
   	}
-  	int k = set.size();
+  	int k = myset.size();
   	int j = 0;
-  	for (int x: set) => O(n)
+  	for (int x: myset)
   	{
-    	arr[j++] = x;
+    	nums[j++] = x;
   	}
   	return k;
+    }
   	Time complexity: O(n*log(n))+O(n)
 	Space Complexity: O(n) 
 	
