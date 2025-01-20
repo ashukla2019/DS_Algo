@@ -42,3 +42,47 @@ if __name__ == '__main__':
 
     # Print the list
     llist.printList()
+
+----------------------------------------------------------------------------------------------------------- 
+# Python Program for traversal of Singly Linked list
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def add_at_beg(head, data):
+    new_node = Node(data)
+    new_node.next = head
+    return new_node
+    
+def add_at_end(head, data):
+    new_node = Node(data)
+    if head == None:
+        head = new_node
+        
+    else:
+        temp = head
+        while temp.next:
+            temp = temp.next
+        temp.next = new_node
+    return head    
+        
+def printList(head):
+    temp = head
+    while temp:
+        print(str(temp.data) + " -> ", end=" ")
+        temp = temp.next
+   
+    print("None")
+
+# Singly linked list created and its head stored in a variable named "head"
+head = None
+head = add_at_end(head, 5)
+head = add_at_beg(head, 4)
+head = add_at_beg(head, 3)
+head = add_at_beg(head, 2)
+head = add_at_beg(head, 1)
+
+
+# To traverse and print the nodes:
+printList(head)
