@@ -45,35 +45,74 @@ if __name__ == '__main__':
 
 ----------------------------------------------------------------------------------------------------------- 
 # Python Program for traversal of Singly Linked list
+from sqlalchemy import delete
+
 class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
 
+
 def add_at_beg(head, data):
     new_node = Node(data)
     new_node.next = head
     return new_node
-    
+
+
 def add_at_end(head, data):
     new_node = Node(data)
     if head == None:
         head = new_node
-        
+
     else:
         temp = head
         while temp.next:
             temp = temp.next
         temp.next = new_node
-    return head    
-        
+    return head
+
+def delete_at_beg(head):
+    if head == None:
+        return head
+
+    else:
+        temp = head
+        head = head.next
+        del temp
+    return head
+
+def delete_at_end(head):
+    if head == None:
+        return head
+
+    else:
+        temp = head
+        while temp.next.next:
+            temp = temp.next
+        temp.next = None
+    return head
+
+def reverseList(head):
+    current = head
+    prev = None
+    temp = None
+    while current:
+        temp = current.next
+        current.next = prev
+        prev = current
+        current = temp
+    head = prev
+    return head
+
+
 def printList(head):
     temp = head
     while temp:
         print(str(temp.data) + " -> ", end=" ")
         temp = temp.next
-   
+
     print("None")
+
 
 # Singly linked list created and its head stored in a variable named "head"
 head = None
@@ -83,6 +122,18 @@ head = add_at_beg(head, 3)
 head = add_at_beg(head, 2)
 head = add_at_beg(head, 1)
 
+# To traverse and print the nodes:
+printList(head)
+
+head = delete_at_beg(head)
+head = delete_at_end(head)
 
 # To traverse and print the nodes:
 printList(head)
+
+#reverse list
+head = reverseList(head)
+
+# To traverse and print the nodes:
+printList(head)
+
