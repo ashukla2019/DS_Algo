@@ -501,10 +501,7 @@ linked list sorted as well.
 Input: head = [1,2,3,3,4,4,5]
 Output: [1,2,5]
 
-Input: head = [1,1,1,2,3]
-Output: [2,3]
-
-ListNode* deleteDuplicates(ListNode* head) {
+ ListNode* deleteDuplicates(ListNode* head) {
         // Handle edge cases where the list is empty or has only one node
         if (head == NULL || head->next == NULL) {
             return head;  // No duplicates to remove, return the list as is
@@ -512,8 +509,7 @@ ListNode* deleteDuplicates(ListNode* head) {
 
         // Create a dummy node that points to the head of the list
         // This helps in handling cases where the first few nodes are duplicates
-        ListNode* dummy = new ListNode(0);
-	dummy -> next = head;
+        ListNode* dummy = new ListNode(0, head);
         
         // Initialize 'prev' to point to the dummy node
         // 'prev' will be used to link nodes that are not part of any duplicate sequence
@@ -526,6 +522,7 @@ ListNode* deleteDuplicates(ListNode* head) {
         // Traverse through the list until the end
         while (curr != NULL) {
             // Check if the current node has a duplicate
+            if (curr->next != NULL && curr->val == curr->next->val) {
                 // Skip all nodes that have the same value as 'curr'
                 // Move 'curr' forward until the last duplicate node
                 while (curr->next != NULL && curr->val == curr->next->val) {
@@ -546,6 +543,7 @@ ListNode* deleteDuplicates(ListNode* head) {
         // We skip the dummy node itself
         return dummy->next;
     }
+
 	Time complexity: O(n)
 	Space complexity: O(1)
 --------------------------------------------------------------------------
