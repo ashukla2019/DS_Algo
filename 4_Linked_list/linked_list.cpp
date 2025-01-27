@@ -177,14 +177,16 @@ Node* reverse_list(Node* head)
 {
 	Node *temp = NULL;
 	Node *current = head;
+ Node* prev = NULL;
 	while(current != NULL)
 	{
-		temp = current->prev;
-		current->prev = current->next;
-		current->next = temp;
-		current = current->prev;
+		temp = current->next;
+		current->next = prev;
+		current->prev = temp;
+		current = temp;
+  prev = current;
 	}
-	head = temp->prev;
+	head = prev;
 	return head;
 }
 void show_data(Node* head)
