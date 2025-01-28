@@ -555,31 +555,17 @@ Output: [1,2,3,4,5]
 Input: head = [], val = 1
 Output: []
 ListNode* removeElements(ListNode* head, int val) {
-    
-    while(head != NULL && head -> val == val)    // eg [7, 7, 7, 5] val = 7, then we have to delete all 7 and move head to 5.
-    {
-        head = head -> next;
-    }
-    
-    if(head == NULL)            // eg [7, 7, 7, 7] val = 7, then we have to delete all 7 and return NULL.
-        return head;
-    
-    ListNode* curr = head;
-    
-    while(curr -> next != NULL)
-    {
-        if(curr -> next -> val == val)
-        {
-            curr -> next = curr -> next -> next;
+        ListNode *dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode *curr = dummy;
+        while(curr->next != NULL ){
+            if(curr->next->val == val) 
+                curr->next = curr->next->next;
+            else 
+                curr = curr->next;
         }
-        else  
-        {
-            curr = curr -> next;
-        }
+        return dummy->next;
     }
-    
-    return head;
-}
 -----------------------------------------------------------------------------------
 12) Add two numbers in linked list:
 Problem: You are given two non-empty linked lists representing two non-negative integers. The digits are
