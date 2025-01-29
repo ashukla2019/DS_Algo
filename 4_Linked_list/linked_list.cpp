@@ -509,7 +509,7 @@ Output: []
                 prev->next = curr->next;
             else 
                 prev = curr;
-                curr = curr->next;
+         curr = curr->next;       
         }
         return dummy->next;
     }
