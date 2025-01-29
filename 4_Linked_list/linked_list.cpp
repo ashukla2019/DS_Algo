@@ -554,18 +554,21 @@ Input: head = [1,2,6,3,4,5,6], val = 6
 Output: [1,2,3,4,5]
 Input: head = [], val = 1
 Output: []
-ListNode* removeElements(ListNode* head, int val) {
+ ListNode* removeElements(ListNode* head, int val) {
         ListNode *dummy = new ListNode(0);
         dummy->next = head;
-        ListNode *curr = dummy;
-        while(curr->next != NULL ){
-            if(curr->next->val == val) 
-                curr->next = curr->next->next;
+        ListNode* prev = dummy;
+        ListNode *curr = head;
+        while(curr){
+            if(curr->val == val) 
+                prev->next = curr->next;
             else 
+                prev = curr;
                 curr = curr->next;
         }
         return dummy->next;
     }
+    
 -----------------------------------------------------------------------------------
 12) Add two numbers in linked list:
 Problem: You are given two non-empty linked lists representing two non-negative integers. The digits are
