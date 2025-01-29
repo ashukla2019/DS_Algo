@@ -595,15 +595,15 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
         ListNode* result=dummy;
         
         int carry=0;
-        while(l1 !=NULL || l2 != NULL || carry !=0)
+        while(l1 || l2 || carry)
         {
             int sum=0;
-            if(l1 != NULL)
+            if(l1)
             {
                 sum=sum+l1->val;
                 l1 = l1->next;
             }
-             if(l2 != NULL)
+             if(l2)
             {
                 sum=sum+l2->val;
                 l2 = l2->next;
@@ -653,15 +653,15 @@ ListNode* add(ListNode* l1, ListNode* l2) {
 	auto curr = dummyHead;
 	int carry = 0;
 
-	while(l1 != NULL || l2 != NULL || carry > 0){
+	while(l1 || l2 || carry){
 		int sum = carry;
 
-		if(l1 != NULL){
+		if(l1){
 			sum += l1->val;
 			l1 = l1->next;
 		}
 
-		if(l2 != NULL){
+		if(l2){
 			sum += l2->val;
 			l2 = l2->next;
 		}
