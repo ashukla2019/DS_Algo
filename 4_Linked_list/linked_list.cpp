@@ -491,8 +491,31 @@ int lengthOfLoop(Node *head)
 	}
 	return 0;
 }
+------------------------------------------------------------------------------------------------------------
+10) Remove Linked List Elements:
+Given the head of a linked list and an integer val, remove all the nodes of
+the linked list that has Node.val == val, and return the new head.
+Input: head = [1,2,6,3,4,5,6], val = 6
+Output: [1,2,3,4,5]
+Input: head = [], val = 1
+Output: []
+ ListNode* removeElements(ListNode* head, int val) {
+        ListNode *dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* prev = dummy;
+        ListNode *curr = head;
+        while(curr){
+            if(curr->val == val) 
+                prev->next = curr->next;
+            else 
+                prev = curr;
+                curr = curr->next;
+        }
+        return dummy->next;
+    }
+    
 ------------------------------------MEDIUM---------------------------------------------------
-10) Remove Duplicates from Sorted List II
+11) Remove Duplicates from Sorted List II
 Given the head of a sorted linked list, delete all nodes that have duplicate 
 numbers, leaving only distinct numbers from the original list. Return the 
 linked list sorted as well.
@@ -545,29 +568,7 @@ Output: [1,2,5]
 
 	Time complexity: O(n)
 	Space complexity: O(1)
---------------------------------------------------------------------------
-11) Remove Linked List Elements:
-Given the head of a linked list and an integer val, remove all the nodes of
-the linked list that has Node.val == val, and return the new head.
-Input: head = [1,2,6,3,4,5,6], val = 6
-Output: [1,2,3,4,5]
-Input: head = [], val = 1
-Output: []
- ListNode* removeElements(ListNode* head, int val) {
-        ListNode *dummy = new ListNode(0);
-        dummy->next = head;
-        ListNode* prev = dummy;
-        ListNode *curr = head;
-        while(curr){
-            if(curr->val == val) 
-                prev->next = curr->next;
-            else 
-                prev = curr;
-                curr = curr->next;
-        }
-        return dummy->next;
-    }
-    
+
 -----------------------------------------------------------------------------------
 12) Add two numbers in linked list:
 Problem: You are given two non-empty linked lists representing two non-negative integers. The digits are
