@@ -799,58 +799,7 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
 TC->O(length)
 SC->O(1)
 ---------------------------------------------------------------------------------
-17) Reverse Linked List II
-Given the head of a singly linked list and two integers left and right where
-left <= right, reverse the nodes of the list from position left to position right,
-and return the reversed list.
-
-Input: head = [1,2,3,4,5], left = 2, right = 4
-Output: [1,4,3,2,5]
-
-Input: head = [5], left = 1, right = 1
-Output: [5]
-Approach:
-1) will use same approach to reverse list.
-2) Create dummy and set dummy->next = head
-3) set leftPre = dummy and currNode = head, now move both pointers to next from 0 to left-1;
-4) Now reverse like previous problem and then join the rebersed piece of list to exisiting
-
-ListNode* reverseBetween(ListNode* head, int left, int right) {
-
-    // create a dummy node to mark the head of this list
-    ListNode* dummy = new ListNode(0);
-    dummy->next = head;
-
-    // make markers for currentNode and for the node before reversing
-    ListNode* leftPre = dummy;
-    ListNode* currNode = head;
-
-    for (int i = 0; i < left - 1; i++) {
-      leftPre = leftPre->next;
-      currNode = currNode->next;
-    }
-
-    // make a marker to node where we start reversing
-    ListNode* subListHead = currNode;
-
-    ListNode* preNode = NULL;
-    for (int i = 0; i <= right - left; i++) {
-      ListNode* temp = currNode->next;
-      currNode->next = preNode;
-      preNode = currNode;
-      currNode = temp;
-    }
-
-    // Join the pieces
-    leftPre->next = preNode;
-    subListHead->next = currNode;
-
-    return dummy->next;
-   }
-	Time Complexity :- O(N)
-	Space Complexity :- O(1)
-------------------------------------------------------------------------------------
-18) Intersection of Two Linked Lists
+17) Intersection of Two Linked Lists
 Example 1:
 Input:
 List 1 = [1,3,1,2,4], List 2 = [3,2,4]
@@ -877,7 +826,7 @@ node* intersectionPresent(node* head1,node* head2) {
 TC->O(n1+n2)
 SC->O(1)
 ---------------------------------------------------------------------------
-19) Delete the middle node of the LinkedList:
+18) Delete the middle node of the LinkedList:
 Given a singly linked list of 'N' nodes. Your task is to delete the middle node of this list
 and return the head of the modified list.
 However, if the list has an even number of nodes, we delete the second middle node
@@ -899,7 +848,7 @@ Node* deleteMiddle(Node* head)
 	return head;
 }
 --------------------------------------------------------------------------------
-20) Find the starting point of the Loop/Cycle in LinkedList 
+19) Find the starting point of the Loop/Cycle in LinkedList 
 You are given a singly linked list that may or may not contain a cycle. You are supposed to 
 return the node where the cycle begins, if a cycle exists, else return 'NULL'.
 A cycle occurs when a node's next pointer returns to a previous node in the list.
@@ -928,7 +877,7 @@ Node* findLoopStartingPoint(Node *head)
 	return NULL;
 }	
 ------------------------------------------------------------------------------------
-21) Check if a LinkedList is Palindrome or Not:
+20) Check if a LinkedList is Palindrome or Not:
 You are given a Singly Linked List of integers. You have to return true if the linked list is 
 palindrome, else return false.
 A Linked List is a palindrome if it reads the same from left to right and from right to left.
@@ -1053,7 +1002,7 @@ bool isPalindrome(Node* head) {
 Time Complexity: O (2* N) The algorithm traverses the linked list twice, dividing it into halves
 Space Complexity: O(1) 
 -----------------------------------------------------------------------------------------
-22) Merge two sorted linked list:
+21) Merge two sorted linked list:
 You are given two sorted linked lists. You have to merge them to produce a combined sorted linked list.
 You need to return the head of the final linked list.
 Note: The given linked lists may or may not be null.
@@ -1103,7 +1052,7 @@ Merged-> dummy->1->2->3->4->5->5->NULL
 Time Complexity: O(N1+N2) where N1 is the number of nodes in the first linked list and N1 in the second linked list as we traverse both linked lists in a single pass for merging without any additional loops or nested iterations.
 Space Complexity : O(1) as no additional data structures or space is allocated for storing data, only a constant space for pointers to maintain for traversing the linked list.
 -----------------------------------------------------------------------------------
-23) Flattening a LinkedList:
+22) Flattening a LinkedList:
 3-->2->1-->4-->5             1
    10  7   9   6     =>      2
        11      8             3
@@ -1166,7 +1115,7 @@ Node* flattenLinkedList(Node* head) //flattenLinkedList(3)->flattenLinkedList(2/
     return head;
 }
 ------------------------------------------------------------------------------------------
-24) Rearrange a Linked List in Zig-Zag fashion
+23) Rearrange a Linked List in Zig-Zag fashion
 Given a linked list, rearrange it such that the converted list should be of the
 form a < b > c < d > e < f … where a, b, c… are consecutive data nodes of the
 linked list.
@@ -1209,7 +1158,7 @@ void zigZagList(Node* head)
 } 
   
 ----------------------------------------------------------------------
-25) Sort List:
+24) Sort List:
 Given the head of a linked list, return the list after sorting it in ascending
 order.
 Input: head = [4,2,1,3]
@@ -1245,6 +1194,57 @@ ListNode* sortList(ListNode* head) {
         return head;
     }
 -----------------------------------------------------------------------------------------------
+25) Reverse Linked List II
+Given the head of a singly linked list and two integers left and right where
+left <= right, reverse the nodes of the list from position left to position right,
+and return the reversed list.
+
+Input: head = [1,2,3,4,5], left = 2, right = 4
+Output: [1,4,3,2,5]
+
+Input: head = [5], left = 1, right = 1
+Output: [5]
+Approach:
+1) will use same approach to reverse list.
+2) Create dummy and set dummy->next = head
+3) set leftPre = dummy and currNode = head, now move both pointers to next from 0 to left-1;
+4) Now reverse like previous problem and then join the rebersed piece of list to exisiting
+
+ListNode* reverseBetween(ListNode* head, int left, int right) {
+
+    // create a dummy node to mark the head of this list
+    ListNode* dummy = new ListNode(0);
+    dummy->next = head;
+
+    // make markers for currentNode and for the node before reversing
+    ListNode* leftPre = dummy;
+    ListNode* currNode = head;
+
+    for (int i = 0; i < left - 1; i++) {
+      leftPre = leftPre->next;
+      currNode = currNode->next;
+    }
+
+    // make a marker to node where we start reversing
+    ListNode* subListHead = currNode;
+
+    ListNode* preNode = NULL;
+    for (int i = 0; i <= right - left; i++) {
+      ListNode* temp = currNode->next;
+      currNode->next = preNode;
+      preNode = currNode;
+      currNode = temp;
+    }
+
+    // Join the pieces
+    leftPre->next = preNode;
+    subListHead->next = currNode;
+
+    return dummy->next;
+   }
+	Time Complexity :- O(N)
+	Space Complexity :- O(1)
+-------------------------------------------------------------------------------------------------
 26)Reorder List:
 You are given the head of a singly linked-list. The list can be represented as:
 L0 → L1 → … → Ln - 1 → Ln
