@@ -851,34 +851,28 @@ ListNode* reverseBetween(ListNode* head, int left, int right) {
 	Space Complexity :- O(1)
 ------------------------------------------------------------------------------------
 18) Intersection of Two Linked Lists
-4->1
-	\
-	 8
-5->6/
+Example 1:
+Input:
+List 1 = [1,3,1,2,4], List 2 = [3,2,4]
+Output:
+2
+Explanation: Here, both lists intersecting nodes start from node 2.
+
 Approach: l1 points to firsthead and l2 points to secondHead. Either of l1 or l2 is null return null
 now check until l1!=l2(l1 and l2 will meet on intersection point or null)
 if they meet then return l1 or l2. If any one becomes null then assign it to other list's head.
 
-Node* findIntersection(Node *firstHead, Node *secondHead)
-{
-	Node* l1 = firstHead;
-    Node* l2 = secondHead;
-	
-	//Base case
-    if(l1 == NULL || l2 == NULL)
-		return nullptr;
-
-    while(l1 != l2){
-        l1 = l1 -> next;
-        l2 = l2 -> next;
-        if(l1 == l2)
-			return l2;
-        if(l1 == NULL)
-			l1 = secondHead;
-        if(l2 == NULL)
-			l2 = firstHead;
-	}
-    return l2;
+//utility function to check presence of intersection
+node* intersectionPresent(node* head1,node* head2) {
+    node* d1 = head1;
+    node* d2 = head2;
+    
+    while(d1 != d2) {
+        d1 = d1 == NULL? head2:d1->next;
+        d2 = d2 == NULL? head1:d2->next;
+    }
+    
+    return d1;
 }
 TC->O(n1+n2)
 SC->O(1)
