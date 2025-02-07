@@ -74,22 +74,36 @@ void inorderIterative(treeNode* root)
 	4) Pop the node and print it
 	5) Iterate throgh right subtree if available
 	*/
-	stack<treeNode*>st;
-	treeNode* current = root;
-	while (!st.empty() || current != NULL)
-	{
-		if (current != nullptr)
-		{
-			st.push(current);
-			current = current->left;
-		}
-		else
-		{
-			current = st.top();
-			st.pop();
-			current = current->right;
-		}
-	}
+	vector<int> ans;
+    stack<Node*> s;
+    Node* curr = root;
+
+    while (curr != nullptr || s.empty() == false) {
+        
+        // Reach the left most Node of the
+        // curr Node
+        while (curr != nullptr) {
+            
+            // Place pointer to a tree node on
+            // the stack before traversing
+            // the node's left subtree
+            s.push(curr);
+            curr = curr->left;
+        }
+
+        // Current must be NULL at this point
+        curr = s.top();
+        s.pop();
+
+        ans.push_back(curr->data);
+
+        // we have visited the node and its
+        // left subtree.  Now, it's right
+        // subtree's turn
+        curr = curr->right;
+    }
+    
+    return ans;
 }
 
 void postorder(treeNode* root)
