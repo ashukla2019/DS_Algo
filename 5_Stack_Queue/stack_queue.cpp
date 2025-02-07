@@ -1196,7 +1196,7 @@ Output: [5,10]
 Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
 
 Approach: Iterate through all elements of array:
-case 1: if positive element is found then push it to stack
+case 1: if positive element is found then push it to stack, positive will move in right direction
 case 2: if not positive: 
 		while stack is not empty and stack.top is positive 
 		and current stack's abs value greater than stack.top(means current element is negative and greater than 
