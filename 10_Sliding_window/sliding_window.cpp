@@ -258,68 +258,7 @@ int main() {
 Time Complexity: O(2K) where K is the number of cards to choose. To calculate the initial sum of the left window we iterate over K elements then we slide this window to the maximum of K elements from the right giving complexity O(K + K).
 Space Complexity: O(1) as the algorithm uses only a constant amount of extra space regardless of the size of the input array. It does not require any additional data structures that scale with the input size.           
 --------------------------------------------------------------------
-6) Sliding Subarray Beauty
-Given an integer array nums containing n integers, find the beauty of each subarray of size k.
-The beauty of a subarray is the xth smallest integer in the subarray if it is negative, or 0 if there are fewer than x negative integers.
-Return an integer array containing n - k + 1 integers, which denote the beauty of the subarrays in order from the first index in the array.
-A subarray is a contiguous non-empty sequence of elements within an array.
-
-Example 1:
-Input: nums = [1,-1,-3,-2,3], k = 3, x = 2
-Output: [-1,-2,-2]
-Explanation: There are 3 subarrays with size k = 3. 
-The first subarray is [1, -1, -3] and the 2nd smallest negative integer is -1. 
-The second subarray is [-1, -3, -2] and the 2nd smallest negative integer is -2. 
-The third subarray is [-3, -2, 3] and the 2nd smallest negative integer is -2.
-
-Example 2:
-Input: nums = [-1,-2,-3,-4,-5], k = 2, x = 2
-Output: [-1,-2,-3,-4]
-Explanation: There are 4 subarrays with size k = 2.
-For [-1, -2], the 2nd smallest negative integer is -1.
-For [-2, -3], the 2nd smallest negative integer is -2.
-For [-3, -4], the 2nd smallest negative integer is -3.
-For [-4, -5], the 2nd smallest negative integer is -4. 
-
-Example 3:
-Input: nums = [-3,1,2,-3,0,-3], k = 2, x = 1
-Output: [-3,0,-3,-3,-3]
-Explanation: There are 5 subarrays with size k = 2.
-For [-3, 1], the 1st smallest negative integer is -3.
-For [1, 2], there is no negative integer so the beauty is 0.
-For [2, -3], the 1st smallest negative integer is -3.
-For [-3, 0], the 1st smallest negative integer is -3.
-For [0, -3], the 1st smallest negative integer is -3.
-
-
-vector<int> getSubarrayBeauty(vector<int>& nums, int k, int x) {
-	int n = nums.size();
-	int cnt[101]{};
-	for (int i = 0; i < k; ++i) {
-		++cnt[nums[i] + 50];
-	}
-	vector<int> ans(n - k + 1);
-	auto f = [&](int x) {
-		int s = 0;
-		for (int i = 0; i < 50; ++i) {
-			s += cnt[i];
-			if (s >= x) {
-				return i - 50;
-			}
-		}
-		return 0;
-	};
-	ans[0] = f(x);
-	for (int i = k, j = 1; i < n; ++i) {
-		++cnt[nums[i] + 50];
-		--cnt[nums[i - k] + 50];
-		ans[j++] = f(x);
-	}
-	return ans;
-}
-
---------------------------------------------------------------------------------------
-7) Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+6) Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
 Given an array of integers arr and two integers k and threshold, return the number of sub-arrays of size k and average greater than or equal to threshold.
 
 Example 1:
@@ -359,7 +298,7 @@ Time complexity: O(n)
 Space complexity: O(1)
 
 -----------------------------------------------------------------------------------------
-8) Check If a String Contains All Binary Codes of Size K
+7) Check If a String Contains All Binary Codes of Size K
 Given a binary string s and an integer k, return true if every binary code of length k is a substring of s. Otherwise, return false.
 
 Example 1:
@@ -394,7 +333,7 @@ Explanation: The binary code "00" is of length 2 and does not exist in the array
 }
 
 ------------------------------------------------------------------------------------------
-9) Find All Anagrams in a String
+8) Find All Anagrams in a String
 Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.
 An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 
@@ -451,7 +390,7 @@ vector<int> findAnagrams(string s, string p) {
     return ans;
 ---------------------------------------------------------------------------------------------
 -----------variable window size:
-10) Subarray with Given Sum: 
+9) Subarray with Given Sum: 
 Given a 1-based indexing array arr[] of integers and an integer sum. 
 You mainly need to return the left and right indexes(1-based indexing) of that subarray. 
 In case of multiple subarrays, return the subarray indexes which come first on moving from 
@@ -553,7 +492,7 @@ vector<int> subarraySum(vector<int>& arr, int sum)
 Time Complexity: O(N), where N is the length of input array
 Auxiliary Space: O(1). Since no extra space has been taken.
 ------------------------------------------------------------------------------------------
-11) Longest sub-array with k sum
+10) Longest sub-array with k sum
 Given an array arr[] of size n containing integers. The problem is to find the length 
 of the longest sub-array having sum equal to the given value k.
 
@@ -698,7 +637,7 @@ Reason: The outer while loop i.e. the right pointer can move up to index n-1(the
 
 Space Complexity: O(1) as we are not using any extra space.
 --------------------------------------------------------------------------------
-12) Largest subarray with 0 sum: Given an array containing both positive and negative integers,
+11) Largest subarray with 0 sum: Given an array containing both positive and negative integers,
 we have to find the length of the longest subarray with the sum of all elements equal to zero.
 Example 1:
 Input Format
@@ -758,7 +697,7 @@ int maxLen(int A[], int n)
 	Space Complexity: O(N), in the worst case we would insert all array elements prefix sum into our hashmap
 
 -----------------------------------------------------------------------------------------------
-13) Smallest subarray with k distinct numbers	
+12) Smallest subarray with k distinct numbers	
 We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
 Examples: 
 Input : arr[] = { 1, 1, 2, 2, 3, 3, 4, 5} 
@@ -928,7 +867,7 @@ int main()
 Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once and removed once from the map.
 Space Complexity :  O(K)
 --------------------------------------------------------------------------------------
-14) Find the length of largest subarray with 0 sum
+13) Find the length of largest subarray with 0 sum
 Input: arr[] = {15, -2, 2, -8, 1, 7, 10, 23}
 Output: 5
 Explanation: The longest sub-array with elements summing up-to 0 is {-2, 2, -8, 1, 7}
@@ -1038,7 +977,7 @@ int main()
 Time Complexity: O(N), where N is the number of elements in the array.
 Auxiliary Space: O(N)
 -------------------------------------------------------------------------------------------
-15) Permutation in String
+14) Permutation in String
 Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
 
 In other words, return true if one of s1's permutations is the substring of s2.
@@ -1126,7 +1065,7 @@ bool checkInclusion(string s1, string s2) {
 
 
 -------------------------------------------------------------------------------
-16) Find the Longest Semi-Repetitive Substring
+15) Find the Longest Semi-Repetitive Substring
 You are given a digit string s that consists of digits from 0 to 9.
 A string is called semi-repetitive if there is at most one adjacent pair of the same digit. For example, "0010", "002020", "0123", "2002", and "54944" are semi-repetitive while the following are not: "00101022" (adjacent same digit pairs are 00 and 22), and "1101234883" (adjacent same digit pairs are 11 and 88).
 Return the length of the longest semi-repetitive 
@@ -1188,7 +1127,7 @@ The longest semi-repetitive substring is "11". Picking the substring "111" has t
         return longestLength;
     }
 ---------------------------------------------------------------------------------
-17) Count the Number of Good Subarrays
+16) Count the Number of Good Subarrays
 Given an integer array nums and an integer k, return the number of good subarrays of 
 nums.A subarray arr is good if it there are at least k pairs of indices (i, j) such 
 that i < j and arr[i] == arr[j].
@@ -1227,7 +1166,7 @@ Explanation: There are 4 different good subarrays:
     return res;
 }
 -------------------------------------------------------------------------
-18) Minimum Consecutive Cards to Pick Up
+17) Minimum Consecutive Cards to Pick Up
 You are given an integer array cards where cards[i] represents the value of the 
 ith card. A pair of cards are matching if the cards have the same value.
 
@@ -1264,7 +1203,7 @@ Explanation: There is no way to pick up a set of consecutive cards that contain 
     Space complexity:O(n)
 
 ----------------------------------------------------------------------------
-19) Count Number of Nice Subarrays:
+18) Count Number of Nice Subarrays:
 Given an array of integers nums and an integer k. A continuous subarray is called 
 nice if there are k odd numbers on it.
 
@@ -1316,7 +1255,7 @@ public:
     }
 };
 ---------------------------------------------------------------------------- 
-20) Longest Substring with At Most K Distinct Characters:
+19) Longest Substring with At Most K Distinct Characters:
 Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
 
 Examples: 
@@ -1383,7 +1322,7 @@ int main()
 Time Complexity: O(|S|)
 Space Complexity:O(|S|)
 -----------------------------------------------------------------------------
-21) Fruit Into Baskets/max length subarray with at most 2 types of fruits
+20) Fruit Into Baskets/max length subarray with at most 2 types of fruits
 You are visiting a farm that has a single row of fruit trees arranged from left
 to right. The trees are represented by an integer array fruits where fruits[i] is 
 the type of fruit the ith tree produces.
@@ -1444,7 +1383,7 @@ Time complexity: O(n)
 Space complexity: O(1)
 
 -------------------------------------------------------------------------------
-22) Max Consecutive Ones III
+21) Max Consecutive Ones III
 Given a binary array nums and an integer k, return the maximum number of consecutive 
 1's in the array if you can flip at most k 0's.
 
@@ -1492,7 +1431,7 @@ int main() {
 Time complexity: O(n)
 Space complexity: O(1)
 -----------------------------------------------------------------------------
-23)Subarray Product Less Than K
+22)Subarray Product Less Than K
 Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
 
 Example 1:
@@ -1528,7 +1467,7 @@ Output: 0
 Time complexity: O(n) for average and most of the cases
 Space complexity: O(1) and we are using constant space that includes variables ri, pro, result, i 
 -----------------------------------------------------------------------------------
-24) Two Sum : Check if a pair with given sum exists in Array:
+23) Two Sum : Check if a pair with given sum exists in Array:
 Problem Statement: Given an array of integers arr[] and an integer target.
 1st variant: Return YES if there exist two numbers such that their sum is equal to the target. Otherwise, return NO.
 2nd variant: Return indices of the two numbers such that their sum is equal to the target. Otherwise, we will return {-1, -1}.
@@ -1660,7 +1599,7 @@ vector<int> twoSum(vector<int>& nums, int target) {
 Time Complexity: O(N*logN), where N = size of the array.
 Space Complexity: O(1) 
 ----------------------------------------------------------------------------------------
-25) 3Sum:
+24) 3Sum:
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j,
 i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 Notice that the solution set must not contain duplicate triplets.
@@ -1763,7 +1702,7 @@ vector<vector<int>> threeSum(vector<int>& nums)
     output does not count towards the space complexity.
 
 --------------------------------------------------------------------------------
-26) 3Sum Closest
+25) 3Sum Closest
 Given an integer array nums of length n and an integer target, find three integers in nums such that the 
 sum is closest to target. Return the sum of the three integers.
 You may assume that each input would have exactly one solution.
@@ -1807,7 +1746,7 @@ int threeSumClosest(vector<int>& nums, int target) {
 	Space complexity:0(1)
 	
 -------------------------------------------------------------------------------
-27) 4Sum:
+26) 4Sum:
 Given an array nums of n integers, return an array of all the unique quadruplets 
 [nums[a], nums[b], nums[c], nums[d]] such that:
 
@@ -1880,7 +1819,7 @@ Time Complexity : O(n^3)
 Auxiliary Space: O(1)
 
 ------------------------------------------------------------------------------
-28) Valid Triangle Number
+27) Valid Triangle Number
 Given an integer array nums, return the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
 
 Example 1:
@@ -1920,7 +1859,7 @@ int triangleNumber(vector<int>& nums) {
 	Space complexity:o(1)
 
 -----------------------------------------------------------------------------------
-29) Valid Palindrome:
+28) Valid Palindrome:
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
 Given a string s, return true if it is a palindrome, or false otherwise.
@@ -1970,7 +1909,7 @@ bool isPalindrome(string s) {
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-30) Sort colors:
+29) Sort colors:
 Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
 We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
 You must solve this problem without using the library's sort function.
@@ -2004,7 +1943,7 @@ void sortColors(vector<int>& nums) {
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-31)Partition Array by Odd and Even/Segregate Even and Odd numbers:
+30)Partition Array by Odd and Even/Segregate Even and Odd numbers:
 Given an array A[], write a function that segregates even and odd numbers. The functions should put all even numbers first, and then odd numbers.
 Example:  
 Input  = {12, 34, 45, 9, 8, 90, 3}
@@ -2049,7 +1988,7 @@ Output : Array after segregation 12 34 90 8 9 45 3
 Time Complexity: O(n)
 Auxiliary Space: O(1)
 --------------------------------------------------------------------------
-32) Remove Duplicates from Sorted Array
+31) Remove Duplicates from Sorted Array
 Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
 Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
 Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
@@ -2085,7 +2024,7 @@ int removeDuplicates(vector<int>& nums) {
 	Space Complexity - O(1)
 
 ------------------------------------------------------------------------------------
-33) Minimum Size Subarray Sum:
+32) Minimum Size Subarray Sum:
 Given an array of positive integers nums and a positive integer target, return the minimal 
 length of a subarray whose sum is greater than or equal to target. If there is no such subarray,
 return 0 instead.
@@ -2127,7 +2066,7 @@ int minSubArrayLen(int target, vector<int>& nums) {
 	Time complexity:O(n)
     Space complexity:O(1)
 -------------------------------------------------------------------------------------
-34) Longest Substring Without Repeating Characters
+33) Longest Substring Without Repeating Characters
 Given a string s, find the length of the longest 
 substring without repeating characters.
 
@@ -2202,7 +2141,7 @@ int lengthOfLongestSubstring(string s) {
       return len;
  }
 ----------------------------------------------------------------------------------------------------- 
-35) Count Subarray sum Equals K
+34) Count Subarray sum Equals K
 N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
 Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Optimal Approach:
@@ -2238,7 +2177,7 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
 	Space Complexity: O(1) as we are not using any extra space.
 ------------------------------------------------------------------------
-36) Subarray Sums Divisible by K
+35) Subarray Sums Divisible by K
 Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
 A subarray is a contiguous part of an array.
 Example 1:
@@ -2290,7 +2229,7 @@ Output: 0
 		
     
 -------------------------------------------------------------------------------------
-37) The Smallest Difference
+36) The Smallest Difference
 Example 1:
 
 Input: A = [3, 6, 7, 4], B = [2, 8, 9, 3]
@@ -2401,7 +2340,7 @@ Time Complexity: O(m log m + n log n)
 This algorithm takes O(m log m + n log n) time to sort and O(m + n) time to find the minimum difference. Therefore, the overall runtime is O(m log m + n log n). 
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------------------------------
-38) Find a pair with the given difference:
+37) Find a pair with the given difference:
 Given an unsorted array and a number n, find if there exists a pair of elements in the array whose difference is n. 
 Examples: 
 
@@ -2445,7 +2384,7 @@ Time Complexity: O(n*log(n)) [Sorting is still required as first step],
 Where n is number of element in given array
 Auxiliary Space: O(1)
 ---------------------------------------------------------------------------------------------- 
-39) Longest palindrome substring:
+38) Longest palindrome substring:
 Given a string str, the task is to find the longest substring which is a palindrome.
 
 Examples:
@@ -2499,7 +2438,7 @@ string longestPalindrome(string s)
         return s.substr(start, maxLen);
     }  
 ------------------------------------------------------------------------------------------------ 
-40) min chars to be added at front to make palindrome:
+39) min chars to be added at front to make palindrome:
 Given string str we need to tell minimum characters to be added in front of the string to make string 
 palindrome.
 
