@@ -526,30 +526,62 @@ Input Format:
 Result
 : 0
 Subarray: There is no subarray that sums to zero
-int maxLen(int A[], int n)
-{
-    // Your code here
-    unordered_map<int,int> mpp; 
-    int maxi = 0;
-    int sum = 0; 
-    for(int i = 0;i<n;i++) {
-        sum += A[i]; 
-        if(sum == 0) {
-            maxi = i + 1; 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to find the length of the 
+// largest subarray with sum 0
+#include <bits/stdc++.h>
+using namespace std;
+
+// Returns Length of the required subarray
+int maxLen(vector<int>& arr) {
+
+    // Map to store the previous sums
+    unordered_map<int, int> presum;
+
+    int sum = 0;
+    int max_len = 0;
+
+    // Traverse through the given array
+    for (int i = 0; i < arr.size(); i++) {
+
+        // Add current element to sum
+        sum += arr[i];
+
+        if (sum == 0) {
+            max_len = i + 1;
         }
-        else {
-            if(mpp.find(sum) != mpp.end()) {
-                maxi = max(maxi, i - mpp[sum]); 
-            }
-            else {
-                mpp[sum] = i;
-            }
-        }   
+
+        // Look for this sum in Hash table
+        if (presum.find(sum) != presum.end()) {
+
+            // If this sum is seen before, then update max_len
+            max_len = max(max_len, i - presum[sum]);
+        } else {
+
+            // Else insert this sum with index in hash table
+            presum[sum] = i;
+        }
     }
 
-    return maxi; 
-	Time Complexity: O(N), as we are traversing the array only once
-	Space Complexity: O(N), in the worst case we would insert all array elements prefix sum into our hashmap
+    return max_len;
+}
+
+int main() {
+    vector<int> arr = {15, -2, 2, -8, 1, 7, 10, 23};
+    cout << maxLen(arr);
+
+    return 0;
+}
+
+
+int main() {
+    vector<int> arr = {15, -2, 2, -8, 1, 7, 10, 23};
+    cout << maxLen(arr) << endl;
+    return 0;
+}
 
 -----------------------------------------------------------------------------------------------
 11) Smallest subarray with k distinct numbers	
