@@ -743,50 +743,10 @@ int main()
 	return 0;
 }
 
-Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once 
+Time Complexity : O(N) ,where N is the number of elements 
 
-------------------------------------------------------------------------------
- 
-12) Count the Number of Good Subarrays
-Given an integer array nums and an integer k, return the number of good subarrays of 
-nums.A subarray arr is good if it there are at least k pairs of indices (i, j) such 
-that i < j and arr[i] == arr[j].
-A subarray is a contiguous non-empty sequence of elements within an array.
-
-Example 1:
-Input: nums = [1,1,1,1,1], k = 10
-Output: 1
-Explanation: The only good subarray is the array nums itself.
-Example 2:
-
-Input: nums = [3,1,4,3,2,2,4], k = 2
-Output: 4
-Explanation: There are 4 different good subarrays:
-- [3,1,4,3,2,2] that has 2 pairs.
-- [3,1,4,3,2,2,4] that has 3 pairs.
-- [1,4,3,2,2,4] that has 2 pairs.
-- [4,3,2,2,4] that has 2 pairs.
-
- long long countGood(vector<int>& nums, int k) {
-    long long res = 0;
-    int l = 0, r = 0, count = 0, n = nums.size();
-    unordered_map<int, int> freq;
-    while (r < n) {
-        cout << "freq[nums[r]]=" << freq[nums[r]] << endl;
-        count = count + freq[nums[r]]++;
-       
-        while (count >= k) {
-            freq[nums[l]]--;
-            count -= freq[nums[l]];
-            l++;
-        }
-        res += l;
-        r++;
-    }
-    return res;
-}
 -------------------------------------------------------------------------
-13) Minimum Consecutive Cards to Pick Up
+12) Minimum Consecutive Cards to Pick Up
 You are given an integer array cards where cards[i] represents the value of the 
 ith card. A pair of cards are matching if the cards have the same value.
 
@@ -820,62 +780,9 @@ Explanation: There is no way to pick up a set of consecutive cards that contain 
         return ans!=INT_MAX ? ans:-1;
     }
 	Time complexity: O(n)
-    Space complexity:O(n)
-
-----------------------------------------------------------------------------
-14) Count Number of Nice Subarrays:
-Given an array of integers nums and an integer k. A continuous subarray is called 
-nice if there are k odd numbers on it.
-
-Return the number of nice sub-arrays.
-
-Example 1:
-Input: nums = [1,1,2,1,1], k = 3
-Output: 2
-Explanation: The only sub-arrays with 3 odd numbers are [1,1,2,1] and [1,2,1,1].
-Example 2:
-
-Input: nums = [2,4,6], k = 1
-Output: 0
-Explanation: There are no odd numbers in the array.
-Example 3:
-
-Input: nums = [2,2,2,1,2,2,1,2,2,2], k = 2
-Output: 16
-
-class Solution {
-public:
-    int numberOfSubarrays(vector<int>& nums, int k) {
-        int left = 0;
-        int right = 0;
-        map<int, int> map;
-        int count = 0;
-        int odd_count = 0;
-        int ans_count = 0;
-        while(right<nums.size())
-        {
-            if(nums[right]%2 ==1)
-            {
-                odd_count++;
-                count=0;
-            }
-            while(odd_count>=k && left<=right)
-            {
-                if(nums[left]%2 ==1)
-                {
-                    odd_count--;
-                }
-                left++;
-                count++;
-            }
-            ans_count +=count;
-            right++;
-        }
-        return ans_count;
-    }
-};
+    
 ---------------------------------------------------------------------------- 
-15) Longest Substring with At Most K Distinct Characters:
+13) Longest Substring with At Most K Distinct Characters:
 Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
 
 Examples: 
@@ -942,7 +849,7 @@ int main()
 Time Complexity: O(|S|)
 Space Complexity:O(|S|)
 -----------------------------------------------------------------------------
-16) Fruit Into Baskets/max length subarray with at most 2 types of fruits
+14)Fruit Into Baskets/max length subarray with at most 2 types of fruits
 You are visiting a farm that has a single row of fruit trees arranged from left
 to right. The trees are represented by an integer array fruits where fruits[i] is 
 the type of fruit the ith tree produces.
@@ -1003,7 +910,7 @@ Time complexity: O(n)
 Space complexity: O(1)
 
 -------------------------------------------------------------------------------
-17) Max Consecutive Ones III
+15) Max Consecutive Ones III
 Given a binary array nums and an integer k, return the maximum number of consecutive 
 1's in the array if you can flip at most k 0's.
 
@@ -1049,8 +956,97 @@ int main() {
   return 0;
 }
 Time complexity: O(n)
- 
------------------------------------------------------------------------------------
+---------------------------------------
+16) Count the Number of Good Subarrays
+Given an integer array nums and an integer k, return the number of good subarrays of 
+nums.A subarray arr is good if it there are at least k pairs of indices (i, j) such 
+that i < j and arr[i] == arr[j].
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+Example 1:
+Input: nums = [1,1,1,1,1], k = 10
+Output: 1
+Explanation: The only good subarray is the array nums itself.
+Example 2:
+
+Input: nums = [3,1,4,3,2,2,4], k = 2
+Output: 4
+Explanation: There are 4 different good subarrays:
+- [3,1,4,3,2,2] that has 2 pairs.
+- [3,1,4,3,2,2,4] that has 3 pairs.
+- [1,4,3,2,2,4] that has 2 pairs.
+- [4,3,2,2,4] that has 2 pairs.
+
+ long long countGood(vector<int>& nums, int k) {
+    long long res = 0;
+    int l = 0, r = 0, count = 0, n = nums.size();
+    unordered_map<int, int> freq;
+    while (r < n) {
+        cout << "freq[nums[r]]=" << freq[nums[r]] << endl;
+        count = count + freq[nums[r]]++;
+       
+        while (count >= k) {
+            freq[nums[l]]--;
+            count -= freq[nums[l]];
+            l++;
+        }
+        res += l;
+        r++;
+    }
+    return res;
+}
+---------------------------------------
+
+17) Count Number of Nice Subarrays:
+Given an array of integers nums and an integer k. A continuous subarray is called 
+nice if there are k odd numbers on it.
+
+Return the number of nice sub-arrays.
+
+Example 1:
+Input: nums = [1,1,2,1,1], k = 3
+Output: 2
+Explanation: The only sub-arrays with 3 odd numbers are [1,1,2,1] and [1,2,1,1].
+Example 2:
+
+Input: nums = [2,4,6], k = 1
+Output: 0
+Explanation: There are no odd numbers in the array.
+Example 3:
+
+Input: nums = [2,2,2,1,2,2,1,2,2,2], k = 2
+Output: 16
+
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int left = 0;
+        int right = 0;
+        map<int, int> map;
+        int count = 0;
+        int odd_count = 0;
+        int ans_count = 0;
+        while(right<nums.size())
+        {
+            if(nums[right]%2 ==1)
+            {
+                odd_count++;
+                count=0;
+            }
+            while(odd_count>=k && left<=right)
+            {
+                if(nums[left]%2 ==1)
+                {
+                    odd_count--;
+                }
+                left++;
+                count++;
+            }
+            ans_count +=count;
+            right++;
+        }
+        return ans_count;
+‐-------------------------------------------------------------------------------
 18) Two Sum : Check if a pair with given sum exists in Array:
 Problem Statement: Given an array of integers arr[] and an integer target.
 1st variant: Return YES if there exist two numbers such that their sum is equal to the target. Otherwise, return NO.
