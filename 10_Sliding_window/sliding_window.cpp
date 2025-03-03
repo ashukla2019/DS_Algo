@@ -1,3 +1,25 @@
+How to print all subarrays:
+void printSubArray(std::vector<int>& arr)
+{
+    std::string subarray = "";
+    for (int i = 0; i < arr.size(); i++)
+    {
+        for (int j = i; j < arr.size(); j++)
+        {
+            subarray += std::to_string(arr[j]);
+            std::cout << "subarrays are:" << subarray << std::endl;
+        }
+        subarray.clear();
+        
+    }
+}
+int main() {
+    std::vector<int>arr{ 3,4,2,3,4,7 };
+    printSubArray(arr);
+    
+    return 0;
+}
+-------------------------------------------------------------------------------------------------------
 https://leetcode.com/discuss/study-guide/3630462/Top-20-Sliding-Window-Problems-for-beginners
 
 https://builtin.com/data-science/sliding-window-algorithm
