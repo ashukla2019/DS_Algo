@@ -919,11 +919,8 @@ int totalFruit(vector<int>& fruits) {
                         m.erase(fruits[l]);
                     l++;
                 }
-            if(m.size()<=2)
-            {
-                ans=max(ans,r-l+1); 
-            }
-            r++;  
+           ans=max(ans,r-l+1); 
+           r++;  
                
         }
         return ans;
