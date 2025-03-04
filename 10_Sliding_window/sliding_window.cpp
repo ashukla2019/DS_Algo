@@ -594,9 +594,7 @@ int maxLen(vector<int>& arr) {
 int main() {
     vector<int> arr = {15, -2, 2, -8, 1, 7, 10, 23};
     cout << maxLen(arr);
-
-    
-
+   
 -----------------------------------------------------------------------------------------------
 11) Smallest subarray with k distinct numbers	
 We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
@@ -1586,44 +1584,8 @@ int main()
 Output : Array after segregation 12 34 90 8 9 45 3 
 Time Complexity: O(n)
 Auxiliary Space: O(1)
---------------------------------------------------------------------------
-26) Remove Duplicates from Sorted Array
-Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
-Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
-Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
-Return k.
-
-Example 1:
-Input: nums = [1,1,2]
-Output: 2, nums = [1,2,_]
-Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-Example 2:
-
-Input: nums = [0,0,1,1,1,2,2,3,3,4]
-Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
-Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
-It does not matter what you leave beyond the returned k (hence they are underscores).
-
-Approach:
-Take two pointer left and right pointing to 0th and 1st index respectively.
-Check if nums[left] != nums[right] then we got usinque element then store it to nums[left] and move left++
-
-int removeDuplicates(vector<int>& nums) {
-        if(nums.size() == 0) return 0;
-        int left = 0;
-        for(int right =1; right< nums.size(); right++){
-           if(nums[left] != nums[right])
-               left++;
-               nums[left] = nums[right];
-           }
-    return left+1;
-    }
-	Time Complexity - O(N)
-	Space Complexity - O(1)
-
-------------------------------------------------------------------------------------
-27) Minimum Size Subarray Sum:
+-----------------------------------------------------------------------------------------------------------
+26) Minimum Size Subarray Sum:
 Given an array of positive integers nums and a positive integer target, return the minimal 
 length of a subarray whose sum is greater than or equal to target. If there is no such subarray,
 return 0 instead.
@@ -1665,7 +1627,7 @@ int minSubArrayLen(int target, vector<int>& nums) {
 	Time complexity:O(n)
     Space complexity:O(1)
 -------------------------------------------------------------------------------------
-28) Longest Substring Without Repeating Characters
+27) Longest Substring Without Repeating Characters
 Given a string s, find the length of the longest 
 substring without repeating characters.
 
@@ -1740,7 +1702,7 @@ int lengthOfLongestSubstring(string s) {
       return len;
  }
 ----------------------------------------------------------------------------------------------------- 
-29) Count Subarray sum Equals K
+28) Count Subarray sum Equals K
 N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
 Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Optimal Approach:
@@ -1776,7 +1738,7 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
 	Space Complexity: O(1) as we are not using any extra space.
 ------------------------------------------------------------------------
-30) Subarray Sums Divisible by K
+29) Subarray Sums Divisible by K
 Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
 A subarray is a contiguous part of an array.
 Example 1:
@@ -1827,7 +1789,7 @@ Output: 0
 	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
 
 -----------------------------------------------------------------------------------------------------
-31) Find a pair with the given difference:
+30) Find a pair with the given difference:
 Given an unsorted array and a number n, find if there exists a pair of elements in the array whose difference is n. 
 Examples: 
 
@@ -1871,6 +1833,55 @@ Time Complexity: O(n*log(n)) [Sorting is still required as first step],
 Where n is number of element in given array
 Auxiliary Space: O(1)
 ---------------------------------------------------------------------------------------------- 
+31) min chars to be added at front to make palindrome:
+Given string str we need to tell minimum characters to be added in front of the string to make string 
+palindrome.
+
+Examples: 
+Input  : str = "ABC"
+Output : 2
+We can make above string palindrome as "CBABC"
+by adding 'B' and 'C' at front.
+Input  : str = "AACECAAAA";
+Output : 2
+We can make above string palindrome as AAAACECAAAA
+by adding two A's at front of string.
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+	int addMinChar(string str1) {
+		int n = str1.length();
+		int start = 0;
+		int end = n - 1;
+		int res = 0;
+		while (start < end) { // While the pointers have not met in the middle of the string
+			if (str1[start] == str1[end]) { // If the characters at the start and end pointers are equal
+				start++; // Move the start pointer to the right
+				end--; // Move the end pointer to the left
+			}
+			else {
+				res++; // Increment the count of characters to be added
+				start = 0; // Reset the start pointer to the beginning of the string
+				end = n - res - 1; // Reset the end pointer to the end of the string with a reduced number of characters
+			}
+		}
+		return res; // Return the count of characters to be added
+	}
+};
+
+int main() 
+{
+	Solution sol;
+	string str = "AACECAAAA";
+	cout << sol.addMinChar(str) << endl;
+	return 0;
+}	
+---------------------------------------------------------------------------------------------------------------		
 32) Longest palindrome substring:
 Given a string str, the task is to find the longest substring which is a palindrome.
 
@@ -1924,57 +1935,8 @@ string longestPalindrome(string s)
         //return substring which starts from start value and upto maxLen
         return s.substr(start, maxLen);
     }  
------------------------------------------------------------------------------------------------- 
-33) min chars to be added at front to make palindrome:
-Given string str we need to tell minimum characters to be added in front of the string to make string 
-palindrome.
-
-Examples: 
-Input  : str = "ABC"
-Output : 2
-We can make above string palindrome as "CBABC"
-by adding 'B' and 'C' at front.
-Input  : str = "AACECAAAA";
-Output : 2
-We can make above string palindrome as AAAACECAAAA
-by adding two A's at front of string.
-
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-class Solution {
-public:
-	int addMinChar(string str1) {
-		int n = str1.length();
-		int start = 0;
-		int end = n - 1;
-		int res = 0;
-		while (start < end) { // While the pointers have not met in the middle of the string
-			if (str1[start] == str1[end]) { // If the characters at the start and end pointers are equal
-				start++; // Move the start pointer to the right
-				end--; // Move the end pointer to the left
-			}
-			else {
-				res++; // Increment the count of characters to be added
-				start = 0; // Reset the start pointer to the beginning of the string
-				end = n - res - 1; // Reset the end pointer to the end of the string with a reduced number of characters
-			}
-		}
-		return res; // Return the count of characters to be added
-	}
-};
-
-int main() 
-{
-	Solution sol;
-	string str = "AACECAAAA";
-	cout << sol.addMinChar(str) << endl;
-	return 0;
-}	
-	
----------------------------------------------------------34) Container With Most Water
+---------------------------------------------------------                                                                                 
+33) Container With Most Water
 You are given an integer array height of length n. There are n vertical lines drawn such that the 
 two endpoints of the ith line are (i, 0) and (i, height[i]).
 Find two lines that together with the x-axis form a container, such that the container contains the most water.
@@ -2022,7 +1984,7 @@ int maxArea(vector<int>& height) {
 
 --------------------------------------------------------------------------------
 -----------hard:
-35)Trapping Rain Water
+34)Trapping Rain Water
 Given n non-negative integers representing an elevation map where the width of each bar is 1,
 compute how much water it can trap after raining
 
@@ -2078,7 +2040,7 @@ vector<int> getLeft(vector<int> height){
 	Time complexity:O(n)
 	Space complexity:O(n)
 ------------------------------------------------------------------------
-36) Minimum Window Substring:
+35) Minimum Window Substring:
 Given two strings s and t of lengths m and n respectively, return the minimum window 
 substring of s such that every character in t (including duplicates) is included in 
 the window. If there is no such substring, return the empty string "".
@@ -2131,7 +2093,7 @@ string minWindow(string s, string t) {
     }
 
 ----------------------------------------------------------------------------------
-37) Sliding Window Maximum
+36) Sliding Window Maximum
 You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
 
 Return the max sliding window.
