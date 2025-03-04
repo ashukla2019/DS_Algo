@@ -549,6 +549,11 @@ Result
 : 0
 Subarray: There is no subarray that sums to zero
 
+Analysis: 
+1) sum may become 0 by addition of numbers(5+(-4)+(-1) =0)
+2) we get same sum again means we got sum zero between first instance of sum and next instance,
+   we may store sum as map key.(5+3-3+5)   
+
 #include <bits/stdc++.h>
 using namespace std;
 
