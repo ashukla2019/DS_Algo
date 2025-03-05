@@ -1005,6 +1005,8 @@ Explanation: There are 4 different good subarrays:
     unordered_map<int, int> freq;
     while (r < n) {
         cout << "freq[nums[r]]=" << freq[nums[r]] << endl;
+	//Count is to count the number of pairs: if we find frequency of number =2, count will be incremented by 1
+	// count = count + freq[nums[r]]++ => freq[nums[r] will be 0 when frequency is 1, will be 2 when frequency is 2     
         count = count + freq[nums[r]]++;
        
         while (count >= k) {
