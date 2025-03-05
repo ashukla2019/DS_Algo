@@ -43,7 +43,18 @@ Sliding window:
 	- [2,9,9] which does not meet the requirements because the element 9 is repeated.
 	- [9,9,9] which does not meet the requirements because the element 9 is repeated.
 	We return 15 because it is the maximum subarray sum of all the subarrays that meet the conditions
-
+------------------------------------------------------------------------------------------------------
+Algo steps:
+1) Iterate array from 0->k window and calculate sum. Also, store the frequency of each number in unordered_map
+   Now check if map size = k, menas we got all unique numbers then update total_sum with sum.
+2) Iterate array from K->n window:
+	a) calculate sum by adding new number(at kth position) and subtract number(at 0th index) to calculate sum for
+           current window(1->k) 
+	b) Update frequency for new added number of current window and decrement frequency of ith number and check if freq of
+           ith number is 0, erase this number from freq map.
+	c) check if freq map size = k, update the total_sum
+	d) Do it for all windows.
+------------------------------------------------------------------------------------------------------------
 	Solution:
 	 long long maximumSubarraySum(vector<int>& nums, int k) {
         int n = nums.size();
@@ -98,7 +109,16 @@ Input: s = "aababcabc"
 Output: 4
 Explanation: There are 7 substrings of size 3: "aab", "aba", "bab", "abc", "bca", "cab", and "abc".
 The good substrings are "abc", "bca", "cab", and "abc".
-
+------------------------------------------------------------------------------------
+Algo steps:
+1) Iterate string array from 0->k window and store the frequency of each number in unordered_map
+   Now check if map size = k, => we got all unique chars of size k length then increment ans by 1.
+2) Iterate string array from K->n window:
+	a) Update frequency for new added char of current window and decrement frequency of ith char and check if freq of
+           ith char is 0, erase this char from freq map.
+	c) check if freq map size = k, update the ans by 1
+	d) Do it for all windows.
+----------------------------------------------------------------------------------------------------
 int countGoodSubstrings(string s) {
         int n=s.length();int ans=0;
         map<char,int>mp;
