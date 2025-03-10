@@ -1286,9 +1286,10 @@ vector<vector<int>> threeSum(vector<int>& nums)
         sort(nums.begin(), nums.end());
         for (int low = 0; low < n-2; low++) 
         {
-            //remove duplicates:
-			//Check if it's not first element and first and second elements are same then continue loop, don't 
-			//execute after if statement..
+            //remove duplicates: It might happen we get duplicates then we have to skip previous one: only
+	    //for first element, there won't be previous element.	
+	    //Check if it's not first element and current and previous elements are same then continue loop, don't 
+	    //execute after if statement..
             if (low > 0 && nums[low] == nums[low - 1]) 
                 continue;
             //moving 2 pointers:
@@ -1303,7 +1304,7 @@ vector<vector<int>> threeSum(vector<int>& nums)
                     ans.push_back(temp);
                     mid++;
                     high--;
-                    //skip the duplicates:
+                    //skip the duplicates for mid and high pointer values
                     while (mid < high && nums[mid] == nums[mid - 1]) mid++;
                     while (mid <high && nums[high] == nums[high + 1]) high--;
                 }
