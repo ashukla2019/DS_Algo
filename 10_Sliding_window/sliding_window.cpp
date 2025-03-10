@@ -1546,10 +1546,19 @@ Output: [0,0,1,1,2,2]
 Example 2:
 Input: nums = [2,0,1]
 Output: [0,1,2]
+-----------------------------------------------------------------------------------------------------
+Approach: will use 3 pointers: low, mid & high:
+0 ....low-1 => 0
+low ....mid-1 =>1
+high ...n-1 =>2	
 
-Approach: will use 3 pointers: low, mid & high
-0000000->low 1111111->mid high->22222222(if we find nums[mid]==1, means only increment mid)
-
+a[mid] == 0, swap(a[low], a[mid])
+	     low++, mid++  //will move both pointer ahead since 0 will be moved to extream left
+a[mid] == 1, swap(a[low], a[mid])
+	     mid++ //will move mid pointer ahead since we got 1 at correct position and mid pointer should be after 1's.
+a[mid] == 2, swap(a[low], a[mid])
+	     high-- //will move high pointer back since high would be at left of 2.	
+--------------------------------------------------------------------------------------------------------
 void sortColors(vector<int>& nums) {
     int n=nums.size(),low=0,high=n-1,mid=0; // Initialization of low,high and mid.
     while(mid<=high){          // contition until mid<=high to run loop 
