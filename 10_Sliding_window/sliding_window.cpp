@@ -1559,20 +1559,23 @@ a[mid] == 1, swap(a[low], a[mid])
 a[mid] == 2, swap(a[low], a[mid])
 	     high-- //will move high pointer back since high would be at left of 2.	
 --------------------------------------------------------------------------------------------------------
-void sortColors(vector<int>& nums) {
-    int n=nums.size(),low=0,high=n-1,mid=0; // Initialization of low,high and mid.
-    while(mid<=high){          // contition until mid<=high to run loop 
-        if(nums[mid]==0){   // if find 0 then swap to send the left side
-            swap(nums[low],nums[mid]);
-            low++;
+ void sortColors(vector<int>& arr) {
+        int n = arr.size();
+        int low = 0 , mid = 0 , high = n-1;
+        
+        while(mid <= high){
+            if(arr[mid] == 0){
+                swap(arr[mid] , arr[low]);
+                mid++;
+                low++;
+            }else if(arr[mid] == 1){
+                mid++;
+            }else{
+                swap(arr[mid],arr[high]);
+                high--;
+            }
         }
-        if(nums[mid]==2){  // if find 2 then swap to send the right side
-            swap(nums[high],nums[mid]);
-            high--;
-        }
-        else{mid++;} // iterate through the nums
     }
-}
 	Time complexity:O(N)
 	Space complexity:O(1)
 
