@@ -16,6 +16,24 @@ void reverseString(vector<char>& s)
 }
 Time Complexity: O(n)
 Auxiliary Space: O(1)  
+
+2) Reverse string using recursion:
+
+// Recursive function to reverse a string
+void reverse_String(std::string & text, int start, int end) {
+  // Base case: when start >= end, the string is fully reversed
+  if (start >= end)
+    return;
+
+  // Swap characters at start and end indices
+  std::swap(text[start], text[end]);
+
+  // Recursive case: move to the next pair of characters
+  reverse_String(text, start + 1, end - 1);
+}
+
+
+
 -------------------------------------------------------------------------------
 2) Reverse words in given string:
 Given an input string s, reverse the order of the words.
