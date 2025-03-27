@@ -16,7 +16,7 @@ void reverseString(vector<char>& s)
 }
 Time Complexity: O(n)
 Auxiliary Space: O(1)  
-
+--------------------------------------
 2) Reverse string using recursion:
 
 // Recursive function to reverse a string
@@ -32,10 +32,8 @@ void reverse_String(std::string & text, int start, int end) {
   reverse_String(text, start + 1, end - 1);
 }
 
-
-
 -------------------------------------------------------------------------------
-2) Reverse words in given string:
+3) Reverse words in given string:
 Given an input string s, reverse the order of the words.
 A word is defined as a sequence of non-space characters. The words in s will be separated by at
 least one space.
@@ -77,7 +75,7 @@ int main()
     return 0;
 }
 ----------------------------------------------------------------------- 
-3) //Implement strstr:
+4) //Implement strstr:
 /*Input: haystack = "hello", needle = "ll"
 Output: 2
 */
@@ -102,7 +100,7 @@ int strStr(string haystack, string needle)
 	return -1;
 }
 --------------------------------------------------------------------------
-4) Given two strings. The task is to check whether the given strings are anagrams of each other or not. 
+5) Given two strings. The task is to check whether the given strings are anagrams of each other or not. 
 An anagram of a string is another string that contains the same characters, only the order of characters 
 can be different. For example, “abcd” and “dabc” are an anagram of each other.
 
@@ -155,7 +153,7 @@ int main()
 	return 0;
 }
 ----------------------------------------------------------------- 
-5) Valid palindrome:
+6) Valid palindrome:
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and 
 removing all non-alphanumeric characters, it reads the same forward and backward. 
 Alphanumeric characters include letters and numbers.
@@ -188,7 +186,7 @@ bool isPalindrome(string s)
 	return true;
 }
 -------------------------------------MEDIUM----------------------------------------- 
-6) //Permutations of a given string :
+7) //Permutations of a given string :
 Input: ABC
 Output: ABC ACB BAC BCA CAB CBA
 vector<string>find_permutation(string str)
@@ -202,7 +200,7 @@ vector<string>find_permutation(string str)
      return s;
 }
 ---------------------------------------------------------------------------
-7) Recursively remove all adjacent duplicate:
+8) Recursively remove all adjacent duplicate:
 Problem: Given a string s, remove all its adjacent duplicate characters recursively.
 Example 1:
 Input:
@@ -245,7 +243,7 @@ return str;
 
 }	
 ----------------------------------------------------------------------------------
-8) Given a Roman numeral, the task is to find its corresponding decimal value.
+9) Given a Roman numeral, the task is to find its corresponding decimal value.
 
 Example : 
 Input: IX
@@ -330,7 +328,7 @@ Time Complexity: O(n), where n is the length of the string.
 Only one traversal of the string is required.
 Auxiliary Space: O(1), As no extra space is required.  
 -------------------------------------------------------------------------------
-9) String to Integer (atoi):
+10) String to Integer (atoi):
 Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.
 The algorithm for myAtoi(string s) is as follows:
 
@@ -418,7 +416,7 @@ Reading stops at the first non-digit character 'w'.
         return ans*sign;
     }
 --------------------------------------------------------------------------
-10) Longest common prefix:
+11) Longest common prefix:
 Write a function to find the longest common prefix string amongst an array of strings.
 If there is no common prefix, return an empty string "".
 
@@ -450,7 +448,7 @@ string longestCommonPrefix(vector<string>& strs) {
         return lcp;
     }
  ---------------------------------------------------------------------- 
-11) Count & say problem
+12) Count & say problem
 Find the n’th term in Look-and-say (Or Count and Say) Sequence. The look-and-say sequence is the sequence
 of the below integers: 
 1, 11, 21, 1211, 111221, 312211, 13112221, 1113213211, … 
@@ -523,7 +521,7 @@ int main()
 	return 0;
 }
  ---------------------------------------------------------------------
-12) 7-z algo:
+13) 7-z algo:
 /*
 Example:
 Index            0   1   2   3   4   5   6   7   8   9  10  11 
@@ -592,5 +590,5 @@ vector<int> search(string s, string pattern)
     return ans;
 }
 -------------------------------------------------------------------------- 
-13)  
+14)  
  
