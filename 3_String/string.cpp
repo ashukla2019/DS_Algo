@@ -152,7 +152,40 @@ int main()
 
 	return 0;
 }
------------------------------------------------------------------ 
+Approach2:using frequency array:
+
+// C++ Code to check if two Strings are anagram of 
+// each other using Frequency Array
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// As the input strings can only have lowercase 
+// characters, the maximum characters will be 26
+const int MAX_CHAR = 26;
+
+bool areAnagrams(string &s1, string &s2) {
+    vector<int> freq(MAX_CHAR, 0);
+    
+    // Count frequency of each character in string s1
+    for(char ch: s1) 
+    	freq[ch - 'a']++;
+  
+    // Count frequency of each character in string s2
+    for(char ch: s2) 
+    	freq[ch - 'a']--;
+  
+    // Check if all frequencies are zero
+    for (int count : freq) {
+        if (count != 0) 
+            return false;
+    }
+    
+    return true;
+}
+ -----------------------------------------
 6) Valid palindrome:
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and 
 removing all non-alphanumeric characters, it reads the same forward and backward. 
