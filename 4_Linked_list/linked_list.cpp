@@ -502,6 +502,11 @@ Output: []
 Example 3:
 Input: head = [7,7,7,7], val = 7
 Output: []
+
+Approach: We need three pointers:
+ 1) Create dummy with node val 0 and dummy-> next will point to head.
+ 2) prev will point to dummy. dummy->next will point to current->next if current->val ==val(will skip those nodes). if current->val != val, move prev = current 
+ 3) current pointer which is required to   track currrnt node
  
  ListNode* removeElements(ListNode* head, int val) {
         ListNode *dummy = new ListNode(0);
@@ -518,7 +523,7 @@ Output: []
         return dummy->next;
     }
     
-------------------------------------MEDIUM---------------------------------------------------
+---------------MEDIUM---------------------------------------------------
 11) Remove Duplicates from Sorted List II
 Given the head of a sorted linked list, delete all nodes that have duplicate 
 numbers, leaving only distinct numbers from the original list. Return the 
@@ -527,6 +532,12 @@ linked list sorted as well.
 Input: head = [1,2,3,3,4,4,5]
 Output: [1,2,5]
 
+Approach: We need three pointers:
+ 1) Create dummy with node val 0 and dummy-> next will point to head.
+ 2) prev will point to dummy. dummy->next will point to current->next if current->val ==val(will skip those nodes). if current->val != val, move prev = current 
+ 3) current pointer which is required to   track currrnt node
+ 
+---
  ListNode* deleteDuplicates(ListNode* head) {
         // Handle edge cases where the list is empty or has only one node
         if (head == NULL || head->next == NULL) {
@@ -546,12 +557,12 @@ Output: [1,2,5]
         ListNode* curr = head;
 
         // Traverse through the list until the end
-        while (curr != NULL) {
+        while (curr) {
             // Check if the current node has a duplicate
-            if (curr->next != NULL && curr->val == curr->next->val) {
+            if (curr->next && curr->val == curr->next->val) {
                 // Skip all nodes that have the same value as 'curr'
                 // Move 'curr' forward until the last duplicate node
-                while (curr->next != NULL && curr->val == curr->next->val) {
+                while (curr->next && curr->val == curr->next->val) {
                     curr = curr->next;
                 }
                 // Link 'prev->next' to the node after the last duplicate
