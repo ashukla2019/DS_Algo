@@ -319,7 +319,7 @@ int getDecimalValue(ListNode* head) {
         ListNode* temp = head;
         int sum = 0;
 
-        while (temp != nullptr) {
+        while (temp) {
             sum = sum * 2 + temp->val;
             temp = temp->next;
         }
@@ -362,7 +362,7 @@ Node* reverse_list(Node* head)
 {
 	Node *temp = NULL;
 	Node *current = head;
-	while(current != NULL)
+	while(current)
 	{
 		temp = current->prev;
 		current->prev = current->next;
@@ -427,7 +427,7 @@ Approach: Tortoise and hare algorithm
 Node *findMiddle(Node *head) {
     Node* fast=head;
     Node* slow=head;
-    while (fast != nullptr && fast->next != nullptr) {
+    while (fast && fast->next) {
         slow=slow->next;
         fast=fast->next->next;
     }
@@ -446,7 +446,7 @@ bool detectCycle(Node *head)
 {
 	Node* slow = head;
 	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	while(fast && fast->next) //Incase of even and odd length of list, we should check both fast and fast->next
 	{
 		fast=fast->next->next;
 		slow=slow->next;
@@ -478,7 +478,7 @@ int lengthOfLoop(Node *head)
 {
 	Node* slow = head;
 	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	while(fast && fast->next) //Incase of even and odd length of list, we should check both fast and fast->next
 	{
 		fast=fast->next->next;
 		slow=slow->next;
