@@ -378,7 +378,7 @@ SC->O(1)
 Approach2: recursive approach
 1->2->3->4->null
 NodeList* reverseLinkedList(NodeList* head) {
-    // Base case:
+    // Base case: Required to terminate recursion
     // If the linked list is empty or has only one node,
     // return the head as it is already reversed.
     if (head == NULL || head->next == NULL) {
