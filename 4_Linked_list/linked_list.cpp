@@ -1085,7 +1085,7 @@ Node* merge(Node* list1, Node* list2){
     Node* temp = dummyNode;
 
     // Merge the lists based on data values
-    while(list1 != NULL && list2 != NULL){
+    while(list1 && list2){
         if(list1->data < list2->data){
             temp->child = list1; 
 			temp = list1;
