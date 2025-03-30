@@ -869,7 +869,7 @@ Node* findLoopStartingPoint(Node *head)
 {
 	Node* slow = head;
 	Node* fast = head;
-	while(fast!=NULL && fast->next!=NULL) //Incase of even and odd length of list, we should check both fast and fast->next
+	while(fast && fast->next) //Incase of even and odd length of list, we should check both fast and fast->next
 	{
 		fast=fast->next->next;
 		slow=slow->next;
@@ -901,13 +901,13 @@ bool isPalindrome(Node* head)
 {
 	stack st;
 	Node* temp = head;
-	while(temp != NULL)
+	while(temp)
 	{
 		st.push(temp->data);
 		temp = temp->next;
 	}
 	temp = head;
-	while(temp != NULL)
+	while(temp)
 	{
 		if(temp->data != st.top())
 			return false;
@@ -1028,7 +1028,7 @@ Node* sortTwoLinkedLists(Node* list1, Node* list2) {
     Node* temp = dummyNode;
 
     // Traverse both lists simultaneously
-    while (list1 != nullptr && list2 != nullptr) {
+    while (list1 && list2) {
         // Compare elements of both lists and
         // link the smaller node to the merged list
         if (list1->data <= list2->data) {
@@ -1045,7 +1045,7 @@ Node* sortTwoLinkedLists(Node* list1, Node* list2) {
 
     // If any list still has remaining
     // elements, append them to the merged list
-    if (list1 != nullptr) {
+    if (list1) {
         temp->next = list1;
     } else {
         temp->next = list2;
