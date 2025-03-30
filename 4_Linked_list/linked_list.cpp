@@ -846,12 +846,12 @@ If given linked list is 1->2->3->4 then it should be modified to 1->2->4.
 Node* deleteMiddle(Node* head)
 {
 	Node* fast=head;
-        Node* slow=head;
+ Node* slow=head;
 	//Base case: if there is no node or one node: return null
 	if(head==nullptr || head->next==nullptr)
 		return null;
 	fast = fast->next->next;  //this step is done so that slow moves one step less and once we complete, slow will be at mid-1.
-    	while (fast != nullptr && fast->next != nullptr) {
+    	while (fast && fast->next) {
         slow=slow->next;
         fast=fast->next->next;
     }
@@ -970,7 +970,7 @@ bool isPalindrome(Node* head) {
     
     // Traverse the linked list to find the
     // middle using slow and fast pointers
-    while (fast->next != NULL && fast->next->next != NULL) {
+    while (fast->next && fast->next->next) {
         // Move slow pointer one step at a time
         slow = slow->next;  
         // Move fast pointer two steps at a time
