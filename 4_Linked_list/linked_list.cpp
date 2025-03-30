@@ -1145,7 +1145,7 @@ void zigZagList(Node* head)
   
     // Traverse linked list starting from head. 
     Node* current = head; 
-    while (current->next != NULL) { 
+    while (current->next) { 
         if (flag) /* "<" relation expected */
         { 
             // If we have a situation like A > B > C where 
@@ -1186,7 +1186,7 @@ ListNode* sortList(ListNode* head) {
         ListNode* ptr=head;
     
         vector<int>st;
-        while(ptr != NULL)
+        while(ptr)
         {
             st.push_back(ptr->val);
             ptr=ptr->next;
@@ -1196,7 +1196,7 @@ ListNode* sortList(ListNode* head) {
         ptr=head;
         int k=0;
          
-        while(ptr != NULL)
+        while(ptr)
         {
             ptr->val=st[k++];
             ptr=ptr->next;
