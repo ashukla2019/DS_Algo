@@ -405,36 +405,22 @@ Example 3:
 Input: nums = [3,3,3,3,3]
 Output: 3
 	Approach 1: Using hashmap:
-	vector<int> duplicates(long long arr[], int n) {
-	  
-		// Step 1: Create an empty unordered map to store
-		// element frequencies
-		unordered_map<long long, int> freqMap;
-		vector<int> result;
-
-		// Step 2: Iterate through the array and count element frequencies
-		for (int i = 0; i < n; i++) {
-			freqMap[arr[i]]++;
+	vector<int> findDuplicate(vector<int>& arr)
+	{
+		vector<int>ans;
+		unordered_map<int, int>dup;
+		for (int i=0; i<arr.size(); i++)
+		{
+			dup[arr[i]]++;
 		}
-
-		// Step 3: Iterate through the hashmap to find duplicates
-		for (auto& entry : freqMap) {
-			if (entry.second > 1) {
-				result.push_back(entry.first);
-			}
+		for (int i = 0; i < arr.size(); i++)
+		{
+			if (dup[arr[i]] > 1)
+				ans.push_back(arr[i]);
 		}
-
-		// Step 4: If no duplicates found, add -1 to the result
-		if (result.empty()) {
-			result.push_back(-1);
-		}
-	  
-		// step 5: sort the result
-		sort(result.begin(),result.end());
-	  
-		// Step 6: Return the result vector containing
-		// duplicate elements or -1
-		return result;
+		//If dupArray.size() == 0, then push -1
+		ans.push_back(-1);
+		return ans;
 	}
 
 	int main() {
@@ -597,13 +583,21 @@ Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3
 	Step 1: Reverse the subarray with the first d elements (reverse(arr, arr+d)).
 	Step 2: Reverse the subarray with the last (n-d) elements (reverse(arr+d, arr+n)).
 	Step 3: Finally reverse the whole array (reverse(arr, arr+n)).
+	void leftRotate(int arr[], int d)
+	{
+		int n = 7;
+		reverse(arr, arr + d);
+		reverse(arr + d, arr + n);
+		reverse(arr, arr + n);
 	
-	reverse(arr, arr + d); => {3,2,1}
-    reverse(arr + d, arr + n); => {7,6,5,4}
-    reverse(arr, arr + n); => 4,5,6,7,1,2,3
-    
+		for (int  i=0; i<n; i++)
+		{
+			cout << arr[i] << endl;
+		}
+		
+	}
     Time Complexity: O(d)+O(n-d)+O(n) = O(2*n), where n = size of the array, d = the number of rotations. Each 		term corresponds to each reversal step.
-	Space Complexity: O(1) since no extra space is required.
+     Space Complexity: O(1) since no extra space is required.
 	
 ---------------------------------------------------------------------------------------
 14) Move zeros to end of the array:
