@@ -1,13 +1,12 @@
 1. Linear search:
-def linearSearch(arr: list[int], target: int):
-    for num in arr:
-        if num == target:
-            return True
+def linearSearch(arr:list[int], num):
+    for i in range(0, len(arr)):
+        if arr[i] == num:
+            return  i
 
-    return False
-
-mylist = [12, 10, 32, 1]
-print(linearSearch(mylist, 10))
+mylist = [1,2,3,4,5]
+index = linearSearch(mylist, 3)
+print("index where number is found", index)
 ---------------------------------------------------------------------
 2. Second Largest in array:
 def getSecondLargest(self, arr):
