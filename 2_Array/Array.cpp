@@ -773,22 +773,29 @@ nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 	[low ... mid-1] --> 1 
 	[mid ... high-1] --> 2 extreme right
 	
-	 int low = 0, mid = 0, high = n - 1; // 3 pointers
+	void sortNumber(vector<int>&arr)
+{
+	int n = arr.size();
+	int low=0, mid = 0;
+	int high = n - 1;
+	while (mid <= high)
+	{
+		if (arr[mid] == 0)
+		{
+			swap(arr[mid], arr[low]);
+			mid++;
+			low++;
+		}
+		else if (arr[mid] == 1)
+			mid++;
+		else
+		{
+			swap(arr[mid], arr[high]);
+			high--;
+		}
+	}
+}
 
-    while (mid <= high) {
-        if (arr[mid] == 0) {
-            swap(arr[low], arr[mid]);
-            low++;
-            mid++;
-        }
-        else if (arr[mid] == 1) {
-            mid++;
-        }
-        else {
-            swap(arr[mid], arr[high]);
-            high--;
-        }
-    }
 	Time Complexity: O(N), where N = size of the given array.
 	Space Complexity: O(1) as we are not using any extra space.
 ----------------------------------------------------------------------------------------
