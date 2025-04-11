@@ -607,7 +607,7 @@ l1->val then l2->val and then carry;
 ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
     {
         ListNode* dummy= new ListNode(0);
-        ListNode* result=dummy;
+        ListNode* temp=dummy;
         
         int carry=0;
         while(l1 || l2 || carry)
@@ -625,8 +625,8 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
             }
             sum=sum+carry;
             carry=sum/10;
-            result->next=new ListNode(sum%10);
-            result=result->next;
+            temp->next=new ListNode(sum%10);
+            temp=temp->next;
         }
         return dummy->next;
     }
