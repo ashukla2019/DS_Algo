@@ -956,13 +956,15 @@ Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
 Approach:
 will increment cnt if we find 0 and if cnt becomes greater than k then will check 
 if l is pointing to 0 will decrement cnt. 
- int longestOnes(vector<int>& arr, int k) {
+int longestOnes(vector<int>& arr, int k) {
         int cnt = 0,l = 0,r = 0,n = arr.size(),ans = -1;
         while(r<n)
         {
+            //when we get 0, will increment count to have track of 0.
             if(arr[r] == 0) 
 				cnt++;
             
+            //While cnt of 0 > k, then need to decrement count.
             while(cnt>k)
 			{				
 				if(arr[l] == 0) 
@@ -1005,78 +1007,38 @@ Explanation: There are 4 different good subarrays:
 - [4,3,2,2,4] that has 2 pairs.
 
  long long countGood(vector<int>& nums, int k) {
-    long long res = 0;
-    int l = 0, r = 0, count = 0, n = nums.size();
-    unordered_map<int, int> freq;
-    while (r < n) {
-        cout << "freq[nums[r]]=" << freq[nums[r]] << endl;
-	//Count is to count the number of pairs: if we find frequency of number =2, count will be incremented by 1
-	// count = count + freq[nums[r]]++ => freq[nums[r] will be 0 when frequency is 1, will be 2 when frequency is 2     
-        count = count + freq[nums[r]]++;
-       
-        while (count >= k) {
-            freq[nums[l]]--;
-            count -= freq[nums[l]];
-            l++;
+        int n = nums.size();
+        int l = 0;
+        int r = 0;
+
+        long long result = 0;
+
+        unordered_map<int, int> mp;
+
+        long long pairs = 0;
+
+        while(r < n) {
+            pairs += mp[nums[r]]; //we are adding freq of nums[r] every time, when we get count
+	    //of nums[r] == 2 then one pair will be found. we can update our pair before updating
+	    // frequency to 2 because 2 count = 1 pair
+            mp[nums[r]]++;
+
+            while(pairs >= k) {
+                result += (n-r); //we need to add n-r=> r is point where we found our good array
+		//means at least 2 pairs, now if consider subarray till r and continue will get more
+		//subarray which will be n-r in count now.
+                mp[nums[l]]--;
+                pairs -= mp[nums[l]];
+                l++;
+            }
+
+            r++;
         }
-        res += l;
-        r++;
+
+        return result;
     }
-    return res;
-}
----------------------------------------
-
-17) Count Number of Nice Subarrays:
-Given an array of integers nums and an integer k. A continuous subarray is called 
-nice if there are k odd numbers on it.
-
-Return the number of nice sub-arrays.
-
-Example 1:
-Input: nums = [1,1,2,1,1], k = 3
-Output: 2
-Explanation: The only sub-arrays with 3 odd numbers are [1,1,2,1] and [1,2,1,1].
-Example 2:
-
-Input: nums = [2,4,6], k = 1
-Output: 0
-Explanation: There are no odd numbers in the array.
-Example 3:
-
-Input: nums = [2,2,2,1,2,2,1,2,2,2], k = 2
-Output: 16
-
-class Solution {
-public:
-    int numberOfSubarrays(vector<int>& nums, int k) {
-        int left = 0;
-        int right = 0;
-        map<int, int> map;
-        int count = 0;
-        int odd_count = 0;
-        int ans_count = 0;
-        while(right<nums.size())
-        {
-            if(nums[right]%2 ==1)
-            {
-                odd_count++;
-                count=0;
-            }
-            while(odd_count>=k && left<=right)
-            {
-                if(nums[left]%2 ==1)
-                {
-                    odd_count--;
-                }
-                left++;
-                count++;
-            }
-            ans_count +=count;
-            right++;
-        }
-        return ans_count;
 ‐-------------------------------------------------------------------------------
-18) Two Sum : Check if a pair with given sum exists in Array:
+17) Two Sum : Check if a pair with given sum exists in Array:
 Problem Statement: Given an array of integers arr[] and an integer target.
 1st variant: Return YES if there exist two numbers such that their sum is equal to the target. Otherwise, return NO.
 2nd variant: Return indices of the two numbers such that their sum is equal to the target. Otherwise, we will return {-1, -1}.
@@ -1208,7 +1170,7 @@ vector<int> twoSum(vector<int>& nums, int target) {
 Time Complexity: O(N*logN), where N = size of the array.
 Space Complexity: O(1) 
 ----------------------------------------------------------------------------------------
-19) 3Sum:
+18) 3Sum:
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j,
 i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 Notice that the solution set must not contain duplicate triplets.
@@ -1312,7 +1274,7 @@ vector<vector<int>> threeSum(vector<int>& nums)
     output does not count towards the space complexity.
 
 --------------------------------------------------------------------------------
-20) 3Sum Closest
+19) 3Sum Closest
 Given an integer array nums of length n and an integer target, find three integers in nums such that the 
 sum is closest to target. Return the sum of the three integers.
 You may assume that each input would have exactly one solution.
@@ -1356,7 +1318,7 @@ int threeSumClosest(vector<int>& nums, int target) {
 	Space complexity:0(1)
 	
 -------------------------------------------------------------------------------
-21) 4Sum:
+20) 4Sum:
 Given an array nums of n integers, return an array of all the unique quadruplets 
 [nums[a], nums[b], nums[c], nums[d]] such that:
 
@@ -1429,7 +1391,7 @@ Time Complexity : O(n^3)
 Auxiliary Space: O(1)
 
 ------------------------------------------------------------------------------
-22) Valid Triangle Number
+21) Valid Triangle Number
 Given an integer array nums, return the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
 
 Example 1:
@@ -1469,7 +1431,7 @@ int triangleNumber(vector<int>& nums) {
 	Space complexity:o(1)
 
 -----------------------------------------------------------------------------------
-23) Valid Palindrome:
+22) Valid Palindrome:
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
 Given a string s, return true if it is a palindrome, or false otherwise.
@@ -1519,7 +1481,7 @@ bool isPalindrome(string s) {
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-24) Sort colors:
+23) Sort colors:
 Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
 We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
 You must solve this problem without using the library's sort function.
@@ -1565,7 +1527,7 @@ a[mid] == 2, swap(a[low], a[mid])
 	Space complexity:O(1)
 
 ------------------------------------------------------------------------------------
-25)Partition Array by Odd and Even/Segregate Even and Odd numbers:
+24)Partition Array by Odd and Even/Segregate Even and Odd numbers:
 Given an array A[], write a function that segregates even and odd numbers. The functions should put all even numbers first, and then odd numbers.
 Example:  
 Input  = {12, 34, 45, 9, 8, 90, 3}
@@ -1610,7 +1572,7 @@ Output : Array after segregation 12 34 90 8 9 45 3
 Time Complexity: O(n)
 Auxiliary Space: O(1)
 -----------------------------------------------------------------------------------------------------------
-26) Minimum Size Subarray Sum:
+25) Minimum Size Subarray Sum:
 Given an array of positive integers nums and a positive integer target, return the minimal 
 length of a subarray whose sum is greater than or equal to target. If there is no such subarray,
 return 0 instead.
@@ -1652,7 +1614,7 @@ int minSubArrayLen(int target, vector<int>& nums) {
 	Time complexity:O(n)
     Space complexity:O(1)
 -------------------------------------------------------------------------------------
-27) Longest Substring Without Repeating Characters
+26) Longest Substring Without Repeating Characters
 Given a string s, find the length of the longest 
 substring without repeating characters.
 
@@ -1727,7 +1689,7 @@ int lengthOfLongestSubstring(string s) {
       return len;
  }
 ----------------------------------------------------------------------------------------------------- 
-28) Count Subarray sum Equals K
+27) Count Subarray sum Equals K
 N = 4, array[] = {3, 1, 2, 4}, k = 6 ,Result: 2
 Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Optimal Approach:
@@ -1763,7 +1725,7 @@ Explanation: The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].
 	Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).
 	Space Complexity: O(1) as we are not using any extra space.
 ------------------------------------------------------------------------
-29) Subarray Sums Divisible by K
+28) Subarray Sums Divisible by K
 Given an integer array nums and an integer k, return the number of non-empty subarrays that have a sum divisible by k.
 A subarray is a contiguous part of an array.
 Example 1:
@@ -1814,7 +1776,7 @@ Output: 0
 	Space complexity: O(k), We use an array of size k to store the frequency of remainders.
 
 -----------------------------------------------------------------------------------------------------
-30) Find a pair with the given difference:
+29) Find a pair with the given difference:
 Given an unsorted array and a number n, find if there exists a pair of elements in the array whose difference is n. 
 Examples: 
 
@@ -1858,7 +1820,7 @@ Time Complexity: O(n*log(n)) [Sorting is still required as first step],
 Where n is number of element in given array
 Auxiliary Space: O(1)
 ---------------------------------------------------------------------------------------------- 
-31) min chars to be added at front to make palindrome:
+30) min chars to be added at front to make palindrome:
 Given string str we need to tell minimum characters to be added in front of the string to make string 
 palindrome.
 
@@ -1907,7 +1869,7 @@ int main()
 	return 0;
 }	
 ---------------------------------------------------------------------------------------------------------------		
-32) Longest palindrome substring:
+31) Longest palindrome substring:
 Given a string str, the task is to find the longest substring which is a palindrome.
 
 Examples:
@@ -1961,7 +1923,7 @@ string longestPalindrome(string s)
         return s.substr(start, maxLen);
     }  
 ---------------------------------------------------------                                                                                 
-33) Container With Most Water
+32) Container With Most Water
 You are given an integer array height of length n. There are n vertical lines drawn such that the 
 two endpoints of the ith line are (i, 0) and (i, height[i]).
 Find two lines that together with the x-axis form a container, such that the container contains the most water.
