@@ -783,28 +783,37 @@ Input: cards = [1,0,5,3]
 Output: -1
 Explanation: There is no way to pick up a set of consecutive cards that contain a pair of matching cards.
 
- int minimumCardPickup(vector<int>& a) {
+ nt minimumCardPickup(vector<int>& a) {
         int n=a.size();
+        //Need map to store the frequency of num
         map<int,int>m;
         int l=0, r=0, ans=INT_MAX;
         while(r<n)
         {
+            //Store the frequency of num
             m[a[r]]++;
+
+            //While frequency of current number > 1, update milLen and move l pointer ahead
             while(m[a[r]]>1)
             {
+		//update minLen since we got one pair
                 ans= min(ans, r-l+1);
+		//decrement frequency of num at index l
                 m[a[l]]--;
+                if(m[a[l]]==0)
+                    m.erase(a[l]);
                 l++;
             }
             r++;
         }
-        return ans!=INT_MAX ? ans:-1;
+        return ans == INT_MAX?-1:ans;
     }
 	Time complexity: O(n)
     
 ---------------------------------------------------------------------------- 
 13) Longest Substring with At Most K Distinct Characters:
-Given a string you need to print longest possible substring that has exactly M unique characters. If there is more than one substring of longest possible length, then print any one of them.
+Given a string you need to print longest possible substring that has exactly M unique characters.
+If there is more than one substring of longest possible length, then print any one of them.
 
 Examples: 
 
