@@ -45,3 +45,46 @@ int frogJump(int n, vector<int> &heights)
     int cost =totalEnergyLost(n-1, heights, dp); //we are considering array from 0 to n-1, so max index would be n-1
     return cost;
 }
+---------------------------------------
+Tabulation:
+// C++ program to find the minimum cost required for the
+// frog to reach to the top using tabulation
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int minCost(vector<int> &height) {
+    int n = height.size();
+    
+    if(n == 1)
+        return 0;
+    
+    // DP array to store the minimum cost
+    vector<int> dp(n + 1, 0);
+    
+    // If there is only one stair, 
+    // cost will be zero
+    dp[1] = 0;
+
+    // If there are 2 stairs, then frog 
+    // can only take jump of size one
+    dp[2] = abs(height[1] - height[0]);
+    
+  	// for n>=3, cost will be dependent on the optimal
+  	// result of previous two subproblems
+    for(int i = 3; i <= n; i++) {
+        dp[i] = min(dp[i - 1] 
+                    + abs(height[i - 1] - height[i - 2]),
+                dp[i - 2] 
+                    + abs(height[i - 1] - height[i - 3]));
+    }
+    
+    return dp[n];
+}
+
+int main() {
+    vector<int> height = {20, 30, 40, 20};
+    cout << minCost(height);
+    return 0;
+}
