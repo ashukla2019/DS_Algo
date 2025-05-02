@@ -15,16 +15,8 @@ we have indexes-> 0,1,2,3, will start from n-1th would be 3
 f(index, W)
 {
     //Base case:
-    if(index==0) //this is first item, so we will see if weight[index]<=W, then take it else return 0
-    {
-        if(wt[0]<W)
-        {
-            return val[0];
-        }
-        else
-        {
-            return 0;
-        }
+   if (ind == 0 || W == 0) {
+        return 0;
     int notpick= 0 + f(index-1, W) (if not picking current weight of n-1th index, adding 0 value and weight  will be w, as not picked
     //We can pick only if weight of current index <=W
     int take = INT_MIN
@@ -33,37 +25,49 @@ f(index, W)
     return max(pick, notpick);
 }
 ------------------------------------------------------------------------------
-int knapsackUtil(int W, int wt[], int val[], int index, vector<vector<int>>&dp)
-    {
-       //Base case:
-       if (index < 0) 
-       {
-            return 0;
-       }
 
-       
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to solve the 0/1 Knapsack problem using memoization
+int knapsackUtil(vector<int>& wt, vector<int>& val, int ind, int W, vector<vector<int>>& dp) {
+    // Base case: If there are no items left or the knapsack has no capacity, return 0
+    if (ind == 0 || W == 0) {
+        return 0;
+    }
+
     // If the result for this state is already calculated, return it
-    if (dp[index][W] != -1) {
-        return dp[index][W];
+    if (dp[ind][W] != -1) {
+        return dp[ind][W];
     }
 
     // Calculate the maximum value by either excluding the current item or including it
-    int notTaken = knapsackUtil(W, wt, val, index - 1, dp);
+    int notTaken = knapsackUtil(wt, val, ind - 1, W, dp);
     int taken = 0;
 
     // Check if the current item can be included without exceeding the knapsack's capacity
-    if (wt[index] <= W) {
-        taken = val[index] + knapsackUtil(W - wt[index], wt, val, index - 1, dp);
+    if (wt[ind] <= W) {
+        taken = val[ind] + knapsackUtil(wt, val, ind - 1, W - wt[ind], dp);
     }
 
     // Store the result in the DP table and return
-    return dp[index][W] = max(notTaken, taken);
-       
-    }
-    //Function to return max value that can be put in knapsack of capacity W.
-    int knapSack(int W, int wt[], int val[], int n) 
-    { 
-       vector<vector<int>>dp(n, vector<int>(W+1, -1));    
-       return knapsackUtil(W, wt, val, n-1, dp);
-    }
-    
+    return dp[ind][W] = max(notTaken, taken);
+}
+
+// Function to solve the 0/1 Knapsack problem
+int knapsack(vector<int>& wt, vector<int>& val, int n, int W) {
+    vector<vector<int>> dp(n, vector<int>(W + 1, -1));
+    return knapsackUtil(wt, val, n - 1, W, dp);
+}
+
+int main() {
+    vector<int> wt = {1, 2, 4, 5};
+    vector<int> val = {5, 4, 8, 6};
+    int W = 5;
+    int n = wt.size();
+
+    cout << "The Maximum value of items the thief can steal is " << knapsack(wt, val, n, W);
+
+    return 0;
+}
+
