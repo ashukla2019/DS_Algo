@@ -25,66 +25,40 @@ f(index, height[])
         return min(jumpone, jumptwo)
 }
 ------------------------------------------------------------------------------------------------------------
-int totalEnergyLost(int index, vector<int> &heights, vector<int>&dp)
-{
-    if(dp[index] != -1)
-        return dp[index];
-    //Base case:
-    if(index==0)
-        return 0; //energy lost would be 0
-    int oneStepJump= totalEnergyLost(index-1, heights, dp) + abs(heights[index-1] - heights[index]);
-    int twoStepJump=INT_MAX;
-    if(index>1)
-        twoStepJump= totalEnergyLost(index-2, heights, dp) + abs(heights[index-2] - heights[index]);
-    return dp[index] =min(oneStepJump, twoStepJump);    
+int solve(int ind, vector<int>& height, vector<int>& dp){
+    if(ind==0) return 0;
+    if(dp[ind]!=-1) return dp[ind];
+    int jumpTwo = INT_MAX;
+    int jumpOne= solve(ind-1, height,dp)+ abs(height[ind]-height[ind-1]);
+    if(ind>1)
+        jumpTwo = solve(ind-2, height,dp)+ abs(height[ind]-height[ind-2]);
+    
+    return dp[ind]=min(jumpOne, jumpTwo);
 }
 
-int frogJump(int n, vector<int> &heights)
-{
-    vector<int>dp(n, -1); //DP array size would be n(1->n)
-    int cost =totalEnergyLost(n-1, heights, dp); //we are considering array from 0 to n-1, so max index would be n-1
-    return cost;
-}
----------------------------------------
-Tabulation:
-// C++ program to find the minimum cost required for the
-// frog to reach to the top using tabulation
-
-#include <iostream>
-#include <vector>
-using namespace std;
-
-int minCost(vector<int> &height) {
-    int n = height.size();
-    
-    if(n == 1)
-        return 0;
-    
-    // DP array to store the minimum cost
-    vector<int> dp(n + 1, 0);
-    
-    // If there is only one stair, 
-    // cost will be zero
-    dp[1] = 0;
-
-    // If there are 2 stairs, then frog 
-    // can only take jump of size one
-    dp[2] = abs(height[1] - height[0]);
-    
-  	// for n>=3, cost will be dependent on the optimal
-  	// result of previous two subproblems
-    for(int i = 3; i <= n; i++) {
-        dp[i] = min(dp[i - 1] 
-                    + abs(height[i - 1] - height[i - 2]),
-                dp[i - 2] 
-                    + abs(height[i - 1] - height[i - 3]));
-    }
-    
-    return dp[n];
-}
 
 int main() {
-    vector<int> height = {20, 30, 40, 20};
-    cout << minCost(height);
-    return 0;
+
+  vector<int> height{30,10,60 , 10 , 60 , 50};
+  int n=height.size();
+  vector<int> dp(n,-1);
+  cout<<solve(n-1,height,dp);
+}
+
+---------------------------------------
+int main() {
+
+  vector<int> height{30,10,60,10,60,50};
+  int n=height.size();
+  vector<int> dp(n,-1);
+  dp[0]=0;
+  for(int ind=1;ind<n;ind++){
+      int jumpTwo = INT_MAX;
+        int jumpOne= dp[ind-1] + abs(height[ind]-height[ind-1]);
+        if(ind>1)
+            jumpTwo = dp[ind-2] + abs(height[ind]-height[ind-2]);
+    
+        dp[ind]=min(jumpOne, jumpTwo);
+  }
+  cout<<dp[n-1];
 }
