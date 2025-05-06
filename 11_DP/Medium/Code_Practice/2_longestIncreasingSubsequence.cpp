@@ -31,17 +31,18 @@ Recurrence_relation:
 -------------------------------------------------------------------------------------
  // Function to find the length of the longest increasing subsequence
 int getAns(int ind, int prev_index, vector<int>nums, int n, vector<vector<int>>& dp) {
-    // Base condition
+    //Base case: we start from 0 index and when we reach n which means out of range[0..n-1], will return 0
     if (ind == n)
         return 0;
-        
+     
+//column size would start from prev_index +1 as -1 can not be valid index.   
     if (dp[ind][prev_index + 1] != -1)
         return dp[ind][prev_index + 1];
     
     int notTake = 0 + getAns(ind + 1, prev_index, nums, n, dp);
     
     int take = 0;
-    
+    /*if its first element(prev_index = -1) or element of curent index is greater than previous index then only take it in solution*/ 
     if (prev_index == -1 || nums[ind] > nums[prev_index]) {
         take = 1 + getAns(ind + 1, ind, nums, n, dp);
     }
@@ -53,6 +54,6 @@ int getAns(int ind, int prev_index, vector<int>nums, int n, vector<vector<int>>&
     {
         int n=nums.size();
          // Create a 2D DP array initialized to -1
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        vector<vector<int>> dp(n, vector<int>(n + 1, -1));// current index: 0 ->1 and precious_index: -1 to n(n+1)
         return getAns(0, -1, nums, n, dp); //getAns(ind, prev_ind, num_array, n, dp)
     }
