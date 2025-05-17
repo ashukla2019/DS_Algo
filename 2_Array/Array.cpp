@@ -656,80 +656,9 @@ Input: N = 7, array[] = {1,2,3,4,5,6,7} , d = 3, Output: 4 5 6 7 1 2 3
     return a;
     
 	Time Complexity: O(N), N = size of the array.
-	Space Complexity: O(1) as we are not using any extra space to solve this problem. 
-	
-------------------------------------------------------------------------------------------
-15) Union of Two Sorted Arrays:
-n = 5,m = 5. arr1[] = {1,2,3,4,5} , arr2[] = {2,3,4,4,5} , Output: {1,2,3,4,5}	
-	Brute Force Approach:
-	set<int>st;
-	vector<int>Union;
-	for(i=0; i<n; i++) =>O(nlogn)
-	{
-		st.insert(arr[i])
-	}
-	for(i=0; i<m; i++) =>O(mlogm)
-	{
-		st.insert(arr[i])
-	}
-	for (auto & it: s)
-    	Union.push_back(it);
-    return Union;
-	Time Compleixty : O( (m+n)log(m+n) ) . Inserting an element in a set takes logN time, where N is no of 		elements in the set. At max set can store m+n elements {when there are no common elements and elements in 		arr,arr2 are distntict}. So Inserting m+n th element takes log(m+n) time. Upon approximation across 	      inserting all elements in worst, it would take O((m+n)log(m+n) time.
-
-	Using HashSet also takes the same time, On average insertion in unordered_set takes O(1) time but sorting 		the union vector takes O((m+n)log(m+n))  time. Because at max union vector can have m+n elements.
-
-	Space Complexity : O(m+n) {If Space of Union ArrayList is considered} 	
-	
-	Optimal Approach:Two Pointers
-	
-	Let’s traverse the arr1 and arr2 using pointers i and j and insert the distinct elements found into the 	union vector.
-	While traversing we may encounter three cases.
-
-	case-1:arr1[ i ] == arr2[ j ] 
-	Here we found a common element, so insert only one element in the union. Let’s insert arr[i] in union and 		increment i.
-
-	NOTE: There may be cases like the element to be inserted is already present in the union, in that case, we 		are inserting duplicates which is not desired. So while inserting always check whether the last element in 		the union vector is equal or not to the element to be inserted. If equal we are trying to insert 		    	duplicates, so don’t insert the element, else insert the element in the union. This makes sure 		that we are not inserting any duplicates in the union because we are inserting elements in sorted order.
-	case-2:arr1[ i ]  < arr2[ j ]
-	arr1[ i ] < arr2[ j ] so we need to insert arr1[ i ] in union.IF last element in  union vector is not 		equal to arr1[ i ],then insert in union else don’t insert. After checking Increment i.
-	case-3:arr1[ i ] > arr2[ j ]
-	arr1[ i ] > arr2[ j ] so we need to insert arr2[ j ] in union. IF the last element in the union vector is 		not equal to arr2[ j ], then insert in the union, else don’t insert. After checking Increment j. After 		traversing if any elements are left in arr1 or arr2 check for condition and insert in the union.
-	
-	vector < int > Union; // Uninon vector
-  	while (i < n && j < m) 
-  	{
-    	if (arr1[i] <= arr2[j]) // Case 1 and 2
-    	{
-      		if (Union.size() == 0 || Union.back() != arr1[i])
-        		Union.push_back(arr1[i]);
-      			i++;
-    	} 
-    	else // case 3
-    	{
-      		if (Union.size() == 0 || Union.back() != arr2[j])
-        		Union.push_back(arr2[j]);
-      			j++;
-    	}
-  	}
-  	while (i < n) // IF any element left in arr1
-  	{
-    	if (Union.back() != arr1[i])
-      		Union.push_back(arr1[i]);
-    	i++;
-  }
-  while (j < m) // If any elements left in arr2
-  {
-    if (Union.back() != arr2[j])
-    	Union.push_back(arr2[j]);
-    	j++;
-  }
-  return Union;
-  Time Complexity: O(m+n), Because at max i runs for n times and j runs for m times. When there are no common 	elements in arr1 and arr2 and all elements in arr1, arr2 are distinct. 
-
-  Space Complexity : O(m+n) {If Space of Union ArrayList is considered}
-  
+	Space Complexity: O(1) as we are not using any extra space to solve 
 --------------------------------------------------------------------------------------------------
-16) Sort an array of 0,1 &2/sort colors:
+15) Sort an array of 0,1 &2/sort colors:
 nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 
 	Brute Force Approach:
@@ -799,7 +728,7 @@ nums = [2,0,2,1,1,0] => [0,0,1,1,2,2]
 	Time Complexity: O(N), where N = size of the given array.
 	Space Complexity: O(1) as we are not using any extra space.
 ----------------------------------------------------------------------------------------
-17) Majority Element(N/2)
+16) Majority Element(N/2)
 N = 3, nums[] = {3,2,3}, Result: 3
 	Brute Force Approach:
 	We will run a loop that will select the elements of the array one by one.
@@ -899,7 +828,7 @@ N = 3, nums[] = {3,2,3}, Result: 3
 	Note: If the question states that the array must contain a majority element, in that case, we do not need the second check. Then the time complexity will boil down to O(N).
 	Space Complexity: O(1) as we are not using any extra space.
 -----------------------------------------------------------------------------------------
-18) Maximum subarray sum(kadane's algo)
+17) Maximum subarray sum(kadane's algo)
 arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6 
 	Brute Force Approach:
 	First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = size of the array).
@@ -992,7 +921,7 @@ arr = [-2,1,-3,4,-1,2,1,-5,4], Output: 6
 	Reason: We are using a single loop running N times.
 	Space Complexity: O(1) as we are not using any extra space.
 ---------------------------------------------------------------------------------------
-19) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
+18) Rearrange Array Elements by Sign: There’s an array ‘A’ of size ‘N’ with an equal number of positive
 and negative elements. Without altering the relative order of positive and negative elements, 
 you must return an array of alternately positive and negative values.
 arr[] = {1,2,-4,-5}, N = 4, Output:1 -4 2 -5
@@ -1062,7 +991,7 @@ To maintain relative ordering, 1 must occur before 2, and -4 must occur before -
 	Time Complexity: O(N) { O(N) for traversing the array once and substituting positives and negatives simultaneously using pointers, where N = size of the array A}.
 	Space Complexity:  O(N) { Extra Space used to store the rearranged elements separately in an array, where N = size of array A}.
 ---------------------------------------------------------------------------------------------------
-20) Best Time to Buy and Sell Stock:
+19) Best Time to Buy and Sell Stock:
 arr[] = {7,1,5,3,6,4};
 	Ex: If we buy stock on 2nd day means in 1 rs, then sell it on 5th day(6rs), profit would be(6-1=5)
 	For max profit, buy when it is min and sell when it is max.
@@ -1076,7 +1005,7 @@ arr[] = {7,1,5,3,6,4};
 	return maxprofit;
 	
 ----------------------------------------------------------------------
-21) Best Time to Buy and Sell Stock II
+20) Best Time to Buy and Sell Stock II
 You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
 On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
 Find and return the maximum profit you can achieve.
@@ -1120,7 +1049,7 @@ int maxProfit(vector<int>& nums) {
 	Time complexity: O(n)
 	Space complexity: O(1) 	
 -----------------------------------------------------------------------------------------------------
-22) Chocolate Distribution Problem:
+21) Chocolate Distribution Problem:
 Given an array of N integers where each value represents the number of chocolates
 in a packet. Each packet can have a variable number of chocolates. 
 There are m students, the task is to distribute chocolate packets such that: 
@@ -1194,7 +1123,7 @@ int main()
 Time Complexity: O(N*log(N))
 Auxiliary Space: O(1)
 ----------------------------------------------------------------------------------------
-23) Set Matrix Zero:
+22) Set Matrix Zero:
 matrix= [1,1,1]               [1,0,1]
 		[1,0,1]     =>        [0,0,0] 
 		[1,1,1]               [1,0,1]
@@ -1289,7 +1218,7 @@ matrix= [1,1,1]               [1,0,1]
 	Reason: O(N) is for using the row array and O(M) is for using the col array.
 	
 -----------------------------------------------------------------------------------------
-24) Rotate Matrix/Image by 90 Degrees:
+23) Rotate Matrix/Image by 90 Degrees:
 [1,2,3]     [7,4,1]
 [4,5,6] =>  [8,5,2]
 [7,8,9]     [9,6,3]
@@ -1323,7 +1252,7 @@ matrix= [1,1,1]               [1,0,1]
 	Time Complexity: O(N*N) + O(N*N).One O(N*N) is for transposing the matrix and the other is for reversing the matrix.
 	Space Complexity: O(1).
 -------------------------------------------------------------------------------
-25) Spiral Traversal of a Matrix:
+24) Spiral Traversal of a Matrix:
 Input: Matrix[][] = 
 1, 2,  3,  4 
 5, 6,  7,  8   =>  1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10
@@ -1331,13 +1260,13 @@ Input: Matrix[][] =
 13,14, 15, 16 
 
 ------------------------------------------------------------------------
-26) Game of Life:
+25) Game of Life:
 
 
 -----------------------------------------------------------------------------------------
 Hard problems pending	
 -----------------------Reverse Pairs:
-27) Given an integer array nums, return the number of reverse pairs in the array.
+26) Given an integer array nums, return the number of reverse pairs in the array.
 Example 1:
 
 Input: nums = [1,3,2,3,1]
@@ -1358,7 +1287,7 @@ Explanation: The reverse pairs are:
 
 
 ------------------------------------------------------------
-28) Max Value of Equation:
+27) Max Value of Equation:
 
 
 
